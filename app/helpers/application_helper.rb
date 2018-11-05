@@ -35,6 +35,8 @@ module ApplicationHelper
   end
 
   def ebay_search_link(card_name, card_set)
-    "https://www.ebay.com/sch/i.html?&_nkw=#{card_set.downcase.gsub(' ','+')}+#{card_name.downcase.gsub(' ', '+')}"
+    set = card_set.downcase.gsub(' ', '+')
+    name = card_name.downcase.gsub(' ', '+')
+    "https://www.ebay.com/sch/i.html?&_nkw=#{set}+#{name}"
   end
 end
