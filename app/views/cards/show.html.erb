@@ -1,4 +1,6 @@
 <h1> <%= card_and_edition(@card.name, @card.edition) %> </h1>
 <%= image_tag(@card.img_url) %>
+
 <h4> MTGoldfish Price: <%= get_mtgoldfish_price(@card.name, @card.edition) %> </h4>
 <h4> Card Kingdom Price: <%= get_card_kingdom_price(@card.name, @card.edition) %> </h4>
+<h4> <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: "_blank" %> </h4>
