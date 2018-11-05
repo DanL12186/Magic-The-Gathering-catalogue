@@ -1,0 +1,6 @@
+<h1> <%= params[:filter] %> </h1>
+
+<% @cards.each do | card | %> 
+  <h2> <%= card.name %> </h2> 
+  <%= image_tag card.img_url %> 
+<% end %>

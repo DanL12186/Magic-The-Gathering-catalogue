@@ -1,0 +1,8 @@
+{
+  "name": "Magic-The-Gathering-PostgreSQL",
+  "private": true,
+  "dependencies": {
+    "chance": "^1.0.16",
+    "mathjs": "^5.2.2"
+  }
+}

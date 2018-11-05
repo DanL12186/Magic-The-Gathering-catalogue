@@ -1,0 +1,23 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+body {
+  padding-left: 50px;
+}
+
+.card_img {
+    padding-left: 15px;
+    background-color: transparent;
+    transition: transform .3s; /* Animation */
+    width: 238px;
+    height: 310px;
+    margin: 0 auto;
+}
+
+.card_img:hover {
+    transform: scale(1.2);
+}
+
+#flavor {
+    font-style: italic;
+}
