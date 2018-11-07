@@ -31,7 +31,7 @@ module ApplicationHelper
     name = card_name.gsub(' ', '-').delete(",.:;'").downcase
 
     page = Thread.new { Nokogiri::HTML(open("https://www.cardkingdom.com/mtg/#{set}/#{name}")) }
-    page.value.css('span.stylePrice').first.text.strip.gsub('\n','')
+    page.value.css('span.stylePrice').first.text.strip
   end
 
   def ebay_search_link(card_name, card_set)
