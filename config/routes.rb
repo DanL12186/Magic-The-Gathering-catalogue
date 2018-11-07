@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   root "application#home"
 
   resources :cards
-  get ':filter' => 'cards#filter'
-  
+  resources :decks
 
-  #get "/users/:id/shows/all/favorite_characters" => "characters#favorite_characters"
+  get ':filter' => 'cards#filter'
+
 end
