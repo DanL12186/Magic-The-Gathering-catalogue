@@ -35,3 +35,11 @@ vendor/.keep
 storage/.keep
 
 log/.keep
+
+test/mailers/.keep
+
+test/models/.keep
+
+test/integration/.keep
+
+test/helpers/.keep
