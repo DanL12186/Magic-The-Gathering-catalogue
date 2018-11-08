@@ -5,6 +5,9 @@ body {
     padding-left: 50px;
 }
 
+ 
+//*****CARD DISPLAY DIV***//
+
 .card_img {
     padding-left: 15px;
     background-color: transparent;
@@ -23,3 +26,13 @@ body {
     font-weight: 200;
     font-family: cursive;
 }
+//*************************//
+
+
+//****Filtered Pages*******//
+
+.col-sm-2.filter:hover {
+    transition: .4s;
+    transform: scale(1.05);
+}
+//*************************//
