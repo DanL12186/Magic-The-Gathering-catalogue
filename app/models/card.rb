@@ -1,7 +1,6 @@
 class Card < ApplicationRecord
   include Cards
 
-  #this might all be wrong :) 
   has_many :users_cards
   has_many :decks_cards
   has_many :collections_cards
@@ -30,6 +29,7 @@ class Card < ApplicationRecord
       
       self.converted_mana_cost = mana.map(&:to_i).sum + mana.reject { | str | str.to_i > 0 }.size
       self.colors = mana.uniq.reject { | str | str.to_i > 0 }
+      #self.color = self.colors.size == 1 ? self.colors.first : self.colors.size > 1 ? "Gold" : "Colorless"
     end
   end
 end

@@ -25,3 +25,13 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+test/system/.keep
+
+tmp/.keep
+
+vendor/.keep
+
+storage/.keep
+
+log/.keep
