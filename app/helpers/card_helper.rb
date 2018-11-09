@@ -6,4 +6,8 @@ module CardHelper
       "#{name} (#{edition})"
     end
   end
+
+  def is_basic_land?(card)
+    card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land")
+  end
 end

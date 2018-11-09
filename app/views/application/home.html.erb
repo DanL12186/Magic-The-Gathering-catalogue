@@ -1,5 +1,5 @@
 <%  Card.all.each do | card | %> 
-  <% if card.card_type != "Land" || card.subtypes.include?("Nonbasic Land") %>
+  <% unless is_basic_land?(card) %>
     <div>
       <h1> <%= card.name %> </h1>
       <h3> Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "edition_#{card.rarity.downcase}", height: '2%', width: '2%' %> </h3>
@@ -17,7 +17,6 @@
         <div class="col-sm-3", id = "flavor"> 
           <%= card.flavor_text %> 
         </div>
-
         <br> 
         <br> 
       <% end %>
