@@ -18,7 +18,11 @@ body {
 }
 
 .card_img:hover {
+    filter: drop-shadow(8px 8px 10px rgba(0,0,0,0.9));
     transform: scale(1.2);
+
+    //To fix issue with the drop-shadow adding a white corner
+    border-radius: 12px; 
 }
 
 #flavor {
