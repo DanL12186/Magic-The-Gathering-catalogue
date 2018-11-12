@@ -15,22 +15,34 @@ module ApplicationHelper
     mana_types[color] || color
   end
 
-  def get_mtgoldfish_price(card_name, card_set)
+  def mtgoldfish_url(card_name, card_set)
     name = card_name.gsub(' ', '+').delete(",.:;'")
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
           .gsub(' ', '+')
 
-    page = Thread.new { Nokogiri::HTML(open("https://www.mtggoldfish.com/price/#{set}/#{name}#paper")) }
+    "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
+  end
+
+  def get_mtgoldfish_price(card_name, card_set)
+    url = mtgoldfish_url(card_name, card_set)
+
+    page = Thread.new { Nokogiri::HTML(open(url)) }
     price = page.value.css('.price-box-price').children.last.try(:text)
     price ? "$#{price}" : "N/A"
   end
 
-  def get_card_kingdom_price(card_name, card_set)
+  def card_kingdom_url(card_name, card_set)
     set = card_set.gsub(' ', '-').downcase
     set = "3rd-edition" if set == "revised"
     name = card_name.gsub(' ', '-').delete(",.:;'").downcase
 
-    page = Thread.new { Nokogiri::HTML(open("https://www.cardkingdom.com/mtg/#{set}/#{name}")) }
+    "https://www.cardkingdom.com/mtg/#{set}/#{name}"
+  end
+
+  def get_card_kingdom_price(card_name, card_set)
+    url = card_kingdom_url(card_name, card_set)
+
+    page = Thread.new { Nokogiri::HTML(open(url)) }
     page.value.css('span.stylePrice').first.text.strip
   end
 
