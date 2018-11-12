@@ -8,10 +8,10 @@
       <% unless card.card_type == "Land" %>
         <h5> Mana: 
           <% card.mana.each do | color | %>
-            <%= image_tag "mana_symbols/#{color_to_mana(color)}", size: "22" %>
+            <%= link_to ( image_tag "mana_symbols/#{color_to_mana(color)}", size: "22" ), mana_color(color) %>
           <% end %>
         </h5>
-      <% end %> 
+      <% end %>
 
       <% if card.flavor_text %>
         <div class="col-sm-3", id = "flavor"> 
@@ -31,24 +31,24 @@
 <% end %>
 
 <script>
-  //awful, hacky script to get mouseover to change images. temporary.
+  //awful, hacky script to get mouseover to change images. temporary. (yes, `edition` is a global variable.)
   $(".edition_rare").on('mouseenter', function() {
-      edition = (this.src.match(/(?<=\/editions\/).*(?=\-)/) || this.src.match(/(?<=\/editions\/).*(?=\.)/))[0]
-      const src = `/assets/editions/${edition} rare.png`
+    edition = (this.src.match(/(?<=\/editions\/).*(?=\-)/) || this.src.match(/(?<=\/editions\/).*(?=\.)/))[0]
+    const src = `/assets/editions/${edition} rare.png`
 
-      this.src = src
+    this.src = src
   }).on('mouseleave', function() {
-      this.src = `/assets/editions/${edition}.png`
+    this.src = `/assets/editions/${edition}.png`
   });
 </script>
 
 <script>
   $(".edition_uncommon").on('mouseenter', function() {
-      edition = (this.src.match(/(?<=\/editions\/).*(?=\-)/) || this.src.match(/(?<=\/editions\/).*(?=\.)/))[0]
-      const src = `/assets/editions/${edition} uncommon.png`
+    edition = (this.src.match(/(?<=\/editions\/).*(?=\-)/) || this.src.match(/(?<=\/editions\/).*(?=\.)/))[0]
+    const src = `/assets/editions/${edition} uncommon.png`
 
-      this.src = src
+    this.src = src
   }).on('mouseleave', function() {
-      this.src = `/assets/editions/${edition}.png`
+    this.src = `/assets/editions/${edition}.png`
   });
 </script>
