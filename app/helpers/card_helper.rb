@@ -10,4 +10,8 @@ module CardHelper
   def is_basic_land?(card)
     card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land")
   end
+
+  def mana_color(color)
+    (color.between?("0", "9") || color == "X") ? "Colorless" : color
+  end
 end
