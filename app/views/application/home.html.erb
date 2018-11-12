@@ -1,4 +1,4 @@
-<%  Card.all.each do | card | %> 
+<%  @cards.each do | card | %> 
   <% unless is_basic_land?(card) %>
     <div>
       <h1> <%= card.name %> </h1>
