@@ -28,8 +28,8 @@ class Card < ApplicationRecord
       mana = args[:mana].reject { | str | str == '0' }
       
       self.converted_mana_cost = mana.map(&:to_i).sum + mana.reject { | str | str.to_i > 0 }.size
-      self.colors = mana.uniq.reject { | str | str.to_i > 0 }
-      #self.color = self.colors.size == 1 ? self.colors.first : self.colors.size > 1 ? "Gold" : "Colorless"
+      self.colors = mana.uniq.reject { | str | str.to_i > 0 || str == "X" || str == "0" }
+      self.color = self.colors.size == 1 ? self.colors.first : self.colors.size > 1 ? "Gold" : "Colorless"
     end
   end
 end
