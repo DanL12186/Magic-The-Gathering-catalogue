@@ -1,0 +1,5 @@
+<h1> Matches: </h1>
+
+<% @cards.each do | card | %>
+  <li> <%= link_to(card.name, card_path(card.id)) %> </li>
+<%end%>
