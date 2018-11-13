@@ -11,7 +11,6 @@ class Card < ApplicationRecord
   validates :img_url, uniqueness: true
   validates :name, :edition, presence: true
 
-
   BASE_URL = "https://cdn1.mtggoldfish.com/images/gf"
 
   def initialize(**args)
@@ -32,4 +31,13 @@ class Card < ApplicationRecord
       self.color = self.colors.size == 1 ? self.colors.first : self.colors.size > 1 ? "Gold" : "Colorless"
     end
   end
+
+  def self.search(search)
+    if search
+      Card.all.select { | card | card.name.match?(/#{search}/i) }
+    else
+      Card.all
+    end
+  end
+  
 end

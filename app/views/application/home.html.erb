@@ -1,3 +1,12 @@
+<div class = "search-bar" >
+  <%= form_tag cards_path, :method => 'get' do %>
+    <p>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag "Find a Card", :name => nil %>
+    </p>
+  <% end %>
+</div>
+
 <%  @cards.each do | card | %> 
   <% unless is_basic_land?(card) %>
     <div>
@@ -39,7 +48,7 @@
     this.src = src
   }).on('mouseleave', function() {
     this.src = `/assets/editions/${edition}.png`
-  });
+  });{}
 </script>
 
 <script>
