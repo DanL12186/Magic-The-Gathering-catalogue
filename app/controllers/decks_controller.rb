@@ -1,0 +1,3 @@
+class DecksController < ApplicationRecord
+
+end
