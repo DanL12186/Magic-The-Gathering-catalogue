@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "chance": "^1.0.16",
-    "mathjs": "^5.2.2"
+    "mathjs": "^5.2.2",
+    "xml2js": "^0.4.19"
   }
 }
