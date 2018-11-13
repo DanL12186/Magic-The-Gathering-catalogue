@@ -9,7 +9,7 @@ module DeckHelper
   # ------------
   # (y! * (x-y)!)
   def binomial_coefficient(x, y)
-    return 1 if x == y #seems to do the trick
+    return 1 if x == y
     factorial(x).fdiv(factorial(y) * factorial(x-y))
   end
 
@@ -23,6 +23,10 @@ module DeckHelper
     (top.fdiv(bottom) * 100).round(4)
   end
 
+#   def chance_of_drawing_at_least_x_cards(copies, deck_size, target_num, cards_drawn) #alternative to above
+#     (target_num..copies).map { | target | hypergeometric_distribution(copies, deck_size, target, cards_drawn) }.sum.round(4)
+#   end
+
   def chance_of_drawing_at_least_x_cards(copies, deck_size, target_num, cards_drawn)
     sum = 0
 
@@ -32,12 +36,14 @@ module DeckHelper
     sum.round(4)
   end
 
-#   def chance_of_drawing_at_least_x_cards(copies, deck_size, target_num, cards_drawn) #alternative to above
-#     (target_num..copies).map { | target | hypergeometric_distribution(copies, deck_size, target, cards_drawn) }.sum.round(4)
-#   end
-
   #odds of getting a specific hand as a percent.
-  #doesn't work. might be wrong formula
+
+  #Example: 
+  
+  #You want 5 mana from a 71-card deck with 21 mana, plus 1 shivan dragon out of four in the deck: 
+  ### multivariate_hypergeometric_distribution(71, 8, [21,5], [4,1], [46, 2]) ###
+  #where [21, 5] is 5 needed lands out of 21 total, [4,1] is 1 needed shivan of 4 total, and [46, 2] is 2 "other" cards of 46 remaining cards in the deck
+
   def multivariate_hypergeometric_distribution(deck_size, cards_drawn, *total_and_target_arrays)
     numerator = 1
 
