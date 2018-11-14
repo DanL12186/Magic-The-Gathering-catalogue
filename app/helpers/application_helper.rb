@@ -16,9 +16,9 @@ module ApplicationHelper
   end
 
   def mtgoldfish_url(card_name, card_set)
-    name = card_name.gsub(' ', '+').delete(",.:;'")
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
           .gsub(' ', '+')
+    name = I18n.transliterate(card_name).gsub(' ', '+').delete(",.:;'")
 
     "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
   end
@@ -34,7 +34,7 @@ module ApplicationHelper
   def card_kingdom_url(card_name, card_set)
     set = card_set.gsub(' ', '-').downcase
     set = "3rd-edition" if set == "revised"
-    name = card_name.gsub(' ', '-').delete(",.:;'").downcase
+    name = I18n.transliterate(card_name.downcase).gsub(' ', '-').delete(",.:;'")
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
   end
