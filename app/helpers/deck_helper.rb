@@ -1,6 +1,7 @@
 module DeckHelper
+
   def factorial(n)
-    return n if n < 2
+    return 1 if n < 2
 
     (2..n).reduce(:*)
   end
@@ -43,7 +44,6 @@ module DeckHelper
   #You want 5 mana from a 71-card deck with 21 mana, plus 1 shivan dragon out of four in the deck: 
   ### multivariate_hypergeometric_distribution(71, 8, [21,5], [4,1], [46, 2]) ###
   #where [21, 5] is 5 needed lands out of 21 total, [4,1] is 1 needed shivan of 4 total, and [46, 2] is 2 "other" cards of 46 remaining cards in the deck
-
   def multivariate_hypergeometric_distribution(deck_size, cards_drawn, *total_and_target_arrays)
     numerator = 1
 
@@ -65,4 +65,5 @@ module DeckHelper
   def shuffle_deck(deck)
     deck.shuffle!
   end
+
 end
