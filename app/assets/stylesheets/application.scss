@@ -34,8 +34,11 @@ body {
 
 //****Filtered Pages*******//
 
-.col-sm-2.filter:hover {
+.col-sm-2.filter {
     transition: .4s;
-    transform: scale(1.05);
+}
+
+.col-sm-2.filter:hover {
+    transform: scale(1.06);
 }
 //*************************//
