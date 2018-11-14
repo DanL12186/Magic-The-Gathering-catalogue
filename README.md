@@ -5,7 +5,7 @@ application up and running.
 
 Things you may want to cover:
 
-* Minimum Ruby 2.4 (use of `.sum`); tested on Ruby 2.5.1 on Rails 5.2.1.
+* Minimum Ruby 2.4 (use of `.sum` and `.match?`); tested on Ruby 2.5.1 on Rails 5.2.1.
 
 * System dependencies
 
