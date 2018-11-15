@@ -4,6 +4,8 @@
   "dependencies": {
     "chance": "^1.0.16",
     "mathjs": "^5.2.2",
+    "npm": "^6.4.1",
+    "popper.js": "^1.14.5",
     "xml2js": "^0.4.19"
   }
 }
