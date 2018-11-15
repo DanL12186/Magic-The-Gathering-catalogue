@@ -11,7 +11,9 @@
   <% unless is_basic_land?(card) %>
     <div>
       <h1> <%= card.name %> </h1>
-      <h3> Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "edition_#{card.rarity.downcase}", height: '2%', width: '2%' %> </h3>
+      <h3 data-edition = <%= card.edition.downcase %> data-rarity = <%= card.rarity.downcase %> > 
+        Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "edition_#{card.rarity.downcase}", height: '2%', width: '2%' %>
+      </h3>
       <h4> Artist: <%= link_to "#{card.artist}", "#{card.artist}" %> </h4>
       
       <% unless card.card_type == "Land" %>
