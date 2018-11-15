@@ -33,11 +33,7 @@ class Card < ApplicationRecord
   end
 
   def self.search(search)
-    if search
-      Card.all.select { | card | card.name.match?(/#{search}/i) }
-    else
-      Card.all
-    end
+    Card.all.select { | card | card.name.match?(/#{search}/i) } 
   end
   
 end
