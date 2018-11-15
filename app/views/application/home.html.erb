@@ -1,8 +1,8 @@
-<div class = "search-bar" >
+<div class = "search-bar">
   <%= form_tag cards_path, :method => 'get' do %>
     <p>
       <%= text_field_tag :search, params[:search] %>
-      <%= submit_tag "Find a Card", :name => nil %>
+      <%= submit_tag "Find a Card" %>
     </p>
   <% end %>
 </div>
@@ -39,7 +39,7 @@
   <% end %>
 <% end %>
 
-<script>
+<script type = "text/javascript">
   //awful, hacky script to get mouseover to change images. temporary. (yes, `edition` is a global variable.)
   $(".edition_rare").on('mouseenter', function() {
     edition = (this.src.match(/(?<=\/editions\/).*(?=\-)/) || this.src.match(/(?<=\/editions\/).*(?=\.)/))[0]
@@ -51,7 +51,7 @@
   });{}
 </script>
 
-<script>
+<script type = "text/javascript">
   $(".edition_uncommon").on('mouseenter', function() {
     edition = (this.src.match(/(?<=\/editions\/).*(?=\-)/) || this.src.match(/(?<=\/editions\/).*(?=\.)/))[0]
     const src = `/assets/editions/${edition} uncommon.png`
