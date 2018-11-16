@@ -19,12 +19,14 @@
 
   $(document).on("turbolinks:load", function() {
     $(".edition_rare, .edition_uncommon").on('mouseenter', function() {
-        const edition = this.parentElement.getAttribute('data-edition')
+        const edition = this.parentElement.getAttribute('data-edition').replace('_', ' ')
         ,     rarity  = this.parentElement.getAttribute('data-rarity');
+        console.log(this)
+        x = this
         this.src = `/assets/editions/${edition} ${rarity}.png`;
         
     }).on('mouseleave', function() {
-        const edition = this.parentElement.getAttribute('data-edition');
+        const edition = this.parentElement.getAttribute('data-edition').replace('_', ' ');
         this.src = `/assets/editions/${edition}.png`;
     });
   })
