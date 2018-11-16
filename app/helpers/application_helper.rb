@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'mtg_sdk'
 
 module ApplicationHelper
+  
   def color_to_mana(color)
     mana_types = {
       "Red" => "mountain",
@@ -15,6 +16,7 @@ module ApplicationHelper
     mana_types[color] || color
   end
 
+
   def mtgoldfish_url(card_name, card_set)
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
           .gsub(' ', '+')
@@ -26,10 +28,17 @@ module ApplicationHelper
   def get_mtgoldfish_price(card_name, card_set)
     url = mtgoldfish_url(card_name, card_set)
 
-    page = Thread.new { Nokogiri::HTML(open(url)) }
-    price = page.value.css('.price-box-price').children.last.try(:text)
+    page = Thread.new do 
+      begin
+        Nokogiri::HTML(open(url)) 
+      rescue OpenURI::HTTPError => error
+        raise error unless error.message == '404 Not Found'
+      end
+    end
+    price = page.value ? page.value.css('.price-box-price').children.last.try(:text) : nil
     price ? "$#{price}" : "N/A"
   end
+
 
   def card_kingdom_url(card_name, card_set)
     set = card_set.gsub(' ', '-').downcase
@@ -46,9 +55,11 @@ module ApplicationHelper
     page.value.css('span.stylePrice').first.text.strip
   end
 
+  
   def ebay_search_link(card_name, card_set)
     set = card_set.downcase.gsub(' ', '+')
     name = card_name.downcase.gsub(' ', '+')
     "https://www.ebay.com/sch/i.html?&_nkw=#{set}+#{name}"
   end
+
 end
