@@ -9,7 +9,6 @@
 
 <%  @cards.each do | card | %> 
   <% unless is_basic_land?(card) %>
-    <% puts card.edition %> 
     <div>
       <h1> <%= card.name %> </h1>
       <h3 data-edition = <%= card.edition.downcase.gsub(" ", "_") %> data-rarity = <%= card.rarity.downcase %> > 
