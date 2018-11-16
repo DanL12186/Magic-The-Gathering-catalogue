@@ -1,12 +1,12 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "cards";
+@import "card";
+@import "deck";
 
 body {
     padding-left: 50px;
 }
 
- 
 //*****CARD DISPLAY DIV***//
 
 .card_img {
