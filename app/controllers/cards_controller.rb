@@ -13,9 +13,6 @@ class CardsController < ApplicationController
     @cards = Card.all.select { | card | card.attributes.values.any? { | value | value == params[:filter] } }.sort_by(&:name)
   end
 
-  def randhand
-  end
-
   def index
     @cards = Card.search(params[:search])
   end
