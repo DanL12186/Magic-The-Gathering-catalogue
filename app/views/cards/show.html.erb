@@ -4,6 +4,6 @@
 
 <div class = "margin-3em-top-4em-bottom" > <%= image_tag(@card.img_url, class: "card_show") %> </div> 
 
-<h4> <%= link_to "MTGoldfish Price:", mtgoldfish_url(@card.name, @card.edition), target: "_blank" %> <%= get_mtgoldfish_price(@card.name, @card.edition) %> </h4>
-<h4> <%= link_to "Card Kingdom Price:", card_kingdom_url(@card.name, @card.edition), target: "_blank" %> <%= get_card_kingdom_price(@card.name, @card.edition) %> </h4>
+<h4> <%= link_to "MTGoldfish Price:", mtgoldfish_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[0] %> </h4>
+<h4> <%= link_to "Card Kingdom Price:", card_kingdom_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[1] %> </h4>
 <h4> <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: "_blank" %> </h4>
