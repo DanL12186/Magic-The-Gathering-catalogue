@@ -1,6 +1,34 @@
-<h1> <%= @deck.name %> </h1>
+<h1> <%= link_to "<-Home", root_path %> </h1>
 
-<% @deck.cards.shuffle.first(8).each do | card | %>
-<h1>  <%= card.name %> </h1>
-  <%= image_tag card.img_url, class: "col-sm-2 filter" %>
-<% end %>
+<center> <h1> <%= @deck.name %> </h1> </center>
+<br>
+<center> <h4> Turn 1 </h4></center>
+<br>
+
+<div class = "row" >
+  <% sample_hand(@deck_cards).each do | card | %>
+    <div class = 'col-sm-1 filter'> 
+      <center> <b> <%= card.name %> </b> </center>
+      
+      <%= image_tag card.img_url, class: 'hand-card' %>
+    </div>
+  <% end %>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class = "row">
+  <center> <h1> Upcoming Cards </h1> </center>
+  <br>
+  <br>
+  <% next_eight_cards(@deck_cards).each.with_index(9) do | card, idx | %>
+    <div class = 'col-sm-1 filter'>
+      <center> <%= "Turn #{idx - 7}" %> </center>
+      <center> <b> <%= card.name %> </b> </center>
+        
+      <%= image_tag card.img_url,  class: 'hand-card' %>
+    </div>
+  <% end %>
+</div>
