@@ -59,7 +59,11 @@ module DeckHelper
   end
 
   def sample_hand(n = 7, deck)
-    deck.shuffle.first(n)
+    deck.first(n)
+  end
+
+  def next_eight_cards(deck)
+    deck[7..-1].first(8)
   end
 
   def shuffle_deck(deck)
