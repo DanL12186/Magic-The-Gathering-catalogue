@@ -1,0 +1,6 @@
+<h1> <%= @deck.name %> </h1>
+
+<% @deck.cards.shuffle.first(8).each do | card | %>
+<h1>  <%= card.name %> </h1>
+  <%= image_tag card.img_url, class: "col-sm-2 filter" %>
+<% end %>
