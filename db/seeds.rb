@@ -28,6 +28,8 @@ Card.create(name: "Taiga", card_type: "Land", subtypes: ["Mountain", "Forest", "
 
 Card.create(name: "Tundra", card_type: "Land", subtypes: ["Plains", "Island", "Nonbasic Land"], artist: "Jesper Myfors", rarity: "Rare", activated_abilities: ["Tap to add either one white or blue mana to your mana pool"], edition: "Unlimited" )
 
+Card.create(name: "Plateau", card_type: "Land", subtypes: ["Plains", "Mountain", "Nonbasic Land"], artist: "Drew Tucker", rarity: "Rare", activated_abilities: ["Tap to add either one white or red mana to your mana pool"], edition: "Unlimited" )
+
 Card.create(name: "Natural Order", edition: "Visions", mana: ["2", "Green", "Green"], card_type: "Sorcery", artist: "Terese Nielsen", flavor_text: "...but the price of Mangara's freedom was Asmira's life.", 
 effects: "Sacrifice a green creature. Search your library for a green creature card and put it onto the battlefield. Then shuffle your library.", rarity: "Rare")
 
@@ -113,7 +115,41 @@ Card.create(name: "Lion's Eye Diamond", activated_abilities: "Sacrifice Lion's E
 Card.create(name: "Primal Rage", artist: "Brian Snoddy", edition: "Stronghold", mana: ["1", "Green"], effects: "All creatures you control gain trample", card_type: "Enchantment", flavor_text: "\"Charge!\" A great cry went out, and countless elves and Vec soldiers charged up the mountain. Their fury and passion hid the fact that they were horribly outnumbered.", rarity: "Uncommon")
 
 Card.create(name: "Psychic Venom", card_type: "Enchantment", subtypes: ["Enchant Land"], artist: "Brian Snoddy",edition: "Unlimited", mana: ["1", "Blue"], effects: "Whenever target land is tapped, Psychic Venom deals 2 damage to that land's controller.", rarity: "Common")
-#rare cards from homelands expansion
+
+Card.create(name: "Aladdin's Ring", edition: "Revised", mana: ["8"], artist: "Dan Frazier", card_type: "Artifact", activated_abilities: ["8, tap:  Aladdin's Ring deals 4 damage to any target."], flavor_text: "\"After these words the magician drew a ring off his finger, and put it on one of Aladdin's, saying: ‘It is a talisman against all evil, so long as you obey me.'\" The Arabian Nights, Junior Classics trans.", rarity: "Rare")
+
+Card.create(name: "Channel", edition: "Unlimited", effects: "Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add one colorless mana to your mana pool.", rarity: "Uncommon", artist: "Richard Thomas", mana: ["Green", "Green"])
+
+Card.create(name: "Ring of Ma'rûf", mana: ["5"], edition: "Arabian Nights", activated_abilities: ["5, tap: Exile Ring of Ma'rûf: The next time you would draw a card this turn, instead choose a card you own from outside the game and put it into your hand."], artist: "Dan Frazier", rarity: "Rare", reserved: true, card_type: "Artifact")
+
+Card.create(name: "Sisay's Ring", edition: "Visions", artist: "Donato Giancola", mana: ["4"], activated_abilities: ["Tap to add two colorless mana to your mana pool."], flavor_text: "\"With this ring, you have friends in worlds you've never heard of.\" -Sisay, Captain of the Weatherlight", card_type: "Artifact", rarity: "Common")
+
+Card.create(name: "Sorceress Queen", artist: "Kaja Foglio", edition: "Arabian Nights", activated_abilities: "Tap: target creature other than Sorceress Queen has base power and toughness 0/2 until end of turn.", power: 1, toughness: 1, rarity: "Uncommon", card_type: "Creature", subtypes: ["Human", "Wizard"], mana: ["1", "Black", "Black"])
+
+Card.create(name: "Bird Maiden", edition: "Arabian Nights", mana: ["2", "Red"], abilities: ["Flying"], card_type: "Creature", subtypes: ["Human", "Bird"], flavor_text: "\"Four things that never meet do here unite To shed my blood and to ravage my heart, A radiant brow and tresses that beguile And rosy cheeks and a glittering smile.\"The Arabian Nights, trans. Haddawy",power: 1, toughness: 2, artist: "Kaja Foglio", rarity: "Common")
+
+Card.create(name: "Shahrazad", edition: "Arabian Nights", artist: "Kaja Foglio", mana: ["White", "White"], card_type: "Sorcery", effects: "Players play a Magic subgame, using their libraries as their decks. Each player who doesn't win the subgame loses half their life, rounded up.", rarity: "Rare", restricted: true, reserved: true)
+
+Card.create(name: "Al-abara's Carpet", edition: "Legends", activated_abilities: ["5, tap: Prevent all damage that would be dealt to you this turn by attacking creatures without flying."], flavor_text: "Al-abara simply laughed and lifted one finger, and the carpet carried her high out of our reach.", mana: ["5"], card_type: "Artifact", artist: "Kaja Foglio", rarity: "Rare", reserved: true)
+
+Card.create(name: "Kismet", edition: "Legends", artist: "Kaja Foglio", card_type: "Enchantment", mana: ["3", "White"], rarity: "Rare", effects: "Artifacts, creatures, and lands your opponents control enter the battlefield tapped.", flavor_text: "\"Make people wait for what they want, and you have power over them. This is as true for merchants and militia as it is for cooks and couples.\" -Gwendolyn Di Corci")
+
+Card.create(name: "North Star", edition: "Legends", artist: "Kaja Foglio", rarity: "Rare", activated_abilities: ["4, tap: For one spell this turn, you may spend mana as though it were mana of any type to pay that spell's mana cost. (Additional costs are still paid normally.)"], card_type: "Artifact", reserved: true, mana: ["4"])
+
+Card.create(name: "Winter Blast", edition: "Legends", artist: "Kaja Foglio", rarity: "Rare", activated_abilities: [], card_type: "Sorcery", mana: ["X", "Green"], effects: "Tap X target creatures. Winter Blast deals 2 damage to each of those creatures with flying.", flavor_text: "\"Blow, winds, and crack your cheeks rage blow\" -William Shakespeare, King Lear")
+
+Card.create(name: "Mahamoti Djinn", edition: "Beta", artist: "Dan Frazier", power: 5, toughness: 6, mana: ["4", "Blue", "Blue"], abilities: ["Flying"], card_type: "Creature", subtypes: ["Djinn"], flavor_text: "Of royal blood amongst the spirits of the air, the Mahamoti Djinn rides on the wings of the winds. As dangerous in the gambling hall as he is in battle, he is a master of trickery and misdirection.", rarity: "Rare")
+
+Card.create(name: "Aladdin's Lamp", edition: "Arabian Nights", card_type: "Artifact", artist: "Mark Tedin", mana: ["5", "5"], activated_abilities: ["X, tap: The next time you would draw a card this turn, instead look at the top X cards of your library, put all but one of them on the bottom of your library in a random order, then draw a card."], rarity: "Rare")
+
+Card.create(name: "Red Ward", edition: "Alpha", artist: "Dan Frazier", rarity: "Uncommon", mana: ["White"], card_type: "Enchantment", effects: "Target creature gains protection from red.")
+
+Card.create(name: "White Knight", edition: "Alpha", artist: "Daniel Gelon", rarity: "Uncommon", mana: ["White", "White"], card_type: "Creature", abilities: ["First strike", "Protection from black"], flavor_text: "Out of the blackness and stench of the engulfing swamp emerged a shimmering figure. Only the splattered armor and ichor-stained sword hinted at the unfathomable evil the knight had just laid waste.", power: 2, toughness: 2, subtypes: ["Human", "Knight"])
+
+Card.create(name: "Black Knight", edition: "Alpha", artist: "Jeff A. Menges", rarity: "Uncommon", mana: ["Black", "Black"], card_type: "Creature", abilities: ["First strike", "Protection from white"], flavor_text: "Battle doesn't need a purpose; the battle is its own purpose. You don't ask why a plague spreads or a field burns. Don't ask why I fight.", power: 2, toughness: 2, subtypes: ["Human", "Knight"])
+
+Card.create(name: "Chain Lightning", edition: "Legends", artist: "Sandra Everingham", rarity: "Common", card_type: "Sorcery", mana: ["Red"], effects: "Chain Lightning deals 3 damage to any target. Then that player or that permanent's controller may pay two mountains. If the player does, they may copy this spell and may choose a new target for that copy.")
+    #rare cards from homelands expansion
 # cards = MTG::Card.where(set: 'hml').where(rarity: "Rare").all
 
 #easier view... cards.map { | card | JSON.parse(card.serialize) }
