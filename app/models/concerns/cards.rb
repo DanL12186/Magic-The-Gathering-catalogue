@@ -6,6 +6,10 @@ module Cards
     CGI.escape(CGI.escape(name)) + "%2B%255B"
   end
 
+  def price_older_than_24_hours(last_updated)
+    (Time.now - last_updated) > 24.hours
+  end
+
   Editions = {
     "Alpha" => "LEA",
     "Beta" => "LEB",
@@ -32,5 +36,5 @@ module Cards
     "Stronghold" => "ST",
     "Exodus" => "EX"
   }
-  
+
 end
