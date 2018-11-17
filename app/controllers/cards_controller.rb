@@ -4,7 +4,7 @@ class CardsController < ApplicationController
 
   def show
     @card = Card.find(params[:id])
-    if price_older_than_24_hours(@card.updated_at)
+    if price_empty_or_older_than_24_hours(@card.updated_at, @card.price)
       @card.update(price: [ get_mtgoldfish_price(@card.name, @card.edition), get_card_kingdom_price(@card.name, @card.edition) ])
     end
   end
