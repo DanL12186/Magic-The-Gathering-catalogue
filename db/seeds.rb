@@ -24,6 +24,8 @@ Card.create(name: "Volcanic Island", card_type: "Land", subtypes: ["Mountain", "
 
 Card.create(name: "Bayou", card_type: "Land", subtypes: ["Swamp", "Forest", "Nonbasic Land"], artist: "Jasper Myfors", rarity: "Rare", activated_abilities: ["Tap to add either one green or black mana to your mana pool"], edition: "Unlimited" )
 
+Card.create(name: "Scrubland", card_type: "Land", subtypes: ["Swamp", "Plains", "Nonbasic Land"], artist: "Jasper Myfors", rarity: "Rare", activated_abilities: ["Tap to add either one white or black mana to your mana pool"], edition: "Unlimited" )
+
 Card.create(name: "Taiga", card_type: "Land", subtypes: ["Mountain", "Forest", "Nonbasic Land"], artist: "Rob Alexander", rarity: "Rare", activated_abilities: ["Tap to add either one green or red mana to your mana pool"], edition: "Unlimited" )
 
 Card.create(name: "Tundra", card_type: "Land", subtypes: ["Plains", "Island", "Nonbasic Land"], artist: "Jesper Myfors", rarity: "Rare", activated_abilities: ["Tap to add either one white or blue mana to your mana pool"], edition: "Unlimited" )
@@ -35,7 +37,7 @@ effects: "Sacrifice a green creature. Search your library for a green creature c
 
 Card.create(name: "Lotus Petal", activated_abilities: ["Sacrifice Lotus Petal: Add one mana of any color to your mana pool."], mana: ["0"], artist: "April Lee", rarity: "Common", edition: "Tempest")
 
-Card.create(name: "Serra Angel", edition: "Unlimited", mana: ["3", "White", "White"], artist: "Douglas Schuler", power: 4, toughness: 4, abilities: ["Flying", "Vigilance"], rarity: "Uncommon", flavor_text: "Born with wings of light and a sword of faith, this heavenly incarnation embodies both fury and purity.")
+Card.create(name: "Serra Angel", edition: "Unlimited", mana: ["3", "White", "White"], artist: "Douglas Schuler", power: 4, toughness: 4, abilities: ["Flying", "Vigilance"], card_type: "Creature", rarity: "Uncommon", flavor_text: "Born with wings of light and a sword of faith, this heavenly incarnation embodies both fury and purity.")
 
 Card.create(name: "Disrupting Scepter", edition: "Beta", artist: "Dan Frazier", card_type: "Artifact", mana: ["3"], activated_abilities: ["3: Target opponent discards a card of their choice. Can only be used during your turn."], rarity: "Rare")
 
@@ -149,6 +151,14 @@ Card.create(name: "White Knight", edition: "Alpha", artist: "Daniel Gelon", rari
 Card.create(name: "Black Knight", edition: "Alpha", artist: "Jeff A. Menges", rarity: "Uncommon", mana: ["Black", "Black"], card_type: "Creature", abilities: ["First strike", "Protection from white"], flavor_text: "Battle doesn't need a purpose; the battle is its own purpose. You don't ask why a plague spreads or a field burns. Don't ask why I fight.", power: 2, toughness: 2, subtypes: ["Human", "Knight"])
 
 Card.create(name: "Chain Lightning", edition: "Legends", artist: "Sandra Everingham", rarity: "Common", card_type: "Sorcery", mana: ["Red"], effects: "Chain Lightning deals 3 damage to any target. Then that player or that permanent's controller may pay two mountains. If the player does, they may copy this spell and may choose a new target for that copy.")
+
+Card.create(name: "Demonic Tutor", edition: "Beta", artist: "Douglas Schuler", mana: ["1", "Black"], card_type: "Sorcery", effects: "You may search your library for one card and take it into your hand. Reshuffle your library afterwards.", restricted: true, rarity: "Uncommon")
+
+Card.create(name: "Summer Bloom", edition: "Visions", artist: "Nicola Leonard", rarity: "Uncommon", card_type: "Sorcery", effects: "You may play up to three additional lands this turn.", flavor_text: "\"Our love is like the river in the summer season of long rains. \/ For a little while it spilled its banks, flooding the crops in the fields.\" —\"Love Song of Night and Day\"", mana: ["1", "Green"])
+
+Card.create(name: "Two-Headed Giant of Foriys", edition: "Unlimited", artist: "Anson Maddocks", abilities: ["Trample", "Can block up to two creatures"], flavor_text: "None know if this Giant is the result of aberrant magics, Siamese twins, or a mentalist's schizophrenia.", rarity: "Rare", power: 4, toughness: 4, mana: ["4", "Red"], card_type: "Creature", subtypes: ["Giant"], reserved: true)
+
+
     #rare cards from homelands expansion
 # cards = MTG::Card.where(set: 'hml').where(rarity: "Rare").all
 
