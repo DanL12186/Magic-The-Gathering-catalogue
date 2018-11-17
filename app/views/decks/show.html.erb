@@ -6,19 +6,19 @@
 <br>
 
 <div class = "row" >
-    <% @sample_hand.each do | card | %>
-      <div class = 'col-sm-1 filter'> 
-        <%= card.name %>
-        
-        <%= image_tag card.img_url, class: 'hand-card' %>
-      </div>
-    <% end %>
-    <div class = "stats" >
-      <h2> Lands: <%= @stats_hash['lands'] %>
-      <h2> Artifacts: <%= @stats_hash['artifacts'] %>
-      <h2> Creatures: <%= @stats_hash['creatures'] %>
-      <h2> Spells: <%= @stats_hash['spells'] %>
+  <% @sample_hand.each do | card | %>
+    <div class = 'col-sm-1 filter'> 
+      <b> <%= card.name %> </b>
+      
+      <%= image_tag card.img_url, class: 'hand-card' %>
     </div>
+  <% end %>
+  <div class = "stats" >
+    <h2> Lands: <%= @stats_hash['lands'] %>
+    <h2> Spells: <%= @stats_hash['spells'] %>
+    <h2> Artifacts: <%= @stats_hash['artifacts'] %>
+    <h2> Creatures: <%= @stats_hash['creatures'] %>
+  </div>
 </div>
 
 <br>
