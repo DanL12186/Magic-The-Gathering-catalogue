@@ -6,13 +6,19 @@
 <br>
 
 <div class = "row" >
-  <% sample_hand(@deck_cards).each do | card | %>
-    <div class = 'col-sm-1 filter'> 
-      <center> <b> <%= card.name %> </b> </center>
-      
-      <%= image_tag card.img_url, class: 'hand-card' %>
+    <% @sample_hand.each do | card | %>
+      <div class = 'col-sm-1 filter'> 
+        <%= card.name %>
+        
+        <%= image_tag card.img_url, class: 'hand-card' %>
+      </div>
+    <% end %>
+    <div class = "stats" >
+      <h2> Lands: <%= @stats_hash['lands'] %>
+      <h2> Artifacts: <%= @stats_hash['artifacts'] %>
+      <h2> Creatures: <%= @stats_hash['creatures'] %>
+      <h2> Spells: <%= @stats_hash['spells'] %>
     </div>
-  <% end %>
 </div>
 
 <br>
@@ -23,7 +29,7 @@
   <center> <h1> Upcoming Cards </h1> </center>
   <br>
   <br>
-  <% next_eight_cards(@deck_cards).each.with_index(9) do | card, idx | %>
+  <% @next_eight_cards.each.with_index(9) do | card, idx | %>
     <div class = 'col-sm-1 filter'>
       <center> <%= "Turn #{idx - 7}" %> </center>
       <center> <b> <%= card.name %> </b> </center>
