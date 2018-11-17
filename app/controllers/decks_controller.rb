@@ -5,4 +5,8 @@ class DecksController < ApplicationController
     @deck_cards = @deck.cards.shuffle
   end
 
+  def index
+    @decks = Deck.all
+  end
+
 end
