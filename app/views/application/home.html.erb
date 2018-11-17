@@ -1,5 +1,5 @@
-<div class = "search-bar">
-  <%= form_tag cards_path, :method => 'get' do %>
+<div class="search-bar">
+  <%= form_tag cards_path, method: 'GET' do %>
     <p>
       <%= text_field_tag :search, params[:search], required: true %>
       <%= submit_tag "Find a Card" %>
@@ -11,7 +11,7 @@
   <% unless is_basic_land?(card) %>
     <div>
       <h1> <%= card.name %> </h1>
-      <h3 data-edition = <%= card.edition.downcase.gsub(" ", "_") %> data-rarity = <%= card.rarity.downcase %> > 
+      <h3 data-edition = <%= card.edition.downcase.gsub(' ', '_') %> data-rarity = <%= card.rarity.downcase %> > 
         Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "edition_#{card.rarity.downcase}", height: '2%', width: '2%' %>
       </h3>
       <h4> Artist: <%= link_to "#{card.artist}", "#{card.artist}" %> </h4>
@@ -19,13 +19,13 @@
       <% unless card.card_type == "Land" %>
         <h5> Mana: 
           <% card.mana.each do | color | %>
-            <%= link_to ( image_tag "mana_symbols/#{color_to_mana(color)}", size: "22" ), mana_color(color) %>
+            <%= link_to ( image_tag "mana_symbols/#{color_to_mana(color)}", size: '22' ), mana_color(color) %>
           <% end %>
         </h5>
       <% end %>
 
       <% if card.flavor_text %>
-        <div class="col-sm-3", id = "flavor"> 
+        <div class="col-sm-3", id="flavor"> 
           <%= card.flavor_text %> 
         </div>
         <br> 
