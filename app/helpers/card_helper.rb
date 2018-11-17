@@ -1,4 +1,5 @@
 module CardHelper
+  
   def card_and_edition(name, edition)
     if ["Beta", "Unlimited", "Revised", "Alpha"].include?(edition)
       return "#{edition} #{name}"
@@ -14,4 +15,5 @@ module CardHelper
   def mana_color(color)
     (color.between?("0", "9") || color == "X") ? "Colorless" : color
   end
+
 end
