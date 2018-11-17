@@ -1,7 +1,9 @@
+<h2> <%= link_to "<-Home", root_path %> </h2>
+
 <h1> Matches: </h1>
 
 <% @cards.each do | card | %>
-  <li>
+  <li class = "card">
     <div class = "btn btn-med" data-toggle="popover" data-url="<%= card.img_url %>" title = " "> 
       <%= link_to(card.name, card_path(card.id), class: "popover-card") %> 
     </div>
@@ -19,4 +21,10 @@
       }
     })
   })
+
+  //popover remains after hitting back button without this
+  $("li.card").on('click', function() {
+    this.children[1].remove()
+  });
+
 </script>
