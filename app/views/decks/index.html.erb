@@ -1,0 +1,3 @@
+<% @decks.all.each do | deck | %>
+  <%= link_to deck.name, deck_path(deck.id) %>
+<% end %>
