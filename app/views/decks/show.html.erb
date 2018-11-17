@@ -29,9 +29,9 @@
   <center> <h1> Upcoming Cards </h1> </center>
   <br>
   <br>
-  <% @next_eight_cards.each.with_index(9) do | card, idx | %>
+  <% @next_eight_cards.each.with_index(2) do | card, idx | %>
     <div class = 'col-sm-1 filter'>
-      <center> <%= "Turn #{idx - 7}" %> </center>
+      <center> Turn <%= idx %> </center>
       <center> <b> <%= card.name %> </b> </center>
         
       <%= image_tag card.img_url,  class: 'hand-card' %>
