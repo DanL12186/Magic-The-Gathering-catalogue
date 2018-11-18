@@ -2,7 +2,7 @@ class Card < ApplicationRecord
   include Cards
 
   has_many :users_cards
-  has_many :decks_cards
+  has_many :decks_cards, dependent: :destroy
   has_many :collections_cards
 
   has_many :users, through: :users_cards
