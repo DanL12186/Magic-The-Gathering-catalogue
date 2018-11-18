@@ -58,16 +58,4 @@ module DeckHelper
     (100 * numerator.fdiv(denominator)).round(4)
   end
 
-  def sample_hand(n = 7, deck)
-    deck.first(n)
-  end
-
-  def next_eight_cards(deck)
-    deck[7..-1].first(8)
-  end
-
-  def shuffle_deck(deck)
-    deck.shuffle!
-  end
-
 end
