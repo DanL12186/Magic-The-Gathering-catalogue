@@ -5,7 +5,7 @@
 <center> <h4> Turn 1 </h4></center>
 <br>
 
-<div class = "row pad-3" >
+<div class = "row margin-bottom" >
 
   <% @sample_hand.each do | card | %>
     <div class = 'col-sm-1 filter'> 
@@ -16,7 +16,9 @@
 
   <div class="hand-odds">
     <h2> Precise hand odds:  </h2>
-    <center> <%= multivariate_hypergeometric_distribution(deck_size = @shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>% </center>
+    <center> 
+      <h4> <%= multivariate_hypergeometric_distribution(deck_size = @shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>% </h4>
+    </center>
   </div>
 
   <div class = "stats" >
@@ -35,7 +37,7 @@
   <% @next_eight_cards.each.with_index(2) do | card, idx | %>
     <div class = 'col-sm-1 filter'>
       <center> Turn <%= idx %> </center>
-      <center> <b> <%= card.name %> </b> </center>
+      <center> <%= truncate_at_three_words(card.name) %> </center>
         
       <%= image_tag card.img_url,  class: 'hand-card' %>
     </div>
