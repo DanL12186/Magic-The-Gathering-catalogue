@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :cards
   resources :decks
 
+  get '/hand_odds_calculator' => 'application#hand_odds_calculator'
   get ':filter' => 'cards#filter'
 
 end
