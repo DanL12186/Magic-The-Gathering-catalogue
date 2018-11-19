@@ -58,11 +58,15 @@ module DeckHandStats
   def multivar_geo_freq_args(hand_freqs, deck_freqs)
     total_and_target_arrays = {}
    
-    hand_freqs.each.with_index(1) do | card, hand_count, idx | 
-      total_and_target_arrays[idx] = [ deck_freqs[card[0]], hand_count ]
+    #parens around key, value are necessary with index on a hash
+    hand_freqs.each.with_index(1) do | (card, hand_count), idx | 
+      total_and_target_arrays[idx] = [ deck_freqs[card], hand_count ]
     end
-
     total_and_target_arrays
   end
-  
+
+  #Later make a function that counts the number of copies of each card in your hand, and the num copies in....
+  #your deck (this should be predetermined in a hash). Return a hash with keys (names of cards) pointing to ...
+  #an array with [copies_in_deck, copies_in_hand], and finally one last key which is just [deck_size - 7, 0] to...
+  #represent the remaining cards in the deck.
 end
