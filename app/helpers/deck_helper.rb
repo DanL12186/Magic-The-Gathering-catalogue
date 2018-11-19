@@ -1,5 +1,7 @@
 module DeckHelper
 
+ #################################### Statistical probability functions ###########################################
+
   def factorial(n)
     return 1 if n < 2
 
@@ -39,11 +41,11 @@ module DeckHelper
 
   #odds of getting a specific hand as a percent.
 
-  #Example: 
-  
+  #Ex: 
   #You want 5 mana from a 71-card deck with 21 mana, plus 1 shivan dragon out of four in the deck: 
-  ### multivariate_hypergeometric_distribution(71, 8, [21,5], [4,1], [46, 2]) ###
-  #where [21, 5] is 5 needed lands out of 21 total, [4,1] is 1 needed shivan of 4 total, and [46, 2] is 2 "other" cards of 46 remaining cards in the deck
+  ### multivariate_hypergeometric_distribution(71, 8, [21,5], [4,1], [46, 2])..
+  #where [21, 5] is 5 needed lands out of 21 total, [4,1] is 1 needed shivan of 4 total, and [46, 2] is 2 "other" cards of 46 remaining cards in the deck.
+  #if cards already total to 7 (or 8, if that's your hand size), a final entry in the form [x_remaining_cards, 0] is unnecessary.
   def multivariate_hypergeometric_distribution(deck_size, cards_drawn, *total_and_target_arrays)
     numerator = 1
 
@@ -57,5 +59,13 @@ module DeckHelper
 
     (100 * numerator.fdiv(denominator)).round(4)
   end
+  
+  ##################################################################################################################
 
+  def truncate_at_three_words(card_name)
+    words = card_name.split(/-| /)[0..2]
+    length = words.join(' ').length
+    result = card_name[0..length]
+    result.strip
+  end
 end
