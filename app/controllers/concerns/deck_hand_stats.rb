@@ -1,7 +1,7 @@
 module DeckHandStats
  
-  def shuffled_deck(deck)
-    @deck.cards.shuffle
+  def shuffled_deck(cards)
+    cards.shuffle
   end
 
   def sample_hand(deck, n=7)
@@ -48,4 +48,21 @@ module DeckHandStats
     classifications
   end
 
+  def card_frequencies(deck_or_hand)
+    card_counts = {}
+    cards = deck_or_hand.map(&:name)
+    cards.uniq.each { | card | card_counts[card] = cards.count(card) }
+    card_counts
+  end
+  
+  def multivar_geo_freq_args(hand_freqs, deck_freqs)
+    total_and_target_arrays = {}
+   
+    hand_freqs.each.with_index(1) do | card, hand_count, idx | 
+      total_and_target_arrays[idx] = [ deck_freqs[card[0]], hand_count ]
+    end
+
+    total_and_target_arrays
+  end
+  
 end
