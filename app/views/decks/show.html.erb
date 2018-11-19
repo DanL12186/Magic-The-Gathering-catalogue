@@ -8,17 +8,24 @@
 <div class = "row" >
   <% @sample_hand.each do | card | %>
     <div class = 'col-sm-1 filter'> 
-      <b> <%= card.name %> </b>
-      
+      <div> <%= truncate_at_three_words(card.name) %> </div> 
       <%= image_tag card.img_url, class: 'hand-card' %>
     </div>
   <% end %>
-  <div class = "stats" >
-    <h2> Lands: <%= @stats_hash['lands'] %>
-    <h2> Spells: <%= @stats_hash['spells'] %>
-    <h2> Artifacts: <%= @stats_hash['artifacts'] %>
-    <h2> Creatures: <%= @stats_hash['creatures'] %>
+
+  <div class="tests">
+    <h2> Precise hand odds:  </h2>
+    <%= multivariate_hypergeometric_distribution(deck_size = @shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>%
   </div>
+
+  <div class = "stats" >
+    <h3> Lands: <%= @stats_hash['lands'] %> </h3>
+    <h3> Spells: <%= @stats_hash['spells'] %> </h3>
+    <h3> Artifacts: <%= @stats_hash['artifacts'] %> </h3>
+    <h3> Creatures: <%= @stats_hash['creatures'] %> </h3>
+  </div>
+
+
 </div>
 
 <br>
