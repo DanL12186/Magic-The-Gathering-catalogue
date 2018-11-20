@@ -25,8 +25,8 @@
 
       <tbody>
         <tr>
-          <td> <%= f.number_field "in_deck_0", class: "input-sm", min: 0 %> </td>
-          <td> <%= f.number_field "in_hand_0", class: "input-sm", min: 0 %> </td>
+          <td> <%= f.number_field "in_deck_0", class: "input-sm", min: 0, required: true %> </td>
+          <td> <%= f.number_field "in_hand_0", class: "input-sm", min: 0, required: true %> </td>
           <td> <%= f.text_field "card_name_0", class: "input-sm" %> </td>
         </tr>
 
@@ -46,24 +46,39 @@
       <%= f.number_field :cards_drawn, value: 7, min: 1, max: 15 %>
     </div>
 
-    <%= f.submit "Calculate Odds", class: 'calc' %>
+    <%= f.submit "Calculate Odds" %>
     
-    <div id="odds-results"></div>
+    <h2> 
+      Odds of this exact combo: <h4 id="odds-results"> </h4>
+    </h2>
   
 <% end %>
 
 <script>
-  $("#add-card-inputs").on('click', function appendFields() {
-    let fieldCount = $("#add-card-inputs").val()
+  $('#add-card-inputs').on('click', function appendFields() {
+    const fieldCount = parseInt( $('#add-card-inputs').val() ) + 1
 
-    $("#add-card-inputs").val(++fieldCount)
+    $('#add-card-inputs').val(fieldCount)
      
-    $("table#odds-input-table").append(
+    $('table#odds-input-table').append(
       `<tr>
         <td> <input type=number name=in_deck_${fieldCount} id=in_deck_${fieldCount} class=input-sm> </input> </td>
         <td> <input type=number name=in_hand_${fieldCount} id=in_hand_${fieldCount} class=input-sm> </input> </td>
         <td> <input type=text name=card_name_${fieldCount} id=card_name_${fieldCount} class=input-sm> </input> </td>
       </tr>`
     )
+  });
+</script>
+
+<script>
+  $('form.calculate-odds').on('submit', function(event) {
+    event.preventDefault();
+
+    const serializedForm = $(this).serialize()
+    ,     response = $.post(`/decks/calculate_custom_hands_odds`, serializedForm);
+
+    response.done(function(resultAsFloat) {
+      $('#odds-results').html(resultAsFloat + "%");
+    });
   });
 </script>
