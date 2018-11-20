@@ -1,5 +1,6 @@
 module DeckHandStats
- 
+ include DeckHelper
+
   def shuffled_deck(cards)
     cards.shuffle
   end
@@ -63,6 +64,24 @@ module DeckHandStats
       total_and_target_arrays[idx] = [ deck_freqs[card], hand_count ]
     end
     total_and_target_arrays
+  end
+
+  def get_param_stats(params) 
+    hand_deck_count_pairs = {}
+    pertinent_keys = params.select { | param | param.match?("in_") }.keys
+    len = pertinent_keys.size/2
+
+    (0...len).each do | idx | 
+      hand_deck_count_pairs[idx] = [ params["in_deck_#{idx}"].to_i, params["in_hand_#{idx}"].to_i ]
+    end
+
+    deck_total = hand_deck_count_pairs.map { | k, v | v.first }.sum
+    hand_total = hand_deck_count_pairs.map { | k, v | v.last }.sum
+    #accounts for when there are fewer total target cards than drawn cards
+    if hand_total < params[:cards_drawn].to_i
+      hand_deck_count_pairs[len] = [ params[:deck_size].to_i - deck_total, params[:cards_drawn].to_i - hand_total ]
+    end
+    hand_deck_count_pairs
   end
 
 end
