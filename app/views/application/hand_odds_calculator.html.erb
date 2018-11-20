@@ -52,33 +52,6 @@
       Odds of this exact combo: <h4 id="odds-results"> </h4>
     </h2>
   
+
+    <%= f.button "Clear Form", class: 'clear-form' %>
 <% end %>
-
-<script>
-  $('#add-card-inputs').on('click', function appendFields() {
-    const fieldCount = parseInt( $('#add-card-inputs').val() ) + 1
-
-    $('#add-card-inputs').val(fieldCount)
-     
-    $('table#odds-input-table').append(
-      `<tr>
-        <td> <input type=number name=in_deck_${fieldCount} id=in_deck_${fieldCount} class=input-sm> </input> </td>
-        <td> <input type=number name=in_hand_${fieldCount} id=in_hand_${fieldCount} class=input-sm> </input> </td>
-        <td> <input type=text name=card_name_${fieldCount} id=card_name_${fieldCount} class=input-sm> </input> </td>
-      </tr>`
-    )
-  });
-</script>
-
-<script>
-  $('form.calculate-odds').on('submit', function(event) {
-    event.preventDefault();
-
-    const serializedForm = $(this).serialize()
-    ,     response = $.post(`/decks/calculate_custom_hands_odds`, serializedForm);
-
-    response.done(function(resultAsFloat) {
-      $('#odds-results').html(resultAsFloat + "%");
-    });
-  });
-</script>
