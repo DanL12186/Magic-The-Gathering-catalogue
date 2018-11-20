@@ -6,4 +6,5 @@
 
 <h4> <%= link_to "MTGoldfish Price:", mtgoldfish_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[0] %> </h4>
 <h4> <%= link_to "Card Kingdom Price:", card_kingdom_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[1] %> </h4>
-<h4> <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: "_blank" %> </h4>
+<h4> <%= link_to "TCG Market Price:", tcg_player_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[2] %> </h4>
+<h3> <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: "_blank" %> </h3>

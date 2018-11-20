@@ -55,7 +55,31 @@ module ApplicationHelper
     page.value.css('span.stylePrice').first.text.strip
   end
 
-  
+
+  def tcg_player_url(card_name, card_set)
+    set = card_set.gsub(' ', '-').downcase
+    set += '-edition' if card_set.match?(/Alpha|Beta|Unl|Rev/)
+    name = I18n.transliterate(card_name.downcase).gsub(' ', '-').delete(",.:;'")
+
+    "https://shop.tcgplayer.com/magic/#{set}/#{name}"
+  end
+
+  def get_tcg_player_price(card_name, card_set)
+    url = tcg_player_url(card_name, card_set)
+
+    page = Thread.new do 
+      begin
+        Nokogiri::HTML(open(url)) 
+      rescue OpenURI::HTTPError => error
+        raise error unless error.message == '404 Not Found'
+      end
+    end
+    page.value.css('div.price-point.price-point--market td').text
+    price = page.value ? page.value.css('div.price-point.price-point--market td').text : nil
+    price ? "#{price}" : "N/A"
+  end
+
+
   def ebay_search_link(card_name, card_set)
     set = card_set.downcase.gsub(' ', '+')
     name = card_name.downcase.gsub(' ', '+')
