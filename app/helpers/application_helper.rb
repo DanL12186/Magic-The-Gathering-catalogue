@@ -16,6 +16,15 @@ module ApplicationHelper
     mana_types[color] || color
   end
 
+  def scrape_page_if_exists(url)
+    Thread.new do 
+      begin
+        Nokogiri::HTML(open(url)) 
+      rescue OpenURI::HTTPError => error
+        raise error unless error.message == '404 Not Found'
+      end
+    end
+  end
 
   def mtgoldfish_url(card_name, card_set)
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
@@ -27,15 +36,9 @@ module ApplicationHelper
 
   def get_mtgoldfish_price(card_name, card_set)
     url = mtgoldfish_url(card_name, card_set)
-
-    page = Thread.new do 
-      begin
-        Nokogiri::HTML(open(url)) 
-      rescue OpenURI::HTTPError => error
-        raise error unless error.message == '404 Not Found'
-      end
-    end
+    page = scrape_page_if_exists(url)
     price = page.value ? page.value.css('.price-box-price').children.last.try(:text) : nil
+
     price ? "$#{price}" : "N/A"
   end
 
@@ -50,8 +53,8 @@ module ApplicationHelper
 
   def get_card_kingdom_price(card_name, card_set)
     url = card_kingdom_url(card_name, card_set)
-
     page = Thread.new { Nokogiri::HTML(open(url)) }
+
     page.value.css('span.stylePrice').first.text.strip
   end
 
@@ -66,16 +69,9 @@ module ApplicationHelper
 
   def get_tcg_player_price(card_name, card_set)
     url = tcg_player_url(card_name, card_set)
+    page = scrape_page_if_exists(url)
+    price = page.value ? page.value.css('div.price-point.price-point--listed-median td').text : nil
 
-    page = Thread.new do 
-      begin
-        Nokogiri::HTML(open(url)) 
-      rescue OpenURI::HTTPError => error
-        raise error unless error.message == '404 Not Found'
-      end
-    end
-    page.value.css('div.price-point.price-point--market td').text
-    price = page.value ? page.value.css('div.price-point.price-point--market td').text : nil
     price ? "#{price}" : "N/A"
   end
 
