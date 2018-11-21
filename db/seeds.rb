@@ -18,17 +18,17 @@ Card.create(name: "Wrath of God", edition: "Beta", rarity: "Rare", colors: ["Whi
 
 Card.create(name: "Icy Manipulator", edition: "Alpha", rarity: "Uncommon", artist: "Douglas Shuler", mana: ["4"], card_type: "Artifact", subtypes: ["Mono Artifact"], activated_abilities: ["1: You may tap any land, creature, or artifact in play on either side."])
 
-Card.create(name: "Tropical Island", card_type: "Land", subtypes: ["Forest", "Island", "Nonbasic Land"], artist: "Jesper Myfors", rarity: "Rare", activated_abilities: ["Tap to add either one green or blue mana to your mana pool"], edition: "Unlimited" )
+Card.create(name: "Tropical Island", card_type: "Land", subtypes: ["Forest", "Island", "Nonbasic Land"], artist: "Jesper Myrfors", rarity: "Rare", activated_abilities: ["Tap to add either one green or blue mana to your mana pool"], edition: "Unlimited" )
 
 Card.create(name: "Volcanic Island", card_type: "Land", subtypes: ["Mountain", "Island", "Nonbasic Land"], artist: "Brian Snoddy", rarity: "Rare", activated_abilities: ["Tap to add either one red or blue mana to your mana pool"], edition: "Unlimited" )
 
-Card.create(name: "Bayou", card_type: "Land", subtypes: ["Swamp", "Forest", "Nonbasic Land"], artist: "Jasper Myfors", rarity: "Rare", activated_abilities: ["Tap to add either one green or black mana to your mana pool"], edition: "Unlimited" )
+Card.create(name: "Bayou", card_type: "Land", subtypes: ["Swamp", "Forest", "Nonbasic Land"], artist: "Jasper Myrfors", rarity: "Rare", activated_abilities: ["Tap to add either one green or black mana to your mana pool"], edition: "Unlimited" )
 
-Card.create(name: "Scrubland", card_type: "Land", subtypes: ["Swamp", "Plains", "Nonbasic Land"], artist: "Jasper Myfors", rarity: "Rare", activated_abilities: ["Tap to add either one white or black mana to your mana pool"], edition: "Unlimited" )
+Card.create(name: "Scrubland", card_type: "Land", subtypes: ["Swamp", "Plains", "Nonbasic Land"], artist: "Jasper Myrfors", rarity: "Rare", activated_abilities: ["Tap to add either one white or black mana to your mana pool"], edition: "Unlimited" )
 
 Card.create(name: "Taiga", card_type: "Land", subtypes: ["Mountain", "Forest", "Nonbasic Land"], artist: "Rob Alexander", rarity: "Rare", activated_abilities: ["Tap to add either one green or red mana to your mana pool"], edition: "Unlimited" )
 
-Card.create(name: "Tundra", card_type: "Land", subtypes: ["Plains", "Island", "Nonbasic Land"], artist: "Jesper Myfors", rarity: "Rare", activated_abilities: ["Tap to add either one white or blue mana to your mana pool"], edition: "Unlimited" )
+Card.create(name: "Tundra", card_type: "Land", subtypes: ["Plains", "Island", "Nonbasic Land"], artist: "Jesper Myrfors", rarity: "Rare", activated_abilities: ["Tap to add either one white or blue mana to your mana pool"], edition: "Unlimited" )
 
 Card.create(name: "Plateau", card_type: "Land", subtypes: ["Plains", "Mountain", "Nonbasic Land"], artist: "Drew Tucker", rarity: "Rare", activated_abilities: ["Tap to add either one white or red mana to your mana pool"], edition: "Unlimited" )
 
@@ -96,6 +96,8 @@ Card.create(name: "Lim-Dul's Paladin", card_type: "Creature", subtypes: ["Knight
 
 Card.create(artist: "Pete Venters", name: "Survival of the Fittest", edition: "Exodus", mana: ["1", "Green"], card_type: "Enchantment", activated_abilities: ["Tap one green mana, discard a card: search your library for a creature card, reveal it and put it into your hand."], rarity: "Rare", reserved: true)
 
+Card.create(name: "Nicol Bolas", edition: "Legends", power: 7, toughness: 7, abilities: ["Flying"], effects: "An opponent damaged by Nicol Bolas must discard entire hand. Ignore this effect if opponent has no cards left in hand. Pay UBR during your upkeep or Nicol Bolas is buried.", artist: "Edward Beard Jr.", rarity: "Rare", mana: ["2", "Black", "Black", "Blue", "Blue", "Red", "Red"], card_type: "Creature", subtypes: ["Dragon", "Elder", "Legend"] 
+
 Card.create(name: "Chromium", edition: "Legends", power: 7, toughness: 7, abilities: ["Flying", "Rampage: 2"], effects: "Chromium is buried unless you pay a swamp, island and plains.", artist: "Edward Beard Jr.", rarity: "Rare", mana: ["2", "Black", "Black", "Blue", "Blue", "White", "White"], card_type: "Creature", subtypes: ["Dragon", "Elder", "Legend"] )
 
 Card.create(name:"Balduvian Horde", edition: "Alliances", artist: "Brian Snoddy", power: 5, toughness: 5, mana: ["2", "Red", "Red"], rarity: "Rare", effects: "When played, discard a card at random or bury Balduvian Horde.")
@@ -158,11 +160,20 @@ Card.create(name: "Summer Bloom", edition: "Visions", artist: "Nicola Leonard", 
 
 Card.create(name: "Two-Headed Giant of Foriys", edition: "Unlimited", artist: "Anson Maddocks", abilities: ["Trample", "Can block up to two creatures"], flavor_text: "None know if this Giant is the result of aberrant magics, Siamese twins, or a mentalist's schizophrenia.", rarity: "Rare", power: 4, toughness: 4, mana: ["4", "Red"], card_type: "Creature", subtypes: ["Giant"], reserved: true)
 
+Card.create(name: "Mind Twist", edition: "Revised", artist: "Julie Baroh", rarity: "Rare", mana: ["X", "Black"], card_type: "Sorcery", effects: "Target player discards X cards at random.")
 
+Card.create(name: "Serendib Efreet", edition: "Revised", artist: "Jesper Myrfors", power:3, toughness: 4, mana: ["2", "Blue"], effects: "During your upkeep, Serendib Efreet deals 1 damage to you.", rarity: "Rare", card_type: "Creature", subtypes: ["Efreet"], site_note: "The English version of this card was accidentally printed with the color and image of the Iff-Binh Efreet from Arabian Nights.")
+
+Card.create(name: "Grinning Totem", edition: "Mirage", artist: "Donato Giancola", mana: ["4"], card_type: "Artifact", activated_abilities: ["2, Tap: Sacrifice Grinning Totem: Search target opponent's library for a card and exile it. Then that player shuffles their library. Until the beginning of your next upkeep, you may play that card. At the beginning of your next upkeep, if you haven't played it, put it into its owner's graveyard."], rarity: "Rare")
+
+Card.create(name: "Ball Lightning", edition: "The Dark", artist: "Quinton Hoover", mana: ["Red", "Red", "Red"], card_type: "Creature", subtypes: ["Elemental"], power: 6, toughness: 1, rarity: "Rare", abilities: ["Trample", "Haste"], effects: "Bury Ball Lightning at end of turn.")
+
+Card.create(name: "Songs of the Damned", edition: "Ice Age", mana: ["Black"], artist: "Pete Venters", card_type: "Instant", effects: "Add one black mana to your mana pool for each creature in your graveyard.", flavor_text: "Not wind, but the breath of the dead.", rarity: "Common")
     #rare cards from homelands expansion
 # cards = MTG::Card.where(set: 'hml').where(rarity: "Rare").all
 
 #easier view... cards.map { | card | JSON.parse(card.serialize) }
+#cards.each { | card | card.representable_attrs = nil; card.rulings = nil }
 
 # cards.select { | card | card.rarity == "Rare" }.each do | card | 
 #     Card.new(name: card.name, rarity: card.rarity, subtypes: card.subtypes || [], card_type: card.types, power: card.power ? card.power[0].to_i : nil, artist: card.artist, edition: "Homelands", toughness: card.toughness ? card.toughness[0].to_i : nil, flavor_text: card.flavor)
