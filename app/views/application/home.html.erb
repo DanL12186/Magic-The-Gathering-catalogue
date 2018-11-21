@@ -1,4 +1,7 @@
-<div> <%= link_to "Decks", decks_path %> </div>
+<br>
+<div class = "navbar fixed-top"> 
+  <%= link_to "Decks", decks_path %> <%= link_to "Calculator", "/hand_odds_calculator" %> 
+</div>
 
 <div class="search-bar">
   <%= form_tag cards_path, method: 'GET' do %>
