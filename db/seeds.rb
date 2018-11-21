@@ -182,3 +182,19 @@ Card.create(name: "Songs of the Damned", edition: "Ice Age", mana: ["Black"], ar
 #or if a ruby obj
 
 # Card.new(name: card['name'], rarity: card['rarity'], subtypes: card['subtypes'], card_type: card['types'][0], power: card['power'] ? card['power'][0].to_i : nil, artist: card['artist'], edition: card['setName'], toughness: card['toughness'] ? card['toughness'][0].to_i : nil, flavor_text: card['flavor'])
+
+
+# scryfall: 
+# @url = "https://api.scryfall.com/cards/search?q=set:3ed"
+# @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
+
+# #each page is 175 cards; loop cards/175 times
+# (@set['total_cards'] / 175).times do
+#   card_set = @set['data']
+#   card_set.each do | obj | 
+#     card = Card.find { | card | card.name == obj['name'] && obj['set_name'].match?(/#{card.edition}/i) }
+#     card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['art_crop']) if card
+#   end;
+#   @url = set['next_page']
+#   @set = Nokogiri::HTML(open(url))
+# end
