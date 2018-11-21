@@ -32,8 +32,7 @@ Card.create(name: "Tundra", card_type: "Land", subtypes: ["Plains", "Island", "N
 
 Card.create(name: "Plateau", card_type: "Land", subtypes: ["Plains", "Mountain", "Nonbasic Land"], artist: "Drew Tucker", rarity: "Rare", activated_abilities: ["Tap to add either one white or red mana to your mana pool"], edition: "Unlimited" )
 
-Card.create(name: "Natural Order", edition: "Visions", mana: ["2", "Green", "Green"], card_type: "Sorcery", artist: "Terese Nielsen", flavor_text: "...but the price of Mangara's freedom was Asmira's life.", 
-effects: "Sacrifice a green creature. Search your library for a green creature card and put it onto the battlefield. Then shuffle your library.", rarity: "Rare")
+Card.create(name: "Natural Order", edition: "Visions", mana: ["2", "Green", "Green"], card_type: "Sorcery", artist: "Terese Nielsen", flavor_text: "...but the price of Mangara's freedom was Asmira's life.", effects: "Sacrifice a green creature. Search your library for a green creature card and put it onto the battlefield. Then shuffle your library.", rarity: "Rare")
 
 Card.create(name: "Lotus Petal", activated_abilities: ["Sacrifice Lotus Petal: Add one mana of any color to your mana pool."], mana: ["0"], artist: "April Lee", rarity: "Common", edition: "Tempest")
 
@@ -49,8 +48,7 @@ Card.create(name: "Ali from Cairo", mana: ["2", "Red", "Red"], edition: "Arabian
 
 Card.create(name: "Lake of the Dead", card_type: "Land", effects: "When Lake of the Dead comes into play, sacrifice a swamp, or bury Lake of the Dead.", activated_abilities: ["Tap to add one black mana to your mana pool.", "Tap, sacrifice Lake of the Dead: Add four black mana to your mana pool."], artist: "Pete Venters", rarity: "Rare", edition: "Alliances")
 
-Card.create(name: "Mox Emerald", edition: "Beta", artist: "Dan Frazier", card_type: "Artifact", subtypes: ["Mono Artifact"], mana: ["0"], restricted: true, rarity: "Rare", 
-abilities: [], activated_abilities: ["Add 1 green mana to your mana pool. Tapping this artifact can be played as an interrupt."])
+Card.create(name: "Mox Emerald", edition: "Beta", artist: "Dan Frazier", card_type: "Artifact", subtypes: ["Mono Artifact"], mana: ["0"], restricted: true, rarity: "Rare", abilities: [], activated_abilities: ["Add 1 green mana to your mana pool. Tapping this artifact can be played as an interrupt."])
 
 Card.create(name:"Ring of Immortals", edition: "Legends", card_type: "Artifact", mana: ["5"], activated_abilities: ["3, tap: Counters target interrupt or enchantment. Can only counter spells which target a permanent under your control. This ability is played as an interrupt."], artist: "Melissa Benson", rarity: "Rare")
 
@@ -78,13 +76,13 @@ Card.create(name: "Time Warp", edition: "Tempest", artist: "Pete Venters", card_
 
 Card.create(name: "Revelation", edition: "Legends", artist: "Kaja Foglio", mana: ["Green"], card_type: "Enchantment", subtypes: ["Enchant World", "Global Enchantment"], rarity: "Rare", effects: "All players play with the cards in their hands face down on the table.", flavor_text: '"Many are in high place, and of renown: but mysteries are revealed unto the meek." --Ecclesiastes, 3:19')
 
-Card.create(name: "Force of Nature", power: 8, toughness: 8, mana: ["2", "Green","Green","Green","Green"], artist: "Douglas Schuler", abilities: ["Trample"], effects: "You must pay four forests at the beginning of your upkeep or Force of Nature does 8 damage to you.", card_type: "Creature", subtypes: ["Force"], edition: "Unlimited")
+Card.create(name: "Force of Nature", power: 8, toughness: 8, mana: ["2", "Green","Green","Green","Green"], artist: "Douglas Schuler", abilities: ["Trample"], effects: "You must pay four forests at the beginning of your upkeep or Force of Nature does 8 damage to you.", card_type: "Creature", subtypes: ["Force"], edition: "Unlimited", rarity: "Rare")
 
-Card.create(name: "Ancestral Recall", mana: ["Blue"], effects: "Draw three cards or force opponent to draw three cards.", artist: "Mark Poole", edition: "Unlimited", reserved: true, restricted: true, card_type: "Instant")
+Card.create(name: "Ancestral Recall", mana: ["Blue"], effects: "Draw three cards or force opponent to draw three cards.", artist: "Mark Poole", edition: "Unlimited", reserved: true, restricted: true, card_type: "Instant", rarity: "Rare")
 
 Card.create(name: "Forcefield", edition: "Unlimited", artist: "Dan Frazier", card_type: "Artifact", subtypes: [], mana: ["3"], restricted: true, reserved: true, rarity: "Rare", activated_abilities: ["1: Lose only 1 life to an unblocked creature."])
 
-Card.create(name: "Lightning Bolt", edition: "Unlimited", artist: "Christopher Rush", card_type: "Instant", effects: "Lightning bolt does 3 damage to one target", mana: ["Red"])
+Card.create(name: "Lightning Bolt", edition: "Unlimited", artist: "Christopher Rush", card_type: "Instant", effects: "Lightning bolt does 3 damage to one target", mana: ["Red"], rarity: "Common")
 
 Card.create(name: "Hurkyl's Recall", artist: "Néné Thomas", edition: "Revised", mana: ["1","Blue"], effects: "Return all artifacts target player owns to his or her hand.", card_type: "Instant", rarity: "Rare")
 
@@ -96,13 +94,13 @@ Card.create(name: "Lim-Dul's Paladin", card_type: "Creature", subtypes: ["Knight
 
 Card.create(artist: "Pete Venters", name: "Survival of the Fittest", edition: "Exodus", mana: ["1", "Green"], card_type: "Enchantment", activated_abilities: ["Tap one green mana, discard a card: search your library for a creature card, reveal it and put it into your hand."], rarity: "Rare", reserved: true)
 
-Card.create(name: "Nicol Bolas", edition: "Legends", power: 7, toughness: 7, abilities: ["Flying"], effects: "An opponent damaged by Nicol Bolas must discard entire hand. Ignore this effect if opponent has no cards left in hand. Pay UBR during your upkeep or Nicol Bolas is buried.", artist: "Edward Beard Jr.", rarity: "Rare", mana: ["2", "Black", "Black", "Blue", "Blue", "Red", "Red"], card_type: "Creature", subtypes: ["Dragon", "Elder", "Legend"] 
+Card.create(name: "Nicol Bolas", edition: "Legends", power: 7, toughness: 7, abilities: ["Flying"], effects: "An opponent damaged by Nicol Bolas must discard entire hand. Ignore this effect if opponent has no cards left in hand. Pay UBR during your upkeep or Nicol Bolas is buried.", artist: "Edward Beard Jr.", rarity: "Rare", mana: ["2", "Black", "Black", "Blue", "Blue", "Red", "Red"], card_type: "Creature", subtypes: ["Dragon", "Elder", "Legend"])
 
 Card.create(name: "Chromium", edition: "Legends", power: 7, toughness: 7, abilities: ["Flying", "Rampage: 2"], effects: "Chromium is buried unless you pay a swamp, island and plains.", artist: "Edward Beard Jr.", rarity: "Rare", mana: ["2", "Black", "Black", "Blue", "Blue", "White", "White"], card_type: "Creature", subtypes: ["Dragon", "Elder", "Legend"] )
 
 Card.create(name:"Balduvian Horde", edition: "Alliances", artist: "Brian Snoddy", power: 5, toughness: 5, mana: ["2", "Red", "Red"], rarity: "Rare", effects: "When played, discard a card at random or bury Balduvian Horde.")
 
-Card.create(name: "Juzam Djinn", edition: "Arabian Nights", mana: ["2", "Black", "Black"], power: 5, toughness: 5, flavor_text:"\Expect my visit when the darkness comes. The night I think is best for hiding all.\" -Ouallada.", effects: "Juzám Djinn does 1 damage to you during your upkeep.", card_type: "Creature", subtypes: ["Djinn"], artist: "Mark Tedin", rarity: "Rare", reserved: true)
+Card.create(name: "Juzam Djinn", edition: "Arabian Nights", mana: ["2", "Black", "Black"], power: 5, toughness: 5, flavor_text:"\Expect my visit when the darkness comes. The night I think is best for hiding all.\" -Ouallada.", effects: "Juzám Djinn does 1 damage to you during your upkeep.", card_type: "Creature", subtypes: ["Djinn"], artist: "Mark Tedin", rarity: "Rare", reserved: true, cropped_img: "https://img.scryfall.com/cards/art_crop/en/arn/29.jpg?1534550049", hi_res_img: "https://img.scryfall.com/cards/large/en/arn/29.jpg?1534550049")
 
 Card.create(name: "Dark Ritual", card_type: "Instant", mana: ["Black"], effects: "Add three black mana to your mana pool.", edition: "Tempest", artist: "Ken Meyer Jr.", rarity:"Common", flavor_text: "\"If there is such a thing as too much power, I have not discovered it.\" -Volrath" )
 
@@ -169,32 +167,34 @@ Card.create(name: "Grinning Totem", edition: "Mirage", artist: "Donato Giancola"
 Card.create(name: "Ball Lightning", edition: "The Dark", artist: "Quinton Hoover", mana: ["Red", "Red", "Red"], card_type: "Creature", subtypes: ["Elemental"], power: 6, toughness: 1, rarity: "Rare", abilities: ["Trample", "Haste"], effects: "Bury Ball Lightning at end of turn.")
 
 Card.create(name: "Songs of the Damned", edition: "Ice Age", mana: ["Black"], artist: "Pete Venters", card_type: "Instant", effects: "Add one black mana to your mana pool for each creature in your graveyard.", flavor_text: "Not wind, but the breath of the dead.", rarity: "Common")
-    #rare cards from homelands expansion
+
+#rare cards from homelands expansion
 # cards = MTG::Card.where(set: 'hml').where(rarity: "Rare").all
 
 #easier view... cards.map { | card | JSON.parse(card.serialize) }
 #cards.each { | card | card.representable_attrs = nil; card.rulings = nil }
 
 # cards.select { | card | card.rarity == "Rare" }.each do | card | 
-#     Card.new(name: card.name, rarity: card.rarity, subtypes: card.subtypes || [], card_type: card.types, power: card.power ? card.power[0].to_i : nil, artist: card.artist, edition: "Homelands", toughness: card.toughness ? card.toughness[0].to_i : nil, flavor_text: card.flavor)
+#   Card.new(name: card.name, rarity: card.rarity, subtypes: card.subtypes || [], card_type: card.types, power: card.power.try(:to_i), artist: card.artist, edition: "Homelands", toughness: card.toughness.try(:to_i), flavor_text: card.flavor, mana: card.mana_cost.gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x })
 # end
 
 #or if a ruby obj
 
 # Card.new(name: card['name'], rarity: card['rarity'], subtypes: card['subtypes'], card_type: card['types'][0], power: card['power'] ? card['power'][0].to_i : nil, artist: card['artist'], edition: card['setName'], toughness: card['toughness'] ? card['toughness'][0].to_i : nil, flavor_text: card['flavor'])
 
+#get mana from scryfall: card_set['data'].last['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }
 
-# scryfall: 
-# @url = "https://api.scryfall.com/cards/search?q=set:3ed"
-# @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
+scryfall: 
+@url = "https://api.scryfall.com/cards/search?q=set:"
+@set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
-# #each page is 175 cards; loop cards/175 times
-# (@set['total_cards'] / 175).times do
-#   card_set = @set['data']
-#   card_set.each do | obj | 
-#     card = Card.find { | card | card.name == obj['name'] && obj['set_name'].match?(/#{card.edition}/i) }
-#     card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['art_crop']) if card
-#   end;
-#   @url = set['next_page']
-#   @set = Nokogiri::HTML(open(url))
-# end
+#each page is 175 cards; loop cards/175 times
+(@set['total_cards']/175).times do
+  card_set = @set['data']
+  card_set.each do | obj | 
+    card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
+    card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['art_crop']) if card
+  end;
+  @url = @set['next_page']
+  @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
+end
