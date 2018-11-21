@@ -2,10 +2,27 @@
 
 <h1> <%= card_and_edition(@card.name, @card.edition) %> </h1>
 
-<div class = "margin-3em-top-4em-bottom" > <%= image_tag(@card.img_url, class: "card_show") %> </div> 
+<div class = "margin-3em-top-bottom" > <%= image_tag(@card.img_url, class: "card_show", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div> 
 
 <h4> <%= link_to "MTGoldfish Price:", mtgoldfish_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[0] %> </h4>
 <h4> <%= link_to "Card Kingdom Price:", card_kingdom_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[1] %> </h4>
 <h4> <%= link_to "TCG Player Median Price:", tcg_player_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[2] %> </h4>
 
 <h2> <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: "_blank" %> </h2>
+
+<script> 
+  $(".card_show").on('click', function() {
+    const originalSrc = this.getAttribute('original_src')
+    ,     hiResImgUrl = this.getAttribute('img_url')
+    console.log(originalSrc, hiResImgUrl)
+    if (this.src.match(/scryfall/)) {
+      this.src = originalSrc
+      this.style.width = "225px"
+      this.style.height = "310px"
+    } else { 
+      this.src = hiResImgUrl || this.src
+      this.style.width = "507px"
+      this.style.height = "700px"
+    }
+  })
+</script>
