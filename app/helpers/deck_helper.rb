@@ -47,6 +47,8 @@ module DeckHelper
   #where [21, 5] is 5 needed lands out of 21 total, [4,1] is 1 needed shivan of 4 total, and [46, 2] is 2 "other" cards of 46 remaining cards in the deck.
   #if cards already total to 7 (or 8, if that's your hand size), a final entry in the form [x_remaining_cards, 0] is unnecessary.
   def multivariate_hypergeometric_distribution(deck_size, cards_drawn, *total_and_target_arrays)
+    return 0 if total_and_target_arrays.map(&:last).sum > cards_drawn
+    
     numerator = 1
 
     total_and_target_arrays.each do | arr |
@@ -56,7 +58,6 @@ module DeckHelper
     end
 
     denominator = binomial_coefficient(deck_size, cards_drawn)
-
     (100 * numerator.fdiv(denominator)).round(4)
   end
   
@@ -68,4 +69,5 @@ module DeckHelper
     result = card_name[0..length]
     result.strip
   end
+  
 end
