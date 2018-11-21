@@ -9,20 +9,3 @@
 <h4> <%= link_to "TCG Player Median Price:", tcg_player_url(@card.name, @card.edition), target: "_blank" %> <%= @card.price[2] %> </h4>
 
 <h2> <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: "_blank" %> </h2>
-
-<script> 
-  $(".card_show").on('click', function() {
-    const originalSrc = this.getAttribute('original_src')
-    ,     hiResImgUrl = this.getAttribute('img_url')
-    console.log(originalSrc, hiResImgUrl)
-    if (this.src.match(/scryfall/)) {
-      this.src = originalSrc
-      this.style.width = "225px"
-      this.style.height = "310px"
-    } else { 
-      this.src = hiResImgUrl || this.src
-      this.style.width = "507px"
-      this.style.height = "700px"
-    }
-  })
-</script>
