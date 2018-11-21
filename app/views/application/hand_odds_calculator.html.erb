@@ -24,16 +24,16 @@
       </thead>
 
       <tbody>
-        <tr>
-          <td> <%= f.number_field "in_deck_0", class: "input-sm", min: 0, required: true %> </td>
-          <td> <%= f.number_field "in_hand_0", class: "input-sm", min: 0, required: true %> </td>
-          <td> <%= f.text_field "card_name_0", class: "input-sm" %> </td>
+        <tr id="tr-0">
+          <td> <%= f.number_field "in_deck_0", class: "input-sm", required: true, style: "text-align: center", min: 0 %> </td>
+          <td> <%= f.number_field "in_hand_0", class: "input-sm", required: true, style: "text-align: center", min: 0 %> </td>
+          <td> <%= f.text_field "card_name_0", class: "input-sm", style: "text-align: center" %> </td>
         </tr>
 
-        <tr>
-          <td> <%= f.number_field "in_deck_1", class: "input-sm", min: 0 %> </td>
-          <td> <%= f.number_field "in_hand_1", class: "input-sm", min: 0 %> </td>
-          <td> <%= f.text_field "card_name_1", class: "input-sm" %> </td>
+        <tr id="tr-1">
+          <td> <%= f.number_field "in_deck_1", class: "input-sm", style: "text-align: center", min: 0 %> </td>
+          <td> <%= f.number_field "in_hand_1", class: "input-sm", style: "text-align: center", min: 0 %> </td>
+          <td> <%= f.text_field "card_name_1", class: "input-sm", style: "text-align: center" %> </td>
         </tr>
       </tbody>
 
@@ -53,5 +53,5 @@
     </h2>
   
 
-    <%= f.button "Clear Form", class: 'clear-form' %>
+    <h1> <%= f.button "Clear Form", class: 'btn-lg clear-form' %> </h1> 
 <% end %>
