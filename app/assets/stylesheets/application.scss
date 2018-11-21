@@ -5,16 +5,21 @@
 
 body {
     padding-left: 50px;
+    background-color: silver;
 }
 
 //*****CARD DISPLAY DIV***//
 
-.card_img {
+.card_img_div {
     padding-left: 15px;
+}
+
+.card_img {
     transition: transform .3s; /* Animation */
     width: 238px;
     height: 310px;
     margin: 0 auto;
+    border-radius: 4%;    
 }
 
 .card_img:hover {
