@@ -18,6 +18,10 @@
 //= require_tree .
 
 $(document).on("turbolinks:load", function() {
+  //keeping track of number of fields and trows
+  const getFieldCount = () => parseInt($('#add-card-inputs').val())
+  ,     updateFieldCount = count => $('#add-card-inputs').val(count);
+  
   $(".edition_rare, .edition_uncommon").on('mouseenter', function() {
     const edition = this.parentElement.getAttribute('data-edition').replace('_', ' ')
     ,     rarity  = this.parentElement.getAttribute('data-rarity');
@@ -30,15 +34,14 @@ $(document).on("turbolinks:load", function() {
 
 //adds additional rows to table on hand_odds_calculator page
   $('#add-card-inputs').on('click', function appendFields() {
-    const fieldCount = parseInt( $('#add-card-inputs').val() ) + 1
-    
-    $('#add-card-inputs').val(fieldCount)
+    const fieldCount = getFieldCount() + 1
+    updateFieldCount(fieldCount)
 
     $('table#odds-input-table').append(
-      `<tr>
-        <td> <input type=number name=in_deck_${fieldCount} id=in_deck_${fieldCount} class=input-sm> </input> </td>
-        <td> <input type=number name=in_hand_${fieldCount} id=in_hand_${fieldCount} class=input-sm> </input> </td>
-        <td> <input type=text name=card_name_${fieldCount} id=card_name_${fieldCount} class=input-sm> </input> </td>
+      `<tr id=tr-${fieldCount}>
+        <td> <input type=number name=in_deck_${fieldCount} id=in_deck_${fieldCount} class=input-sm style="text-align: center"> </input> </td>
+        <td> <input type=number name=in_hand_${fieldCount} id=in_hand_${fieldCount} class=input-sm style="text-align: center"> </input> </td>
+        <td> <input type=text name=card_name_${fieldCount} id=card_name_${fieldCount} class=input-sm style="text-align: center"> </input> </td>
       </tr>`
     )
   });
@@ -55,9 +58,19 @@ $(document).on("turbolinks:load", function() {
     });
   });
 
-  //clear input formx
+  //clear input forms
   $('button.clear-form').on('click', function(event) {
+    const table  = document.getElementById('odds-input-table')
+    ,     rowLen = table.children[1].children.length;
+    let   fieldCount = getFieldCount();
+
+    for (let i = 0; i < rowLen-2; i++) {
+      document.getElementById('odds-input-table').deleteRow(3);
+      updateFieldCount(--fieldCount)
+    }
+
     $('form.calculate-odds').trigger('reset')
+
     //stops "please fill in this form" from triggering
     event.preventDefault()
   });
