@@ -16,7 +16,7 @@ body {
 
 .card_img {
     transition: transform .3s; /* Animation */
-    width: 238px;
+    width: 224px;
     height: 310px;
     margin: 0 auto;
     border-radius: 4%;    
@@ -42,6 +42,7 @@ body {
 
 .col-sm-2.filter {
     transition: .4s;
+    border-radius: 7.5%;
 }
 
 .col-sm-2.filter:hover {
@@ -53,8 +54,3 @@ body {
     margin-bottom: 3em;
 }
 //*************************//
-
-//**** other **** //
-.search-bar {
-    margin-top: 2em;
-}
