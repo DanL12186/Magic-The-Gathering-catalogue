@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_21_074339) do
+ActiveRecord::Schema.define(version: 2018_11_22_060136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,9 @@ ActiveRecord::Schema.define(version: 2018_11_21_074339) do
     t.string "price", default: [], array: true
     t.string "hi_res_img"
     t.string "cropped_img"
+    t.string "year"
+    t.string "other_editions", default: [], array: true
+    t.integer "multiverse_id"
     t.index ["abilities"], name: "index_cards_on_abilities", using: :gin
     t.index ["activated_abilities"], name: "index_cards_on_activated_abilities", using: :gin
     t.index ["colors"], name: "index_cards_on_colors", using: :gin
