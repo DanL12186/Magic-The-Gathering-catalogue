@@ -11,7 +11,8 @@ module ApplicationHelper
       "Black" => "swamp",
       "Blue"  => "island",
       "White" => "plains",
-      "Colorless" => "colorless"
+      "Colorless" => "colorless",
+      "Gold" => "gold"
     }
 
     mana_types[color] || color
