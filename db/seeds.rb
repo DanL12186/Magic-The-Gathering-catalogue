@@ -185,11 +185,11 @@ Card.create(name: "Songs of the Damned", edition: "Ice Age", mana: ["Black"], ar
 #get mana from scryfall: card_set['data'].last['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }
 
 scryfall: 
-@url = "https://api.scryfall.com/cards/search?q=set:"
+@url = "https://api.scryfall.com/cards/search?q=set:lea"
 @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
 #each page is 175 cards; loop cards/175 times
-(@set['total_cards']/175).times do
+((@set['total_cards']/175).ceil + 1).times do
   card_set = @set['data']
   card_set.each do | obj | 
     card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
