@@ -8,7 +8,7 @@
 
 Card.create(name: "Mox Diamond", edition: "Stronghold", artist: "Dan Frazier", card_type: "Artifact", mana: ["0"], rarity: "Rare", effects: "When Mox Diamond comes into play, discard a land card or sacrifice Mox Diamond.", activated_abilities: ["Tap to add one mana of any color to your mana pool. Play this ability as a mana source."])
 
-Card.create(name: "Black Lotus", edition: "Alpha", artist: "Christopher Rush", card_type: "Artifact", subtypes: [], mana: ["0"], restricted: true, rarity: "Rare", abilities: ["Sacrifice Black Lotus: Adds 3 mana of any single color of your choice to your mana pool, then is discarded. Tapping this artifact can be played as an interrupt."], site_notes: "The most iconic card in the game, Black Lotus can give a game-winning three extra mana on turn one. In good enough condition, it can sell for tens or hundreds of thousands of dollars in Alpha or Beta format.") 
+Card.create(name: "Black Lotus", edition: "Alpha", artist: "Christopher Rush", card_type: "Artifact", subtypes: [], mana: ["0"], restricted: true, reserved: true, rarity: "Rare", abilities: ["Sacrifice Black Lotus: Adds 3 mana of any single color of your choice to your mana pool, then is discarded. Tapping this artifact can be played as an interrupt."], site_note: "The most iconic card in the game, Black Lotus can give a game-winning three extra mana on turn one. In good enough condition, it can sell for tens or hundreds of thousands of dollars in Alpha or Beta format.") 
 
 Card.create(name: "Sol Ring", edition: "Alpha", artist: "Mark Tedin", card_type: "Artifact", subtypes: [], mana: ["1"], rarity: "Uncommon", activated_abilities: ["Tap to add 2 colorless mana to your mana pool. This ability is played as an interrupt."])
 
@@ -16,7 +16,7 @@ Card.create(name: "Ertai, Wizard Adept", edition: "Exodus", artist: "Terese Niel
 
 Card.create(name: "Wrath of God", edition: "Beta", rarity: "Rare", colors: ["White"], artist: "Quinton Hoover", card_type: "Sorcery", mana: ["2","White","White"],effects: "All creatures in play are buried.")
 
-Card.create(name: "Icy Manipulator", edition: "Alpha", rarity: "Uncommon", artist: "Douglas Shuler", mana: ["4"], card_type: "Artifact", subtypes: ["Mono Artifact"], activated_abilities: ["1: You may tap any land, creature, or artifact in play on either side."])
+Card.create(name: "Icy Manipulator", edition: "Alpha", rarity: "Uncommon", artist: "Douglas Schuler", mana: ["4"], card_type: "Artifact", subtypes: ["Mono Artifact"], activated_abilities: ["1: You may tap any land, creature, or artifact in play on either side."])
 
 Card.create(name: "Tropical Island", card_type: "Land", subtypes: ["Forest", "Island", "Nonbasic Land"], artist: "Jesper Myrfors", rarity: "Rare", activated_abilities: ["Tap to add either one green or blue mana to your mana pool"], edition: "Unlimited" )
 
@@ -34,7 +34,7 @@ Card.create(name: "Plateau", card_type: "Land", subtypes: ["Plains", "Mountain",
 
 Card.create(name: "Natural Order", edition: "Visions", mana: ["2", "Green", "Green"], card_type: "Sorcery", artist: "Terese Nielsen", flavor_text: "...but the price of Mangara's freedom was Asmira's life.", effects: "Sacrifice a green creature. Search your library for a green creature card and put it onto the battlefield. Then shuffle your library.", rarity: "Rare")
 
-Card.create(name: "Lotus Petal", activated_abilities: ["Sacrifice Lotus Petal: Add one mana of any color to your mana pool."], mana: ["0"], artist: "April Lee", rarity: "Common", edition: "Tempest")
+Card.create(name: "Lotus Petal", activated_abilities: ["Sacrifice Lotus Petal: Add one mana of any color to your mana pool."], mana: ["0"], artist: "April Lee", rarity: "Common", edition: "Tempest", card_type: "Artifact")
 
 Card.create(name: "Serra Angel", edition: "Unlimited", mana: ["3", "White", "White"], artist: "Douglas Schuler", power: 4, toughness: 4, abilities: ["Flying", "Vigilance"], card_type: "Creature", rarity: "Uncommon", flavor_text: "Born with wings of light and a sword of faith, this heavenly incarnation embodies both fury and purity.")
 
@@ -90,7 +90,7 @@ Card.create(name: "Storm Seeker", edition: "Legends", artist: "Mark Poole", mana
 
 Card.create(name: "Underground River", card_type: "Land", subtypes: ["Nonbasic Land"], activated_abilities: ["Tap to add one colorless mana to your mana pool.", "Tap to add either one blue or black mana to your mana pool. You lose one life."], edition: "Ice Age", rarity: "Rare")
 
-Card.create(name: "Lim-Dul's Paladin", card_type: "Creature", subtypes: ["Knight"], abilities: ["Trample"], effects: "At the beginning of your upkeep, you may discard a card. If you don't, sacrifice Lim-Dûl's Paladin and draw a card. Whenever Lim-Dûl's Paladin becomes blocked, it gets +6/+3 until end of turn. Whenever Lim-Dûl's Paladin attacks and isn't blocked, it assigns no combat damage this turn and defending player loses 4 life. This cannot be prevented.", rarity: "Uncommon", power: 0, toughness: 3, edition: "Alliances", artist: "Christopher Rush", mana: [2, "Black", "Red"] )
+Card.create(name: "Lim-Dûl's Paladin", card_type: "Creature", subtypes: ["Knight"], abilities: ["Trample"], effects: "At the beginning of your upkeep, you may discard a card. If you don't, sacrifice Lim-Dûl's Paladin and draw a card. Whenever Lim-Dûl's Paladin becomes blocked, it gets +6/+3 until end of turn. Whenever Lim-Dûl's Paladin attacks and isn't blocked, it assigns no combat damage this turn and defending player loses 4 life. This cannot be prevented.", rarity: "Uncommon", power: 0, toughness: 3, edition: "Alliances", artist: "Christopher Rush", mana: [2, "Black", "Red"] )
 
 Card.create(artist: "Pete Venters", name: "Survival of the Fittest", edition: "Exodus", mana: ["1", "Green"], card_type: "Enchantment", activated_abilities: ["Tap one green mana, discard a card: search your library for a creature card, reveal it and put it into your hand."], rarity: "Rare", reserved: true)
 
@@ -160,13 +160,19 @@ Card.create(name: "Two-Headed Giant of Foriys", edition: "Unlimited", artist: "A
 
 Card.create(name: "Mind Twist", edition: "Revised", artist: "Julie Baroh", rarity: "Rare", mana: ["X", "Black"], card_type: "Sorcery", effects: "Target player discards X cards at random.")
 
-Card.create(name: "Serendib Efreet", edition: "Revised", artist: "Jesper Myrfors", power:3, toughness: 4, mana: ["2", "Blue"], effects: "During your upkeep, Serendib Efreet deals 1 damage to you.", rarity: "Rare", card_type: "Creature", subtypes: ["Efreet"], site_note: "The English version of this card was accidentally printed with the color and image of the Iff-Binh Efreet from Arabian Nights.")
+Card.create(name: "Serendib Efreet", edition: "Revised", artist: "Jesper Myrfors", power: 3, toughness: 4, mana: ["2", "Blue"], effects: "During your upkeep, Serendib Efreet deals 1 damage to you.", rarity: "Rare", card_type: "Creature", subtypes: ["Efreet"], site_note: "The English version of this card was accidentally printed with the color and image of the Iff-Binh Efreet from Arabian Nights.")
 
 Card.create(name: "Grinning Totem", edition: "Mirage", artist: "Donato Giancola", mana: ["4"], card_type: "Artifact", activated_abilities: ["2, Tap: Sacrifice Grinning Totem: Search target opponent's library for a card and exile it. Then that player shuffles their library. Until the beginning of your next upkeep, you may play that card. At the beginning of your next upkeep, if you haven't played it, put it into its owner's graveyard."], rarity: "Rare")
 
 Card.create(name: "Ball Lightning", edition: "The Dark", artist: "Quinton Hoover", mana: ["Red", "Red", "Red"], card_type: "Creature", subtypes: ["Elemental"], power: 6, toughness: 1, rarity: "Rare", abilities: ["Trample", "Haste"], effects: "Bury Ball Lightning at end of turn.")
 
 Card.create(name: "Songs of the Damned", edition: "Ice Age", mana: ["Black"], artist: "Pete Venters", card_type: "Instant", effects: "Add one black mana to your mana pool for each creature in your graveyard.", flavor_text: "Not wind, but the breath of the dead.", rarity: "Common")
+
+Card.create(name: "Mountain", artist: "John Avon", card_type: "Land", edition: "Mirage")
+Card.create(name: "Plains", artist: "Tom Wanerstrand", card_type: "Land", edition: "Mirage")
+Card.create(name: "Swamp", artist: "Bob Eggleton", card_type: "Land", edition: "Mirage")
+Card.create(name: "Forest", artist: "Tony Roberts", card_type: "Land", edition: "Mirage")
+Card.create(name: "Island", artist: "Douglas Schuler", card_type: "Land", edition: "Mirage")
 
 #rare cards from homelands expansion
 # cards = MTG::Card.where(set: 'hml').where(rarity: "Rare").all
@@ -184,17 +190,47 @@ Card.create(name: "Songs of the Damned", edition: "Ice Age", mana: ["Black"], ar
 
 #get mana from scryfall: card_set['data'].last['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }
 
-scryfall: 
-@url = "https://api.scryfall.com/cards/search?q=set:lea"
+#scryfall updating: 
+@url = "https://api.scryfall.com/cards/search?q=set:arn"
 @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
 #each page is 175 cards; loop cards/175 times
-((@set['total_cards']/175).ceil + 1).times do
-  card_set = @set['data']
-  card_set.each do | obj | 
-    card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
-    card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['art_crop']) if card
-  end;
-  @url = @set['next_page']
-  @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
-end
+# ((@set['total_cards']/175).ceil + 1).times do
+#   card_set = @set['data']
+#   card_set.each do | obj | 
+#     card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
+#     card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['art_crop'], :reserved => obj['reserved'], :year => obj['frame'],:multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize) if card
+#   end
+#   @url = @set['next_page']
+#   @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
+# end
+
+# #scryfall creating:
+# mana_abbrev = {
+#     "R" => "Red",
+#     "G" => "Green",
+#     "U" => "Blue", 
+#     "B" => "Black",
+#     "W" => "White"
+#   }
+
+# @url = "https://api.scryfall.com/cards/search?q=set:arn"
+# @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
+
+# #each page is 175 cards; loop cards/175 times
+# ((@set['total_cards']/175).ceil + 1).times do
+#   card_set = @set['data']
+#   card_set.each do | obj | 
+#     types = obj['type_line'].split
+#     types.delete_at(1)
+#     type = types.shift
+#     subtypes = []
+#     if types.size > 0
+#       subtypes = types
+#     end
+#     puts obj
+#     Card.create(:name => obj['name'], edition: obj['set_name'], :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'] )
+#   end
+#   @url = @set['next_page']
+#   @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
+# end
