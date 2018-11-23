@@ -5,13 +5,13 @@ $(document).on('turbolinks:load', function() {
 
     if (this.src.match(/scryfall/)) {
       this.src = originalSrc;
-      this.style.width = "225px";
+      this.style.width = "223px";
       this.style.height = "310px";
       
       //ignore unless card has a hi-res image version
     } else if (hiResImgUrl) { 
-      this.src = hiResImgUrl;
-      this.style.width = "507px";
+      this.src = hiResImgUrl; //.replace("large", "normal") for smaller image (488x680 @ ~55-60% file size)
+      this.style.width = "502px";
       this.style.height = "700px";
     }
   })
