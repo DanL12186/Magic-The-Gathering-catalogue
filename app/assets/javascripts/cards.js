@@ -15,4 +15,21 @@ $(document).on('turbolinks:load', function() {
       this.style.height = "700px";
     }
   })
+
+  //popover for card search results page
+  $(function () {
+    $('[data-toggle="popover"]').popover({
+      html: true,
+      trigger: 'hover',
+      delay: { "show": 200, "hide": 150 },
+      content: function() { 
+        return `<img src = "${this.getAttribute('data-url')}" >`
+      }
+    })
+  })
+
+  //popover remains after hitting back button without this
+  $("li.card").on('click', function() {
+    this.children[1].remove()
+  });
 })
