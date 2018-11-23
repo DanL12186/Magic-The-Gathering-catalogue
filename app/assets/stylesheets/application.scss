@@ -11,13 +11,13 @@ body {
 //*****CARD DISPLAY DIV***//
 
 .card_img_div {
-    margin-top: 2.5%;
+    margin-top: 2%;
     padding-left: 15px;
-    margin-bottom: 2%;
+    margin-bottom: 2.5%;
 }
 
 .card_img {
-    transition: transform .3s; /* Animation */
+    transition: transform .3s;
     width: 224px;
     height: 310px;
     margin: 0 auto;
@@ -33,9 +33,11 @@ body {
 }
 
 #flavor {
+    margin-top: 0.5%;
     font-style: italic;
     font-weight: 200;
     font-family: cursive;
+    float: none;
 }
 //*************************//
 
@@ -44,7 +46,7 @@ body {
 
 .col-sm-2.filter {
     transition: .4s;
-    border-radius: 7.5%;
+    border-radius: 6.5%;
 }
 
 .col-sm-2.filter:hover {
