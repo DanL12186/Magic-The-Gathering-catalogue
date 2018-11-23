@@ -77,6 +77,9 @@ module ApplicationHelper
     price ? "#{price}" : "N/A"
   end
 
+  def gatherer_link(multiverse_id)
+    "http://gatherer.wizards.com/Pages/Card/Details.aspx?printed=true&multiverseid=#{multiverse_id}"
+  end
 
   def ebay_search_link(card_name, card_set)
     set = card_set.downcase.gsub(' ', '+')
