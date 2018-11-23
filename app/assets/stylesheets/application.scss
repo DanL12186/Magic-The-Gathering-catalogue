@@ -39,8 +39,23 @@ body {
     font-family: cursive;
     float: none;
 }
-//*************************//
 
+//********navbar tweaks***//
+.navbar {
+    display: inline;
+}
+
+h5.navbar a {
+    padding-right: 0.5%;
+}
+//************************//
+
+
+//****Search Bar***********//
+.search-bar {
+    margin-bottom: 2.5%;
+}
+//*************************//
 
 //****Filtered Pages*******//
 

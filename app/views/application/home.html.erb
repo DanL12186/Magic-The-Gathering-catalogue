@@ -1,9 +1,7 @@
 <div class="search-bar">
   <%= form_tag cards_path, method: 'GET' do %>
-    <p>
       <%= text_field_tag :search, params[:search], required: true %>
       <%= submit_tag "Find a Card" %>
-    </p>
   <% end %>
 </div>
 
