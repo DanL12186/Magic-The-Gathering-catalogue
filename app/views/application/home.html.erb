@@ -13,7 +13,7 @@
 </div>
 
 <%  @cards.each do | card | %> 
-  <% unless is_basic_land?(card) %>
+  <% unless is_modern_or_basic_land?(card) %>
     <div>
       <h1> <%= card.name %> </h1>
       <h3 data-edition = <%= card.edition.downcase.gsub(' ', '_') %> data-rarity = <%= card.rarity.downcase %> > 
