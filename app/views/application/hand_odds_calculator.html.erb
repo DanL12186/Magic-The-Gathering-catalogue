@@ -1,6 +1,6 @@
 <center> <h1> Calculate Combo Odds </h1> </center>
 
-<button id="add-card-inputs" class="btn-sm margin-3em-top-bottom", value = "1" > 
+<button id="add-card-inputs" class="btn-sm margin-3em-top-bottom" value = "1" > 
   Add Another Card
 </button>
 
@@ -39,7 +39,7 @@
 
     </table>
 
-    <input type="hidden" name="results" value="1"></input>
+    <input type="hidden" name="results" value="1"> </input>
     
     <div class = "margin-3em-top-bottom" > 
       <%= f.label "Cards Drawn:" %> 
@@ -52,7 +52,6 @@
       Odds of this exact combo: <h4 id="odds-results"> </h4>
     </h2>
   
+    <h1> <%= f.button "Clear Form", class: 'btn-lg clear-form' %> </h1> 
 
-    <h1> <%= f.button "
-    Clear Form", class: 'btn-lg clear-form' %> </h1> 
 <% end %>
