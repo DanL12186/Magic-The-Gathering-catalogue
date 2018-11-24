@@ -51,3 +51,30 @@
   </div>
 
 </div>
+
+<script>
+  window.onload = () => {
+    const jsonData = $("#chartContainer").data('json')
+
+    const options = {
+      title: {
+        text: "Mana Curve"
+      },
+        axisX:  { 
+          lineThickness: 2,
+          title: "Number of Cards"
+        },
+        animationEnabled: true,
+      
+        data: [
+          {
+            type: "spline", //line, area, column, pie, etc
+            color: "teal",
+            lineThickness: 3,
+            dataPoints: jsonData
+          }
+        ]
+      };
+    $("#chartContainer").CanvasJSChart(options);
+  };
+</script>

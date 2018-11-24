@@ -70,4 +70,18 @@ module DeckHelper
     result.strip
   end
   
+  def generate_mana_curve_data(deck)
+    frequencies = {}
+
+    costs = deck.map(&:converted_mana_cost).compact
+
+    (0..(costs.max)).each { | cost | frequencies[cost] = 0 }
+
+    costs.each { | cost | frequencies[cost] += 1 }
+
+    #map mana cost frequencies into an { x-axis : X, y-axis : Y } format
+    graph_data = frequencies.map { | key, value | { 'x' => key, 'y' => value } }
+
+    graph_data.to_json
+  end
 end
