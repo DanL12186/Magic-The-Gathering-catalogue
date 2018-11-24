@@ -27,6 +27,8 @@
 
 </div>
 
+<div id="chartContainer" style="height: 150px; width: 25%;" data-json = <%= generate_mana_curve_data(@shuffled_deck_cards)%> ></div>
+
 <div class = "row">
   <center> <h1> Upcoming Cards </h1> </center>
   <br>
@@ -47,18 +49,5 @@
       <%= image_tag card.img_url, class: 'deck-display', id: "deck-card-#{idx}" %> 
     <% end %>
   </div>
-
-  <script>
-    $('.deck-display').on('click', function() {
-      const currentCardNumber = $("#card-counter")
-      ,     numCards = +currentCardNumber.html().trim().match(/\d+$/)[0]
-      
-      cardCount = this.parentElement.getAttribute('value')
-      this.parentElement.setAttribute('value', ++cardCount)
-      
-      currentCardNumber.html(`Card ${cardCount} of ${numCards}`)
-      this.remove()
-    });
-  </script>
 
 </div>
