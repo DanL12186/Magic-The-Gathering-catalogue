@@ -1,5 +1,3 @@
-<h1> <%= link_to('<-Back', root_path) %> </h1> 
-
 <% if color_to_mana(params[:filter]) != params[:filter] %>
   <center> <h1> <%= image_tag "mana_symbols/#{color_to_mana(params[:filter])}", class: "spin" %> </h1></center>
 <% else %>
