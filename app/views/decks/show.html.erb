@@ -47,7 +47,7 @@
 </div>
 
 <script>
-  window.onload = () => {
+  function graphLoader() {
     const jsonData = $("#chartContainer").data('json')
 
     const options = {
@@ -59,6 +59,7 @@
           lineThickness: 0,
           title: "Number of Cards"
         },
+        
         animationEnabled: true,
       
         data: [
@@ -72,4 +73,6 @@
       };
     $("#chartContainer").CanvasJSChart(options);
   };
+  $("#chartContainer").ready(graphLoader);
+  $("#chartContainer").on('turbolinks:load', graphLoader)
 </script>
