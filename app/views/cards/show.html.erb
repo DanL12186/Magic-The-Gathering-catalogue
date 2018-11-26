@@ -1,4 +1,4 @@
-<h1> <%= card_and_edition(@card.name, @card.edition) %> <%= image_tag "reserved list" if @card.reserved %> </h1> 
+<h1> <%= card_and_edition(@card.name, @card.edition) %> <%= link_to image_tag("reserved list"), "https://magic.wizards.com/en/articles/archive/official-reprint-policy-2010-03-10", target: "_blank" if @card.reserved %> </h1> 
 
 <h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank" %> </h4>
 
