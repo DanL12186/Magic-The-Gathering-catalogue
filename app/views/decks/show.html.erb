@@ -6,23 +6,17 @@
 
   <% @sample_hand.each do | card | %>
     <div class = 'col-sm-1 filter'> 
-      <div> <%= truncate_at_three_words(card.name) %> </div> 
+      <div class="deck-show-card-name"> <%= truncate_at_three_words(card.name) %> </div> 
       <%= image_tag card.img_url, class: 'hand-card' %>
     </div>
   <% end %>
 
-  <div class="hand-odds">
-    <h2> Precise hand odds:  </h2>
-    <center> 
-      <h4> <%= multivariate_hypergeometric_distribution(deck_size = @shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>% </h4>
-    </center>
-  </div>
-
   <div class = "stats" >
-    <h3> Lands: <%= @stats_hash['lands'] %> </h3>
-    <h3> Spells: <%= @stats_hash['spells'] %> </h3>
-    <h3> Artifacts: <%= @stats_hash['artifacts'] %> </h3>
-    <h3> Creatures: <%= @stats_hash['creatures'] %> </h3>
+    <h4> Lands: <%= @stats_hash['lands'] %> </h4>
+    <h4> Spells: <%= @stats_hash['spells'] %> </h4>
+    <h4> Artifacts: <%= @stats_hash['artifacts'] %> </h4>
+    <h4> Creatures: <%= @stats_hash['creatures'] %> </h4>
+    <h4> Hand Odds: <%= multivariate_hypergeometric_distribution(deck_size = @shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>% </h4>
   </div>
 
 </div>
@@ -57,11 +51,12 @@
     const jsonData = $("#chartContainer").data('json')
 
     const options = {
+      backgroundColor: "silver",
       title: {
         text: "Mana Curve"
       },
         axisX:  { 
-          lineThickness: 2,
+          lineThickness: 0,
           title: "Number of Cards"
         },
         animationEnabled: true,
@@ -69,7 +64,7 @@
         data: [
           {
             type: "spline", //line, area, column, pie, etc
-            color: "teal",
+            color: "#096e30",
             lineThickness: 3,
             dataPoints: jsonData
           }
