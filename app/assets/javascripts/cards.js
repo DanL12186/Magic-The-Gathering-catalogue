@@ -20,6 +20,7 @@ $(document).on('turbolinks:load', function() {
   $(function () {
     $('[data-toggle="popover"]').popover({
       html: true,
+      boundary: 'scrollParent',
       trigger: 'hover',
       delay: { "show": 200, "hide": 150 },
       content: function() { 
