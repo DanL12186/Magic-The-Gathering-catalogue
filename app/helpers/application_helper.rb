@@ -3,7 +3,7 @@ require 'nokogiri'
 require 'mtg_sdk'
 
 module ApplicationHelper
-  
+
   def color_to_mana(color)
     mana_types = {
       "Red" => "mountain",
@@ -17,6 +17,12 @@ module ApplicationHelper
 
     mana_types[color] || color
   end
+
+  def card_class(card)
+    card.edition == 'Alpha' ? 'card_img alpha' : 'card_img'
+  end
+
+  ##################################### Links and Scraping #####################################
 
   def scrape_page_if_exists(url)
     Thread.new do 
@@ -86,5 +92,7 @@ module ApplicationHelper
     name = card_name.downcase.gsub(' ', '+')
     "https://www.ebay.com/sch/i.html?&_nkw=#{set}+#{name}"
   end
+
+  ##############################################################################
 
 end

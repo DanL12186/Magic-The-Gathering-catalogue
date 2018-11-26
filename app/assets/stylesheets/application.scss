@@ -21,7 +21,11 @@ body {
     width: 224px;
     height: 310px;
     margin: 0 auto;
-    border-radius: 4%;    
+    border-radius: 4%;
+}
+
+.card_img.alpha {
+    border-radius: 5.2%;
 }
 
 .card_img:hover {
@@ -30,6 +34,10 @@ body {
 
     //To fix issue with the drop-shadow adding a white corner
     border-radius: 12px; 
+}
+
+.card_img.alpha:hover {
+    border-radius: 5.2%;
 }
 
 #flavor {

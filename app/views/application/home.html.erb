@@ -28,7 +28,7 @@
         </div>
       <% end %>
     
-      <div class = "card_img_div"> <%= link_to ( image_tag(card.img_url, class: 'card_img')  ), card_path(card) %> </div>
+      <div class = "card_img_div"> <%= link_to ( image_tag(card.img_url, class: card_class(card))  ), card_path(card) %> </div>
       
     </div>
   <% end %>
