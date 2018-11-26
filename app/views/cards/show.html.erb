@@ -1,6 +1,6 @@
-<h1> <%= card_and_edition(@card.name, @card.edition) %> </h1>
+<h1> <%= card_and_edition(@card.name, @card.edition) %> <%= image_tag "reserved list" if @card.reserved %> </h1> 
 
-<h3> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank" %> </h3>
+<h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank" %> </h4>
 
 <div class = "margin-3em-top-bottom" > <%= image_tag(@card.img_url, class: "card_show", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div> 
 
