@@ -78,7 +78,7 @@ module ApplicationHelper
   def get_tcg_player_price(card_name, card_set)
     url = tcg_player_url(card_name, card_set)
     page = scrape_page_if_exists(url)
-    price = page.value ? page.value.css('div.price-point.price-point--listed-median td').text.match(/\$\d\.\d+/)[0] : nil
+    price = page.value ? page.value.css('div.price-point.price-point--listed-median td').text.match(/\$\d\.\d+/).try(:first) : nil
 
     price ? "#{price}" : "N/A"
   end
