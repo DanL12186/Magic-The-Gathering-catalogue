@@ -51,11 +51,10 @@ $(document).on("turbolinks:load", function() {
     event.preventDefault();
 
     const serializedForm = $(this).serialize()
-    ,     response = $.post(`/decks/calculate_custom_hands_odds`, serializedForm);
+    ,     response = $.post(`/decks/calculate_custom_hand_odds`, serializedForm);
 
-    response.done(function(resultAsFloat) {
       $('#odds-results').html(resultAsFloat + "%");
-    });
+
   });
 
   //clear input forms
