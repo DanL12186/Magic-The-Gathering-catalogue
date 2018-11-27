@@ -54,7 +54,7 @@ Card.create(name: "Lake of the Dead", card_type: "Land", effects: "When Lake of 
 
 Card.create(name: "Mox Emerald", edition: "Beta", artist: "Dan Frazier", card_type: "Artifact", subtypes: ["Mono Artifact"], mana: ["0"], restricted: true, rarity: "Rare", abilities: [], activated_abilities: ["Add 1 green mana to your mana pool. Tapping this artifact can be played as an interrupt."])
 
-Card.create(name:"Ring of Immortals", edition: "Legends", card_type: "Artifact", mana: ["5"], activated_abilities: ["3, tap: Counters target interrupt or enchantment. Can only counter spells which target a permanent under your control. This ability is played as an interrupt."], artist: "Melissa Benson", rarity: "Rare")
+Card.create(name: "Ring of Immortals", edition: "Legends", card_type: "Artifact", mana: ["5"], activated_abilities: ["3, tap: Counters target interrupt or enchantment. Can only counter spells which target a permanent under your control. This ability is played as an interrupt."], artist: "Melissa Benson", rarity: "Rare")
 
 Card.create(name: "City of Brass", edition: "Arabian Nights", artist: "Mark Tedin", card_type: "Land", rarity: "Rare", activated_abilities: ["Tap to add 1 mana of any color to your mana pool. You suffer 1 damage whenever City of Brass becomes tapped."])
 
@@ -268,17 +268,19 @@ mana_abbrev = {
 end
 
 ##single card
-@url = "https://api.scryfall.com/cards/multiverse/#{id}"
-obj = JSON.parse(Nokogiri::HTML(open(@url)).text)
+def create_card(id)
+  @url = "https://api.scryfall.com/cards/multiverse/#{id}"
+  obj = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
-types = obj['type_line'].split
-types.delete_at(1)
-type = types.shift
-edition = obj['set_name']
-edition = edition.split.first if edition.match?(/Revised|Unlimited/)
-edition = edition.split.last if edition.match?(/Beta|Alpha/)
-subtypes = []
-if types.size > 0
-  subtypes = types
+  types = obj['type_line'].split
+  types.delete_at(1)
+  type = types.shift
+  edition = obj['set_name']
+  edition = edition.split.first if edition.match?(/Revised|Unlimited/)
+  edition = edition.split.last if edition.match?(/Beta|Alpha/)
+  subtypes = []
+  if types.size > 0
+    subtypes = types
+  end
+  Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'] )
 end
-Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'] )
