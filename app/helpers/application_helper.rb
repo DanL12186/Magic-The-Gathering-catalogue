@@ -36,7 +36,7 @@ module ApplicationHelper
 
   def mtgoldfish_url(card_name, card_set)
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
-          .gsub(' ', '+')
+          .gsub(' ', '+').delete("'")
     name = I18n.transliterate(card_name).gsub(' ', '+').delete(",.:;'")
 
     "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
@@ -52,8 +52,9 @@ module ApplicationHelper
 
 
   def card_kingdom_url(card_name, card_set)
-    set = card_set.gsub(' ', '-').downcase
+    set = card_set.gsub(' ', '-').downcase.delete("'")
     set = "3rd-edition" if set == "revised"
+    set = set.match(/\d+/) ? "#{set.match(/\d+/)[0]}-core-set" : set
     name = I18n.transliterate(card_name.downcase).gsub(' ', '-').delete(",.:;'")
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
@@ -78,7 +79,7 @@ module ApplicationHelper
   def get_tcg_player_price(card_name, card_set)
     url = tcg_player_url(card_name, card_set)
     page = scrape_page_if_exists(url)
-    price = page.value ? page.value.css('div.price-point.price-point--listed-median td').text.match(/\$\d\.\d+/).try(:first) : nil
+    price = page.value ? page.value.css('div.price-point.price-point--listed-median td').text.match(/\$\d+\.\d+/).try(:string) : nil
 
     price ? "#{price}" : "N/A"
   end
