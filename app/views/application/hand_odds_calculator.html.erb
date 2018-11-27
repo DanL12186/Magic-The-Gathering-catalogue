@@ -4,7 +4,7 @@
   Add Another Card
 </button>
 
-<%= form_with url: "/decks/calculate_custom_hands_odds", class: "calculate-odds", method: 'POST' do | f | %> 
+<%= form_with url: "/decks/calculate_custom_hand_odds", class: "calculate-odds", method: 'POST' do | f | %> 
     
     <div> 
       <%= f.label :Deck_Size %> 
@@ -52,6 +52,6 @@
       Odds of this exact combo: <h4 id="odds-results"> </h4>
     </h2>
   
-    <h1> <%= f.button "Clear Form", class: 'btn-lg clear-form' %> </h1> 
+    <h1> <%= f.button "Clear Form", class: "btn-lg clear-form" %> </h1> 
 
 <% end %>
