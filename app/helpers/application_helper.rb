@@ -54,7 +54,7 @@ module ApplicationHelper
   def card_kingdom_url(card_name, card_set)
     set = card_set.gsub(' ', '-').downcase.delete("'")
     set = "3rd-edition" if set == "revised"
-    set = set.match(/\d+/) ? "#{set.match(/\d+/)[0]}-core-set" : set
+    set = set.match(/\d{4}/) ? "#{set.match(/\d+/)[0]}-core-set" : set
     name = I18n.transliterate(card_name.downcase).gsub(' ', '-').delete(",.:;'")
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
