@@ -102,7 +102,7 @@ Card.create(name: "Nicol Bolas", edition: "Legends", power: 7, toughness: 7, abi
 
 Card.create(name: "Chromium", edition: "Legends", power: 7, toughness: 7, abilities: ["Flying", "Rampage: 2"], effects: "Chromium is buried unless you pay a swamp, island and plains.", artist: "Edward Beard Jr.", rarity: "Rare", mana: ["2", "Black", "Black", "Blue", "Blue", "White", "White"], card_type: "Creature", subtypes: ["Dragon", "Elder", "Legend"] )
 
-Card.create(name:"Balduvian Horde", edition: "Alliances", artist: "Brian Snoddy", power: 5, toughness: 5, mana: ["2", "Red", "Red"], rarity: "Rare", effects: "When played, discard a card at random or bury Balduvian Horde.")
+Card.create(name: "Balduvian Horde", edition: "Alliances", artist: "Brian Snoddy", power: 5, toughness: 5, mana: ["2", "Red", "Red"], rarity: "Rare", effects: "When played, discard a card at random or bury Balduvian Horde.")
 
 Card.create(name: "Juzam Djinn", edition: "Arabian Nights", mana: ["2", "Black", "Black"], power: 5, toughness: 5, flavor_text:"\Expect my visit when the darkness comes. The night I think is best for hiding all.\" -Ouallada.", effects: "Juzám Djinn does 1 damage to you during your upkeep.", card_type: "Creature", subtypes: ["Djinn"], artist: "Mark Tedin", rarity: "Rare", reserved: true, cropped_img: "https://img.scryfall.com/cards/art_crop/en/arn/29.jpg?1534550049", hi_res_img: "https://img.scryfall.com/cards/large/en/arn/29.jpg?1534550049")
 
@@ -208,6 +208,7 @@ Card.create(name: "Island", artist: "Douglas Shuler", card_type: "Land", edition
 # cards = MTG::Card.where(set: 'hml').where(rarity: "Rare").all
 
 #easier view... cards.map { | card | JSON.parse(card.serialize) }
+
 #cards.each { | card | card.representable_attrs = nil; card.rulings = nil }
 
 # cards.select { | card | card.rarity == "Rare" }.each do | card | 
@@ -218,7 +219,15 @@ Card.create(name: "Island", artist: "Douglas Shuler", card_type: "Land", edition
 
 # Card.new(name: card['name'], rarity: card['rarity'], subtypes: card['subtypes'], card_type: card['types'][0], power: card['power'] ? card['power'][0].to_i : nil, artist: card['artist'], edition: card['setName'], toughness: card['toughness'] ? card['toughness'][0].to_i : nil, flavor_text: card['flavor'])
 
-#get mana from scryfall: card_set['data'].last['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }
+#get other edition printings from MTG SDK after loading card set
+def get_editions(cards)
+  cards.each do | card_hash |
+    card = Card.find_by_name(card_hash["name"])
+    next unless card
+    other_editions = card_hash["printings"].reject { | x | x == card_hash['set'] }
+    card.update(other_editions:  other_editions)
+  end
+end
 
 #scryfall updating: 
 @url = "https://api.scryfall.com/cards/search?q=set:drk+named=Leviathan"
