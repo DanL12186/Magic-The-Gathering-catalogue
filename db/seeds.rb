@@ -205,11 +205,10 @@ Card.create(name: "Forest", artist: "Tony Roberts", card_type: "Land", edition: 
 Card.create(name: "Island", artist: "Douglas Shuler", card_type: "Land", edition: "Mirage")
 
 #rare cards from homelands expansion
-# cards = MTG::Card.where(set: 'hml').where(rarity: "Rare").all
-
-#easier view... cards.map { | card | JSON.parse(card.serialize) }
-
-#cards.each { | card | card.representable_attrs = nil; card.rulings = nil }
+set = 'hml'
+cards = MTG::Card.where(set: set).where(rarity: "Rare").all
+cards.each { | card | card.representable_attrs = nil; card.rulings = nil }
+cards.map! { | card | JSON.parse(card.serialize) } #easier view... 
 
 # cards.select { | card | card.rarity == "Rare" }.each do | card | 
 #   Card.new(name: card.name, rarity: card.rarity, subtypes: card.subtypes || [], card_type: card.types, power: card.power.try(:to_i), artist: card.artist, edition: "Homelands", toughness: card.toughness.try(:to_i), flavor_text: card.flavor, mana: card.mana_cost.gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x })
@@ -224,13 +223,13 @@ def get_editions(cards)
   cards.each do | card_hash |
     card = Card.find_by_name(card_hash["name"])
     next unless card
-    other_editions = card_hash["printings"].reject { | x | x == card_hash['set'] }
+    other_editions = card_hash["printings"].reject { | ed | ed == card_hash['set'] }
     card.update(other_editions:  other_editions)
   end
 end
 
 #scryfall updating: 
-@url = "https://api.scryfall.com/cards/search?q=set:drk+named=Leviathan"
+@url = "https://api.scryfall.com/cards/search?q=set:sth"#+named=mox-diamond"
 @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
 #each page is 175 cards; loop cards/175 times
@@ -238,14 +237,14 @@ end
   card_set = @set['data']
   card_set.each do | obj | 
     card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
-    card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['art_crop'], :reserved => obj['reserved'], :year => obj['frame'],:multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize) if card
+    card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'],:multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize) if card
   end
   @url = @set['next_page']
   @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 end
 
 #scryfall creating:
-mana_abbrev = {
+@mana_abbrev = {
     "R" => "Red",
     "G" => "Green",
     "U" => "Blue", 
@@ -288,9 +287,9 @@ def create_card(id)
   edition = edition.split.first if edition.match?(/Revised|Unlimited/)
   edition = edition.split.last if edition.match?(/Beta|Alpha/)
   subtypes = []
-  emdash = "—"
+  puts obj
   if types.size > 0
     subtypes = types
   end
-  Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'].gsub("â", "—") )
+  Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: (obj['flavor_text'] || '').gsub("â", "—") )
 end
