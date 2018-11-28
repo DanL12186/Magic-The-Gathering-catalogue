@@ -23,13 +23,9 @@ $(document).on("turbolinks:load", function() {
     for (let i = 0; i < labels.length; i++) {
       if (!['medium creatures', 'small creatures', 'large creatures', 'nonbasic lands'].includes(labels[i])) {
         const percent = Math.round(100 * frequencies[i]/totalCards),
-              label   = labels[i].replace(labels[i][0], labels[i][0].toUpperCase())
-        dataPoints.push( 
-          { label: label, 
-            y: frequencies[i], 
-            legendText: `${label}: ${percent}%` 
-          }
-        )
+              label   = labels[i].replace(labels[i][0], labels[i][0].toUpperCase());
+
+        dataPoints.push( { label: label, y: frequencies[i], legendText: `${label}: ${percent}%` } )
       }
     }
     
@@ -50,6 +46,9 @@ $(document).on("turbolinks:load", function() {
       };
     $("#pieChartContainer").CanvasJSChart(options);
   };
-  $("#pieChartContainer").ready(pieChartLoader);
-  $("#pieChartContainer").on('turbolinks:load', pieChartLoader)
+
+  if (document.getElementById("pieChartContainer")) {
+    $("#pieChartContainer").ready(pieChartLoader);
+    $("#pieChartContainer").on('turbolinks:load', pieChartLoader)
+  }
 })
