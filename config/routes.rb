@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   resources :cards
   resources :decks
+
+  get '/decks/:id/overview' => 'decks#overview'
   
   get ':filter' => 'cards#filter'
 
