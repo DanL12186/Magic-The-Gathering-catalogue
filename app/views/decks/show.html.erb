@@ -21,8 +21,6 @@
 
 </div>
 
-<div id="chartContainer" style="height: 150px; width: 25%;" data-json = <%= generate_mana_curve_data(@shuffled_deck_cards)%> ></div>
-
 <div class = "row">
   <center> <h1> Upcoming Cards </h1> </center>
   <br>
@@ -30,7 +28,7 @@
   <% @next_eight_cards.each.with_index(2) do | card, idx | %>
     <div class = 'col-sm-1 filter'>
       <center> Turn <%= idx %> </center>
-      <center> <%= truncate_at_three_words(card.name) %> </center>
+      <div class="deck-show-card-name"> <%= truncate_at_three_words(card.name) %> </div>
         
       <%= image_tag card.img_url, class: 'hand-card' %>
     </div>
@@ -45,34 +43,3 @@
   </div>
 
 </div>
-
-<script>
-  function graphLoader() {
-    const jsonData = $("#chartContainer").data('json')
-
-    const options = {
-      backgroundColor: "silver",
-      title: {
-        text: "Mana Curve"
-      },
-        axisX:  { 
-          lineThickness: 0,
-          title: "Number of Cards"
-        },
-        
-        animationEnabled: true,
-      
-        data: [
-          {
-            type: "spline", //line, area, column, pie, etc
-            color: "#096e30",
-            lineThickness: 3,
-            dataPoints: jsonData
-          }
-        ]
-      };
-    $("#chartContainer").CanvasJSChart(options);
-  };
-  $("#chartContainer").ready(graphLoader);
-  $("#chartContainer").on('turbolinks:load', graphLoader)
-</script>
