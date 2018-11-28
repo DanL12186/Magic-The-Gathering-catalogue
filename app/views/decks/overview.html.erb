@@ -1,0 +1,52 @@
+<h1> Hi </h1>
+
+<div class = "row">
+  <div class = "col-sm-4">
+  <% @deck_frequencies.sort_by { | card_name, copies | [ -copies, card_name ] }.each do | card_name, copies | %>
+    <h5> <%= "#{copies}x #{card_name}" %> </h5> 
+  <% end %>
+
+  <%= @stats_hash %>
+  <% @deck.cards.each do | card | %>
+
+    
+
+
+  <% end %>
+  </div>
+  <div class = "col-sm-4"></div>
+  <div id="pieChartContainer" class="col-sm-4" style="height: 300px; width: 33%;" data-json = <%= @stats_object %> > </div>
+</div>
+
+<div id="splineContainer" class="col-sm-3" style="height: 150px; width: 25%;" data-json = <%= generate_mana_curve_data(@shuffled_deck_cards)%> ></div>
+
+<script>
+  function splineLoader() {
+    const jsonData = $("#splineContainer").data('json')
+
+    const options = {
+      backgroundColor: "silver",
+      title: {
+        text: "Mana Curve"
+      },
+        axisX:  { 
+          lineThickness: 2,
+          title: "Number of Cards"
+        },
+
+        animationEnabled: true,
+    
+        data: [
+          {
+            type: "spline", //line, area, column, pie, etc
+            color: "#096e30",
+            lineThickness: 5,
+            dataPoints: jsonData
+          }
+        ]
+      };
+    $("#splineContainer").CanvasJSChart(options);
+  };
+  $("#splineContainer").ready(splineLoader);
+  $("#splineContainer").on('turbolinks:load', splineLoader)
+</script>
