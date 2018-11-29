@@ -3,16 +3,15 @@
 <div class = "row">
   <div class = "col-sm-4">
   <% @deck_frequencies.sort_by { | card_name, copies | [ -copies, card_name ] }.each do | card_name, copies | %>
-    <h5> <%= "#{copies}x #{card_name}" %> </h5> 
+    <h5 style="font-family: Arial; font-size: 80%;"> <%= "#{copies}x #{card_name}" %> </h5> 
   <% end %>
 
-  <%= @stats_hash %>
   <% @deck.cards.each do | card | %>
-
-    
+     
 
 
   <% end %>
+
   </div>
   <div class = "col-sm-4"></div>
   <div id="pieChartContainer" class="col-sm-4" style="height: 300px; width: 33%;" data-json = <%= @stats_object %> > </div>
