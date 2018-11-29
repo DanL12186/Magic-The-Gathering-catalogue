@@ -3,12 +3,12 @@ class DecksController < ApplicationController
   before_action :set_deck, only: [:show, :overview]
 
   def calculate_custom_hand_odds
-    @deck_size = params[:deck_size].to_i
-    @cards_drawn = params[:cards_drawn].to_i
-    @multivar_args = get_param_stats(params).values
-    @answer = multivariate_hypergeometric_distribution(@deck_size, @cards_drawn, *@multivar_args)
+    deck_size = params[:deck_size].to_i
+    cards_drawn = params[:cards_drawn].to_i
+    multivar_args = get_param_stats(params).values
+    answer = multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
 
-    render json: @answer
+    render json: answer
   end
 
   def show
