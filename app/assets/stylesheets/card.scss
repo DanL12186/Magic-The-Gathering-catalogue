@@ -8,4 +8,17 @@
 
 .popover.right {
     margin-left: 80px;
+    border-radius: 4%;
+}
+
+.popover-content {
+    padding: 0px;
+}
+
+.popover-content img {
+    border-radius: 4%;
+}
+
+.popover-title {
+    display: none;
 }
