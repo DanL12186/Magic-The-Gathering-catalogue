@@ -51,4 +51,22 @@ $(document).on("turbolinks:load", function() {
     $("#pieChartContainer").ready(pieChartLoader);
     $("#pieChartContainer").on('turbolinks:load', pieChartLoader)
   }
+
+  //popover for card search results page
+  $(function () {
+    $('[data-toggle="popover"]').popover({
+      html: true,
+      boundary: 'scrollParent',
+      trigger: 'hover',
+      delay: { "show": 200, "hide": 150 },
+      content: function() { 
+        return `<img src="${this.getAttribute('data-url')}" >`
+      }
+    })
+  })
+
+  //popover remains after hitting back button without this
+  $("li.card").on('click', function() {
+    this.children[1].remove()
+  });
 })
