@@ -66,7 +66,8 @@ $(document).on("turbolinks:load", function() {
   })
 
   //popover remains after hitting back button without this
-  $("li.card").on('click', function() {
-    this.children[1].remove()
+  $("a.popover-card").on('click', function() {
+    $(".popover.fade.right.in").remove()
+    //this.parentElement.children[0].remove()
   });
 })
