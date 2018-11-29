@@ -18,7 +18,7 @@ class CardsController < ApplicationController
   end
 
   def index
-    @cards = Card.search(params[:search])
+    @matches, @partial_matches = Card.search(params[:search])
   end
 
 end

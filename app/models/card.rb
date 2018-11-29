@@ -33,7 +33,19 @@ class Card < ApplicationRecord
   end
 
   def self.search(search)
-    Card.all.select { | card | card.name.match?(/#{search}/i) } 
+    matches = []
+    partial_matches = []
+
+    Card.all.each do | card | 
+      next unless card.name.match?(/#{search}/i)
+      
+      if card.name.split.any? { | word | word.downcase == search.downcase } 
+        matches << card
+      else 
+        partial_matches << card
+      end
+    end
+    [ matches, partial_matches ]
   end
   
 end
