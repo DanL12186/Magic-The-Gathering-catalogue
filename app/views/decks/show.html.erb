@@ -12,10 +12,10 @@
   <% end %>
 
   <div class = "stats" >
-    <h4> Lands: <%= @stats_hash['lands'] %> </h4>
-    <h4> Spells: <%= @stats_hash['spells'] %> </h4>
-    <h4> Artifacts: <%= @stats_hash['artifacts'] %> </h4>
-    <h4> Creatures: <%= @stats_hash['creatures'] %> </h4>
+    <h4> Lands: <%= @card_types['lands'] %> </h4>
+    <h4> Spells: <%= @card_types['spells'] %> </h4>
+    <h4> Artifacts: <%= @card_types['artifacts'] %> </h4>
+    <h4> Creatures: <%= @card_types['creatures'] %> </h4>
     <h4> Hand Odds: <%= multivariate_hypergeometric_distribution(deck_size = @shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>% </h4>
   </div>
 

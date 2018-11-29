@@ -15,7 +15,7 @@ class DecksController < ApplicationController
     @shuffled_deck_cards = shuffled_deck(@deck.cards)
     @sample_hand = sample_hand(@shuffled_deck_cards)
     @next_eight_cards = next_eight_cards(@shuffled_deck_cards)
-    @stats_hash = hand_stats(@sample_hand)
+    @card_types = card_classifications(@sample_hand)
 
     @hand_frequencies = card_frequencies(@sample_hand)
     @deck_frequencies = card_frequencies(@shuffled_deck_cards)
@@ -24,10 +24,9 @@ class DecksController < ApplicationController
   end
 
   def overview
-    #some of these don't make sense for the overview (e.g. shuffled deck). Review all variables/methods later.
-    @deck_frequencies = card_frequencies(@deck.cards)
-    @shuffled_deck_cards = shuffled_deck(@deck.cards)
-    @stats_object = hand_stats(@shuffled_deck_cards).to_json
+    @cards = @deck.cards
+    @deck_frequencies = card_frequencies(@cards)
+    @card_types = card_classifications(@cards).to_json
   end
 
   def index

@@ -13,7 +13,7 @@ module DeckHandStats
     deck[7..-1].first(8)
   end
 
-  def hand_stats(hand)
+  def card_classifications(hand)
     
     classifications = { 
       'lands' => 0,
