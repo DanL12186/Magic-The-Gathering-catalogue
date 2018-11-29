@@ -3,16 +3,17 @@
 <div class = "row">
   <div class = "col-sm-4">
     <% @cards.uniq { | card | card.name }.sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }.each do | card | %>
-      <li class = "card" data-toggle="popover" data-url="<%= card.img_url %>" title = " " style="font-family: Arial; font-size: 80%">
-        <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id), class: "popover-card") %> 
-      </li>
+      <div style="font-family: Arial; font-size: 80%">
+        <div class="btn btn-sm" data-toggle="popover" data-url="<%= card.img_url %>" title = " "> <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id), class: "popover-card") %> </div>
+      </div>
     <% end %>
   </div>
   <div class="col-sm-4"></div>
-  <div id="pieChartContainer" class="col-sm-4" style="height: 300px; width: 33%;" data-json = <%= @card_types %> > </div>
+  <div id="pieChartContainer" class="col-sm-4" style="height: 300px; width: 30%;" data-json = <%= @card_types %> > </div>
+  <div id="splineContainer" class="col-sm-3" style="height: 200px; width: 30%; margin-left: 33.3%;" data-json = <%= generate_mana_curve_data(@cards)%> ></div>
 </div>
 
-<div id="splineContainer" class="col-sm-3" style="height: 200px; width: 33%; margin-left: 66%;" data-json = <%= generate_mana_curve_data(@cards)%> ></div>
+
 
 <script>
   function splineLoader() {
