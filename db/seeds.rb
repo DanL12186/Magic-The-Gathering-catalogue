@@ -229,7 +229,7 @@ def get_editions(cards)
 end
 
 #scryfall updating: 
-@url = "https://api.scryfall.com/cards/search?q=set:sth"#+named=mox-diamond"
+@url = "https://api.scryfall.com/cards/search?q=set:exo"#+named=mox-diamond"
 @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
 #each page is 175 cards; loop cards/175 times
@@ -240,6 +240,12 @@ end
     card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'],:multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize) if card
   end
   @url = @set['next_page']
+  
+  unless !!@url
+    puts "Finished."
+    break
+  end
+
   @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 end
 
@@ -287,7 +293,7 @@ def create_card(id)
   edition = edition.split.first if edition.match?(/Revised|Unlimited/)
   edition = edition.split.last if edition.match?(/Beta|Alpha/)
   subtypes = []
-  puts obj
+
   if types.size > 0
     subtypes = types
   end
