@@ -2,12 +2,12 @@
 
 <div class = "row">
   <div class = "col-sm-4">
-  <% @deck_frequencies.sort_by { | card_name, copies | [ -copies, card_name ] }.each do | card_name, copies | %>
-    <h5 style="font-family: Arial; font-size: 80%;"> <%= "#{copies}x #{card_name}" %> </h5> 
+  <% @cards.uniq { | card | card.name }.sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }.each do | card | %>
+    <h5 style="font-family: Arial; font-size: 80%;"> <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id)) %> </h5> 
   <% end %>
 
   </div>
-  <div class = "col-sm-4"></div>
+  <div class="col-sm-4"></div>
   <div id="pieChartContainer" class="col-sm-4" style="height: 300px; width: 33%;" data-json = <%= @card_types %> > </div>
 </div>
 
