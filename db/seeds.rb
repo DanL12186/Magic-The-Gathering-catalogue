@@ -210,9 +210,9 @@ cards = MTG::Card.where(set: set).where(rarity: "Rare").all
 cards.each { | card | card.representable_attrs = nil; card.rulings = nil }
 cards.map! { | card | JSON.parse(card.serialize) } #easier view... 
 
-# cards.select { | card | card.rarity == "Rare" }.each do | card | 
-#   Card.new(name: card.name, rarity: card.rarity, subtypes: card.subtypes || [], card_type: card.types, power: card.power.try(:to_i), artist: card.artist, edition: "Homelands", toughness: card.toughness.try(:to_i), flavor_text: card.flavor, mana: card.mana_cost.gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x })
-# end
+cards.select { | card | card.rarity == "Rare" }.each do | card | 
+  Card.new(name: card.name, rarity: card.rarity, subtypes: card.subtypes || [], card_type: card.types, power: card.power.try(:to_i), artist: card.artist, edition: "Homelands", toughness: card.toughness.try(:to_i), flavor_text: card.flavor, mana: card.mana_cost.gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, multiverse_id: card.multiverse_id, reserved: card.reserved) if card.name.match?("Sengir")
+end
 
 #or if a ruby obj
 
@@ -258,13 +258,14 @@ end
     "W" => "White"
   }
 
-@url = "https://api.scryfall.com/cards/search?q=set:atq"
+@url = "https://api.scryfall.com/cards/search?q=set:hml"
 @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
 #each page is 175 cards; loop cards/175 times
 ((@set['total_cards']/175).ceil + 1).times do
   card_set = @set['data']
   card_set.each do | obj | 
+    next unless obj['name'].match?("Sengir")
     types = obj['type_line'].split
     types.delete_at(1)
     type = types.shift
@@ -275,9 +276,15 @@ end
     if types.size > 0
       subtypes = types
     end
-    Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'].gsub("â", "—") )
+    Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'].gsub("â", "—") )
   end
   @url = @set['next_page']
+  
+  unless !!@url
+    puts "Finished."
+    break
+  end
+  
   @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 end
 
