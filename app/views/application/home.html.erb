@@ -12,7 +12,7 @@
       <h3 data-edition = <%= card.edition.downcase.gsub(' ', '_') %> data-rarity = <%= card.rarity.downcase %> > 
         Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "edition_#{card.rarity.downcase}", height: '2%', width: '2%' %>
       </h3>
-      <h4> Artist: <%= link_to "#{card.artist}", "#{card.artist}" %> </h4>
+      <h4> Artist: <%= link_to card.artist, card.artist.delete('.') %> </h4>
       
       <% unless card.card_type == "Land" %>
         <h5> Mana: 

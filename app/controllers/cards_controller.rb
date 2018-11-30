@@ -14,7 +14,7 @@ class CardsController < ApplicationController
   end
 
   def filter
-    @cards = Card.all.select { | card | card.attributes.values.any? { | value | value == params[:filter] } }.sort_by(&:name)
+    @cards = Card.all.select { | card | card.attributes.values.any? { | value | value.to_s.delete('.') == params[:filter] } }.sort_by(&:name)
   end
 
   def index
