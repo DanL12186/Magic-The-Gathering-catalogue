@@ -6,11 +6,14 @@
     box-shadow: 1px 1px 8px rgba(0,0,0,1.0);
 }
 
+//=========Popover============
+
 .popover.right {
-    margin-left: 80px;
     border-radius: 4%;
+    margin-left: 14%;
 }
 
+//removes border
 .popover-content {
     padding: 0px;
 }
@@ -22,3 +25,10 @@
 .popover-title {
     display: none;
 }
+
+.popover {
+    height: 310px;
+    width: 223px;
+}
+
+//===========================
