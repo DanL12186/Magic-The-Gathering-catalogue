@@ -33,7 +33,7 @@ $(document).on("turbolinks:load", function() {
   });
 
 //adds additional rows to table on hand_odds_calculator page
-  $('#add-card-inputs').on('click', function appendFields() {
+  $('#add-card-inputs').on('click', () => {
     const fieldCount = getFieldCount() + 1
     updateFieldCount(fieldCount)
 
@@ -53,12 +53,13 @@ $(document).on("turbolinks:load", function() {
     const serializedForm = $(this).serialize()
     ,     response = $.post(`/decks/calculate_custom_hand_odds`, serializedForm);
 
+    response.done((resultAsFloat) => {
       $('#odds-results').html(resultAsFloat + "%");
-
+    });
   });
 
   //clear input forms
-  $('button.clear-form').on('click', function(event) {
+  $('button.clear-form').on('click', event => {
     const table  = document.getElementById('odds-input-table')
     ,     rowLen = table.children[1].children.length;
     let   fieldCount = getFieldCount();
@@ -69,6 +70,8 @@ $(document).on("turbolinks:load", function() {
     }
 
     $('form.calculate-odds').trigger('reset')
+
+    $('#odds-results').html('')
 
     //stops "please fill in this form" from triggering
     event.preventDefault()
