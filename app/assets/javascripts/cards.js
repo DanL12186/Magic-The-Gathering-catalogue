@@ -24,7 +24,7 @@ $(document).on('turbolinks:load', function() {
       trigger: 'hover',
       delay: { "show": 200, "hide": 150 },
       content: function() { 
-        return `<img src = "${this.getAttribute('data-url')}" >`
+        return `<img src="${this.getAttribute('data-url')}" >`
       }
     })
   })
