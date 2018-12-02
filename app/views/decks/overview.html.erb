@@ -8,8 +8,15 @@
       </div>
     <% end %>
   </div>
-  <div class="col-sm-4"></div>
-  <div id="pieChartContainer" class="col-sm-4" style="height: 300px; width: 30%;" data-json = <%= @card_types %> > </div>
+  <div id="deck-holder" class="col-sm-3" style="margin-left: 5%; padding-top: 5%;" value="1"> 
+    <p id="card-counter"> Card 1 of <%= @cards.size %> </p>
+
+    <% @shuffled_deck_cards.each.with_index(1) do | card,  idx | %>
+      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: 'deck-display', size: "320x446", id: "deck-card-#{idx}" %> 
+    <% end %>
+  </div>
+  
+  <div id="pieChartContainer" class="col-sm-4" style="height: 300px; width: 30%; margin-left: 3.3%;" data-json = <%= @card_types %> > </div>
   <div id="splineContainer" class="col-sm-3" style="height: 200px; width: 30%; margin-left: 33.3%;" data-json = <%= generate_mana_curve_data(@cards)%> ></div>
 </div>
 
