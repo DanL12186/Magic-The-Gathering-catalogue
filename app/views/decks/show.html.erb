@@ -12,6 +12,7 @@
   <% end %>
 
   <div class = "stats" >
+    <%= link_to("Deck Overview", "/decks/#{@deck.id}/overview") %>
     <h4> Lands: <%= @card_types['lands'] %> </h4>
     <h4> Spells: <%= @card_types['spells'] %> </h4>
     <h4> Artifacts: <%= @card_types['artifacts'] %> </h4>
