@@ -1,6 +1,7 @@
 class DecksController < ApplicationController
   include DeckHandStats
   before_action :set_deck, only: [:show, :overview]
+  before_action :set_shuffled_deck, only: [:show, :overview]
 
   def calculate_custom_hand_odds
     deck_size = params[:deck_size].to_i
@@ -12,7 +13,6 @@ class DecksController < ApplicationController
   end
 
   def show
-    @shuffled_deck_cards = shuffled_deck(@deck.cards)
     @sample_hand = sample_hand(@shuffled_deck_cards)
     @next_eight_cards = next_eight_cards(@shuffled_deck_cards)
     @card_types = card_classifications(@sample_hand)
@@ -37,6 +37,10 @@ class DecksController < ApplicationController
 
   def set_deck
     @deck = Deck.find(params[:id])
+  end
+
+  def set_shuffled_deck
+    @shuffled_deck_cards = shuffled_deck(@deck.cards)
   end
   
 end
