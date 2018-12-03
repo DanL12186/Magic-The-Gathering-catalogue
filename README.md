@@ -7,7 +7,7 @@ Things you may want to cover:
 
 * Minimum Ruby version 2.4 (use of `.sum` and `.match?`); tested on Ruby 2.5.1 on Rails 5.2.1.
 
-* Uses Nokogiri, Open-URI, and CGI gems (MTG-SDK can be removed).
+* Uses Nokogiri, Open-URI, Bootstrap and CGI gems (MTG-SDK can be removed). Also uses CanvasJS (canvasjs.jquery.min.js) for charts. 
 
 * Configuration
 
