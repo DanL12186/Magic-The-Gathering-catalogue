@@ -2,7 +2,7 @@
 
 <h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank", rel: "noopener" %> </h4>
 
-<div class = "margin-3em-top-bottom" > <%= image_tag(@card.img_url, class: "card_show", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div> 
+<div class = "margin-3em-top-bottom" > <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div> 
 
 <h4> <%= link_to "MTGoldfish Price:", mtgoldfish_url(@card.name, @card.edition), target: "_blank", rel: "noopener" %> <%= @card.price[0] %> </h4>
 <h4> <%= link_to "Card Kingdom Price:", card_kingdom_url(@card.name, @card.edition), target: "_blank", rel: "noopener" %> <%= @card.price[1] %> </h4>
