@@ -1,22 +1,22 @@
 <h1> <center> <%= @deck.name.titleize %> Overview </center> </h1>
 
 <div class = "row">
-  <div class = "col-sm-4" style="font-family: Arial; font-size: 80%">
+  <div class = "col-sm-3" style="font-family: Arial; font-size: 80%">
     <% @cards.uniq { | card | card.name }.sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }.each do | card | %>
       <div>
         <div class="btn btn-sm" data-toggle="popover" data-url="<%= card.img_url %>" title = " "> <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id), class: "popover-card") %> </div>
       </div>
     <% end %>
   </div>
-  <div id="deck-holder" class="col-sm-3" style="margin-left: 5%; padding-top: 5%;" value="1"> 
+  <div id="deck-holder" class="col-sm-3" style="margin-top: 7%;" value="1"> 
     <p id="card-counter"> Card 1 of <%= @cards.size %> </p>
 
     <% @shuffled_deck_cards.each.with_index(1) do | card,  idx | %>
-      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: 'deck-display', size: "320x446", id: "deck-card-#{idx}" %> 
+      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: 'deck-display', size: "400x558", id: "deck-card-#{idx}" %> 
     <% end %>
   </div>
   
-  <div id="pieChartContainer" class="col-sm-4" style="height: 300px; width: 30%; margin-left: 3.3%;" data-json = <%= @card_types %> > </div>
+  <div id="pieChartContainer" class="col-sm-3" style="height: 300px; width: 30%; margin-left: 8.3%;" data-json = <%= @card_types %> > </div>
   <div id="splineContainer" class="col-sm-3" style="height: 200px; width: 30%; margin-left: 33.3%;" data-json = <%= generate_mana_curve_data(@cards)%> ></div>
 </div>
 
