@@ -1,5 +1,5 @@
 <center> <h1> <%= @deck.name %> </h1> </center>
-<center> <h4> Turn 1 </h4></center>
+<center> <h4> Turn 1 </h4> </center>
 <br>
 
 <div class = "row margin-bottom" >
@@ -12,7 +12,7 @@
   <% end %>
 
   <div class = "stats" >
-    <%= link_to("Deck Overview", "/decks/#{@deck.id}/overview") %>
+    <b> <%= link_to("Deck Overview", "/decks/#{@deck.id}/overview") %> </b>
     <h4> Lands: <%= @card_types['lands'] %> </h4>
     <h4> Spells: <%= @card_types['spells'] %> </h4>
     <h4> Artifacts: <%= @card_types['artifacts'] %> </h4>
