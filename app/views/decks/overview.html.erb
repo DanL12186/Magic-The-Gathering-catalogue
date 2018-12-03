@@ -13,7 +13,7 @@
     <p id="card-counter"> Card 1 of <%= @cards.size %> </p>
 
     <% @shuffled_deck_cards.each.with_index(1) do | card,  idx | %>
-      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: 'deck-display', display: 'flex', size: "400x558", id: "deck-card-#{idx}" %> 
+      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: "deck-display #{card.edition.downcase}", size: "400x558", id: "deck-card-#{idx}" %> 
     <% end %>
   </div>
   
