@@ -1,7 +1,6 @@
 class CardsController < ApplicationController
   include Cards
   include CardPriceUpdate
-  include ApplicationHelper
   include CardHelper
 
   def show
