@@ -17,4 +17,8 @@ module CardHelper
     (color.between?("0", "9") || color == "X") ? "Colorless" : color
   end
 
+  def sort_by_number_and_name_desc(cards, deck_frequencies)
+    cards.uniq { | card | card.name }.sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }
+  end
+
 end
