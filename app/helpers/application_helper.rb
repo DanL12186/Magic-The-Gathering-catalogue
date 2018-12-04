@@ -52,8 +52,7 @@ module ApplicationHelper
 
 
   def card_kingdom_url(card_name, card_set)
-    set = card_set.gsub(' ', '-').downcase.delete("'")
-    set = "3rd-edition" if set == "revised"
+    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set == "Fourth Edition") ? "4th-edition" : card_set.gsub(' ', '-').downcase.delete("'")
     set = set.match(/\d{4}/) ? "#{set.match(/\d+/)[0]}-core-set" : set
     name = I18n.transliterate(card_name.downcase).gsub(' ', '-').delete(",.:;'")
 
