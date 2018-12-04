@@ -21,6 +21,7 @@ module CardHelper
     cards.uniq { | card | card.name }.sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }
   end
 
+  ##################################### Links and Scraping #####################################
 
   def scrape_page_if_exists(url)
     Thread.new do 
@@ -45,14 +46,14 @@ module CardHelper
     page = scrape_page_if_exists(url)
     price = page.value ? page.value.css('.price-box-price').children.last.try(:text) : nil
 
-    price ? "$#{price}" : "N/A"
+    price ? "$#{price}" : 'N/A'
   end
 
 
   def card_kingdom_url(card_name, card_set)
-    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set == "Fourth Edition") ? "4th-edition" : card_set.gsub(' ', '-').downcase.delete("'")
+    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set == 'Fourth Edition') ? '4th-edition' : card_set.gsub(' ', '-').downcase.delete("'")
     set = set.match(/\d{4}/) ? "#{set.match(/\d+/)[0]}-core-set" : set
-    name = I18n.transliterate(card_name.downcase).gsub(' ', '-').delete(",.:;'")
+    name = I18n.transliterate(card_name.downcase).gsub(' ','-').delete(",.:;'")
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
   end
@@ -78,7 +79,7 @@ module CardHelper
     page = scrape_page_if_exists(url)
     price = page.value ? page.value.css('div.price-point.price-point--listed-median td').first.text : nil
 
-    price ? "#{price}" : "N/A"
+    price ? "#{price}" : 'N/A'
   end
 
   def gatherer_link(multiverse_id)
@@ -90,5 +91,6 @@ module CardHelper
     name = card_name.downcase.gsub(' ', '+')
     "https://www.ebay.com/sch/i.html?&_nkw=#{set}+#{name}"
   end
-
+  #######################################################################################################
+  
 end
