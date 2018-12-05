@@ -2,11 +2,12 @@ class Card < ApplicationRecord
   include Cards
 
   has_many :users_cards
+  has_many :decks_card
   has_many :decks_cards, dependent: :destroy
   has_many :collections_cards
 
   has_many :users, through: :users_cards
-  has_many :decks, through: :cards_decks
+  has_many :decks, through: :decks_card
 
   validates :img_url, uniqueness: true
   validates :name, :edition, presence: true
@@ -27,8 +28,8 @@ class Card < ApplicationRecord
       mana = args[:mana].reject { | str | str == '0' }
       
       self.converted_mana_cost = mana.map(&:to_i).sum + mana.reject { | str | str.to_i > 0 }.size
-      self.colors = mana.uniq.reject { | str | str.to_i > 0 || str == "X" || str == "0" }
-      self.color = self.colors.size == 1 ? self.colors.first : self.colors.size > 1 ? "Gold" : "Colorless"
+      self.colors = mana.uniq.reject { | str | str.to_i > 0 || str == 'X' || str == '0' }
+      self.color = self.colors.size == 1 ? self.colors.first : self.colors.size > 1 ? 'Gold' : 'Colorless'
     end
   end
 
