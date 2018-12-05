@@ -1,0 +1,27 @@
+<h1> <center> Find Cards By Property </center> </h1>
+
+<%= form_with url: "/cards/filter_search", class: "find_by_properties", method: 'POST' do | f | %> 
+    
+    <div> 
+      <%= f.label :edition %> 
+      <%= f.text_field :edition %>
+      <br>
+      <%= f.label :rarity %> 
+      <%= f.text_field :rarity %>
+      <br>
+      <%= f.label :color %> 
+      <%= f.text_field :color %>
+      <br>
+      <%= f.label :type %>
+      <%= f.text_field :card_type %>
+    </div>
+
+    <%= f.submit "Find Cards" %>
+    
+    <h2> 
+      Le Cards: <h4 id="find_cards"> </h4>
+    </h2>
+  
+    <h1> <%= f.button "Clear Form", class: "btn-lg clear-search" %> </h1> 
+
+<% end %>
