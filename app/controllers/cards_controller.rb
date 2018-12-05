@@ -21,4 +21,12 @@ class CardsController < ApplicationController
     @matches, @partial_matches = Card.search(params[:search])
   end
 
+  def filter_search
+    filters = params.select { | key, value | ["rarity", "card_type", "color", "edition"].include?(key) && value.length > 0 }.permit!
+
+    @results = Card.where(filters)
+
+    render json: @results
+  end
+
 end
