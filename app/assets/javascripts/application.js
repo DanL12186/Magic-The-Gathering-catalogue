@@ -18,10 +18,8 @@
 //= require_tree .
 
 $(document).on("turbolinks:load", function() {
-  //keeping track of number of fields and trows
-  const getFieldCount = () => parseInt($('#add-card-inputs').val())
-  ,     updateFieldCount = count => $('#add-card-inputs').val(count);
   
+  //change edition symbol color to silver or gold if card is uncommon or rare
   $(".edition_rare, .edition_uncommon").on('mouseenter', function() {
     const edition = this.parentElement.getAttribute('data-edition').replace('_', ' ')
     ,     rarity  = this.parentElement.getAttribute('data-rarity');
@@ -32,7 +30,10 @@ $(document).on("turbolinks:load", function() {
     this.src = `/assets/editions/${edition}.png`;
   });
 
-//adds additional rows to table on hand_odds_calculator page
+  //add additional rows to table on hand_odds_calculator page
+  const getFieldCount = () => parseInt($('#add-card-inputs').val())
+  ,     updateFieldCount = count => $('#add-card-inputs').val(count);
+  
   $('#add-card-inputs').on('click', () => {
     const fieldCount = getFieldCount() + 1
     updateFieldCount(fieldCount)
