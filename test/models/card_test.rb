@@ -34,4 +34,23 @@ class CardTest < ActiveSupport::TestCase
     assert Card.find(card.id).users.map(&:name) == ["Joe", "Barack"]
   end
 
+  test "Card can access all decks it belongs to when supplied with necessary information" do
+    card = Card.new(name: "Potato", edition: "Snacks")
+    card.save
+    
+    user = User.new(name: "Barack", email: "renegade@dj.org", password: 'no,joe')
+    user.save
+
+    deck1 = Deck.new(name: "Paper", user_id: user.id)
+    deck1.save
+    
+    deck2 = Deck.new(name: "Tiger", user_id: user.id)
+    deck2.save
+
+    DecksCard.create(card_id: card.id, deck_id: deck1.id)
+    DecksCard.create(card_id: card.id, deck_id: deck2.id)
+    
+    assert Card.find(card.id).decks.map(&:name) == ["Paper", "Tiger"]
+  end
+
 end
