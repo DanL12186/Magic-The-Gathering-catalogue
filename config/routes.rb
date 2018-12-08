@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root "application#home"
 
+  get '/about' => 'application#about'
+
   get '/hand_odds_calculator' => 'application#hand_odds_calculator'
   post '/decks/calculate_custom_hand_odds' => 'decks#calculate_custom_hand_odds'
 
