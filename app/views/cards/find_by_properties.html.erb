@@ -2,18 +2,21 @@
 
 <%= form_with url: "/cards/filter_search", class: "find_by_properties", method: 'POST' do | f | %> 
     
-    <div> 
-      <%= f.label :edition %> 
-      <%= f.select(:edition, options_for_select( Editions.keys ), include_blank: true) %>
+      <%= f.label :reserved_list %>
+      <%= f.check_box :reserved %> 
       <br>
-      <%= f.label :rarity %>
-      <%= f.select(:rarity, options_for_select( ["Common", "Uncommon", "Rare"] ), include_blank: true) %>
-      <br>
-      <%= f.label :color %> 
-      <%= f.select(:color, options_for_select( ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless"] ), include_blank: true) %>
-      <br>
-      <%= f.label :type %>
-      <%= f.select(:card_type, options_for_select( ["Creature", "Land", "Artifact", "Instant", "Sorcery", "Enchantment"] ), include_blank: true) %>
+      <div class = "btn-group">
+        <%= f.label :edition %> 
+        <%= f.select(:edition, options_for_select( Editions.keys ), include_blank: true) %>
+        <br>
+        <%= f.label :rarity %>
+        <%= f.select(:rarity, options_for_select( ["Common", "Uncommon", "Rare"] ), include_blank: true) %>
+        <br>
+        <%= f.label :color %> 
+        <%= f.select(:color, options_for_select( ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless"] ), include_blank: true) %>
+        <br>
+        <%= f.label :type %>
+        <%= f.select(:card_type, options_for_select( ["Creature", "Land", "Artifact", "Instant", "Sorcery", "Enchantment"] ), include_blank: true) %> 
     </div>
     <br>
     <%= f.submit "Find Cards" %>
