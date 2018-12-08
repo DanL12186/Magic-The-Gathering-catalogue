@@ -1,5 +1,6 @@
 module CardHelper
   include Cards
+  require 'open-uri'
   
   def card_and_edition(name, edition)
     if ["Beta", "Unlimited", "Revised", "Alpha"].include?(edition)
@@ -28,7 +29,7 @@ module CardHelper
       begin
         Nokogiri::HTML(open(url)) 
       rescue OpenURI::HTTPError => error
-        raise error unless error.message == '404 Not Found'
+        raise error unless ['404 Not Found', '404 File Not Found'].include?(error.message)
       end
     end
   end
@@ -49,7 +50,6 @@ module CardHelper
     price ? "$#{price}" : 'N/A'
   end
 
-
   def card_kingdom_url(card_name, card_set)
     set = (card_set == 'Revised') ? ('3rd-edition') : (card_set == 'Fourth Edition') ? '4th-edition' : card_set.gsub(' ', '-').downcase.delete("'")
     set = set.match(/\d{4}/) ? "#{set.match(/\d+/)[0]}-core-set" : set
@@ -60,9 +60,9 @@ module CardHelper
 
   def get_card_kingdom_price(card_name, card_set)
     url = card_kingdom_url(card_name, card_set)
-    page = Thread.new { Nokogiri::HTML(open(url)) }
+    page = scrape_page_if_exists(url)
 
-    page.value.css('span.stylePrice').first.text.strip
+    page.value ? page.value.css('span.stylePrice').first.text.strip : "N/A"
   end
 
 
