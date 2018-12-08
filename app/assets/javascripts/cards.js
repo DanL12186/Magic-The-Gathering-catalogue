@@ -58,7 +58,7 @@ $(document).on('turbolinks:load', function() {
         )
       })
 
-      document.getElementById("find_cards").innerHTML = html.join('');
+      document.getElementById("find_cards").innerHTML = html.join('') || "No results found";
     })
   })
 
