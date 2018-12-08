@@ -4,24 +4,22 @@
     
     <div> 
       <%= f.label :edition %> 
-      <%= f.text_field :edition %>
+      <%= f.select(:edition, options_for_select( Editions.keys ), include_blank: true) %>
       <br>
-      <%= f.label :rarity %> 
-      <%= f.text_field :rarity %>
+      <%= f.label :rarity %>
+      <%= f.select(:rarity, options_for_select( ["Common", "Uncommon", "Rare"] ), include_blank: true) %>
       <br>
       <%= f.label :color %> 
-      <%= f.text_field :color %>
+      <%= f.select(:color, options_for_select( ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless"] ), include_blank: true) %>
       <br>
       <%= f.label :type %>
-      <%= f.text_field :card_type %>
+      <%= f.select(:card_type, options_for_select( ["Creature", "Land", "Artifact", "Instant", "Sorcery", "Enchantment"] ), include_blank: true) %>
     </div>
-
+    <br>
     <%= f.submit "Find Cards" %>
     
     <h2> 
-      Le Cards: <h4 id="find_cards"> </h4>
+      Results: <h4 id="find_cards"> </h4>
     </h2>
-  
-    <h1> <%= f.button "Clear Form", class: "btn-lg clear-search" %> </h1> 
 
 <% end %>
