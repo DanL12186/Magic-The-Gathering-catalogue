@@ -21,12 +21,12 @@ $(document).on("turbolinks:load", function() {
   
   //change edition symbol color to silver or gold if card is uncommon or rare
   $(".edition_rare, .edition_uncommon").on('mouseenter', function() {
-    const edition = this.parentElement.getAttribute('data-edition').replace('_', ' ')
+    const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ')
     ,     rarity  = this.parentElement.getAttribute('data-rarity');
 
     this.src = `/assets/editions/${edition} ${rarity}.png`;
   }).on('mouseleave', function() {
-    const edition = this.parentElement.getAttribute('data-edition').replace('_', ' ');
+    const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ');
     this.src = `/assets/editions/${edition}.png`;
   });
 
