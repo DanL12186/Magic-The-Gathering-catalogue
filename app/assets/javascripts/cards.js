@@ -44,15 +44,14 @@ $(document).on('turbolinks:load', function() {
     response.done((cards) => {
       const html = cards.map(card=> {
         const cardClass = card.edition === 'Alpha' ? 'card_img alpha' : 'card_img'
-        
+        const thumbnail = (card.hi_res_img || card.img_url).replace(/large/,'small')
         return( 
-          `<div>
-            <h1> ${card.name} </h1>
+          `<div class = 'col-sm-3'>
             <h3 data-edition= ${card.edition.toLowerCase().replace(/ /g,'_')} data-rarity=${card.rarity.toLowerCase()}> 
-              Edition: <a href="/${card.edition}"> ${card.edition} </a> <img src="/assets/editions/${card.edition.toLowerCase()}" class= edition_${card.rarity.toLowerCase()} height=2% width=2% >
+              ${card.name} <img src="/assets/editions/${card.edition.toLowerCase()}" class= edition_${card.rarity.toLowerCase()} height=4% width=4% >
             </h3>
             
-            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${card.img_url}" class=${cardClass} > </a> </div>            
+            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class=${cardClass} style="width:146px; height: 204px;"> </a> </div>            
             
           </div>`
         )
