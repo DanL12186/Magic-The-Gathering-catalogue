@@ -1,11 +1,10 @@
 <h1> <center> Find Cards By Property </center> </h1>
 
 <%= form_with url: "/cards/filter_search", class: "find_by_properties", method: 'POST' do | f | %> 
-    
-      <%= f.label :reserved_list %>
-      <%= f.check_box :reserved %> 
-      <br>
       <div class = "btn-group">
+        <%= f.label :reserved_list %>
+        <%= f.select(:reserved, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %> 
+        <br>
         <%= f.label :edition %> 
         <%= f.select(:edition, options_for_select( Editions.keys ), include_blank: true) %>
         <br>
