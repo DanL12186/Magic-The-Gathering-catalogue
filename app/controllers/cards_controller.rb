@@ -24,7 +24,7 @@ class CardsController < ApplicationController
   def filter_search
     filters = params.select { | key, value | ["rarity", "reserved", "card_type", "color", "edition"].include?(key) && !value.empty? }.permit!
 
-    @results = Card.where(filters)
+    @results = filters.empty? ? nil : Card.where(filters)
 
     render json: @results
   end
