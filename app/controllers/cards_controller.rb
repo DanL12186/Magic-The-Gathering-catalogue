@@ -22,7 +22,7 @@ class CardsController < ApplicationController
   end
 
   def filter_search
-    filters = params.select { | key, value | ["rarity", "reserved", "card_type", "color", "edition"].include?(key) && !value.empty? }.permit!
+    filters = params.select { | key, value | ["rarity", "reserved", "card_type", "color", "edition", "converted_mana_cost", "name"].include?(key) && !value.empty? }.permit!
 
     @results = filters.empty? ? nil : Card.where(filters)
 
