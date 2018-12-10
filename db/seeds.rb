@@ -229,27 +229,35 @@ Card.create(name: "Island", artist: "Douglas Shuler", card_type: "Land", edition
 # end
 
 #scryfall updating: 
-# @url = "https://api.scryfall.com/cards/search?q=set:exo"#+named=mox-diamond"
+# @url = "https://api.scryfall.com/cards/search?q=set:2ed"#+named=mox-diamond"
 # @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
-# #each page is 175 cards; loop cards/175 times
-# ((@set['total_cards']/175).ceil + 1).times do
-#   card_set = @set['data']
-#   card_set.each do | obj | 
-#     card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
-#     card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'],:multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize) if card
-#   end
-#   @url = @set['next_page']
-  
-#   unless !!@url
-#     puts "Finished."
-#     break
-#   end
+#each page is 175 cards; loop cards/175 times
 
-#   @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
+# def update_set(set)
+#   ((set['total_cards']/175).ceil + 1).times do
+#     card_set = set['data']
+#     card_set.each do | obj | 
+#       card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
+#       card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'],:multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize) if card
+#     end
+
+#     if set['next_page'].nil?
+#       puts "Finished." 
+#       break
+#     end
+
+#     @url = set['next_page']
+
+#     puts ''
+#     puts "Loading next page..."
+#     puts ''
+
+#     set = JSON.parse(Nokogiri::HTML(open(@url)).text)
+#   end
 # end
 
-# #scryfall creating:
+#scryfall creating:
 # @mana_abbrev = {
 #     "R" => "Red",
 #     "G" => "Green",
@@ -261,48 +269,56 @@ Card.create(name: "Island", artist: "Douglas Shuler", card_type: "Land", edition
 # @url = "https://api.scryfall.com/cards/search?q=set:hml"
 # @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
+
 # #each page is 175 cards; loop cards/175 times
-# ((@set['total_cards']/175).ceil + 1).times do
-#   card_set = @set['data']
-#   card_set.each do | obj | 
-#     next unless obj['name'].match?("Sengir")
-#     types = obj['type_line'].split
-#     types.delete_at(1)
-#     type = types.shift
-#     edition = obj['set_name']
-#     edition = edition.split.first if edition.match?(/Revised|Unlimited/)
-#     edition = edition.split.last if edition.match?(/Beta|Alpha/)
-#     subtypes = []
-#     if types.size > 0
-#       subtypes = types
+# def create_set(set)
+#   ((set['total_cards']/175).ceil + 1).times do
+#     card_set = set['data']
+#     card_set.each do | obj | 
+#       next unless obj['name'].match?("Sengir")
+#       types = obj['type_line'].split
+#       types.delete_at(1)
+#       type = types.shift
+#       edition = obj['set_name']
+#       edition = edition.split.first if edition.match?(/Revised|Unlimited/)
+#       edition = edition.split.last if edition.match?(/Beta|Alpha/)
+#       subtypes = []
+#       if types.size > 0
+#         subtypes = types
+#       end
+#       Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'].gsub("â", "—") )
 #     end
-#     Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'].gsub("â", "—") )
+
+#     if set['next_page'].nil?
+#       puts "Finished." 
+#       break
+#     end
+
+#     @url = set['next_page']
+
+#     puts ''
+#     puts "Loading next page..."
+#     puts ''
+    
+#     set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 #   end
-#   @url = @set['next_page']
-  
-#   unless !!@url
-#     puts "Finished."
-#     break
-#   end
-  
-#   @set = JSON.parse(Nokogiri::HTML(open(@url)).text)
 # end
 
 ##single card
-def create_card(id)
-  @url = "https://api.scryfall.com/cards/multiverse/#{id}"
-  obj = JSON.parse(Nokogiri::HTML(open(@url)).text)
+# def create_card(id)
+#   @url = "https://api.scryfall.com/cards/multiverse/#{id}"
+#   obj = JSON.parse(Nokogiri::HTML(open(@url)).text)
 
-  types = obj['type_line'].split
-  types.delete_at(1)
-  type = types.shift
-  edition = obj['set_name']
-  edition = edition.split.first if edition.match?(/Revised|Unlimited/)
-  edition = edition.split.last if edition.match?(/Beta|Alpha/)
-  subtypes = []
+#   types = obj['type_line'].split
+#   types.delete_at(1)
+#   type = types.shift
+#   edition = obj['set_name']
+#   edition = edition.split.first if edition.match?(/Revised|Unlimited/)
+#   edition = edition.split.last if edition.match?(/Beta|Alpha/)
+#   subtypes = []
 
-  if types.size > 0
-    subtypes = types
-  end
-  Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: (obj['flavor_text'] || '').gsub("â", "—") )
-end
+#   if types.size > 0
+#     subtypes = types
+#   end
+#   Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['frame'], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: (obj['flavor_text'] || '').gsub("â", "—") )
+# end
