@@ -38,17 +38,22 @@ body {
     border-radius: 5.2%;
 }
 
-#flavor {
+.col-sm-3.flavor {
     margin-top: 0.5%;
     font-style: italic;
     font-weight: 200;
     font-family: cursive;
     float: none;
 }
+//************************//
 
 //********navbar tweaks***//
 .navbar {
-    display: inline;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1%;
 }
 
 h5.navbar a {
@@ -78,10 +83,10 @@ h5.navbar a {
     margin-top: 3em;
     margin-bottom: 3em;
 }
-//*************************//
 
 .spin {
     animation: spin 4s linear infinite;
 
     @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 }
+//*************************//
