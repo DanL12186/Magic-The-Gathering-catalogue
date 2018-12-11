@@ -57,7 +57,7 @@ $(document).on('turbolinks:load', function() {
             
           </div>`
         )
-      })
+      }).join('')
     };
 
     response.done(cards => {
@@ -67,30 +67,30 @@ $(document).on('turbolinks:load', function() {
         return;
       }
 
-      const html = generateCardsHTML(cards);
-
-      document.getElementById("find_cards").innerHTML = html.join('') || "No results found"
-
       //create buttons to sort newly displayed card results
       document.getElementById("sort_by_name").innerHTML = `<button>Sort By Name</button>`
       document.getElementById("sort_by_id").innerHTML = `<button>Sort By Multiverse ID</button>`
       document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
+      document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
 
+      const html = generateCardsHTML(cards);
+      document.getElementById("find_cards").innerHTML = html || "No results found"
 
       $("#sort_by_name").on('click', function(event) {
         event.preventDefault();
 
         const sortedCards = generateCardsHTML(cards.sort((a,b)=> a.name[0].charCodeAt() - b.name[0].charCodeAt()))
-        document.getElementById("find_cards").innerHTML = sortedCards.join('');
+        document.getElementById("find_cards").innerHTML = sortedCards;
       });
 
       $("#sort_by_id").on('click', function(event) {
         event.preventDefault();
         
         const sortedCards = generateCardsHTML(cards.sort((a,b)=> a.multiverse_id - b.multiverse_id))
-        document.getElementById("find_cards").innerHTML = sortedCards.join('');
+        document.getElementById("find_cards").innerHTML = sortedCards;
       });
 
+      //this sorts only by the prices on CardKingdom, as other prices are only suggestions
       $("#sort_by_price").on('click', function(event) {
         event.preventDefault();
 
@@ -99,8 +99,27 @@ $(document).on('turbolinks:load', function() {
           return priceB - priceA;
         }));
 
-        document.getElementById("find_cards").innerHTML = sortedCards.join('');
+        document.getElementById("find_cards").innerHTML = sortedCards;
       });
+
+      $("#sort_by_color").on('click', function(event) {
+        
+        const colorWeights = {
+          'White' : 1,
+          'Blue'  : 2,
+          'Black' : 3,
+          'Red'   : 4,
+          'Green' : 5,
+          'Colorless' : 6,
+          'Gold'  : 7
+        }
+
+        event.preventDefault();
+        
+        const sortedCards = generateCardsHTML(cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color]))
+        document.getElementById("find_cards").innerHTML = sortedCards;
+      });
+
     });
   });
 
