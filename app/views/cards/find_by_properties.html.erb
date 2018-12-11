@@ -9,7 +9,7 @@
         <%= f.select(:edition, options_for_select( Editions.keys ), include_blank: true) %>
         <br>
         <%= f.label :rarity %>
-        <%= f.select(:rarity, options_for_select( ["Common", "Uncommon", "Rare"] ), include_blank: true) %>
+        <%= f.select(:rarity, options_for_select( ["Common", "Uncommon", "Rare", "Mythic"] ), include_blank: true) %>
         <br>
         <%= f.label :color %> 
         <%= f.select(:color, options_for_select( ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless"] ), include_blank: true) %>
@@ -20,12 +20,15 @@
         <%= f.label :CMC %>
         <%= f.number_field(:converted_mana_cost, min: 0, max: 20) %>
     </div>
-    <br>
-    <br>
-    <%= f.submit "Find Cards" %>
-    
-    <h2> 
-      <h4 id="find_cards"> </h4>
-    </h2>
+
+    <h1> <%= f.submit "Find Cards", class: "btn-lg" %> </h1>
+
+    <h3>
+      <a class = "btn-sm" id = "sort_by_name"> </a>
+      <a class = "btn-sm" id = "sort_by_id"> </a>
+      <a class = "btn-sm" id = "sort_by_price"> </a>
+    </h3>
+
+    <h2 id="find_cards"> </h2>
 
 <% end %>
