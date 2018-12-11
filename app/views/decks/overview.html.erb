@@ -9,9 +9,10 @@
       </div>
     <% end %>
   </div>
+  
   <div id="deck-holder" class="col-sm-4" style="margin-top: 7%; padding-left: 5.5%; display: inline-block;" value="1"> 
     <p id="card-counter"> Card 1 of <%= @cards.size %> </p>
-
+    <%= image_tag 'card back', id: "deck-holder-card-back" %>
     <% @shuffled_deck_cards.each.with_index(1) do | card,  idx | %>
       <%= image_tag card.hi_res_img.sub('/large','/normal'), class: "deck-display #{card.edition.downcase}", size: "400x558", id: "deck-card-#{idx}" %> 
     <% end %>

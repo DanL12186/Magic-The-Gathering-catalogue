@@ -27,7 +27,7 @@
   <br>
   <br>
   <% @next_eight_cards.each.with_index(2) do | card, idx | %>
-    <div class = 'col-sm-1 filter'>
+    <div class = "col-sm-1 filter">
       <center> Turn <%= idx %> </center>
       <div class="deck-show-card-name"> <%= truncate_at_three_words(card.name) %> </div>
         
@@ -37,9 +37,9 @@
 
   <div id="deck-holder" class="col-sm-2 pad-4" value="8"> 
     <p id="card-counter"> Card 8 of <%= @shuffled_deck_cards.size %> </p>
-
+    <%= image_tag 'card back', id: "deck-holder-card-back", size: '223x310' %>
     <% @shuffled_deck_cards[7..-1].reverse.each.with_index(8) do | card,  idx | %>
-      <%= image_tag card.img_url, class: 'deck-display', id: "deck-card-#{idx}" %> 
+      <%= image_tag card.img_url, class: 'deck-display', id: "deck-card-#{idx}", size: '223x310' %> 
     <% end %>
   </div>
 

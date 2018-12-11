@@ -27,9 +27,14 @@ div.col-sm-2.pad-4 {
   margin-left: 10%;
 }
 
+#deck-holder-card-back {
+    position: absolute;
+    border-radius: 4.6%;
+}
+
 .deck-display {
     position: absolute;
-    border-radius: 4.8%;
+    border-radius: 4.6%;
 }
 
 .deck-show-card-name {
