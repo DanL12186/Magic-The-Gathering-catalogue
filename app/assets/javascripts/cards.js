@@ -53,7 +53,7 @@ $(document).on('turbolinks:load', function() {
               ${card.name} <img src="/assets/editions/${card.edition.toLowerCase()}" class= edition_${card.rarity.toLowerCase()} height=5% width=5% >
             </h3>
             
-            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class=${cardClass} style="width:146px; height: 204px;"> </a> </div>            
+            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class=${cardClass} style="width:146px; height: 204px;"> </a> </div>
             
           </div>`
         )
@@ -79,14 +79,14 @@ $(document).on('turbolinks:load', function() {
       $("#sort_by_name").on('click', function(event) {
         event.preventDefault();
 
-        const sortedCards = generateCardsHTML(cards.sort((a,b)=> a.name[0].charCodeAt() - b.name[0].charCodeAt()))
+        const sortedCards = generateCardsHTML(cards.sort((a,b) => a.name.localeCompare(b.name)))
         document.getElementById("find_cards").innerHTML = sortedCards;
       });
 
       $("#sort_by_id").on('click', function(event) {
         event.preventDefault();
         
-        const sortedCards = generateCardsHTML(cards.sort((a,b)=> a.multiverse_id - b.multiverse_id))
+        const sortedCards = generateCardsHTML(cards.sort((a,b) => a.multiverse_id - b.multiverse_id))
         document.getElementById("find_cards").innerHTML = sortedCards;
       });
 
@@ -94,8 +94,8 @@ $(document).on('turbolinks:load', function() {
       $("#sort_by_price").on('click', function(event) {
         event.preventDefault();
 
-        const sortedCards = generateCardsHTML(cards.sort((a,b)=> {
-          const [priceA, priceB] = [a, b].map(card=> parseFloat(card.price[1].match(/\d+\,*\d*\.*\d*/) || []))
+        const sortedCards = generateCardsHTML(cards.sort((a,b) => {
+          const [priceA, priceB] = [a, b].map(card=> parseFloat(card.price[1].match(/\d+\,*\d*\.*\d*/)))
           return priceB - priceA;
         }));
 
@@ -120,7 +120,11 @@ $(document).on('turbolinks:load', function() {
         document.getElementById("find_cards").innerHTML = sortedCards;
       });
 
+      //clear "sort by" buttons when a card is clicked
+      $("img.card_img").on('click', function() {
+          $("a.btn-sm").empty()
+      })
+
     });
   });
-
 });
