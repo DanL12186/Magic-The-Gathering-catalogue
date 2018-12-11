@@ -92,7 +92,7 @@ Card.create(name: "Hurkyl's Recall", artist: "NéNé Thomas", edition: "Revised"
 
 Card.create(name: "Storm Seeker", edition: "Legends", artist: "Mark Poole", mana: ["3", "Green"], card_type: "Instant", effects: "Storm Seeker does 1 damage to opponent for each card in their hand.", rarity: "Uncommon")
 
-Card.create(name: "Underground River", card_type: "Land", subtypes: ["Nonbasic Land"], activated_abilities: ["Tap to add one colorless mana to your mana pool.", "Tap to add either one blue or black mana to your mana pool. You lose one life."], edition: "Ice Age", rarity: "Rare")
+Card.create(name: "Underground River", artist: 'NéNé Thomas', card_type: "Land", subtypes: ["Nonbasic Land"], activated_abilities: ["Tap to add one colorless mana to your mana pool.", "Tap to add either one blue or black mana to your mana pool. You lose one life."], edition: "Ice Age", rarity: "Rare")
 
 Card.create(name: "Lim-Dûl's Paladin", card_type: "Creature", subtypes: ["Knight"], abilities: ["Trample"], effects: "At the beginning of your upkeep, you may discard a card. If you don't, sacrifice Lim-Dûl's Paladin and draw a card. Whenever Lim-Dûl's Paladin becomes blocked, it gets +6/+3 until end of turn. Whenever Lim-Dûl's Paladin attacks and isn't blocked, it assigns no combat damage this turn and defending player loses 4 life. This cannot be prevented.", rarity: "Uncommon", power: 0, toughness: 3, edition: "Alliances", artist: "Christopher Rush", mana: [2, "Black", "Red"] )
 
