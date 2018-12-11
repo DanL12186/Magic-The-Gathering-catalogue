@@ -307,7 +307,7 @@ Card.create(name: "Island", artist: "Douglas Shuler", card_type: "Land", edition
 ##single card
 # def create_card(id)
 #   @url = "https://api.scryfall.com/cards/multiverse/#{id}"
-#   obj = JSON.parse(Nokogiri::HTML(open(@url)).text)
+#   obj = JSON.parse(Nokogiri::HTML(open(@url).read))
 
 #   types = obj['type_line'].split
 #   types.delete_at(1)
