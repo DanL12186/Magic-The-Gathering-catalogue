@@ -7,6 +7,6 @@
 <% @cards.each do | card | %> 
   <% unless is_modern_or_basic_land?(card) %>
   <h2> <%= card.name %> </h2> 
-  <%= link_to ( image_tag card.img_url, class: "col-sm-2 filter" ), card_path(card) %> 
+  <div class = "col-sm-2 filter"> <%= link_to ( image_tag card.img_url, class: "filter-img #{card.edition.downcase}" ), card_path(card) %> </div>
   <% end %>
 <% end %>

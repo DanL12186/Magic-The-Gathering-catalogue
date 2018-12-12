@@ -70,9 +70,16 @@ h5.navbar a {
 
 //****Filtered Pages*******//
 
+.filter-img {
+    border-radius: 3%;
+}
+
+.filter-img.alpha {
+    border-radius: 5.4%;
+}
+
 .col-sm-2.filter {
     transition: .4s;
-    border-radius: 6.5%;
 }
 
 .col-sm-2.filter:hover {
