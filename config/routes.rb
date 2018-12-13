@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get '/cards/find_by_properties'
   post '/cards/filter_search' => 'cards#filter_search'
 
+  get '/cards/card_names' => 'cards#card_names'
+  post '/' => 'application#home'
+
   resources :cards
   resources :decks
 

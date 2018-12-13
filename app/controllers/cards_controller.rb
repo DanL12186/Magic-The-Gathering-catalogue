@@ -17,6 +17,11 @@ class CardsController < ApplicationController
     @cards = Card.all.select { | card | card.attributes.values.any? { | value | value.to_s.delete('.') == params[:filter] } }.sort_by(&:name)
   end
 
+  def card_names
+    names = Card.pluck(:name)
+    render json: names
+  end
+
   def index
     @matches, @partial_matches = Card.search(params[:search])
   end

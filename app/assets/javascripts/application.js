@@ -77,4 +77,31 @@ $(document).on("turbolinks:load", function() {
     //stops "please fill in this form" from triggering
     event.preventDefault()
   });
+
+  let cardNames;
+
+  $("#search").on("focus", function(event) {
+    if (!cardNames) {
+      const response = $.get('/cards/card_names');
+      response.done((names) => {
+        cardNames = names
+      })
+    }
+  })
+
+  $("#search").on("keyup", function(event) {
+    if (event.target.value) {
+      const userEntry = new RegExp('^' + event.target.value, 'i')
+      ,     matches = cardNames.filter(name => userEntry.test(name)).sort()
+      
+      datalist = document.getElementById("autocomplete")
+      
+      const topFiveMatches = []
+
+      for (let i = 0; i < 5 && i < matches.length; i++) {
+        topFiveMatches.push(`<option value="${matches[i]}"></option>`)
+      }
+      datalist.innerHTML = topFiveMatches
+    }
+  })
 })
