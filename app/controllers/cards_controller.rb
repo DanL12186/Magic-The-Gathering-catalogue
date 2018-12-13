@@ -4,7 +4,7 @@ class CardsController < ApplicationController
   include CardHelper
 
   def show
-    @card = Card.find(params[:id])
+    @card = params[:id].match?(/\d/) ? Card.find(params[:id]) : Card.find_by_name(params[:id])
     name = @card.name
     set = @card.edition
     if price_empty_or_older_than_24_hours(@card.updated_at, @card.price)
@@ -24,6 +24,11 @@ class CardsController < ApplicationController
 
   def index
     @matches, @partial_matches = Card.search(params[:search])
+    if @partial_matches.size == 1 && Card.find_by_name(@partial_matches[0].name)
+      redirect_to(card_path(@partial_matches[0].name))
+    elsif @matches.size == 1 && Card.find_by_name(@matches[0].name)
+      redirect_to(card_path(@matches[0].name))
+    end
   end
 
   def filter_search

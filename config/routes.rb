@@ -12,8 +12,12 @@ Rails.application.routes.draw do
   get '/cards/card_names' => 'cards#card_names'
   post '/' => 'application#home'
 
+
+
   resources :cards
   resources :decks
+
+  get '/cards/:name' => 'cards#show'
 
   get '/decks/:id/overview' => 'decks#overview'
   
