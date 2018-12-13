@@ -46,7 +46,7 @@ class Card < ApplicationRecord
         partial_matches << card
       end
     end
-    [ matches, partial_matches ]
+    [ matches, partial_matches ].map { | array | array.sort_by(&:name) }
   end
   
 end
