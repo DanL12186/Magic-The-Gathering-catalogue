@@ -39,7 +39,8 @@ class Card < ApplicationRecord
 
     Card.all.each do | card | 
       next unless card.name.match?(/#{search}/i)
-      
+      return card.name if card.name.downcase == search.downcase
+
       if card.name.split.any? { | word | word.downcase == search.downcase } 
         matches << card
       else 

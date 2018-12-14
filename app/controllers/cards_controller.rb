@@ -23,11 +23,11 @@ class CardsController < ApplicationController
   end
 
   def index
-    @matches, @partial_matches = Card.search(params[:search])
-    if @partial_matches.size == 1 && Card.find_by_name(@partial_matches[0].name)
-      redirect_to(card_path(@partial_matches[0].name))
-    elsif @matches.size == 1 && Card.find_by_name(@matches[0].name)
-      redirect_to(card_path(@matches[0].name))
+    search_result = Card.search(params[:search])
+    if search_result.class == String
+      redirect_to card_path(search_result)
+    else
+      @matches, @partial_matches = search_result
     end
   end
 
