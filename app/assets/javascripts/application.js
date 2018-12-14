@@ -80,28 +80,23 @@ $(document).on("turbolinks:load", function() {
 
   let cardNames;
 
-  $("#search").on("focus", function(event) {
+  $("#search").on("focus", ()=> {
     if (!cardNames) {
       const response = $.get('/cards/card_names');
-      response.done((names) => {
+      response.done(names => {
         cardNames = names
       })
     }
   })
 
-  $("#search").on("keyup", function(event) {
+  $("#search").on("keyup", (event) => {
     if (event.target.value) {
       const userEntry = new RegExp('^' + event.target.value, 'i')
       ,     matches = cardNames.filter(name => userEntry.test(name)).sort()
       
       datalist = document.getElementById("autocomplete")
       
-      const topFiveMatches = []
-
-      for (let i = 0; i < 5 && i < matches.length; i++) {
-        topFiveMatches.push(`<option value="${matches[i]}"></option>`)
-      }
-      datalist.innerHTML = topFiveMatches
+      datalist.innerHTML = matches.slice(0,8).map(match => `<option value="${match}"></option>`)
     }
   })
 })
