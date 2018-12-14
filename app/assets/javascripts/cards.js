@@ -53,7 +53,7 @@ $(document).on('turbolinks:load', function() {
               ${card.name} <img src="/assets/editions/${card.edition.toLowerCase()}" class= edition_${card.rarity.toLowerCase()} height=5% width=5% >
             </h3>
             
-            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class=${cardClass} style="width:146px; height: 204px;"> </a> </div>
+            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class=${cardClass} style="width: 146px; height: 204px;"> </a> </div>
             
           </div>`
         )
@@ -67,14 +67,16 @@ $(document).on('turbolinks:load', function() {
         return;
       }
 
-      //create buttons to sort newly displayed card results
-      document.getElementById("sort_by_name").innerHTML = `<button>Sort By Name</button>`
-      document.getElementById("sort_by_id").innerHTML = `<button>Sort By Multiverse ID</button>`
-      document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
-      document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
-
       const html = generateCardsHTML(cards);
       document.getElementById("find_cards").innerHTML = html || "No results found"
+      
+      //create buttons to sort newly displayed card results
+      if (html) {  
+        document.getElementById("sort_by_name").innerHTML = `<button>Sort By Name</button>`
+        document.getElementById("sort_by_id").innerHTML = `<button>Sort By Multiverse ID</button>`
+        document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
+        document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
+      }
 
       $("#sort_by_name").on('click', function(event) {
         event.preventDefault();
@@ -120,9 +122,9 @@ $(document).on('turbolinks:load', function() {
         document.getElementById("find_cards").innerHTML = sortedCards;
       });
 
-      //clear "sort by" buttons when a card is clicked
-      $("img.card_img").on('click', function() {
-          $("a.btn-sm").empty()
+      //clear "sort by" buttons when a card is clicked. not working if sort buttons hit
+      $(".card_img").on('click', function() {
+        $("a.btn-sm").empty()
       })
 
     });
