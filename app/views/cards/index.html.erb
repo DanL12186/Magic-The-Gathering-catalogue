@@ -1,26 +1,34 @@
-<div class="row">
-  <div class="col-sm-4">
-    <h1> Matches: </h1>
+<% unless @matches.empty? && @partial_matches.empty? %>
 
-    <% @matches.each do | card | %>
-      <li class = "card">
-        <div class = "btn btn-med" data-toggle="popover" data-url="<%= card.img_url %>" title = " "> 
-          <%= link_to(card.name, card_path(card.id), class: "popover-card") %> 
-        </div>
-      </li>
-    <% end %>
+  <div class="row">
+
+    <div class="col-sm-4">
+      <h1> Matches: </h1>
+
+      <% @matches.each do | card | %>
+        <li class = "card">
+          <div class = "btn btn-med" data-toggle="popover" data-url="<%= card.img_url %>" title = " "> 
+            <%= link_to(card.name, card_path(card.id), class: "popover-card") %> 
+          </div>
+        </li>
+      <% end %>
+    </div>
+
+    <div class="col-sm-4"></div>
+
+    <div class="col-sm-4">
+      <h1> Partial Matches: </h1>
+      <% @partial_matches.each do | card | %>
+        <li class = "card">
+          <div class = "btn btn-med" data-toggle="popover" data-url="<%= card.img_url %>" data-placement="left" title = " "> 
+            <%= link_to(card.name, card_path(card.id), class: "popover-card") %> 
+          </div>
+        </li>
+      <% end %>
+    </div>
+    
   </div>
 
-  <div class="col-sm-4"></div>
-
-  <div class="col-sm-4">
-    <h1> Partial Matches: </h1>
-    <% @partial_matches.each do | card | %>
-      <li class = "card">
-        <div class = "btn btn-med" data-toggle="popover" data-url="<%= card.img_url %>" data-placement="left" title = " "> 
-          <%= link_to(card.name, card_path(card.id), class: "popover-card") %> 
-        </div>
-      </li>
-    <% end %>
-  </div>
-</div>
+<% else %>
+  <h1> No results found. </h1>
+<% end %>
