@@ -8,8 +8,9 @@ class CardsController < ApplicationController
     name = @card.name
     set = @card.edition
     if price_empty_or_older_than_24_hours(@card.updated_at, @card.price)
-      @card.update(price: [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)])
-      @card.update(updated_at: Time.now) if older_than_24_hours(@card.updated_at)
+      Thread.new {
+        @card.update(price: [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)], updated_at: Time.now)
+      }
     end
   end
 
