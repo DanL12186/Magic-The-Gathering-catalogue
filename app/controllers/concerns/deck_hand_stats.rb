@@ -1,3 +1,5 @@
+#These methods are here because they're needed by both the controller and the view
+
 module DeckHandStats
  include DeckHelper
 
@@ -37,12 +39,12 @@ module DeckHandStats
 
       if card.card_type.match?('Creature')
         classifications['creatures'] += 1 
-        if card.power.between?(0,2)
+        if card.power <= 2
           classifications['small_creatures'] += 1 
-        elsif card.power.between?(3,4)
+        elsif card.power <= 4
           classifications['medium_creatures'] += 1
         else
-          classifications['large_creatures'] += 1 if card.power >= 5
+          classifications['large_creatures'] += 1
         end
       end
     end
@@ -59,7 +61,7 @@ module DeckHandStats
   def multivar_geo_freq_args(hand_freqs, deck_freqs)
     total_and_target_arrays = {}
    
-    #parens around key, value are necessary with index on a hash
+    #parens around (key, value) are necessary with index on a hash
     hand_freqs.each.with_index(1) do | (card, hand_count), idx | 
       total_and_target_arrays[idx] = [ deck_freqs[card], hand_count ]
     end
