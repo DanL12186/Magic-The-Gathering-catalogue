@@ -24,10 +24,10 @@ $(document).on("turbolinks:load", function() {
     const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ')
     ,     rarity  = this.parentElement.getAttribute('data-rarity');
 
-    this.src = `/assets/editions/${edition} ${rarity}.png`;
+    this.src = `/assets/editions/${edition} ${rarity}`;
   }).on('mouseleave', function() {
     const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ');
-    this.src = `/assets/editions/${edition}.png`;
+    this.src = `/assets/editions/${edition}`;
   });
 
   //add additional rows to table on hand_odds_calculator page
