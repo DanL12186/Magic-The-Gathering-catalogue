@@ -84,19 +84,19 @@ $(document).on("turbolinks:load", function() {
     if (!cardNames) {
       const response = $.get('/cards/card_names');
       response.done(names => {
-        cardNames = names
+        cardNames = names.map(name=> name.toLowerCase()).sort()
       })
     }
   })
 
   $("#search").on("keyup", (event) => {
     if (event.target.value) {
-      const userEntry = new RegExp('^' + event.target.value, 'i')
-      ,     matches = cardNames.filter(name => userEntry.test(name)).sort()
+      const userEntry = event.target.value.toLowerCase()
+      ,     matches = cardNames.filter(name=> name.startsWith(userEntry))
       
       datalist = document.getElementById("autocomplete")
       
-      datalist.innerHTML = matches.slice(0,8).map(match => `<option value="${match}"></option>`)
+      datalist.innerHTML = matches.slice(0,8).map(match=> `<option value="${match}"></option>`)
     }
   })
 })
