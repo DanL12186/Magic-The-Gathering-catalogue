@@ -2,10 +2,10 @@
   "name": "Magic-The-Gathering-PostgreSQL",
   "private": true,
   "dependencies": {
-    "chance": "^1.0.16",
-    "mathjs": "^5.2.2",
-    "npm": "^6.4.1",
-    "popper.js": "^1.14.5",
+    "chance": "^1.0.18",
+    "mathjs": "^5.4.0",
+    "npm": "^6.5.0",
+    "popper.js": "^1.14.6",
     "xml2js": "^0.4.19"
   }
 }
