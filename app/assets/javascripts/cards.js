@@ -1,9 +1,11 @@
 $(document).on('turbolinks:load', function() {
+  
+  //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
   $(".card_show").on('click', function() {
     const originalSrc = this.getAttribute('original_src')
     ,     hiResImgUrl = this.getAttribute('img_url')
 
-    if (this.src.match(/scryfall/)) {
+    if (this.src.includes('scryfall')) {
       this.src = originalSrc;
       this.style.width = "223px";
       this.style.height = "310px";
@@ -14,7 +16,7 @@ $(document).on('turbolinks:load', function() {
       this.style.width = "502px";
       this.style.height = "700px";
     }
-  })
+  });
 
   //popover for card search results page
   $(function () {
@@ -54,7 +56,7 @@ $(document).on('turbolinks:load', function() {
               ${card.name} <img src="/assets/editions/${card.edition.toLowerCase()}" class= edition_${card.rarity.toLowerCase()} height=5% width=5% >
             </h3>
             
-            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class=${cardClass} style="width: 146px; height: 204px;"> </a> </div>
+            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a> </div>
             
           </div>`
         )
