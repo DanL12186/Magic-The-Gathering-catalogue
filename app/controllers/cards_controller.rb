@@ -25,7 +25,7 @@ class CardsController < ApplicationController
 
   def index
     search_result = Card.search(params[:search])
-    if search_result.class == String
+    if search_result.is_a?(String)
       redirect_to card_path(search_result)
     else
       @matches, @partial_matches = search_result
@@ -33,11 +33,11 @@ class CardsController < ApplicationController
   end
 
   def filter_search
-    filters = params.select { | key, value | ["rarity", "reserved", "card_type", "color", "edition", "converted_mana_cost", "name"].include?(key) && !value.empty? }.permit!
+    filters = params.select { | key, value | ['rarity', 'reserved', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'].include?(key) && !value.empty? }.permit!
 
-    @results = filters.empty? ? nil : Card.where(filters)
+    results = filters.empty? ? nil : Card.where(filters)
 
-    render json: @results
+    render json: results
   end
 
 end
