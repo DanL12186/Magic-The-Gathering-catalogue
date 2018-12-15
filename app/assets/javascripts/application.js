@@ -50,6 +50,7 @@ $(document).on("turbolinks:load", function() {
   //handles hand_odds_calculator submit form and appends result
   $('form.calculate-odds').on('submit', function(event) {
     event.preventDefault();
+    event.stopPropagation();
 
     const serializedForm = $(this).serialize()
     ,     response = $.post(`/decks/calculate_custom_hand_odds`, serializedForm);
