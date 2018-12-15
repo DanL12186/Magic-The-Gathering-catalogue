@@ -84,4 +84,8 @@ module DeckHelper
 
     graph_data.to_json
   end
+
+  def calculate_deck_value(cards)
+    @cards.map { | card | (card.price[1] || '0').delete('$').to_f }.sum
+  end
 end

@@ -5,12 +5,13 @@
     <h4> Cards </h4>
     <% sort_by_number_and_name_desc(@cards, @deck_frequencies).each do | card | %>
       <div>
-        <div class="btn btn-sm" data-toggle="popover" data-url="<%= card.img_url %>" title = " "> <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id), class: "popover-card") %> </div>
+        <div class="btn btn-sm" data-toggle="popover" data-url="<%= card.img_url %>" title=" "> <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id), class: "popover-card") %> </div>
       </div>
     <% end %>
+    <h5 class="btn btn-sm" style="font-family: Times; font-size: 100%;"> Total Value: $<%= calculate_deck_value(@cards) %></h5>
   </div>
   
-  <div id="deck-holder" class="col-sm-4" style="margin-top: 7%; padding-left: 5.5%; display: inline-block;" value="1"> 
+  <div class="col-sm-4" id="deck-holder" style="margin-top: 7%; padding-left: 5.5%; display: inline-block;" value="1"> 
     <p id="card-counter"> Card 1 of <%= @cards.size %> </p>
     <%= image_tag 'card back', id: "deck-holder-card-back" %>
     <% @shuffled_deck_cards.each.with_index(1) do | card,  idx | %>
@@ -19,9 +20,10 @@
   </div>
   
   <div style="padding-top: 2%">
-  <div id="pieChartContainer" class="col-sm-3" style="display: inline-block; height: 300px; width: 25%; margin-left: 12%;" data-json = <%= @card_types %> > </div>
-  <div id="splineContainer" class="col-sm-3" style="height: 200px; width: 25%; margin-left: 45.4%;" data-json = <%= generate_mana_curve_data(@cards)%> ></div>
+    <div id="pieChartContainer" class="col-sm-3" style="display: inline-block; height: 300px; width: 25%; margin-left: 12%;" data-json = <%= @card_types %> > </div>
+    <div id="splineContainer" class="col-sm-3" style="height: 200px; width: 25%; margin-left: 45.4%;" data-json = <%= generate_mana_curve_data(@cards)%> ></div>
   </div>
+
 </div>
 
 <script>
