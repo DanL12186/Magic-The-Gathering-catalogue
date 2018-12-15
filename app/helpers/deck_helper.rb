@@ -65,19 +65,16 @@ module DeckHelper
 
   def truncate_at_three_words(card_name)
     words = card_name.split(/-| /)[0..2]
-    length = words.join(' ').length
-    result = card_name[0..length]
-    result.strip
+    len = words.join(' ').length
+    card_name[0..len].strip
   end
   
   def generate_mana_curve_data(deck)
     frequencies = {}
 
-    costs = deck.map(&:converted_mana_cost).compact
+    mana_costs = deck.map(&:converted_mana_cost).compact
 
-    (0..(costs.max)).each { | cost | frequencies[cost] = 0 }
-
-    costs.each { | cost | frequencies[cost] += 1 }
+    (0..mana_costs.max).each { | cost | frequencies[cost] = mana_costs.count(cost) }
 
     #map mana cost frequencies into an { x-axis : X, y-axis : Y } format
     graph_data = frequencies.map { | key, value | { 'x' => key, 'y' => value } }
@@ -86,6 +83,6 @@ module DeckHelper
   end
 
   def calculate_deck_value(cards)
-    @cards.map { | card | (card.price[1] || '0').delete('$').to_f }.sum
+    @cards.map { | card | (card.price[1] || '0').delete('$').to_f }.sum.round(4)
   end
 end
