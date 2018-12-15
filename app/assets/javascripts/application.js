@@ -20,7 +20,7 @@
 $(document).on("turbolinks:load", function() {
   
   //change edition symbol color to silver or gold if card is uncommon or rare
-  $(".edition_rare, .edition_uncommon").on('mouseenter', function() {
+  $(".edition_rare, .edition_uncommon, .edition_mythic").on('mouseenter', function() {
     const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ')
     ,     rarity  = this.parentElement.getAttribute('data-rarity');
 
@@ -91,7 +91,6 @@ $(document).on("turbolinks:load", function() {
   })
 
   $("#search").on("keyup", (event) => {
-    //only refresh if changed
     if (event.target.value) {
       const userEntry = event.target.value.toLowerCase()
       ,     matches = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry))
