@@ -8,8 +8,9 @@ $(document).on("turbolinks:load", function() {
     cardCount = this.parentElement.getAttribute('value')
     this.parentElement.setAttribute('value', ++cardCount)
     
-    currentCardNumber.html(`Card ${cardCount} of ${numCards}`)
-    this.remove()
+    currentCardNumber.html(cardCount <= numCards ? `Card ${cardCount} of ${numCards}` : '')
+
+    this.remove();
   });
 
   //pie chart for displaying deck card-types breakdown on deck overview page
