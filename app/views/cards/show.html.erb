@@ -9,7 +9,7 @@
 
   <h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank", rel: "noopener noreferrer" %> </h4>
 
-  <div class = "row no-right-margin">
+  <div class = "row">
     <div class="col-sm-3 margin-3em-top-bottom"> <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div>
     <div class='col-sm-4'></div>
     <div class = 'col-sm-3'> <%= image_tag(@card.cropped_img) %> </div>

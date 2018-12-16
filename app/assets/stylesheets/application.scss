@@ -10,9 +10,16 @@ body {
     color: silver;
 }
 
-a {
-    color: rgb(120, 180, 120);
+input, select {
+    color: black;
 }
+.row {
+    margin-right: 0px;
+}
+
+// a {
+//     color: rgb(120, 180, 120);
+// }
 
 //********navbar tweaks***//
 .navbar {
@@ -22,7 +29,7 @@ a {
     padding-top: 0.75%;
     margin-right: 50px;
     background-color: black;
-    border: 1px solid #3c763d;
+    border: 2px solid #3c763d;
     font-size: 20px;
 }
 
