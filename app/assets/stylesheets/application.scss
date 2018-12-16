@@ -5,8 +5,38 @@
 
 body {
     padding-left: 50px;
-    background-color: rgb(217, 215, 224);
+    background-color: black;
+    background-image: url('wall-4-light.png');
+    color: silver;
 }
+
+a {
+    color: rgb(120, 180, 120);
+}
+
+//********navbar tweaks***//
+.navbar {
+    display: block;
+    text-align: center;
+
+    padding-top: 0.75%;
+    margin-right: 50px;
+    background-color: black;
+    border: 1px solid #3c763d;
+    font-size: 20px;
+}
+
+h5.navbar a {
+    padding-right: 2%;
+}
+//************************//
+
+
+//****Search Bar***********//
+.search-bar {
+    margin-bottom: 2.5%;
+}
+//*************************//
 
 //*****CARD DISPLAY DIV***//
 
@@ -25,17 +55,13 @@ body {
 }
 
 .card_img.alpha {
-    border-radius: 5.2%;
+    border-radius: 5.9%;
 }
 
 .card_img:hover {
     filter: drop-shadow(8px 8px 10px rgba(0,0,0,0.9));
     transform: scale(1.2);
-    border-radius: 12px; 
-}
-
-.card_img.alpha:hover {
-    border-radius: 5.2%;
+    border-radius: 12px;
 }
 
 .col-sm-3.flavor {
@@ -46,27 +72,6 @@ body {
     float: none;
 }
 //************************//
-
-//********navbar tweaks***//
-.navbar {
-    display: block;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 1%;
-}
-
-h5.navbar a {
-    padding-right: 0.5%;
-}
-//************************//
-
-
-//****Search Bar***********//
-.search-bar {
-    margin-bottom: 2.5%;
-}
-//*************************//
 
 //****Filtered Pages*******//
 
