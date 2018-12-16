@@ -9,26 +9,28 @@
 
   <h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank", rel: "noopener noreferrer" %> </h4>
 
-  <div class = "row">
-    <div class = "col-sm-3 margin-3em-top-bottom" style = 'margin-right: 10%;'> <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div>
-
-    <div class = 'col-sm-2' style= 'margin-left: 20%;'> <%= image_tag(@card.cropped_img) %> </div>
+  <div class = "row no-right-margin">
+    <div class="col-sm-3 margin-3em-top-bottom"> <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div>
+    <div class='col-sm-4'></div>
+    <div class = 'col-sm-3'> <%= image_tag(@card.cropped_img) %> </div>
   </div>
 
-  <h4 class="price"> 
-    <%= link_to "MTGoldfish Price:", mtgoldfish_url(@card.name, @card.edition), target: "_blank", rel: "noopener noreferrer" %> <%= @card.price[0] %> 
-  </h4>
+  <div class="price">
+    <h4 id="mtg-fish"> 
+      <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= @card.price[0] %> 
+    </h4>
 
-  <h4 class="price">
-    <%= link_to "Card Kingdom Price:", card_kingdom_url(@card.name, @card.edition), target: "_blank", rel: "noopener noreferrer" %> <%= @card.price[1] %>
-  </h4>
+    <h4 id="card-kingdom">
+      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= @card.price[1] %>
+    </h4>
 
-  <h4 class="price">
-    <%= link_to "TCG Player Median Price:", tcg_player_url(@card.name, @card.edition), target: "_blank", rel: "noopener noreferrer" %> <%= @card.price[2] %>
-  </h4>
+    <h4 id="tcg-player">
+      <%= link_to 'TCG Player Median Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= @card.price[2] %>
+    </h4>
 
-  <h2>
-    <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: "_blank", rel: "noopener noreferrer" %> 
-  </h2>
+    <h2>
+      <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %>
+    </h2>
+  </div>
 
 </div>
