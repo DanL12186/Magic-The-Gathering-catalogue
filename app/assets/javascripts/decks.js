@@ -14,6 +14,11 @@ $(document).on("turbolinks:load", function() {
   });
 
   //pie chart for displaying deck card-types breakdown on deck overview page
+  if (document.getElementById("pieChartContainer")) { //load only on correct page
+    $("#pieChartContainer").ready(pieChartLoader);
+    $("#pieChartContainer").on('turbolinks:load', pieChartLoader)
+  }
+
   function pieChartLoader() {
     const jsonData = $("#pieChartContainer").data('json'),
           [ labels, frequencies ] = [ Object.keys(jsonData).map(str=> str.replace('_', ' ')), Object.values(jsonData) ],
@@ -28,30 +33,75 @@ $(document).on("turbolinks:load", function() {
         dataPoints.push( { label: label, y: frequencies[i], legendText: `${label}: ${percent}%` } )
       }
     }
-    
+
     const options = {
-      backgroundColor: "silver",
+      backgroundColor: "transparent",
       title: {
         fontFamily: "MagicMedieval",
         text: "Deck Breakdown",
+        fontColor: "silver",  
       },
       animationEnabled: true,
+      legend: { 
+        fontColor: 'silver' 
+      },
       data: [
         {
           type: "doughnut",
           dataPoints: dataPoints,
-          showInLegend: true
+          showInLegend: true,
+          indexLabelFontColor: 'silver'
         }
       ]
     };
+
     new CanvasJS.Chart("pieChartContainer", options).render();
   };
+  
 
-  //keep chart from trying to load on other deck page
-  if (document.getElementById("pieChartContainer")) {
-    $("#pieChartContainer").ready(pieChartLoader);
-    $("#pieChartContainer").on('turbolinks:load', pieChartLoader)
+  //spline chart for displaying a deck's mana curve
+  if (document.getElementById('splineContainer')) { //prevent chart from attempting to render on wrong page
+    $("#splineContainer").ready(splineLoader);
+    $("#splineContainer").on('turbolinks:load', splineLoader)
   }
+
+  function splineLoader() {
+    const jsonData = $("#splineContainer").data('json')
+
+    const options = {
+      backgroundColor: "transparent",
+      animationEnabled: true,
+      
+      title: {
+        text: "Mana Curve",
+        fontFamily: "MagicMedieval",
+        fontColor: "silver",
+      },
+      axisX:  { 
+        title: "Number of Cards",
+        titleFontColor: 'silver',
+        labelFontColor: 'silver',
+        axisThickness: 20,
+        lineColor: 'silver'
+      },
+      axisY: {
+        labelFontColor: 'silver',
+        lineColor: 'silver'
+      },
+      data: [
+        {
+          type: "spline", //line, column, pie, etc
+          color: "#096e30",
+          lineThickness: 5,
+          markerColor: 'silver',
+          dataPoints: jsonData
+        }
+      ]
+    };
+    
+    new CanvasJS.Chart("splineContainer", options).render();
+  };
+
 
   //popover for card search results page
   $(function () {
@@ -69,6 +119,6 @@ $(document).on("turbolinks:load", function() {
   //popover remains after hitting back button without this
   $("a.popover-card").on('click', function() {
     $(".popover.fade.right.in").remove()
-    //this.parentElement.children[0].remove()
   });
-})
+
+});
