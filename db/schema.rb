@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_22_060136) do
+ActiveRecord::Schema.define(version: 2018_12_17_031017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(version: 2018_11_22_060136) do
     t.string "year"
     t.string "other_editions", default: [], array: true
     t.integer "multiverse_id"
+    t.json "legalities", default: {}
+    t.boolean "iconic", default: false
+    t.boolean "legendary", default: false
     t.index ["abilities"], name: "index_cards_on_abilities", using: :gin
     t.index ["activated_abilities"], name: "index_cards_on_activated_abilities", using: :gin
     t.index ["colors"], name: "index_cards_on_colors", using: :gin
