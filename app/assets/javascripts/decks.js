@@ -3,12 +3,12 @@ $(document).on("turbolinks:load", function() {
   //clicking hrough cards on deck show page
   $('.deck-display').on('click', function() {
     let   cardCount = this.parentElement.getAttribute('value');
-    const currentCardNumber = $("#card-counter")
-    ,     numCards = parseInt(currentCardNumber.html().trim().match(/\d+$/)[0]);
+    const currentCardNumber = document.getElementById('card-counter')
+    ,     numCards = parseInt(currentCardNumber.innerHTML.trim().match(/\d+$/)[0]);
 
-    this.parentElement.setAttribute('value', ++cardCount)
-    
-    currentCardNumber.html(cardCount <= numCards ? `Card ${cardCount} of ${numCards}` : '<br>')
+    document.getElementById('deck-holder').setAttribute('value', ++cardCount);
+
+    currentCardNumber.innerHTML = (cardCount <= numCards) ? (`Card ${cardCount} of ${numCards}`) : ('<br>');
 
     this.remove();
   });
@@ -35,18 +35,19 @@ $(document).on("turbolinks:load", function() {
         fontFamily: "MagicMedieval",
         text: "Deck Breakdown",
       },
-        animationEnabled: true,
-        data: [
-          {
-            type: "doughnut",
-            dataPoints: dataPoints,
-            showInLegend: true
-          }
-        ]
-      };
-    $("#pieChartContainer").CanvasJSChart(options);
+      animationEnabled: true,
+      data: [
+        {
+          type: "doughnut",
+          dataPoints: dataPoints,
+          showInLegend: true
+        }
+      ]
+    };
+    new CanvasJS.Chart("pieChartContainer", options).render();
   };
 
+  //keep chart from trying to load on other deck page
   if (document.getElementById("pieChartContainer")) {
     $("#pieChartContainer").ready(pieChartLoader);
     $("#pieChartContainer").on('turbolinks:load', pieChartLoader)
