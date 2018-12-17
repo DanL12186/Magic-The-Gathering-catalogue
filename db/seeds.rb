@@ -31,6 +31,12 @@
 # def update_set(set)
 #   ((set['total_cards']/175).ceil + 1).times do
 #     card_set = set['data']
+#     legalities = obj['legalities'].transform_values { | value | value == 'legal' }
+#     legendary = obj['type_line'].include?("Legendary")
+#     types = obj['type_line'].sub('Legendary ','').split
+#     types.delete_at(1)
+#     type = types.shift
+#
 #     card_set.each do | obj | 
 #       card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
 #       card.update(:hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize) if card
@@ -69,17 +75,21 @@
 #   ((set['total_cards']/175).ceil + 1).times do
 #     card_set = set['data']
 #     card_set.each do | obj |
-#       types = obj['type_line'].split
+#       legendary = obj['type_line'].include?("Legendary")
+#       types = obj['type_line'].sub('Legendary ','').split
 #       types.delete_at(1)
 #       type = types.shift
 #       edition = obj['set_name']
 #       edition = edition.split.first if edition.match?(/Revised|Unlimited/)
 #       edition = edition.split.last if edition.match?(/Beta|Alpha/)
+#
+#       legalities = obj['legalities'].transform_values { | value | value == 'legal' }
+#
 #       subtypes = []
 #       if types.size > 0
 #         subtypes = types
 #       end
-#       Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'].gsub("â", "—") )
+#       Card.create(:name => obj['name'], edition: edition, legendary: legendary, legalities: legalities, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'].gsub("â", "—") )
 #     end
 
 #     if set['next_page'].nil?
@@ -97,23 +107,26 @@
 #   end
 # end
 
-##single card
+#single card
 # def create_card(id)
 #   @url = "https://api.scryfall.com/cards/multiverse/#{id}"
-#     
+#   obj = JSON.parse(Nokogiri::HTML(open(@url).read))
 
-#   types = obj['type_line'].split
+#   legendary = obj['type_line'].include?("Legendary")
+#   types = obj['type_line'].sub('Legendary ','').split
 #   types.delete_at(1)
 #   type = types.shift
 #   edition = obj['set_name']
 #   edition = edition.split.first if edition.match?(/Revised|Unlimited/)
 #   edition = edition.split.last if edition.match?(/Beta|Alpha/)
 #   subtypes = []
+# #  changing json format from { 'vintage' => 'legal' } to { 'vintage' => true }
+#   legalities = obj['legalities'].transform_values { | value | value == 'legal' }
 
 #   if types.size > 0
 #     subtypes = types
 #   end
-#   Card.create(:name => obj['name'], edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: (obj['flavor_text'] || '').gsub("â", "—") )
+#   Card.create(:name => obj['name'], :legendary => legendary, :legalities => legalities, edition: edition, :hi_res_img => obj['image_uris']['large'], :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: (obj['flavor_text'] || '').gsub("â", "—") )
 # end
 
 # This file should contain all the record creation needed to seed the database with its default values.
