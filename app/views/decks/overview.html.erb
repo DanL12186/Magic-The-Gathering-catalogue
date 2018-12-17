@@ -8,7 +8,7 @@
         <div class="btn btn-sm" data-toggle="popover" data-url="<%= card.img_url %>" title=" "> <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id), class: "popover-card") %> </div>
       </div>
     <% end %>
-    <h5 class="btn btn-sm" style="font-family: Times; font-size: 100%;"> Total Value: $<%= calculate_deck_value(@cards) %></h5>
+    <h5 style="font-family: Times; font-size: 120%;"> Total Value: $<%= calculate_deck_value(@cards) %></h5>
   </div>
   
   <div class="col-sm-4" id="deck-holder" style="margin-top: 7%; padding-left: 5.5%; display: inline-block;" value="1"> 
@@ -20,39 +20,9 @@
   </div>
   
   <div style="padding-top: 2%">
-    <div id="pieChartContainer" class="col-sm-3" style="display: inline-block; height: 300px; width: 25%; margin-left: 12%;" data-json = <%= @card_types %> > </div>
-    <div id="splineContainer" class="col-sm-3" style="height: 200px; width: 25%; margin-left: 45.4%;" data-json = <%= generate_mana_curve_data(@cards)%> ></div>
+    <div id="pieChartContainer" class="col-sm-3" style="display: inline-block; height: 300px; width: 25%; margin-left: 12.1%;" data-json = <%= @card_types %> > </div>
+    
+    <div id="splineContainer" class="col-sm-3" style="height: 200px; width: 25%; margin-left: 45.4%; margin-top:2%;" data-json = <%= generate_mana_curve_data(@cards)%> ></div>
   </div>
 
 </div>
-
-<script>
-  function splineLoader() {
-    const jsonData = $("#splineContainer").data('json')
-
-    const options = {
-      backgroundColor: "silver",
-      title: {
-        text: "Mana Curve"
-      },
-        axisX:  { 
-          lineThickness: 2,
-          title: "Number of Cards"
-        },
-
-        animationEnabled: true,
-    
-        data: [
-          {
-            type: "spline", //line, area, column, pie, etc
-            color: "#096e30",
-            lineThickness: 5,
-            dataPoints: jsonData
-          }
-        ]
-      };
-    $("#splineContainer").CanvasJSChart(options);
-  };
-  $("#splineContainer").ready(splineLoader);
-  $("#splineContainer").on('turbolinks:load', splineLoader)
-</script>
