@@ -108,3 +108,8 @@ h5.navbar a {
     @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 }
 //*************************//
+
+@font-face{
+    font-family:"MagicMedieval";
+    src: url(font-path('MagicMedieval.ttf'));
+ }
