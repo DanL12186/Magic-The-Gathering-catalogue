@@ -42,9 +42,6 @@ $(document).on('turbolinks:load', function() {
     event.stopPropagation();
     event.preventDefault();
     
-    const serializedForm = $(this).serialize()
-    ,     response = $.post(`/cards/filter_search`, serializedForm);
-    
     function generateCardsHTML(cards) {
       return cards.map(card=> {
         const cardClass = card.edition === 'Alpha' ? 'card_img alpha' : 'card_img'
@@ -53,7 +50,7 @@ $(document).on('turbolinks:load', function() {
         return( 
           `<div class = 'col-sm-3'>
             <h3 data-edition= ${card.edition.toLowerCase().replace(/ /g,'_')} data-rarity=${card.rarity.toLowerCase()}> 
-              ${card.name} <img src="/assets/editions/${card.edition.toLowerCase()}" class= edition_${card.rarity.toLowerCase()} height=5% width=5% >
+              ${card.name} <img src="/assets/editions/${card.edition.toLowerCase()}" class= edition_${card.rarity.toLowerCase()} width=5% >
             </h3>
             
             <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a> </div>
@@ -62,6 +59,9 @@ $(document).on('turbolinks:load', function() {
         )
       }).join('')
     };
+
+    const serializedForm = $(this).serialize()
+    ,     response = $.post(`/cards/filter_search`, serializedForm);
 
     response.done(cards => {
 
