@@ -82,7 +82,7 @@ $(document).on("turbolinks:load", function() {
   let cardNames;
   let lastMatch;
 
-  $("#search").on("focus", ()=> {
+  $('#search').on('focus', ()=> {
     if (!cardNames) {
       const response = $.get('/cards/card_names');
       response.done(names => {
@@ -91,11 +91,12 @@ $(document).on("turbolinks:load", function() {
     }
   })
 
-  $("#search").on("keyup", (event) => {
+  //autocomplete search for finding cards by name
+  $('#search').on('keyup', event => {
     if (event.target.value) {
       const userEntry = event.target.value.toLowerCase()
       ,     matches = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry))
-      ,     datalist = document.getElementById("autocomplete")
+      ,     datalist = document.getElementById('autocomplete')
       ,     firstEightMatches = matches.slice(0,8);
       
       //only update on change
