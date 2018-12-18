@@ -3,11 +3,11 @@ module CardHelper
   require 'open-uri'
   
   def card_and_edition(name, edition)
-    if ["Beta", "Unlimited", "Revised", "Alpha"].include?(edition)
-      return "#{edition} #{name}"
-    else
-      "#{name} (#{edition})"
-    end
+    edition.match?(/Alpha|Beta|Unlimited|Revised/) ? "#{edition} #{name}" : "#{name} (#{edition})"
+  end
+
+  def edition_filename(rarity, edition)
+    rarity == "Common" ? "editions/#{edition.downcase}" : "editions/#{edition.downcase} #{rarity.downcase}"
   end
 
   def is_modern_or_basic_land?(card)

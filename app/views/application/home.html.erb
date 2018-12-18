@@ -8,8 +8,7 @@
   <% end %>
 </div>
 
-<%  @cards.each do | card | %> 
-  <% if card.iconic %>
+<%  @iconic_cards.each do | card | %> 
     <div>
       <h1> <%= card.name %> </h1>
       <h3 data-edition = <%= card.edition.downcase.gsub(' ', '_') %> data-rarity = <%= card.rarity.downcase %> > 
@@ -34,5 +33,4 @@
       <div class = "card_img_div"> <%= link_to ( image_tag(card.img_url, class: card_class(card))  ), card_path(card) %> </div>
       
     </div>
-  <% end %>
 <% end %>
