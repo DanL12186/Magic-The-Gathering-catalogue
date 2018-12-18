@@ -2,9 +2,11 @@
 
   <h1> 
     <%= card_and_edition(@card.name, @card.edition) %>
+    <%= image_tag(edition_filename(@card.rarity, @card.edition), width: '64x64') %>
     <% if @card.reserved %>
       <%= link_to image_tag("reserved list"), "https://magic.wizards.com/en/articles/archive/official-reprint-policy-2010-03-10", target: "_blank", rel: "noopener noreferrer" %>
     <% end %>
+    
   </h1>
 
   <h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank", rel: "noopener noreferrer" %> </h4>
