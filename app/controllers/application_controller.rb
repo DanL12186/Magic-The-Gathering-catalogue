@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
   def home
-    @cards = Card.all
+    @iconic_cards = Card.where(iconic: true)
   end
 end
