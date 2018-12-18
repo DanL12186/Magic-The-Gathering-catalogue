@@ -34,7 +34,11 @@ div.col-sm-2.pad-4 {
 
 .deck-display {
     position: absolute;
-    border-radius: 4.6%;
+    border-radius: 4.2%;
+}
+
+.deck-display.alpha {
+    border-radius: 5.5%;
 }
 
 .deck-show-card-name {
