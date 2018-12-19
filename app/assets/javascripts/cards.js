@@ -1,5 +1,17 @@
 $(document).on('turbolinks:load', function() {
   
+  const numberWithDelimiter = (strNum, delimeter = ',') => {
+    const decimalLength = strNum.includes('.') ? strNum.match(/\.\d+/)[0].length : 0
+    ,     strNumArr = strNum.replace('$','').split('');
+    
+    let offset = decimalLength + 4;
+
+    for (let i = strNumArr.length - offset; i >= 0; i -= 3) {
+      strNumArr[i] += delimeter
+    }
+    return strNumArr.join('')
+  }
+
   //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
   $(".card_show").on('click', function() {
     const originalSrc = this.getAttribute('original_src')
@@ -17,6 +29,45 @@ $(document).on('turbolinks:load', function() {
       this.style.height = "700px";
     }
   });
+
+  //later save prices with commas to begin with
+  if (document.getElementById('card-kingdom')) {
+    const stale = $('div.price')[0].getAttribute('data-stale')
+    ,     id = +$('div.price')[0].id;
+
+    if (stale === 'true') {
+      const response = $.post(`/cards/update_prices?id=${id}`)
+      
+      response.done(card=> {
+        const [mtgPrice, ck, tcg] = card.price
+        ,     edition = card.edition 
+        let   cardKingdomEdition = (edition == 'Revised') ? ('3rd-edition') : (edition == 'Fourth Edition') ? '4th-edition' : edition.replace(' ', '-').toLowerCase().replace("'", '')
+        ,     tcgEdition;
+
+        if (/Alpha|Beta|Unl|Rev/.test(edition)) { 
+          tcgEdition = edition + '-edition'  
+        }
+
+        if (cardKingdomEdition.match(/\d{4}/)) {
+          cardKingdomEdition = `${edition.match(/\d+/)[0]}-core-set`
+        }
+
+        mtgEdition = (/Alpha|Beta/.test(edition) ? (`Limited Edition ${edition}`) : /Rev|Unl/.test(edition) ? (`${edition} Edition`) : (edition))
+
+        //String.prototype.normalize('NFD') converts an accented character to unicode + accents (e.g. 'é' => 'e' + '´'), then take the first one
+        //alternatively: transliterate = str => str.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+        const transliterate = str => str.split('').map(ch=> ch.normalize('NFD')[0]).join('').replace(/[',\.\:\;]/g,'')
+
+        mtgURL= `<a target="_blank" rel="noopener noreferrer" href="https://www.mtggoldfish.com/price/${mtgEdition.replace(/ /g,'+')}/${transliterate(card.name).replace(/ /g, ('+'))}#paper">MTGoldfish Price:</a>`
+
+        $("h4#mtg-fish")[0].innerHTML = `${mtgURL} ${mtgPrice}`
+
+        $("h4#card-kingdom")[0].innerHTML = `<a target="_blank" rel="noopener noreferrer" href="https://www.cardkingdom.com/mtg/${edition.replace(/ /g, '-').toLowerCase()}/${transliterate(card.name).replace(/ /g, '-').toLowerCase()}">Card Kingdom Price: </a> $${numberWithDelimiter(ck)}`
+        
+        $("h4#tcg-player")[0].innerHTML = `<a target="_blank" rel="noopener noreferrer" href="https://shop.tcgplayer.com/magic/${(tcgEdition||edition).replace(/ /g, '-').toLowerCase()}/${transliterate(card.name).replace(/ /g, '-').toLowerCase()}">TCG Player Median Price: </a> ${tcg}`
+      })
+    }
+  }
 
   //popover for card search results page
   $(function () {
@@ -38,6 +89,7 @@ $(document).on('turbolinks:load', function() {
 
 
   //populate /cards/find_by_properties with found cards
+  //need to fix the fact that buttons don't disappear after hitting a sort button first, and showing basic lands
   $("form.find_by_properties").on('submit', function(event) {
     event.stopPropagation();
     event.preventDefault();
