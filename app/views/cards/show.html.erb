@@ -1,10 +1,8 @@
 <div class="card_show_page">
 
   <h1> 
-    <%= image_tag(edition_filename(@card.rarity, @card.edition), size: '64x64') %>
+    <%= image_tag(edition_filename(@card.rarity, @card.edition), width: '64px') %>
     <%= card_and_edition(@card.name, @card.edition) %>
-    
-    
   </h1>
 
   <h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank", rel: "noopener noreferrer" %> 
@@ -16,16 +14,16 @@
   <div class = "row">
     <div class="col-sm-3 margin-3em-top-bottom"> <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div>
     <div class='col-sm-4'></div>
-    <div class = 'col-sm-3'> <%= image_tag(@card.cropped_img) %> </div>
+    <div class='col-sm-3'> <%= image_tag(@card.cropped_img) %> </div>
   </div>
 
-  <div class="price">
+  <div class="price" id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
     <h4 id="mtg-fish"> 
       <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= @card.price[0] %> 
     </h4>
 
     <h4 id="card-kingdom">
-      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= @card.price[1] %>
+      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= insert_commas_in_price(@card.price[1]) %>
     </h4>
 
     <h4 id="tcg-player">
