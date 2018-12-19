@@ -10,9 +10,9 @@ Rails.application.routes.draw do
   post '/cards/filter_search' => 'cards#filter_search'
 
   get '/cards/card_names' => 'cards#card_names'
-  post '/' => 'application#home'
-
-
+  # post '/' => 'application#home'
+  
+  post '/cards/update_prices' => 'cards#update_prices'
 
   resources :cards
   resources :decks
@@ -22,5 +22,4 @@ Rails.application.routes.draw do
   get '/decks/:id/overview' => 'decks#overview'
   
   get ':filter' => 'cards#filter'
-
 end
