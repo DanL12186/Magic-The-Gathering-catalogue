@@ -107,14 +107,14 @@
 #   end
 # end
 
-#single card
+# single card
 # def create_card(id)
 #   @url = "https://api.scryfall.com/cards/multiverse/#{id}"
 #   obj = JSON.parse(Nokogiri::HTML(open(@url).read))
 
 #   legendary = obj['type_line'].include?("Legendary")
-#   types = obj['type_line'].sub('Legendary ','').split
-#   types.delete_at(1)
+#   types = obj['type_line'].sub('Legendary ', '').split
+#   types.delete('—')
 #   type = types.shift
 #   edition = obj['set_name']
 #   edition = edition.split.first if edition.match?(/Revised|Unlimited/)
