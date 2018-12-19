@@ -15,11 +15,25 @@ module CardHelper
   end
 
   def mana_color(color)
-    (color.between?("0", "9") || color == "X") ? "Colorless" : color
+    (color.between?('0', '9') || color == 'X') ? 'Colorless' : color
   end
 
   def sort_by_number_and_name_desc(cards, deck_frequencies)
     cards.uniq { | card | card.name }.sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }
+  end
+
+  def insert_commas_in_price(price)
+    return '' if price.nil?
+    string_price = price.delete('$')
+    "$" << number_with_delimiter(string_price)
+  end
+
+  def needs_updating?(last_updated, price)
+    older_than_24_hours?(last_updated) || price.empty?
+  end
+
+  def older_than_24_hours?(last_updated)
+    (Time.now - last_updated) > 24.hours
   end
 
   ##################################### Links and Scraping #####################################
