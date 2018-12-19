@@ -1,17 +1,12 @@
 class CardsController < ApplicationController
+
+  skip_before_action :verify_authenticity_token, only: [:update_prices]
+
   include Cards
-  include CardPriceUpdate
   include CardHelper
 
   def show
     @card = params[:id].match?(/\d/) ? Card.find(params[:id]) : Card.find_by_name(params[:id])
-    name = @card.name
-    set = @card.edition
-    if price_empty_or_older_than_24_hours(@card.updated_at, @card.price)
-      Thread.new {
-        @card.update(price: [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)], updated_at: Time.now)
-      }
-    end
   end
 
   def filter
@@ -21,6 +16,16 @@ class CardsController < ApplicationController
   def card_names
     names = Card.pluck(:name)
     render json: names
+  end
+
+  def update_prices
+    card = Card.find(params[:id])
+    name = card.name
+    set = card.edition
+    
+    card.update(price: [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)], updated_at: Time.now)
+  
+    render json: card
   end
 
   def index
