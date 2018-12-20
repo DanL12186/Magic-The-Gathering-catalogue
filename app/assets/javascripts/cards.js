@@ -2,7 +2,7 @@ $(document).on('turbolinks:load', function() {
   
   const numberWithDelimiter = (strNum, delimeter = ',') => {
     const decimalLength = strNum.includes('.') ? strNum.match(/\.\d+/)[0].length : 0
-    ,     strNumArr = strNum.replace('$','').split('');
+    ,     strNumArr = strNum.replace('$', '').split('');
     
     let offset = decimalLength + 4;
 
@@ -30,44 +30,43 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
-  //later save prices with commas to begin with
+  //updates DOM on card show page with new prices if older than 24hrs or prices don't exist
   if (document.getElementById('card-kingdom')) {
-    const stale = $('div.price')[0].getAttribute('data-stale')
-    ,     id = +$('div.price')[0].id;
+    const stale = $('.price')[0].getAttribute('data-stale')
+    ,     id = $('.price')[0].id;
 
     if (stale === 'true') {
       const response = $.post(`/cards/update_prices?id=${id}`)
       
       response.done(card=> {
-        const [mtgPrice, ck, tcg] = card.price
+        const [mtgPrice, ckPrice, tcgPrice] = card.price
         ,     edition = card.edition 
-        let   cardKingdomEdition = (edition == 'Revised') ? ('3rd-edition') : (edition == 'Fourth Edition') ? '4th-edition' : edition.replace(' ', '-').toLowerCase().replace("'", '')
-        ,     tcgEdition;
-
-        if (/Alpha|Beta|Unl|Rev/.test(edition)) { 
-          tcgEdition = edition + '-edition'  
-        }
-
-        if (cardKingdomEdition.match(/\d{4}/)) {
-          cardKingdomEdition = `${edition.match(/\d+/)[0]}-core-set`
-        }
-
-        mtgEdition = (/Alpha|Beta/.test(edition) ? (`Limited Edition ${edition}`) : /Rev|Unl/.test(edition) ? (`${edition} Edition`) : (edition))
-
-        //String.prototype.normalize('NFD') converts an accented character to unicode + accents (e.g. 'é' => 'e' + '´'), then take the first one
-        //alternatively: transliterate = str => str.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+        ,     cardKingdomEdition = (edition == 'Revised') ? ('3rd-edition') : 
+                                   (edition == 'Fourth Edition') ? '4th-edition' : 
+                                   (edition.match(/\d{4}/)) ? `${edition.match(/\d+/)[0]}-core-set` :
+                                    edition.replace(' ', '-').toLowerCase().replace("'", '')
+        ,     tcgEdition = (/Alpha|Beta|Unl|Rev/.test(edition) ? `${edition}-edition` : edition.replace(/ /g,'-')).toLowerCase()
+        ,     mtgEdition = (/Alpha|Beta/.test(edition)) ? (`Limited+Edition+${edition}`) : 
+                           (/Rev|Unl/.test(edition)) ? (`${edition}+Edition`) : 
+                            edition.replace(/ /g,'+');
+        
+        //String.prototype.normalize('NFD') converts an accented character to unicode + accents (e.g. éü => e´u¨ )
+        //alternatively: transliterate = str => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
         const transliterate = str => str.split('').map(ch=> ch.normalize('NFD')[0]).join('').replace(/[',\.\:\;]/g,'')
 
-        mtgURL= `<a target="_blank" rel="noopener noreferrer" href="https://www.mtggoldfish.com/price/${mtgEdition.replace(/ /g,'+')}/${transliterate(card.name).replace(/ /g, ('+'))}#paper">MTGoldfish Price:</a>`
+        const mtgName = transliterate(card.name).replace(/ /g, ('+'))
+        ,     ckName = transliterate(card.name).replace(/ /g, '-').toLowerCase()
+        ,     tcgName = ckName; //identical name as above
+        const mtgURL= `<a target="_blank" rel="noopener noreferrer" href="https://www.mtggoldfish.com/price/${mtgEdition}/${mtgName}#paper">MTGoldfish Price:</a>`
+        ,     cardKingdomURL= `<a target="_blank" rel="noopener noreferrer" href="https://www.cardkingdom.com/mtg/${cardKingdomEdition}/${ckName}">Card Kingdom Price: </a>`
+        ,     tcgPlayerURL = `<a target="_blank" rel="noopener noreferrer" href="https://shop.tcgplayer.com/magic/${tcgEdition}/${tcgName}">TCG Player Median Price: </a>`;
 
-        $("h4#mtg-fish")[0].innerHTML = `${mtgURL} ${mtgPrice}`
-
-        $("h4#card-kingdom")[0].innerHTML = `<a target="_blank" rel="noopener noreferrer" href="https://www.cardkingdom.com/mtg/${edition.replace(/ /g, '-').toLowerCase()}/${transliterate(card.name).replace(/ /g, '-').toLowerCase()}">Card Kingdom Price: </a> $${numberWithDelimiter(ck)}`
-        
-        $("h4#tcg-player")[0].innerHTML = `<a target="_blank" rel="noopener noreferrer" href="https://shop.tcgplayer.com/magic/${(tcgEdition||edition).replace(/ /g, '-').toLowerCase()}/${transliterate(card.name).replace(/ /g, '-').toLowerCase()}">TCG Player Median Price: </a> ${tcg}`
-      })
-    }
-  }
+        $("h4#mtg-fish")[0].innerHTML = `${mtgURL} ${mtgPrice}`;
+        $("h4#card-kingdom")[0].innerHTML =  `${cardKingdomURL} $${numberWithDelimiter(ckPrice)}`;
+        $("h4#tcg-player")[0].innerHTML =  `${tcgPlayerURL} ${tcgPrice}`;
+      });
+    };
+  };
 
   //popover for card search results page
   $(function () {
@@ -98,11 +97,13 @@ $(document).on('turbolinks:load', function() {
       return cards.map(card=> {
         const cardClass = card.edition === 'Alpha' ? 'card_img alpha' : 'card_img'
         ,     thumbnail = (card.hi_res_img || card.img_url).replace(/large/,'small')
+        ,     edition   = card.edition.toLowerCase()
+        ,     rarity    = card.rarity.toLowerCase();
 
         return( 
           `<div class = 'col-sm-3'>
-            <h3 data-edition= ${card.edition.toLowerCase().replace(/ /g,'_')} data-rarity=${card.rarity.toLowerCase()}> 
-              ${card.name} <img src="/assets/editions/${card.edition.toLowerCase()}" class= edition_${card.rarity.toLowerCase()} width=5% >
+            <h3 data-edition= ${edition.replace(/ /g,'_')} data-rarity=${rarity} style="font-family:MagicMedieval;"> 
+              ${card.name} <img src="/assets/editions/${edition}" class= edition_${rarity} width=5% >
             </h3>
             
             <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a> </div>
