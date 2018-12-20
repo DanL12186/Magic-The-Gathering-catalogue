@@ -3,7 +3,10 @@
 <%= form_with url: "/cards/filter_search", class: "find_by_properties", method: 'POST' do | f | %> 
       <div class = "btn-group">
         <%= f.label :reserved_list %>
-        <%= f.select(:reserved, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %> 
+        <%= f.select(:reserved, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %>
+        <br>
+        <%= f.label :legendary %>
+        <%= f.select(:legendary, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %>
         <br>
         <%= f.label :edition %> 
         <%= f.select(:edition, options_for_select( Editions.keys ), include_blank: true) %>
@@ -29,7 +32,7 @@
       <a class = "btn-sm" id = "sort_by_price"> </a>
       <a class = "btn-sm" id = "sort_by_color"> </a>
     </h3>
-
+  
     <h2 id="find_cards"> </h2>
 
 <% end %>
