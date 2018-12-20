@@ -23,8 +23,11 @@ class CardsController < ApplicationController
     name = card.name
     set = card.edition
     
-    card.update(price: [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)], updated_at: Time.now)
-  
+    #prevents a pack-back from triggering another update after a necessary update was performed
+    if needs_updating?(card.updated_at, card.price)
+      card.update(price: [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)], updated_at: Time.now)
+    end
+
     render json: card
   end
 
