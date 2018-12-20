@@ -39,34 +39,14 @@ $(document).on('turbolinks:load', function() {
       const response = $.post(`/cards/update_prices?id=${id}`)
       
       response.done(card=> {
-        const [mtgPrice, ckPrice, tcgPrice] = card.price
-        ,     edition = card.edition 
-        ,     cardKingdomEdition = (edition == 'Revised') ? ('3rd-edition') : 
-                                   (edition == 'Fourth Edition') ? '4th-edition' : 
-                                   (edition.match(/\d{4}/)) ? `${edition.match(/\d+/)[0]}-core-set` :
-                                    edition.replace(' ', '-').toLowerCase().replace("'", '')
-        ,     tcgEdition = (/Alpha|Beta|Unl|Rev/.test(edition) ? `${edition}-edition` : edition.replace(/ /g,'-')).toLowerCase()
-        ,     mtgEdition = (/Alpha|Beta/.test(edition)) ? (`Limited+Edition+${edition}`) : 
-                           (/Rev|Unl/.test(edition)) ? (`${edition}+Edition`) : 
-                            edition.replace(/ /g,'+');
-        
-        //String.prototype.normalize('NFD') converts an accented character to unicode + accents (e.g. éü => e´u¨ )
-        //alternatively: transliterate = str => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        const transliterate = str => str.split('').map(ch=> ch.normalize('NFD')[0]).join('').replace(/[',\.\:\;]/g,'')
+        const [mtgPrice, ckPrice, tcgPrice] = card.price;
 
-        const mtgName = transliterate(card.name).replace(/ /g, ('+'))
-        ,     ckName = transliterate(card.name).replace(/ /g, '-').toLowerCase()
-        ,     tcgName = ckName; //identical name as above
-        const mtgURL= `<a target="_blank" rel="noopener noreferrer" href="https://www.mtggoldfish.com/price/${mtgEdition}/${mtgName}#paper">MTGoldfish Price:</a>`
-        ,     cardKingdomURL= `<a target="_blank" rel="noopener noreferrer" href="https://www.cardkingdom.com/mtg/${cardKingdomEdition}/${ckName}">Card Kingdom Price: </a>`
-        ,     tcgPlayerURL = `<a target="_blank" rel="noopener noreferrer" href="https://shop.tcgplayer.com/magic/${tcgEdition}/${tcgName}">TCG Player Median Price: </a>`;
-
-        $("h4#mtg-fish")[0].innerHTML = `${mtgURL} ${mtgPrice}`;
-        $("h4#card-kingdom")[0].innerHTML =  `${cardKingdomURL} $${numberWithDelimiter(ckPrice)}`;
-        $("h4#tcg-player")[0].innerHTML =  `${tcgPlayerURL} ${tcgPrice}`;
-      });
-    };
-  };
+        $("h4 span")[0].innerText = mtgPrice;
+        $("h4 span")[1].innerText = `$${numberWithDelimiter(ckPrice)}`;
+        $("h4 span")[2].innerText = tcgPrice;
+      })
+    }
+  }
 
   //popover for card search results page
   $(function () {

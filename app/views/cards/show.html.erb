@@ -14,20 +14,23 @@
   <div class = "row">
     <div class="col-sm-3 margin-3em-top-bottom"> <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div>
     <div class='col-sm-4'></div>
-    <div class='col-sm-3'> <%= image_tag(@card.cropped_img) %> </div>
+    <div class='col-sm-3'>
+      <%= image_tag(@card.cropped_img) %> 
+      <h1 style = "font-size: 150%; "> <%= link_to(@card.artist, "/#{@card.artist}") %> </h1>
+    </div>
   </div>
 
   <div class="price" id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
     <h4 id="mtg-fish"> 
-      <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= @card.price[0] %> 
+      <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <span> <%= @card.price[0] %> </span>
     </h4>
 
     <h4 id="card-kingdom">
-      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= insert_commas_in_price(@card.price[1]) %>
+      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <span> <%= insert_commas_in_price(@card.price[1]) %> </span>
     </h4>
 
     <h4 id="tcg-player">
-      <%= link_to 'TCG Player Median Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <%= @card.price[2] %>
+      <%= link_to 'TCG Player Median Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <span> <%= @card.price[2] %> </span>
     </h4>
 
     <h2>
