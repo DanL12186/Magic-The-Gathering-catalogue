@@ -6,7 +6,7 @@ class Card < ApplicationRecord
   has_many :collections_cards
 
   has_many :users, through: :users_cards
-  has_many :decks, through: :decks_card
+  has_many :decks, through: :decks_cards
 
   validates :img_url, uniqueness: true
   validates :name, :edition, presence: true
