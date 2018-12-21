@@ -15,6 +15,30 @@ class CardControllerTest < ActionDispatch::IntegrationTest
     assert_match "Find a Card", @response.body
   end
 
+  #disable below test until Rails isn't using a thread to load the page before scraping and persisting to db. 
+  test "Shouldn't update load the appropriate card and cache prices by saving to db once scraped" do
+    puts "Scraping card data"
+    card = Card.new(name: "Mox Diamond", edition: "Stronghold", price: ['$195.00', '$200.00', '$206.92'])
+    card.save
+
+    start = Time.now
+    get card_path(card)
+    finish = Time.now
+
+    uncached_page_load = finish - start
+
+    start = Time.now
+    get card_path(card)
+    finish = Time.now
+
+    cached_page_load = finish - start
+
+    puts "Uncached: #{uncached_page_load}s, Cached: #{cached_page_load}s"
+    assert (cached_page_load * 100) < (uncached_page_load)
+    assert @response.body.include?("Mox Diamond")    
+  end
+end
+
   ##disable below test until Rails isn't using a thread to load the page before scraping and persisting to db. 
   # test "Should load the appropriate card and cache prices by saving to db once scraped" do
   #   puts "Scraping card data"
@@ -37,4 +61,3 @@ class CardControllerTest < ActionDispatch::IntegrationTest
   #   assert (cached_page_load * 100) < (uncached_page_load)
   #   assert @response.body.include?("Mox Diamond")    
   # end
-end
