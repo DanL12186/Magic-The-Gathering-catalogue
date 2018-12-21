@@ -39,6 +39,7 @@
 #       types.delete('—')
 #       type = types.shift
 #       subtypes = types.size > 0 ? types : []
+#       subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
 #       card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
 #       card.update(:hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, subtypes: subtypes, legalities: legalities, card_type: type) if card
 #     end
@@ -60,12 +61,12 @@
 
 ## scryfall creating:
 # @mana_abbrev = {
-#     "R" => "Red",
-#     "G" => "Green",
-#     "U" => "Blue", 
-#     "B" => "Black",
-#     "W" => "White"
-#   }
+#   "R" => "Red",
+#   "G" => "Green",
+#   "U" => "Blue", 
+#   "B" => "Black",
+#   "W" => "White"
+# }
 
 # @url = "https://api.scryfall.com/cards/search?q=set:hml"
 # @set = JSON.parse(Nokogiri::HTML(open(@url).read))
@@ -82,14 +83,17 @@
 #       edition = obj['set_name']
 #       edition = edition.split.first if edition.match?(/Revised|Unlimited/)
 #       edition = edition.split.last if edition.match?(/Beta|Alpha/)
-#
+
 #       legalities = obj['legalities'].transform_values { | value | value == 'legal' }
-#
+
 #       subtypes = []
 #       if types.size > 0
 #         subtypes = types
 #       end
-#       Card.create(:name => obj['name'], edition: edition, legendary: legendary, legalities: legalities, :hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'].gsub("â", "—") )
+
+#       card.subtypes << 'Nonbasic Land' if card.type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name']) && !card.subtypes.include?("Nonbasic Land")
+
+#       Card.create(:name => obj['name'], edition: edition, legendary: legendary, legalities: legalities, :hi_res_img => obj['image_uris']['large'].sub(/\?\d+$/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'] )
 #     end
 
 #     if set['next_page'].nil?
@@ -107,7 +111,7 @@
 #   end
 # end
 
-# single card
+# #single card
 # def create_card(id)
 #   @url = "https://api.scryfall.com/cards/multiverse/#{id}"
 #   obj = JSON.parse(Nokogiri::HTML(open(@url).read))
@@ -126,6 +130,9 @@
 #   if types.size > 0
 #     subtypes = types
 #   end
+
+#   subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
+
 #   Card.create(:name => obj['name'], :legendary => legendary, :legalities => legalities, edition: edition, :hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: (obj['flavor_text'] || '').gsub("â", "—") )
 # end
 
