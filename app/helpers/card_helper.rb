@@ -11,7 +11,7 @@ module CardHelper
   end
 
   def is_modern_or_basic_land?(card)
-    !Editions[card.edition] && !card.edition.match?(/Urza's|Mercadian/) || card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land")
+    !Editions[card.edition] && !card.edition.match?(/Urza's|Mercadian/) || card.card_type == "Basic" && !card.subtypes.include?("Nonbasic Land")
   end
 
   def mana_color(color)
