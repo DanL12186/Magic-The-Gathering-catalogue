@@ -30,20 +30,29 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
-  //updates DOM on card show page with new prices if older than 24hrs or prices don't exist
+  //updates DOM on card show page with new prices if older than 24hrs or prices don't exist.
   if (document.getElementById('card-kingdom')) {
-    const stale = $('.price')[0].getAttribute('data-stale')
+    const stale = $(".price").data('stale')
     ,     id = $('.price')[0].id;
 
-    if (stale === 'true') {
+    if (stale) {
       const response = $.post(`/cards/update_prices?id=${id}`)
       
       response.done(card=> {
-        const [mtgPrice, ckPrice, tcgPrice] = card.price;
+        //card.price is an array of mtgoldfish, card kingdom, and tcg player prices. Updates DOM if price has changed.
+        for (let i = 0; i < 3; i++) {
+          if ($("h4 span")[i].innerText !== card.price[i]) {
+            const spanID = $("h4")[i+1].id,
+                  price  = card.price[i],
+                  selector = `h4#${spanID} span`;
 
-        $("h4 span")[0].innerText = mtgPrice;
-        $("h4 span")[1].innerText = `$${numberWithDelimiter(ckPrice)}`;
-        $("h4 span")[2].innerText = tcgPrice;
+            $(selector).fadeOut(750).fadeIn(750)
+
+            setTimeout(() => {
+              $("h4 span")[i].innerText = price;
+            }, 750)
+          };
+        }
       })
     }
   }
