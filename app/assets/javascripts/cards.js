@@ -2,7 +2,7 @@ $(document).on('turbolinks:load', function() {
   
   const numberWithDelimiter = (strNum, delimeter = ',') => {
     const decimalLength = strNum.includes('.') ? strNum.match(/\.\d+/)[0].length : 0
-    ,     strNumArr = strNum.replace('$', '').split('');
+    ,     strNumArr = strNum.replace(/[^\d\.]/g, '').split('');
     
     let offset = decimalLength + 4;
 
@@ -49,7 +49,7 @@ $(document).on('turbolinks:load', function() {
             $(selector).fadeOut(750).fadeIn(750)
 
             setTimeout(() => {
-              $("h4 span")[i].innerText = price;
+              $("h4 span")[i].innerText = `$${numberWithDelimiter(price)}`;
             }, 750)
           };
         }
