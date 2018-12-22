@@ -1,6 +1,7 @@
 $(document).on('turbolinks:load', function() {
   
   const numberWithDelimiter = (strNum, delimeter = ',') => {
+    if (strNum === "N/A") return "N/A"
     const decimalLength = strNum.includes('.') ? strNum.match(/\.\d+/)[0].length : 0
     ,     strNumArr = strNum.replace(/[^\d\.]/g, '').split('');
     
@@ -9,7 +10,7 @@ $(document).on('turbolinks:load', function() {
     for (let i = strNumArr.length - offset; i >= 0; i -= 3) {
       strNumArr[i] += delimeter
     }
-    return strNumArr.join('')
+    return "$" + strNumArr.join('')
   }
 
   //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
@@ -19,8 +20,8 @@ $(document).on('turbolinks:load', function() {
 
     if (this.src.includes('scryfall')) {
       this.src = originalSrc;
-      this.style.width = "223px";
-      this.style.height = "310px";
+      this.style.width = "226px";
+      this.style.height = "311px";
       
       //ignore unless card has a hi-res image version
     } else if (hiResImgUrl) { 
@@ -49,7 +50,7 @@ $(document).on('turbolinks:load', function() {
             $(selector).fadeOut(750).fadeIn(750)
 
             setTimeout(() => {
-              $("h4 span")[i].innerText = `$${numberWithDelimiter(price)}`;
+              $("h4 span")[i].innerText = numberWithDelimiter(price);
             }, 750)
           };
         }
