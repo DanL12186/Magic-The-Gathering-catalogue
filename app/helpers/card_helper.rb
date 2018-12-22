@@ -91,7 +91,7 @@ module CardHelper
   def get_tcg_player_price(card_name, card_set)
     url = tcg_player_url(card_name, card_set)
     page = scrape_page_if_exists(url)
-    price = page.value ? page.value.css('div.price-point.price-point--listed-median td').first.text : nil
+    price = page.value ? page.value.css('div.price-point.price-point--market td').first.text : nil
 
     price ? "#{price}" : 'N/A'
   end
