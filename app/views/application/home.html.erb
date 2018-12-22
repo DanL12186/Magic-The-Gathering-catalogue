@@ -1,38 +1,36 @@
 <center> 
-
-<div class="search-bar">
-  <%= form_tag cards_path, method: 'GET' do %>
-    <%= text_field_tag :search, params[:search], list: 'autocomplete', required: true, autocomplete: 'off' %>
-    <datalist id="autocomplete"> </datalist>
-    <%= submit_tag 'Find a Card' %>
-  <% end %>
-</div>
-
-<% @iconic_cards.each do | card | %>
-  <div>
-    <h1> <%= card.name %> </h1>
-    <h3 data-edition = <%= card.edition.downcase.gsub(' ', '_') %> data-rarity = <%= card.rarity.downcase %> > 
-      Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "edition_#{card.rarity.downcase}", height: '2%', width: '2%' %>
-    </h3>
-    <h4> Artist: <%= link_to card.artist, card.artist.delete('.') %> </h4>
-    
-    <% unless card.card_type == 'Land' %>
-      <h5> Mana: 
-        <% card.mana.each do | color | %>
-          <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22'), mana_color(color) %>
-        <% end %>
-      </h5>
+  <div class="search-bar">
+    <%= form_tag cards_path, method: 'GET' do %>
+      <%= text_field_tag :search, params[:search], list: 'autocomplete', required: true, autocomplete: 'off' %>
+      <datalist id="autocomplete"> </datalist>
+      <%= submit_tag 'Find a Card' %>
     <% end %>
-
-    <% if card.flavor_text %>
-      <div class="col-sm-3 flavor"> 
-        <%= card.flavor_text.html_safe %> 
-      </div>
-    <% end %>
-  
-    <div class = "card_img_div"> <%= link_to ( image_tag(card.img_url, class: card_class(card))  ), card_path(card) %> </div>
-    
   </div>
-<% end %>
 
+  <% @iconic_cards.each_with_index do | card, idx | %>
+    <div>
+      <h1> <%= card.name %> </h1>
+      <h3 data-edition = <%= card.edition.downcase.gsub(' ', '_') %> data-rarity = <%= card.rarity.downcase %> > 
+        Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "edition_#{card.rarity.downcase}", width: '2%' %>
+      </h3>
+      <h4> Artist: <%= link_to card.artist, card.artist.delete('.') %> </h4>
+      
+      <% unless card.card_type == 'Land' %>
+        <h5> Mana: 
+          <% card.mana.each do | color | %>
+            <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22'), mana_color(color) %>
+          <% end %>
+        </h5>
+      <% end %>
+
+      <% if card.flavor_text %>
+        <div class="col-sm-3 flavor"> 
+          <%= card.flavor_text.html_safe %> 
+        </div>
+      <% end %>
+    
+      <div class = "card_img_div"> <%= binding.pry; link_to ( image_tag(card.img_url, class: card_class(card), lazy: (true if idx > 2))  ), card_path(card) %> </div>
+      
+    </div>
+  <% end %>
 </center>
