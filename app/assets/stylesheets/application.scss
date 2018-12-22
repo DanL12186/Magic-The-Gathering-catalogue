@@ -6,7 +6,7 @@
 body {
     padding-left: 50px;
     background-color: rgb(1, 22, 9);
-    background-image: url('wall-4-light.png');
+    background-image: url('wall-4-light');
     color: silver;
 }
 
@@ -31,6 +31,7 @@ a {
     background-color: black;
     border: 2px solid #3c763d;
     font-size: 20px;
+    //font-family: 'MagicMedieval'
 }
 
 h5.navbar a {
@@ -55,7 +56,7 @@ h5.navbar a {
 
 .card_img {
     transition: transform .3s;
-    width: 224px;
+    width: 223px;
     height: 310px;
     margin: 0 auto;
     border-radius: 4%;
@@ -72,7 +73,6 @@ h5.navbar a {
 
 .col-sm-3.flavor {
     margin-top: 0.5%;
-    font-style: italic;
     font-weight: 200;
     font-family: cursive;
     float: none;
