@@ -108,8 +108,13 @@ $(document).on('turbolinks:load', function() {
     response.done(cardsAndFormOptions => {
       const [cards, options] = cardsAndFormOptions;
 
-      function appendResults(results) {
+      function displayResults(results) {
         document.getElementById("find_cards").innerHTML = results;
+      }
+
+      function generateAndDisplayHTML(sortedResult) {
+        const sortedHTML = generateCardsHTML(sortedResult)
+        displayResults(sortedHTML)
       }
 
       if (cards === null) {
@@ -118,7 +123,7 @@ $(document).on('turbolinks:load', function() {
       }
 
       const html = generateCardsHTML(cards);
-      appendResults(html || "No results found")
+      displayResults(html || "No results found")
       
       //create buttons to sort newly displayed card results
       //could make sort buttons into a dropdown instead for space reasons
@@ -146,27 +151,27 @@ $(document).on('turbolinks:load', function() {
       $("#sort_by_name").on('click', function(event) {
         event.preventDefault();
 
-        const sortedCards = generateCardsHTML(cards.sort((a,b) => a.name.localeCompare(b.name)))
-        appendResults(sortedCards);
+        const sortedCards = cards.sort((a,b) => a.name.localeCompare(b.name))
+        generateAndDisplayHTML(sortedCards);
       });
 
       $("#sort_by_id").on('click', function(event) {
         event.preventDefault();
         
-        const sortedCards = generateCardsHTML(cards.sort((a,b) => a.multiverse_id - b.multiverse_id))
-        appendResults(sortedCards);
+        const sortedCards = cards.sort((a,b) => a.multiverse_id - b.multiverse_id)
+        generateAndDisplayHTML(sortedCards);
       });
 
       //this sorts only by the prices on CardKingdom, as other prices are only suggestions
       $("#sort_by_price").on('click', function(event) {
         event.preventDefault();
 
-        const sortedCards = generateCardsHTML(cards.sort((a,b) => {
+        const sortedCards = cards.sort((a,b) => {
           const [priceA, priceB] = [a, b].map(card=> parseFloat(card.price[1].match(/\d+\,*\d*\.*\d*/)))
           return priceB - priceA;
-        }));
+        });
 
-        appendResults(sortedCards);
+        generateAndDisplayHTML(sortedCards);
       });
 
 
@@ -184,8 +189,8 @@ $(document).on('turbolinks:load', function() {
 
         event.preventDefault();
         
-        const sortedCards = generateCardsHTML(cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color]))
-        appendResults(sortedCards);
+        const sortedCards = cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color])
+        generateAndDisplayHTML(sortedCards);
       });
 
       $("#sort_by_type").on('click', function(event) {
@@ -201,9 +206,9 @@ $(document).on('turbolinks:load', function() {
           'Creature': 6 
         }
         
-        const sortedCards = generateCardsHTML(cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type]))
+        const sortedCards = cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type])
 
-        appendResults(sortedCards);
+        generateAndDisplayHTML(sortedCards);
       });
 
       //clear "sort by" buttons when a card is clicked. not working if sort buttons hit
