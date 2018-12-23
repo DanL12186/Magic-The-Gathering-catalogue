@@ -22,11 +22,11 @@
 #   end
 # end
 
-#scryfall updating: 
-# @url = "https://api.scryfall.com/cards/search?q=set:2ed"#+named=mox-diamond"
+# #scryfall updating: 
+# @url = "https://api.scryfall.com/cards/search?q=set:leg"#+named=mox-diamond"
 # @set = JSON.parse(Nokogiri::HTML(open(@url).read))
 
-#each page is 175 cards; loop cards/175 times
+# #each page is 175 cards; loop cards/175 times
 
 # def update_set(set)
 #   ((set['total_cards']/175) + 1).times do
