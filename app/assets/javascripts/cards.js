@@ -10,7 +10,7 @@ $(document).on('turbolinks:load', function() {
     for (let i = strNumArr.length - offset; i >= 0; i -= 3) {
       strNumArr[i] += delimeter
     }
-    return "$" + strNumArr.join('')
+    return strNumArr.join('')
   }
 
   //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
@@ -20,9 +20,8 @@ $(document).on('turbolinks:load', function() {
 
     if (this.src.includes('scryfall')) {
       this.src = originalSrc;
-      this.style.width = "226px";
-      this.style.height = "311px";
-      
+      this.style.width = "223px";
+      this.style.height = "310px";
       //ignore unless card has a hi-res image version
     } else if (hiResImgUrl) { 
       this.src = hiResImgUrl; //.replace("large", "normal") for smaller image (488x680 @ ~55-60% file size)
@@ -50,7 +49,7 @@ $(document).on('turbolinks:load', function() {
             $(selector).fadeOut(750).fadeIn(750)
 
             setTimeout(() => {
-              $("h4 span")[i].innerText = numberWithDelimiter(price);
+              $("h4 span")[i].innerText = '$' + numberWithDelimiter(price);
             }, 750)
           };
         }
@@ -105,8 +104,12 @@ $(document).on('turbolinks:load', function() {
 
     const serializedForm = $(this).serialize()
     ,     response = $.post(`/cards/filter_search`, serializedForm);
-
+    
     response.done(cards => {
+
+      function appendResults(results) {
+        document.getElementById("find_cards").innerHTML = results;
+      }
 
       if (cards === null) {
         document.getElementById("find_cards").innerHTML = 'Please Select One or More Options'
@@ -114,28 +117,33 @@ $(document).on('turbolinks:load', function() {
       }
 
       const html = generateCardsHTML(cards);
-      document.getElementById("find_cards").innerHTML = html || "No results found"
+      appendResults(html || "No results found")
       
       //create buttons to sort newly displayed card results
+      //don't show them if there's no need e.g. no sort by color if color is only red 
+      //could make sort buttons into a dropdown instead for space reasons
       if (html) {  
         document.getElementById("sort_by_name").innerHTML = `<button>Sort By Name</button>`
         document.getElementById("sort_by_id").innerHTML = `<button>Sort By Multiverse ID</button>`
         document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
         document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
+        document.getElementById("sort_by_type").innerHTML = `<button>Sort By Type</button>`
       }
 
+
+      //pre-haps give these buttons a sort class and $(".sort").on('click', function() { doGenericThing() })
       $("#sort_by_name").on('click', function(event) {
         event.preventDefault();
 
         const sortedCards = generateCardsHTML(cards.sort((a,b) => a.name.localeCompare(b.name)))
-        document.getElementById("find_cards").innerHTML = sortedCards;
+        appendResults(sortedCards);
       });
 
       $("#sort_by_id").on('click', function(event) {
         event.preventDefault();
         
         const sortedCards = generateCardsHTML(cards.sort((a,b) => a.multiverse_id - b.multiverse_id))
-        document.getElementById("find_cards").innerHTML = sortedCards;
+        appendResults(sortedCards);
       });
 
       //this sorts only by the prices on CardKingdom, as other prices are only suggestions
@@ -147,8 +155,9 @@ $(document).on('turbolinks:load', function() {
           return priceB - priceA;
         }));
 
-        document.getElementById("find_cards").innerHTML = sortedCards;
+        appendResults(sortedCards);
       });
+
 
       $("#sort_by_color").on('click', function(event) {
         
@@ -165,7 +174,24 @@ $(document).on('turbolinks:load', function() {
         event.preventDefault();
         
         const sortedCards = generateCardsHTML(cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color]))
-        document.getElementById("find_cards").innerHTML = sortedCards;
+        appendResults(sortedCards);
+      });
+
+      $("#sort_by_type").on('click', function(event) {
+        event.preventDefault();
+
+        const typeOrder = { 
+          'Land': 1, 
+          'Basic': 1, 
+          'Artifact': 2, 
+          'Instant': 3, 
+          'Sorcery': 4, 
+          'Enchantment': 5, 
+          'Creature': 6 
+        }
+        ,     sortedCards = generateCardsHTML(cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type]))
+
+        appendResults(sortedCards);
       });
 
       //clear "sort by" buttons when a card is clicked. not working if sort buttons hit
