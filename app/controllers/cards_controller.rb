@@ -45,7 +45,7 @@ class CardsController < ApplicationController
 
     results = filters.empty? ? nil : Card.where(filters)
 
-    render json: results
+    render json: [results, filters]
   end
 
 end

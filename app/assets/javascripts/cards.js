@@ -105,7 +105,8 @@ $(document).on('turbolinks:load', function() {
     const serializedForm = $(this).serialize()
     ,     response = $.post(`/cards/filter_search`, serializedForm);
     
-    response.done(cards => {
+    response.done(cardsAndFormOptions => {
+      const [cards, options] = cardsAndFormOptions;
 
       function appendResults(results) {
         document.getElementById("find_cards").innerHTML = results;
@@ -120,14 +121,24 @@ $(document).on('turbolinks:load', function() {
       appendResults(html || "No results found")
       
       //create buttons to sort newly displayed card results
-      //don't show them if there's no need e.g. no sort by color if color is only red 
       //could make sort buttons into a dropdown instead for space reasons
       if (html) {  
         document.getElementById("sort_by_name").innerHTML = `<button>Sort By Name</button>`
         document.getElementById("sort_by_id").innerHTML = `<button>Sort By Multiverse ID</button>`
         document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
-        document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
-        document.getElementById("sort_by_type").innerHTML = `<button>Sort By Type</button>`
+        
+        //remove/don't display buttons to sort by properties that are already filtered for
+        if (options.color === undefined) {
+          document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
+        } else {
+          $("#sort_by_color").empty();
+        }
+
+        if (options.card_type === undefined) {
+          document.getElementById("sort_by_type").innerHTML = `<button>Sort By Type</button>`
+        } else {
+          $("#sort_by_type").empty();
+        }
       }
 
 
@@ -189,7 +200,8 @@ $(document).on('turbolinks:load', function() {
           'Enchantment': 5, 
           'Creature': 6 
         }
-        ,     sortedCards = generateCardsHTML(cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type]))
+        
+        const sortedCards = generateCardsHTML(cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type]))
 
         appendResults(sortedCards);
       });
