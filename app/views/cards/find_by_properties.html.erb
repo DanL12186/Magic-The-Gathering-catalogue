@@ -24,14 +24,18 @@
     <%= f.number_field(:converted_mana_cost, min: 0, max: 20) %>
   </div>
 
-  <h1> <%= f.submit "Find Cards", class: "btn-lg" %> </h1>
+  <h1> <%= f.submit "Find Cards", class: "btn-lg" %> </h1> 
 
   <h3>
-    <a class = "btn-sm" id = "sort_by_name"> </a>
-    <a class = "btn-sm" id = "sort_by_id"> </a>
-    <a class = "btn-sm" id = "sort_by_price"> </a>
-    <a class = "btn-sm" id = "sort_by_color"> </a>
+    <a class = "btn-sm sort" id = "sort_by_name"> </a>
+    <a class = "btn-sm sort" id = "sort_by_id"> </a>
+    <a class = "btn-sm sort" id = "sort_by_price"> </a>
+    <a class = "btn-sm sort" id = "sort_by_color"> </a>
+    <a class = "btn-sm sort" id = "sort_by_type"> </a>
   </h3>
+
+  <h1 class = 'text-center' id='pagination-pg-num'> Page: </h1>
+  <div class = 'text-center' id='find-by-pagination'> </div>
 
   <h2 id="find_cards"> </h2>
 

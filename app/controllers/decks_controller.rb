@@ -40,6 +40,8 @@ class DecksController < ApplicationController
   end
 
   def set_shuffled_deck
+    #starting to transition to decks with a copies attribute rather than multiple actual copies starts here; 
+    #@shuffled_deck_cards = shuffled_deck(@deck.decks_cards)
     @shuffled_deck_cards = shuffled_deck(@deck.cards)
   end
   
