@@ -5,7 +5,7 @@ $(document).on('turbolinks:load', function() {
     const decimalLength = strNum.includes('.') ? strNum.match(/\.\d+/)[0].length : 0
     ,     strNumArr = strNum.replace(/[^\d\.]/g, '').split('');
     
-    let offset = decimalLength + 4;
+    const offset = decimalLength + 4;
 
     for (let i = strNumArr.length - offset; i >= 0; i -= 3) {
       strNumArr[i] += delimeter
@@ -81,14 +81,19 @@ $(document).on('turbolinks:load', function() {
   $("form.find_by_properties").on('submit', function(event) {
     event.stopPropagation();
     event.preventDefault();
+
+    //reset page #s
+    document.getElementById("find-by-pagination").innerHTML = null;
+    document.getElementById("pagination-pg-num").style = "display: none;"
     
-    function generateCardsHTML(cards) {
+    function generateCardsHTML(cards, currentPage) {
+      const slice = currentPage * 60
       return cards.map(card=> {
         const cardClass = card.edition === 'Alpha' ? 'card_img alpha' : 'card_img'
         ,     thumbnail = (card.hi_res_img || card.img_url).replace(/large/,'small')
         ,     edition   = card.edition.toLowerCase()
         ,     rarity    = card.rarity.toLowerCase();
-
+        
         return( 
           `<div class = 'col-sm-3'>
             <h3 data-edition= ${edition.replace(/ /g,'_')} data-rarity=${rarity} style="font-family:MagicMedieval;"> 
@@ -99,54 +104,72 @@ $(document).on('turbolinks:load', function() {
             
           </div>`
         )
-      }).join('')
+        
+      }).slice(slice, slice + 60).join('')
     };
+
+    function displayResults(results) {
+      document.getElementById("find_cards").innerHTML = results;
+    }
+
+    function generateAndDisplayHTML(sortedResult, currentPage = 0) {
+      const sortedHTML = generateCardsHTML(sortedResult, currentPage)
+      displayResults(sortedHTML, currentPage)
+    }
 
     const serializedForm = $(this).serialize()
     ,     response = $.post(`/cards/filter_search`, serializedForm);
     
     response.done(cardsAndFormOptions => {
-      const [cards, options] = cardsAndFormOptions;
-
-      function displayResults(results) {
-        document.getElementById("find_cards").innerHTML = results;
-      }
-
-      function generateAndDisplayHTML(sortedResult) {
-        const sortedHTML = generateCardsHTML(sortedResult)
-        displayResults(sortedHTML)
-      }
+      const [cards, options] = cardsAndFormOptions
 
       if (cards === null) {
-        document.getElementById("find_cards").innerHTML = 'Please Select One or More Options'
+        displayResults('Please Select One or More Options')
+        return;
+      } else if (cards.length === 0) {
+        displayResults("No results found")
         return;
       }
 
-      const html = generateCardsHTML(cards);
-      displayResults(html || "No results found")
-      
+      const numPages = Math.ceil(cards.length / 60)
+      ,     html = generateCardsHTML(cards, 0);
+
+      if (numPages > 1) {
+        document.getElementById("pagination-pg-num").style = "display: block"
+        document.getElementById("find-by-pagination").innerHTML += `<span> </span>`
+
+        for (let i = 0; i < numPages; i++) {
+          $("div#find-by-pagination")[0].innerHTML += `<button class="btn-group-sm jslink"> ${i} </button>`;
+        }
+      };
+
+      displayResults(html);
+
       //create buttons to sort newly displayed card results
       //could make sort buttons into a dropdown instead for space reasons
-      if (html) {  
-        document.getElementById("sort_by_name").innerHTML = `<button>Sort By Name</button>`
-        document.getElementById("sort_by_id").innerHTML = `<button>Sort By Multiverse ID</button>`
-        document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
-        
-        //remove/don't display buttons to sort by properties that are already filtered for
-        if (options.color === undefined) {
-          document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
-        } else {
-          $("#sort_by_color").empty();
-        }
+      document.getElementById("sort_by_name").innerHTML = `<button>Sort By Name</button>`
+      document.getElementById("sort_by_id").innerHTML = `<button>Sort By Multiverse ID</button>`
+      document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
 
-        if (options.card_type === undefined) {
-          document.getElementById("sort_by_type").innerHTML = `<button>Sort By Type</button>`
-        } else {
-          $("#sort_by_type").empty();
-        }
+      //remove/don't display buttons to sort by properties that are already filtered for
+      if (options.color === undefined) {
+        document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
+      } else {
+        $("#sort_by_color").empty();
       }
 
+      if (options.card_type === undefined) {
+        document.getElementById("sort_by_type").innerHTML = `<button>Sort By Type</button>`
+      } else {
+        $("#sort_by_type").empty();
+      }
 
+      $(".jslink").on('click', function(event) {
+        event.preventDefault();
+
+        generateAndDisplayHTML(cards, parseInt(this.innerHTML))
+        return;
+      });
       //pre-haps give these buttons a sort class and $(".sort").on('click', function() { doGenericThing() })
       $("#sort_by_name").on('click', function(event) {
         event.preventDefault();
@@ -174,9 +197,9 @@ $(document).on('turbolinks:load', function() {
         generateAndDisplayHTML(sortedCards);
       });
 
-
       $("#sort_by_color").on('click', function(event) {
-        
+        event.preventDefault();
+
         const colorWeights = {
           'White' : 1,
           'Blue'  : 2,
@@ -186,8 +209,6 @@ $(document).on('turbolinks:load', function() {
           'Colorless' : 6,
           'Gold'  : 7
         }
-
-        event.preventDefault();
         
         const sortedCards = cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color])
         generateAndDisplayHTML(sortedCards);
@@ -214,6 +235,7 @@ $(document).on('turbolinks:load', function() {
       //clear "sort by" buttons when a card is clicked. not working if sort buttons hit
       $(".card_img").on('click', function() {
         $("a.btn-sm").empty()
+        $("div#find-by-pagination")[0].innerHTML = null;
       })
 
     });
