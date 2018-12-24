@@ -1,5 +1,7 @@
 <% if color_to_mana(params[:filter]) != params[:filter] %>
   <h1 class='text-center'> <%= image_tag "mana_symbols/#{color_to_mana(params[:filter])}", class: "spin" %> </h1>
+<% elsif Editions[params[:filter]] %>
+  <h1 class='text-center'> <%= image_tag("/assets/editions/#{params[:filter].downcase}") %> </h1>
 <% else %>
   <h1 class='text-center'> <%= params[:filter] %> </h1>
 <% end %>
