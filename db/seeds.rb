@@ -59,7 +59,7 @@
 #   end
 # end
 
-## scryfall creating:
+# # scryfall creating:
 # @mana_abbrev = {
 #   "R" => "Red",
 #   "G" => "Green",
@@ -68,14 +68,15 @@
 #   "W" => "White"
 # }
 
-# @url = "https://api.scryfall.com/cards/search?q=set:hml"
+# @url = "https://api.scryfall.com/cards/search?q=set:atq"
 # @set = JSON.parse(Nokogiri::HTML(open(@url).read))
 
-# #each page is 175 cards; loop cards/175 times
+#each page is 175 cards; loop cards/175 times
 # def create_set(set)
 #   ((set['total_cards']/175).ceil + 1).times do
 #     card_set = set['data']
 #     card_set.each do | obj |
+#         next unless obj['rarity'] === "uncommon"
 #       legendary = obj['type_line'].include?("Legendary")
 #       types = obj['type_line'].sub('Legendary ','').split
 #       types.delete('—')
@@ -91,7 +92,7 @@
 #         subtypes = types
 #       end
 
-#       card.subtypes << 'Nonbasic Land' if card.type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name']) && !card.subtypes.include?("Nonbasic Land")
+#       subtypes << 'Nonbasic Land' if obj['type'] == 'Land'
 
 #       Card.create(:name => obj['name'], edition: edition, legendary: legendary, legalities: legalities, :hi_res_img => obj['image_uris']['large'].sub(/\?\d+$/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'] )
 #     end

@@ -13,6 +13,7 @@ body {
 input, select, button {
     color: black;
 }
+
 .row {
     margin-right: 0px;
 }
@@ -33,7 +34,7 @@ a {
     font-size: 20px;
 }
 
-h5.navbar a {
+.navbar a {
     padding-right: 2%;
 }
 //************************//
@@ -70,7 +71,7 @@ h5.navbar a {
     transform: scale(1.2);
 }
 
-.col-sm-3.flavor {
+.flavor {
     margin-top: 0.5%;
     font-weight: 200;
     font-family: cursive;
@@ -108,7 +109,7 @@ h5.navbar a {
 }
 //*************************//
 
-@font-face{
+@font-face {
     font-family:"MagicMedieval";
     src: url(font-path('MagicMedieval.ttf'));
- }
+}
