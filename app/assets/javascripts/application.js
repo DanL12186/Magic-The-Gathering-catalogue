@@ -15,11 +15,12 @@
 //= require activestorage
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require_tree .
 //= require lazyload
+//= require_tree .
+
 
 $(document).on("turbolinks:load", function() {
-  $("img").lazyload();
+  $(".card_img").lazyload();
   
   //change edition symbol color to silver or gold if card is uncommon or rare
   $(".edition_rare, .edition_uncommon, .edition_mythic").on('mouseenter', function() {
@@ -77,12 +78,12 @@ $(document).on("turbolinks:load", function() {
 
     $('#odds-results').html('')
 
-    //stops "please fill in this form" from triggering
-    event.preventDefault()
+    //stops "please fill in this form" from triggering on reset
+    event.preventDefault();
   });
 
-  let cardNames;
-  let lastMatch;
+  let cardNames,
+      lastMatch;
 
   $('#search').on('focus', ()=> {
     if (!cardNames) {
@@ -91,7 +92,11 @@ $(document).on("turbolinks:load", function() {
         cardNames = names.sort()
       })
     }
-  })
+  });
+
+  //at the moment, from a performance standpoint it makes more sense to search and then sort the results each time.
+  //If performance were ever really an issue, though, sorting once as above and then breaking after eight matches are found, while less concise,
+  //would certainly be the way to go
 
   //autocomplete search for finding cards by name
   $('#search').on('keyup', event => {
@@ -108,4 +113,4 @@ $(document).on("turbolinks:load", function() {
       lastMatch = firstEightMatches.toString();
     }
   })
-})
+});
