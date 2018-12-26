@@ -170,6 +170,7 @@ $(document).on('turbolinks:load', function() {
         generateAndDisplayHTML(cards, parseInt(this.innerHTML))
         return;
       });
+
       //pre-haps give these buttons a sort class and $(".sort").on('click', function() { doGenericThing() })
       $("#sort_by_name").on('click', function(event) {
         event.preventDefault();
@@ -235,6 +236,7 @@ $(document).on('turbolinks:load', function() {
       //clear "sort by" buttons when a card is clicked. not working if sort buttons hit
       $(".card_img").on('click', function() {
         $("a.btn-sm").empty()
+        document.getElementById("pagination-pg-num").style = "display: none;";
         $("div#find-by-pagination")[0].innerHTML = null;
       })
 
