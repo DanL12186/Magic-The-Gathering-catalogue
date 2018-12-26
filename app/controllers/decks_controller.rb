@@ -24,9 +24,8 @@ class DecksController < ApplicationController
   end
 
   def overview
-    @cards = @deck.cards
-    @deck_frequencies = card_frequencies(@cards)
-    @card_types = card_classifications(@cards).to_json
+    @deck_frequencies = card_frequencies(@shuffled_deck_cards)
+    @card_types = card_classifications(@shuffled_deck_cards).to_json
   end
 
   def index
@@ -40,9 +39,7 @@ class DecksController < ApplicationController
   end
 
   def set_shuffled_deck
-    #starting to transition to decks with a copies attribute rather than multiple actual copies starts here; 
-    #@shuffled_deck_cards = shuffled_deck(@deck.decks_cards)
-    @shuffled_deck_cards = shuffled_deck(@deck.cards)
+    @shuffled_deck_cards = shuffled_deck(@deck)
   end
   
 end

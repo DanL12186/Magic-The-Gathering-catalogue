@@ -83,7 +83,7 @@ module DeckHelper
   end
 
   def calculate_deck_value(cards)
-    value = @cards.map { | card | (card.price[1] || '0').delete('$').to_f }.sum.round(4)
+    value = cards.map { | card | (card.price[1] || '0').delete('$').to_f }.sum.round(4)
     number_with_delimiter(value)
   end
 end
