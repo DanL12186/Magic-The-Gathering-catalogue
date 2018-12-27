@@ -54,3 +54,40 @@ div.btn.btn-sm {
     height: 310px;
     width: 223px;
 }
+
+//***** Overview Page *****//
+
+.deck-display {
+    height: 558px;
+    width: 400px;
+}
+
+#deck-value {
+    font-family: Times; 
+    font-size: 80%
+}
+
+#deck-list-title {
+    font-family: Arial; 
+    font-size: 120%;
+}
+
+#deck-holder {
+    margin-top: 7%; 
+    padding-left: 5.5%; 
+    display: inline-block;
+}
+
+#pieChartContainer {
+    height: 300px;
+    width: 25%;
+    margin-left: 12.1%;
+}
+
+#splineContainer {
+    float: right;
+    height: 200px;
+    width: 25%;
+    margin-right: 3.5%; 
+    margin-top:2%; 
+}

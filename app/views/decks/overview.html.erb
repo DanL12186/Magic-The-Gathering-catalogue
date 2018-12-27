@@ -1,29 +1,33 @@
 <h1 style="margin-left: 33%;"> <%= @deck.name.titleize %> Overview </h1>
 
-<div class = "row">
-  <div class = "col-sm-3" style="font-family: Arial; font-size: 80%">
-    <h4> Cards </h4>
+<div class="row">
+  <div class="col-sm-3">
+    <h4 id="deck-list-title"> Cards </h4>
+    
     <% sort_by_number_and_name_desc(@shuffled_deck_cards, @deck_frequencies).each do | card | %>
       <div>
-        <div class="btn btn-sm" data-toggle="popover" data-url="<%= card.img_url %>" title=" "> <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id), class: "popover-card") %> </div>
+        <div class="btn btn-sm" data-toggle="popover" data-url="<%= card.img_url %>" title=" "> 
+          <%= "#{@deck_frequencies[card.name]}x" %> <%= link_to(card.name, card_path(card.id), class: "popover-card") %> 
+        </div>
       </div>
     <% end %>
-    <h5 style="font-family: Times; font-size: 120%;"> Total Value: $<%= calculate_deck_value(@shuffled_deck_cards) %></h5>
+
+    <h5 id="deck-value"> Total Value: $<%= calculate_deck_value(@shuffled_deck_cards) %></h5>
   </div>
   
-  <div class="col-sm-4" id="deck-holder" style="margin-top: 7%; padding-left: 5.5%; display: inline-block;" value="1"> 
+  <div class="col-sm-4" id="deck-holder" value="1"> 
     <p id="card-counter"> Card 1 of <%= @shuffled_deck_cards.size %> </p>
     <%= image_tag 'card back', id: "deck-holder-card-back" %>
     
     <% @shuffled_deck_cards.each.with_index(1) do | card,  idx | %>
-      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: "deck-display #{card.edition.downcase}", size: "400x558", id: "deck-card-#{idx}" %> 
+      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: "deck-display #{card.edition.downcase}", id: "deck-card-#{idx}" %> 
     <% end %>
   </div>
   
   <div style="padding-top: 2%">
-    <div id="pieChartContainer" class="col-sm-3" style="display: inline-block; height: 300px; width: 25%; margin-left: 12.1%;" data-json = <%= @card_types %> > </div>
+    <div id="pieChartContainer" class="col-sm-3" data-json = <%= @card_types %> > </div>
     
-    <div id="splineContainer" class="col-sm-3" style="height: 200px; width: 25%; margin-left: 45.4%; margin-top:2%;" data-json = <%= generate_mana_curve_data(@shuffled_deck_cards)%> ></div>
+    <div id="splineContainer" class="col-sm-3" data-json = <%= generate_mana_curve_data(@shuffled_deck_cards)%> ></div>
   </div>
 
 </div>
