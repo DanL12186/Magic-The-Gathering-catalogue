@@ -57,7 +57,7 @@ div.btn.btn-sm {
 
 //***** Overview Page *****//
 
-.deck-display {
+.deck-display.large {
     height: 558px;
     width: 400px;
 }
@@ -72,7 +72,7 @@ div.btn.btn-sm {
     font-size: 120%;
 }
 
-#deck-holder {
+.large-deck#deck-holder {
     margin-top: 7%; 
     padding-left: 5.5%; 
     display: inline-block;
@@ -91,3 +91,5 @@ div.btn.btn-sm {
     margin-right: 3.5%; 
     margin-top:2%; 
 }
+
+//*** Show Page ****//

@@ -15,12 +15,12 @@
     <h5 id="deck-value"> Total Value: $<%= calculate_deck_value(@shuffled_deck_cards) %></h5>
   </div>
   
-  <div class="col-sm-4" id="deck-holder" value="1"> 
+  <div class="large-deck col-sm-4" id="deck-holder" value="1"> 
     <p id="card-counter"> Card 1 of <%= @shuffled_deck_cards.size %> </p>
     <%= image_tag 'card back', id: "deck-holder-card-back" %>
     
     <% @shuffled_deck_cards.each.with_index(1) do | card,  idx | %>
-      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: "deck-display #{card.edition.downcase}", id: "deck-card-#{idx}" %> 
+      <%= image_tag card.hi_res_img.sub('/large','/normal'), class: "deck-display large #{card.edition.downcase}", id: "deck-card-#{idx}" %> 
     <% end %>
   </div>
   
