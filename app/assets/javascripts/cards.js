@@ -91,18 +91,20 @@ $(document).on('turbolinks:load', function() {
     function generateCardsHTML(cards, currentPage) {
       const slice = currentPage * 60
       return cards.map(card=> {
-        const cardClass = card.edition === 'Alpha' ? 'card_img alpha' : 'card_img'
+        const cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
         ,     thumbnail = (card.hi_res_img || card.img_url).replace(/large/,'small')
         ,     edition   = card.edition.toLowerCase()
         ,     rarity    = card.rarity.toLowerCase();
         
         return( 
-          `<div class = 'col-sm-3'>
-            <h3 data-edition= ${edition.replace(/ /g,'_')} data-rarity=${rarity} style="font-family:MagicMedieval;"> 
-              ${card.name} <img src="/assets/editions/${edition}" class= edition_${rarity} width=5% >
+          `<div class= col-sm-3>
+            <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval;"> 
+              ${card.name} <img src="/assets/editions/${edition}" class=edition_${rarity} width=5% >
             </h3>
             
-            <div class=card_img_div> <a href="/cards/${card.id}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a> </div>
+            <div class=card_img_div> 
+              <a href="/cards/${card.id}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a> 
+            </div>
             
           </div>`
         )

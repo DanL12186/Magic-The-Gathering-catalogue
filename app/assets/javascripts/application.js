@@ -19,7 +19,7 @@
 
 
 $(document).on("turbolinks:load", function() {
-  $(".card_img").lazyload();
+  $(".card_img, .filter-img").lazyload();
   
   //change edition symbol color to silver or gold if card is uncommon or rare
   $(".edition_rare, .edition_uncommon, .edition_mythic").on('mouseenter', function() {

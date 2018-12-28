@@ -52,11 +52,23 @@ div.popover.left {
     width: 223px;
 }
 
-//======================
-
+//=====Find By Property Page========
 
 h1#pagination-pg-num {
     font-size: 150%;
     font-family: 'MagicMedieval';
     display: none;
+}
+
+.thumb {
+    border-radius: 3.6%;
+    transition: 1.1s;
+}
+
+.thumb:hover {
+    box-shadow: 1px 1px 50px rgb(254, 255, 245);
+}
+
+.thumb.alpha {
+    border-radius: 5.9%;
 }
