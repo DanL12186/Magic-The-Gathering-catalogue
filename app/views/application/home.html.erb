@@ -18,7 +18,7 @@
       <% unless card.card_type == 'Land' %>
         <h5> Mana: 
           <% card.mana.each do | color | %>
-            <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22'), mana_color(color) %>
+            <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22', lazy: (true if idx > 1)), mana_color(color) %>
           <% end %>
         </h5>
       <% end %>
@@ -29,7 +29,7 @@
         </div>
       <% end %>
     
-      <div class = "card_img_div"> <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: (true if idx > 2))  ), card_path(card) %> </div>
+      <div class = "card_img_div"> <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: (true if idx > 1))  ), card_path(card) %> </div>
       
     </div>
   <% end %>
