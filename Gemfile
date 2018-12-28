@@ -10,14 +10,14 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails'
 gem 'bootstrap-sass'
 
 gem 'seed_dump'
 
 gem 'mtg_sdk'
 #Enables lazy-loading of images
-gem "lazyload-rails"
+gem 'lazyload-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -47,6 +47,9 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
+  
+  gem 'pghero'
+  gem 'pg_query', '>= 0.9.0'
 end
 
 group :development do

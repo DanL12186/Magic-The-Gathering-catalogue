@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root "application#home"
 
+  mount PgHero::Engine, at: "pghero"
+
   get '/about' => 'application#about'
 
   get '/hand_odds_calculator' => 'application#hand_odds_calculator'
