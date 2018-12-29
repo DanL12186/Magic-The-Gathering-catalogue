@@ -3,8 +3,9 @@ class User < ApplicationRecord
 
   has_many :users_cards
   has_many :cards, through: :users_cards
-  has_many :decks
+  has_many :decks, dependent: :destroy
   has_many :collections
 
-  validates :name, :password, :email, presence: true
+  validates :password, presence: true, length: { minimum: 8 }
+  validates :name, :email, presence: true, uniqueness: { case_sensitive: false }
 end

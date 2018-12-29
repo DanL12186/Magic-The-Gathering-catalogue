@@ -12,11 +12,15 @@ Rails.application.routes.draw do
   post '/cards/filter_search' => 'cards#filter_search'
 
   get '/cards/card_names' => 'cards#card_names'
-  # post '/' => 'application#home'
   
   post '/cards/update_prices' => 'cards#update_prices'
 
+  get "/login" => "sessions#new"
+  post '/login' => 'sessions#create'
+  delete '/logout' => 'sessions#destroy'
+
   resources :cards
+  resources :users
   resources :decks
 
   get '/cards/:name' => 'cards#show'

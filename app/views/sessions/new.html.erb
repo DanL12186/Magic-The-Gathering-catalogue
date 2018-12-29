@@ -1,0 +1,13 @@
+<h1> Sign in </h1>
+<br>
+
+<%= form_for @user, url: url_for(controller: 'sessions', action: 'create') do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name, autocomplete: 'username' %>
+  <br>
+  <%= f.label :password %>
+  <%= f.password_field :password, autocomplete: 'current-password' %>
+  <br>
+  <br>
+  <%= f.submit "Log in" %>
+<% end %>
