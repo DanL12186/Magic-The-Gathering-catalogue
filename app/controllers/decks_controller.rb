@@ -1,7 +1,9 @@
 class DecksController < ApplicationController
   include DeckHandStats
+  
   before_action :set_deck, only: [:show, :overview]
   before_action :set_shuffled_deck, only: [:show, :overview]
+  before_action :deny_unauthorized_deck_access, only: [:show, :overview, :edit, :update, :destroy]
 
   def calculate_custom_hand_odds
     deck_size = params[:deck_size].to_i
@@ -29,7 +31,7 @@ class DecksController < ApplicationController
   end
 
   def index
-    @decks = Deck.all
+    @decks = Deck.where(user_id: current_user.id)
   end
 
   private
@@ -40,6 +42,10 @@ class DecksController < ApplicationController
 
   def set_shuffled_deck
     @shuffled_deck_cards = shuffled_deck(@deck)
+  end
+
+  def deny_unauthorized_deck_access
+    redirect_to root_path if Deck.find(params[:id]).user_id != current_user.id
   end
   
 end
