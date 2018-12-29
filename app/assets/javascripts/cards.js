@@ -101,7 +101,7 @@ $(document).on('turbolinks:load', function() {
         
         return( 
           `<div class= col-sm-3>
-            <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval;"> 
+            <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw;"> 
               ${card.name} <img src="/assets/editions/${edition}" class=edition_${rarity} width=5% >
             </h3>
             
@@ -125,7 +125,7 @@ $(document).on('turbolinks:load', function() {
     }
 
     const serializedForm = $(this).serialize()
-    ,     response = $.post(`/cards/filter_search`, serializedForm);
+    ,     response = $.post(`/cards/find_by_properties`, serializedForm);
     
     response.done(cardsAndFormOptions => {
       const [cards, options] = cardsAndFormOptions
