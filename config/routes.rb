@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   post '/decks/calculate_custom_hand_odds' => 'decks#calculate_custom_hand_odds'
 
   get '/cards/find_by_properties'
-  post '/cards/filter_search' => 'cards#filter_search'
+  post '/cards/find_by_properties' => 'cards#filter_search'
 
   get '/cards/card_names' => 'cards#card_names'
   

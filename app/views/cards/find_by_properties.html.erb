@@ -1,6 +1,6 @@
 <h1 class="text-center"> Find Cards By Property </h1>
 
-<%= form_with url: "/cards/filter_search", class: "find_by_properties", method: 'POST' do | f | %> 
+<%= form_with url: "/cards/find_by_properties", class: "find_by_properties", method: 'POST' do | f | %> 
   <div class = "btn-group">
     <%= f.label :reserved_list %>
     <%= f.select(:reserved, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %>
