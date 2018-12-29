@@ -60,8 +60,8 @@ module CardHelper
     url = mtgoldfish_url(card_name, card_set)
     page = scrape_page_if_exists(url)
     price = page.value ? page.value.css('.price-box-price').children.last.try(:text) : nil
-
-    price ? "$#{price}" : 'N/A'
+    puts price
+    price ? price.delete(',') : 'N/A'
   end
 
   def card_kingdom_url(card_name, card_set)
@@ -75,8 +75,9 @@ module CardHelper
   def get_card_kingdom_price(card_name, card_set)
     url = card_kingdom_url(card_name, card_set)
     page = scrape_page_if_exists(url)
-
-    page.value ? page.value.css('span.stylePrice').first.text.strip : "N/A"
+    price = page.value.css('span.stylePrice').first.text.strip if page.value
+    
+    price ? price.delete('$') : 'N/A'
   end
 
 
@@ -93,7 +94,7 @@ module CardHelper
     page = scrape_page_if_exists(url)
     price = page.value ? page.value.css('div.price-point.price-point--market td').first.text : nil
 
-    price ? "#{price}" : 'N/A'
+    price ? price.delete('$,') : 'N/A'
   end
 
   def gatherer_link(multiverse_id)

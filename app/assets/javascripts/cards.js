@@ -43,7 +43,10 @@ $(document).on('turbolinks:load', function() {
       response.done(card=> {
         //card.price is an array of mtgoldfish, card kingdom, and tcg player prices. Updates DOM if price has changed.
         for (let i = 0; i < 3; i++) {
-          if ($("h4 span")[i].innerText !== card.price[i]) {
+          const oldPrice = $("h4 span")[i].innerText.replace(/[\$,]/g,''),
+                newPrice = card.price[i];
+
+          if (oldPrice !== newPrice) {
             const spanID = $("h4")[i+1].id,
                   price  = card.price[i],
                   selector = `h4#${spanID} span`;
@@ -51,7 +54,7 @@ $(document).on('turbolinks:load', function() {
             $(selector).fadeOut(750).fadeIn(750)
 
             setTimeout(() => {
-              $("h4 span")[i].innerText = '$' + numberWithDelimiter(price);
+              $("h4 span")[i].innerText = newPrice !== 'N/A' ? '$' + numberWithDelimiter(price) : 'N/A'
             }, 750)
           };
         }
