@@ -3,10 +3,6 @@ $(document).on('turbolinks:load', function() {
   $("form.find_by_properties").on('submit', function(event) {
     event.stopPropagation();
     event.preventDefault();
-
-    //reset page #s
-    document.getElementById("find-by-pagination").innerHTML = null;
-    document.getElementById("pagination-pg-num").style = "display: none;"
     
     function generateCardsHTML(cards, currentPage) {
       const slice = currentPage * 60
@@ -47,6 +43,12 @@ $(document).on('turbolinks:load', function() {
     response.done(cardsAndFormOptions => {
       const [cards, options] = cardsAndFormOptions
 
+      //remove 'Page:' and page tabs if all one page
+      if (!cards || cards.length <= 60) {
+        document.getElementById("find-by-pagination").innerHTML = null;
+        document.getElementById("pagination-pg-num").style = "display: none;"
+      }
+
       if (cards === null) {
         $("a.btn-sm").empty()
         displayResults('Please Select One or More Options')
@@ -60,13 +62,17 @@ $(document).on('turbolinks:load', function() {
       const numPages = Math.ceil(cards.length / 60)
       ,     html = generateCardsHTML(cards, 0);
 
-      if (numPages > 1) {
+      //change page tabs if necessary
+      if (numPages > 1 && document.getElementsByClassName("jslink").length !== numPages) {
         document.getElementById("pagination-pg-num").style = "display: block"
         document.getElementById("find-by-pagination").innerHTML += `<span> </span>`
+        let pageButtons = '';
 
         for (let i = 0; i < numPages; i++) {
-          $("div#find-by-pagination")[0].innerHTML += `<button class="btn-group-sm jslink"> ${i} </button>`;
+          pageButtons += `<button class="btn-group-sm jslink"> ${i} </button>`;
         }
+
+        $("div#find-by-pagination")[0].innerHTML = pageButtons
       };
 
       displayResults(html);
