@@ -36,15 +36,21 @@ a {
 
 .navbar a {
     padding-right: 2%;
+    margin-left: 2%;
+}
+
+//****Search Bar***//
+.search-bar {
+    float: right;
+    padding-bottom: 10px;
+}
+//*****************//
+
+.account-settings {
+    float: right; 
+    font-size: 10px;
 }
 //************************//
-
-
-//****Search Bar***********//
-.search-bar {
-    margin-bottom: 2.5%;
-}
-//*************************//
 
 //*****CARD DISPLAY DIV***//
 

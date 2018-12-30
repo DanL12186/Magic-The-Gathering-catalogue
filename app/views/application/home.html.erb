@@ -1,12 +1,4 @@
-<center> 
-  <div class="search-bar">
-    <%= form_tag cards_path, method: 'GET' do %>
-      <%= text_field_tag :search, params[:search], list: 'autocomplete', required: true, autocomplete: 'off' %>
-      <datalist id="autocomplete"> </datalist>
-      <%= submit_tag 'Find a Card' %>
-    <% end %>
-  </div>
-
+<center>
   <% @iconic_cards.each_with_index do | card, idx | %>
     <div>
       <h1> <%= card.name %> </h1>
