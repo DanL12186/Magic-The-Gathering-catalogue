@@ -16,7 +16,7 @@
     <div class='col-sm-4'></div>
     <div class='col-sm-3'>
       <%= image_tag(@card.cropped_img) %> 
-      <h1 style = "font-size: 150%; "> <%= link_to(@card.artist, "/#{@card.artist}") %> </h1>
+      <h1 style = "font-size: 150%; "> <%= link_to(@card.artist, "/#{@card.artist.delete('.')}") %> </h1>
     </div>
   </div>
 
