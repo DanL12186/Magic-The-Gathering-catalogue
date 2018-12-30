@@ -23,9 +23,10 @@ module CardHelper
   end
 
   def insert_commas_in_price(price)
-    return '' if price.nil?
-    string_price = price.delete('$')
-    "$" << number_with_delimiter(string_price)
+    return 'Fetching...' if price.nil?
+    return 'N/A' if price == 'N/A'
+
+    "$#{number_with_delimiter(price)}"
   end
 
   def needs_updating?(last_updated, price)
@@ -43,7 +44,7 @@ module CardHelper
       begin
         Nokogiri::HTML(open(url)) 
       rescue OpenURI::HTTPError => error
-        raise error unless ['404 Not Found', '404 File Not Found'].include?(error.message)
+        raise error unless error.message.match?("Not Found")
       end
     end
   end
