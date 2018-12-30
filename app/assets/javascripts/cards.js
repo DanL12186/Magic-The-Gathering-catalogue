@@ -131,9 +131,11 @@ $(document).on('turbolinks:load', function() {
       const [cards, options] = cardsAndFormOptions
 
       if (cards === null) {
+        $("a.btn-sm").empty()
         displayResults('Please Select One or More Options')
         return;
       } else if (cards.length === 0) {
+        $("a.btn-sm").empty()
         displayResults("No results found")
         return;
       }
@@ -175,6 +177,8 @@ $(document).on('turbolinks:load', function() {
         event.preventDefault();
 
         generateAndDisplayHTML(cards, parseInt(this.innerHTML))
+
+        createEventListener();
         return;
       });
 
@@ -184,6 +188,7 @@ $(document).on('turbolinks:load', function() {
 
         const sortedCards = cards.sort((a,b) => a.name.localeCompare(b.name))
         generateAndDisplayHTML(sortedCards);
+        createEventListener();
       });
 
       $("#sort_by_id").on('click', function(event) {
@@ -191,6 +196,7 @@ $(document).on('turbolinks:load', function() {
         
         const sortedCards = cards.sort((a,b) => a.multiverse_id - b.multiverse_id)
         generateAndDisplayHTML(sortedCards);
+        createEventListener();
       });
 
       //this sorts only by the prices on CardKingdom, as other prices are only suggestions
@@ -203,6 +209,7 @@ $(document).on('turbolinks:load', function() {
         });
 
         generateAndDisplayHTML(sortedCards);
+        createEventListener();
       });
 
       $("#sort_by_color").on('click', function(event) {
@@ -220,6 +227,7 @@ $(document).on('turbolinks:load', function() {
         
         const sortedCards = cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color])
         generateAndDisplayHTML(sortedCards);
+        createEventListener();
       });
 
       $("#sort_by_type").on('click', function(event) {
@@ -238,15 +246,18 @@ $(document).on('turbolinks:load', function() {
         const sortedCards = cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type])
 
         generateAndDisplayHTML(sortedCards);
+        createEventListener();
       });
 
-      //clear "sort by" buttons when a card is clicked. not working if sort buttons hit
-      $(".card_img").on('click', function() {
-        $("a.btn-sm").empty()
-        document.getElementById("pagination-pg-num").style = "display: none;";
-        $("div#find-by-pagination")[0].innerHTML = null;
-      })
-
+      //clear "sort by" buttons when a card is clicked.
+      function createEventListener() {
+        $(".thumb").on('click', function() {
+          $("a.btn-sm").empty()
+          document.getElementById("pagination-pg-num").style = "display: none;";
+          $("div#find-by-pagination")[0].innerHTML = null;
+        })
+      }
+      createEventListener();
     });
   });
 });
