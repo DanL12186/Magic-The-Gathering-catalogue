@@ -8,7 +8,7 @@
   <%= link_to "Log Out", "/logout", method: :delete if logged_in? %>
   
   <span class="account-settings"> 
-    <%= link_to("Account Settings", user_path(current_user))  %> 
+    <%= link_to("Account Settings", user_path(current_user)) if logged_in? %> 
   </span>
 
   <%= render "/layouts/search_bar" %>
