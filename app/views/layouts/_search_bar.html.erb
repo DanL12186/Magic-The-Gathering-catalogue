@@ -2,6 +2,6 @@
     <%= form_tag cards_path, method: 'GET' do %>
       <%= text_field_tag :search, params[:search], list: 'autocomplete', required: true, autocomplete: 'off' %>
       <datalist id="autocomplete"> </datalist>
-      <%= submit_tag 'Find a Card' %>
+      <%= button_tag "", type: 'submit', class: "btn btn-xs glyphicon glyphicon-search" %>
     <% end %>
   </div>
