@@ -3,3 +3,5 @@
 <% @decks.all.each do | deck | %>
   <li> <%= link_to deck.name, deck_path(deck.id) %> </li>
 <% end %>
+
+<h3> <%= link_to 'Create New Deck', new_deck_path %> </h3>

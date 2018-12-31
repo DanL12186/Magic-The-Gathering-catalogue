@@ -43,3 +43,5 @@ test/models/.keep
 test/integration/.keep
 
 test/helpers/.keep
+
+vendor/assets/javascripts/lazyload.js
