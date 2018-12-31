@@ -38,7 +38,7 @@ module DeckHandStats
       classifications['spells'] += 1 if card.card_type.match?(/sorcery|instant/i)
       classifications['artifacts'] += 1 if card.card_type == 'Artifact'
 
-      if card.card_type == 'Land'
+      if card.card_type.match?(/Land|Basic/)
         classifications['lands'] += 1
         classifications['nonbasic_lands'] += 1 if card.subtypes.include?('Nonbasic Land')
       end
