@@ -31,7 +31,7 @@ class CardsController < ApplicationController
     render json: card
   end
 
-  def index
+  def search_results
     search_result = Card.search(params[:search])
     if search_result.is_a?(String)
       redirect_to card_path(search_result)

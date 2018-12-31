@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   root "application#home"
 
+  get "/login" => "sessions#new"
+  post '/login' => 'sessions#create'
+  delete '/logout' => 'sessions#destroy'
+
   mount PgHero::Engine, at: "pghero"
 
   get '/about' => 'application#about'
@@ -15,9 +19,7 @@ Rails.application.routes.draw do
   
   post '/cards/update_prices' => 'cards#update_prices'
 
-  get "/login" => "sessions#new"
-  post '/login' => 'sessions#create'
-  delete '/logout' => 'sessions#destroy'
+  get '/cards/search_results' => 'cards#search_results'
 
   resources :cards, except: [:new, :edit, :create, :destroy]
   resources :users, except: [:index]
