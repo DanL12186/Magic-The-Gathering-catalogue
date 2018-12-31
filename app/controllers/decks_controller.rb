@@ -5,6 +5,10 @@ class DecksController < ApplicationController
   before_action :set_shuffled_deck, only: [:show, :overview]
   before_action :deny_unauthorized_deck_access, only: [:show, :overview, :edit, :update, :destroy]
 
+  def new
+    @deck = Deck.new
+  end
+
   def calculate_custom_hand_odds
     deck_size = params[:deck_size].to_i
     cards_drawn = params[:cards_drawn].to_i
