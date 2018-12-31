@@ -12,7 +12,9 @@
   </h4>
 
   <div class = "row">
-    <div class="col-sm-3 margin-3em-top-bottom"> <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", img_url: @card.hi_res_img, original_src: @card.img_url) %> </div>
+    <div class="col-sm-3 margin-3em-top-bottom"> 
+      <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", img_url: @card.hi_res_img, original_src: @card.img_url) %> 
+    </div>
     <div class='col-sm-4'></div>
     <div class='col-sm-3'>
       <%= image_tag(@card.cropped_img) %> 
@@ -22,15 +24,18 @@
 
   <div class="price" id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
     <h4 id="mtg-fish"> 
-      <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <span> <%= insert_commas_in_price(@card.price[0]) %> </span>
+      <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+      <span> <%= insert_commas_in_price(@card.price[0]) %> </span>
     </h4>
 
     <h4 id="card-kingdom">
-      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <span> <%= insert_commas_in_price(@card.price[1]) %> </span>
+      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+      <span> <%= insert_commas_in_price(@card.price[1]) %> </span>
     </h4>
 
     <h4 id="tcg-player">
-      <%= link_to 'TCG Player Market Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> <span> <%= insert_commas_in_price(@card.price[2]) %> </span>
+      <%= link_to 'TCG Player Market Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+      <span> <%= insert_commas_in_price(@card.price[2]) %> </span>
     </h4>
 
     <h2>

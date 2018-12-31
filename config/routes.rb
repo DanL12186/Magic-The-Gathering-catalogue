@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
 
-  resources :cards
-  resources :users
+  resources :cards, except: [:new, :edit, :create, :destroy]
+  resources :users, except: [:index]
   resources :decks
 
   get '/cards/:name' => 'cards#show'
