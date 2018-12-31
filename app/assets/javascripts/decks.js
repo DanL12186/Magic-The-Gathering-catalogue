@@ -1,4 +1,8 @@
+//=require jquery.canvasjs.min
+
 $(document).on("turbolinks:load", function() {
+
+  const sum = arr => arr.reduce((a,b)=> a+b)
 
   //clicking hrough cards on deck show page
   $('.deck-display').on('click', function() {
@@ -22,7 +26,7 @@ $(document).on("turbolinks:load", function() {
   function pieChartLoader() {
     const jsonData = $("#pieChartContainer").data('json'),
           [ labels, frequencies ] = [ Object.keys(jsonData).map(str=> str.replace('_', ' ')), Object.values(jsonData) ],
-          totalCards = frequencies.reduce((a,b)=> a+b),
+          totalCards = sum(frequencies),
           dataPoints = [];
 
     for (let i = 0; i < labels.length; i++) {
