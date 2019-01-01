@@ -9,7 +9,7 @@ $(document).on('turbolinks:load', function() {
       return cards.map(card=> {
         const cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
         ,     thumbnail = (card.hi_res_img || card.img_url).replace(/large/,'small')
-        ,     edition   = card.edition.toLowerCase()
+        ,     edition   = card.edition.toLowerCase().replace(':','')
         ,     rarity    = card.rarity.toLowerCase();
         
         return( 
