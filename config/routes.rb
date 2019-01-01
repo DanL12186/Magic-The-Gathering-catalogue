@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   get '/cards/search_results' => 'cards#search_results'
 
-  resources :cards, except: [:new, :edit, :create, :destroy]
+  resources :cards, except: [:new, :edit, :create, :destroy, :index]
   resources :users, except: [:index]
   resources :decks
 
