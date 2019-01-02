@@ -12,7 +12,7 @@
   </h4>
 
   <% if @card.layout == "split" %>
-    <button id="rotate" class="btn btn-default btn-sm"> 
+    <button id=<%= "rotate" %> class="btn btn-default btn-sm" data-rotate= <%= "#{rotation_type(@card.year)}" %>>
       Rotate  
       <span class="glyphicon glyphicon-refresh"></span> 
     </button>

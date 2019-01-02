@@ -30,6 +30,10 @@ module CardHelper
     "$#{number_with_delimiter(price)}"
   end
 
+  def rotation_type(year) 
+    year.to_i < 2017 ? 'cw' : 'ccw'
+  end
+
   def needs_updating?(last_updated, price)
     older_than_24_hours?(last_updated) || price.empty?
   end

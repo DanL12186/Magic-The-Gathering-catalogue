@@ -32,13 +32,16 @@ $(document).on('turbolinks:load', function() {
 
   //rotate split-view cards 90 degress counter-clockwise
   let rotated;
-  
+
   $("#rotate").on('click', function() {
-    if (!rotated) {
-      document.getElementById("card_show_img").style = "transition: 1.5s; transform: rotate(-90deg); "
+    const direction = this.getAttribute('data-rotate') === 'cw' ? '90deg' : '-90deg'
+    ,     image     = document.getElementById("card_show_img");
+    
+    if (!rotated) {  
+      image.style = `transition: 1.5s; transform: rotate(${direction});`
       rotated = true
     } else {
-      document.getElementById("card_show_img").style = "transition: 1s; transform: rotate(0deg);"
+      image.style = "transition: 1s; transform: rotate(0deg);"
       rotated = undefined
     }
   });
