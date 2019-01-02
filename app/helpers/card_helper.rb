@@ -63,7 +63,7 @@ module CardHelper
   def mtgoldfish_url(card_name, card_set)
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
           .gsub(' ', '+').delete("':")
-    name = I18n.transliterate(card_name).gsub(' ', '+').delete(",.:;'")
+    name = I18n.transliterate(card_name).delete(",.:;'/").gsub(/ +/, '+')
 
     "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
   end
@@ -72,18 +72,16 @@ module CardHelper
     url = mtgoldfish_url(card_name, card_set)
     page = scrape_page_if_exists(url)
     price = page.value ? page.value.css('.price-box-price').children.last.try(:text) : nil
-    puts price
     price ? price.delete(',') : 'N/A'
   end
 
 
   def card_kingdom_url(card_name, card_set)
-    puts card_set
     set = (card_set == 'Revised') ? ('3rd-edition') : (card_set == 'Fourth Edition') ? '4th-edition' : card_set.gsub(' ', '-').downcase.delete("':")
     set = set.match(/201[0-5]/) ? "#{set.match(/\d+/)[0]}-core-set" : set
     set = "Ravnica" if card_set.match?("Ravnica: City of Guilds")
-    puts set
-    name = I18n.transliterate(card_name.downcase).gsub(' ','-').delete(",.:;'")
+    puts card_name
+    name = I18n.transliterate(card_name.downcase).delete(",.:;'/").gsub(/ +/,'-')
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
   end
@@ -100,7 +98,7 @@ module CardHelper
   def tcg_player_url(card_name, card_set)
     set = card_set.gsub(' ', '-').downcase.delete(':')
     set += '-edition' if card_set.match?(/Alpha|Beta|Unl|Rev/)
-    name = I18n.transliterate(card_name.downcase).gsub(' ', '-').delete(",.:;'")
+    name = I18n.transliterate(card_name.downcase).delete(",.:;'/").gsub(/ +/, '-')
 
     "https://shop.tcgplayer.com/magic/#{set}/#{name}"
   end
