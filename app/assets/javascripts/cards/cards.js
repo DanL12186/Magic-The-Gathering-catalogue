@@ -35,15 +35,17 @@ $(document).on('turbolinks:load', function() {
 
   $("#rotate").on('click', function() {
     const direction = this.getAttribute('data-rotate') === 'cw' ? '90deg' : '-90deg'
-    ,     image     = document.getElementById("card_show_img");
+    ,     image     = document.getElementById('card_show_img');
     
     if (!rotated) {  
-      image.style = `transition: 1.5s; transform: rotate(${direction});`
-      rotated = true
+      image.style.transition = '1.5s';
+      image.style.transform = `rotate(${direction}`;
+      rotated = true;
     } else {
-      image.style = "transition: 1s; transform: rotate(0deg);"
-      rotated = undefined
-    }
+      rotated = false;
+      image.style.transition = '1.0s';
+      image.style.transform = 'rotate(0deg)';
+    };
   });
 
   //updates DOM on card show page with new prices if older than 24hrs or prices don't exist.

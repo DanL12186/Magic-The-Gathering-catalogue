@@ -1,6 +1,9 @@
 //=== card image on card show page
 .card_show {
+    transition: 1.5s;
     border-radius: 3.7%;
+    height: 310px;
+    width: 223px;
 }
 
 .card_show.alpha {
@@ -23,6 +26,7 @@
 .show_page_card_name {
     font-family: 'MagicMedieval';
 }
+
 //=========Popover============
 
 div.popover.right {
