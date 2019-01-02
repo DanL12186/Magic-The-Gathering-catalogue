@@ -23,11 +23,23 @@ $(document).on('turbolinks:load', function() {
       this.src = originalSrc;
       this.style.width = "223px";
       this.style.height = "310px";
-      //ignore unless card has a hi-res image version
-    } else if (hiResImgUrl) { 
+    } else { 
       this.src = hiResImgUrl; //.replace("large", "normal") for smaller image (488x680 @ ~55-60% file size)
       this.style.width = "502px";
       this.style.height = "700px";
+    }
+  });
+
+  //rotate split-view cards 90 degress counter-clockwise
+  let rotated;
+  
+  $("#rotate").on('click', function() {
+    if (!rotated) {
+      document.getElementById("card_show_img").style = "transition: 1.5s; transform: rotate(-90deg); "
+      rotated = true
+    } else {
+      document.getElementById("card_show_img").style = "transition: 1s; transform: rotate(0deg);"
+      rotated = undefined
     }
   });
 
