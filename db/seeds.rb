@@ -1,4 +1,7 @@
-#rare cards from homelands expansion
+# require 'open-uri'
+# require 'nokogiri'
+
+# rare cards from homelands expansion
 # set = 'hml'
 # cards = MTG::Card.where(set: set).where(rarity: "Rare").all
 # cards.each { | card | card.representable_attrs = nil; card.rulings = nil }
@@ -8,11 +11,11 @@
 #   Card.new(name: card.name, rarity: card.rarity, subtypes: card.subtypes || [], card_type: card.types, power: card.power.try(:to_i), artist: card.artist, edition: "Homelands", toughness: card.toughness.try(:to_i), flavor_text: card.flavor, mana: card.mana_cost.gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, multiverse_id: card.multiverse_id, reserved: card.reserved) if card.name.match?("Sengir")
 # end
 
-#or if a ruby obj
+# or if a ruby obj
 
 # Card.new(name: card['name'], rarity: card['rarity'], subtypes: card['subtypes'], card_type: card['types'][0], power: card['power'] ? card['power'][0].to_i : nil, artist: card['artist'], edition: card['setName'], toughness: card['toughness'] ? card['toughness'][0].to_i : nil, flavor_text: card['flavor'])
 
-#get other edition printings from MTG SDK after loading card set
+# get other edition printings from MTG SDK after loading card set
 # def get_editions(cards)
 #   cards.each do | card_hash |
 #     card = Card.find_by_name(card_hash["name"])
@@ -41,7 +44,7 @@
 #       subtypes = types.size > 0 ? types : []
 #       subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
 #       card = Card.find { | card | I18n.transliterate(card.name) == I18n.transliterate(obj['name']) && obj['set_name'].match?(/#{card.edition}/i) }
-#       card.update(:hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, subtypes: subtypes, legalities: legalities, card_type: type) if card
+#       card.update(:hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, subtypes: subtypes, legalities: legalities, card_type: type, layout: obj['layout']) if card
 #     end
 
 #     if set['next_page'].nil?
@@ -59,7 +62,7 @@
 #   end
 # end
 
-# # scryfall creating:
+# # # scryfall creating:
 # @mana_abbrev = {
 #   "R" => "Red",
 #   "G" => "Green",
@@ -71,12 +74,12 @@
 # @url = "https://api.scryfall.com/cards/search?q=set:atq"
 # @set = JSON.parse(Nokogiri::HTML(open(@url).read))
 
-#each page is 175 cards; loop cards/175 times
+# each page is 175 cards; loop cards/175 times
 # def create_set(set)
 #   ((set['total_cards']/175).ceil + 1).times do
 #     card_set = set['data']
 #     card_set.each do | obj |
-#         next unless obj['rarity'] === "uncommon"
+#         # next unless obj['rarity'] === "rare"
 #       legendary = obj['type_line'].include?("Legendary")
 #       types = obj['type_line'].sub('Legendary ','').split
 #       types.delete('—')
@@ -94,7 +97,7 @@
 
 #       subtypes << 'Nonbasic Land' if obj['type'] == 'Land'
 
-#       Card.create(:name => obj['name'], edition: edition, legendary: legendary, legalities: legalities, :hi_res_img => obj['image_uris']['large'].sub(/\?\d+$/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'] )
+#       Card.create(:name => obj['name'], edition: edition, legendary: legendary, legalities: legalities, :hi_res_img => obj['image_uris']['large'].sub(/\?\d+$/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: obj['flavor_text'], layout: obj['layout'] )
 #     end
 
 #     if set['next_page'].nil?
@@ -112,7 +115,7 @@
 #   end
 # end
 
-# #single card
+# # #single card
 # def create_card(id)
 #   @url = "https://api.scryfall.com/cards/multiverse/#{id}"
 #   obj = JSON.parse(Nokogiri::HTML(open(@url).read))
@@ -134,16 +137,16 @@
 
 #   subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
 
-#   Card.create(:name => obj['name'], :legendary => legendary, :legalities => legalities, edition: edition, :hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: (obj['flavor_text'] || '').gsub("â", "—") )
+#   Card.create(:name => obj['name'], :legendary => legendary, :legalities => legalities, edition: edition, :hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: obj['mana_cost'].gsub(/\W/,'').split('').map { | x | @mana_abbrev[x] || x }, card_type: type, subtypes: subtypes, flavor_text: (obj['flavor_text'] || '').gsub("â", "—"), layout: obj['layout'] )
 # end
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# # This file should contain all the record creation needed to seed the database with its default values.
+# # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+
+# # Examples:
+
+# #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
+# #   Character.create(name: 'Luke', movie: movies.first)
 
 # Card.create(name: "Mox Diamond", edition: "Stronghold", artist: "Dan Frazier", card_type: "Artifact", mana: ["0"], rarity: "Rare", effects: "When Mox Diamond comes into play, discard a land card or sacrifice Mox Diamond.", activated_abilities: ["Tap to add one mana of any color to your mana pool. Play this ability as a mana source."])
 
