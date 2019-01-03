@@ -13,7 +13,4 @@ class ApplicationController < ActionController::Base
     redirect_to root_path if logged_in?
   end
   
-  def home
-    @iconic_cards = Card.where(iconic: true)
-  end
 end

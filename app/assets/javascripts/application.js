@@ -16,20 +16,3 @@
 //= require turbolinks
 //= require lazyload
 //= require_tree .
-
-
-$(document).on("turbolinks:load", function() {
-  $("img").lazyload();
-  
-  //change edition symbol color to silver or gold if card is uncommon or rare
-  $(".edition_rare, .edition_uncommon, .edition_mythic").on('mouseenter', function() {
-    const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ')
-    ,     rarity  = this.parentElement.getAttribute('data-rarity');
-
-    this.src = `/assets/editions/${edition} ${rarity}`;
-  }).on('mouseleave', function() {
-    const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ');
-    this.src = `/assets/editions/${edition}`;
-  });
-
-});
