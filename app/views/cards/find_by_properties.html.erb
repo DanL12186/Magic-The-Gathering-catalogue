@@ -18,9 +18,9 @@
     <%= f.select(:color, options_for_select( ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless"] ), include_blank: true) %>
     <br>
     <%= f.label :type %>
-    <%= f.select(:card_type, options_for_select( ["Creature", "Land", "Artifact", "Instant", "Sorcery", "Enchantment"] ), include_blank: true) %> 
+    <%= f.select(:card_type, options_for_select( ["Creature", "Land", "Artifact", "Instant", "Sorcery", "Enchantment", "Planeswalker"] ), include_blank: true) %> 
     <br>
-    <%= f.label :CMC %>
+    <%= f.label :Mana %>
     <%= f.number_field(:converted_mana_cost, min: 0, max: 20) %>
   </div>
 
