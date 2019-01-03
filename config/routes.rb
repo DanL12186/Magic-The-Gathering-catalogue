@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
-  root "application#home"
+  root "home_page#home"
 
   get "/login" => "sessions#new"
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
-
-  mount PgHero::Engine, at: "pghero"
 
   get '/about' => 'application#about'
 
