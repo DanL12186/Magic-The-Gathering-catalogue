@@ -47,9 +47,6 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
-  
-  gem 'pghero'
-  gem 'pg_query', '>= 0.9.0'
 end
 
 group :development do
