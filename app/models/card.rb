@@ -8,7 +8,7 @@ class Card < ApplicationRecord
   has_many :users, through: :users_cards
   has_many :decks, through: :decks_cards
 
-  validates :img_url, uniqueness: true
+  validates :multiverse_id, uniqueness: true
   validates :name, :edition, presence: true
 
   BASE_URL = "https://cdn1.mtggoldfish.com/images/gf"
