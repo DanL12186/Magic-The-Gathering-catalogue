@@ -107,7 +107,7 @@ $(document).on("turbolinks:load", function() {
   };
 
 
-  //popover for card search results page
+  //popover for deck overview page
   $(function () {
     $('[data-toggle="popover"]').popover({
       html: true,
