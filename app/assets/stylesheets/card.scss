@@ -27,6 +27,37 @@
     font-family: 'MagicMedieval';
 }
 
+
+//~~~Transform cards~~~~~~~~~
+.flip-card {
+    width: 223px;
+    height: 310px;
+}
+  
+.flip-card-inner {
+    position: relative;
+    transition: transform 1.3s;
+    transform-style: preserve-3d;
+}
+  
+.flip-card-front, .flip-card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+}
+  
+.flip-card-front {
+    z-index: 2;
+}
+  
+.flip-card-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+}
+//----------------------------------
+
+
 //=========Popover============
 
 div.popover.right {

@@ -14,8 +14,37 @@ $(document).on('turbolinks:load', function() {
     return strNumArr.join('')
   }
 
+  //switch transform images to high-res Scryfall image (672x936) from original low-res image (223x310)   
+  $("#card_show_img_face, #card_show_img_back").on('click', function() {
+    const pricesDiv   = $(".price")[0]
+    const cardFace    = (this.id === "card_show_img_face") ? (this) : (document.getElementById("card_show_img_back"))
+    ,     cardBack    = (cardFace.id) === "card_show_img_face" ? document.getElementById("card_show_img_back") : document.getElementById("card_show_img_face")
+    ,     originalSrc = cardFace.getAttribute('original_src')
+    ,     hiResImgUrl = cardFace.getAttribute('img_url')
+    ,     originalTwinSrc = cardBack.getAttribute('original_src')
+    ,     hiResImgUrlTwin = cardBack.getAttribute('img_url');
+
+    if (this.src.includes('scryfall')) {
+      cardFace.src = originalSrc;
+      cardBack.src = originalTwinSrc
+      cardFace.style.width = "223px";
+      cardFace.style.height = "310px";
+      cardBack.style.width = '223px';
+      cardBack.style.height = '310px';
+      pricesDiv.style = "transition: 2s; float: left;"
+    } else { 
+      cardFace.src = hiResImgUrl;
+      cardBack.src = hiResImgUrlTwin;
+      cardFace.style.width = "502px";
+      cardFace.style.height = "700px";
+      cardBack.style.width = "502px";
+      cardBack.style.height = "700px";
+      pricesDiv.style = "transition: 2s; float: right; margin-right: 15%; margin-top: 3.5%;"
+    }
+  });
+
   //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
-  $(".card_show").on('click', function() {
+  $("#card_show_img").on('click', function() {
     const originalSrc = this.getAttribute('original_src')
     ,     hiResImgUrl = this.getAttribute('img_url')
 
@@ -45,6 +74,24 @@ $(document).on('turbolinks:load', function() {
       rotated = false;
       image.style.transition = '1.0s';
       image.style.transform = 'rotate(0deg)';
+    };
+  });
+  
+  //flip dual-sided cards over
+  let transformed; 
+
+  $("#transform").on('click', function() {
+    const div = document.getElementsByClassName('flip-card-inner')[0]
+    ,     divParent = document.getElementsByClassName('flip-card')[0];
+    
+    if (!transformed) {  
+      div.style.transition = '1.3s';
+      divParent.style.transition = '1.3s';
+      div.style.transform = 'rotateY(180deg)';
+      transformed = true;
+    } else {
+      transformed = false;
+      div.style.transform = 'rotateY(0deg)';
     };
   });
 
