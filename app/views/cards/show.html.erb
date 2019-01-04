@@ -33,7 +33,7 @@
 
   <% if @card.layout == "transform" %>
     <div class="col-sm-3 flip-card margin-3em-top-bottom" style='margin-right: 10%;'>
-      <div class="flip-card-inner">
+      <div class="flip-card-inner" style="transition: 1.5s; width: 223px;">
         <div class="flip-card-front">
           <%= image_tag(@card.img_url, id: "card_show_img_face", class: "card_show transform", img_url: @card.hi_res_img, original_src: @card.img_url) %>
         </div>
