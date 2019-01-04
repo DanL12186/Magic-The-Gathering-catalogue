@@ -51,20 +51,20 @@
     </div>
   </div>
 
-  <div class="price" style="transition: 2s;" id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
+  <div id="prices" style="transition: 2s;" data-id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
     <h4 id="mtg-fish"> 
       <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span> <%= insert_commas_in_price(@card.price[0]) %> </span>
+      <span class = 'price'> <%= insert_commas_in_price(@card.price[0]) %> </span>
     </h4>
 
     <h4 id="card-kingdom">
       <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span> <%= insert_commas_in_price(@card.price[1]) %> </span>
+      <span class = 'price'> <%= insert_commas_in_price(@card.price[1]) %> </span>
     </h4>
 
     <h4 id="tcg-player">
       <%= link_to 'TCG Player Market Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span> <%= insert_commas_in_price(@card.price[2]) %> </span>
+      <span class = 'price'> <%= insert_commas_in_price(@card.price[2]) %> </span>
     </h4>
 
     <h2>
