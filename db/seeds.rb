@@ -134,7 +134,6 @@
 #   obj = JSON.parse(Nokogiri::HTML(open(@url).read))
 
 #   if obj['layout'] == 'transform'
-#     puts 'stopping here'
 #     create_transform_cards(obj)
 #     return
 #   end
@@ -144,7 +143,7 @@
 #   type = subtypes.shift
 #   edition = format_edition(obj['set_name'])
 #   #for planeswalkers
-#   loyalty = obj['loyalty']
+#   loyalty = obj['loyalty']&.to_i
 # #  changing json format from { 'vintage' => 'legal' } to { 'vintage' => true }
 #   legalities = get_legalities(obj['legalities'])
 
@@ -152,7 +151,7 @@
 
 #   subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
 
-#   Card.create(name: obj['name'], legendary: legendary, legalities: legalities, edition: edition, hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: mana, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(obj['flavor_text']), layout: obj['layout'] )
+#   Card.create(name: obj['name'], legendary: legendary, legalities: legalities, edition: edition, hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: mana, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(obj['flavor_text']), layout: obj['layout'], frame: obj['frame'].to_i, loyalty: loyalty )
 # end
 
 # def create_transform_cards(card_hash)
@@ -163,6 +162,7 @@
 #   edition = format_edition(card_hash['set_name'])
 #   rarity = card_hash['rarity'].capitalize
 #   layout = 'transform'
+#   frame = card_hash['frame'].to_i
 #   year = card_hash['released_at'][0..3]
 
 #   #card_face attributes
@@ -178,9 +178,9 @@
 #   face_type = face_subtypes.shift
 #   face_flavor = get_flavor_text(card_face_specific_data['flavor_text'])
 #   face_twin = back_id
-#   face_loyalty = card_face_specific_data['loyalty']
+#   face_loyalty = card_face_specific_data['loyalty']&.to_i
   
-#   face = Card.new(name: face_name, edition: edition, legendary: face_legendary, multiverse_id: face_id, hi_res_img: face_hi_res, cropped_img: face_crop, power: face_power, toughness: face_toughness, artist: face_artist, mana: face_mana, card_type: face_type, subtypes: face_subtypes, flavor_text: face_flavor, flip_card_multiverse_id: face_twin)
+#   face = Card.new(name: face_name, edition: edition, legendary: face_legendary, multiverse_id: face_id, hi_res_img: face_hi_res, cropped_img: face_crop, power: face_power, toughness: face_toughness, artist: face_artist, mana: face_mana, card_type: face_type, subtypes: face_subtypes, flavor_text: face_flavor, flip_card_multiverse_id: face_twin, loyalty: face_loyalty)
 
 #   #card_back attributes
 #   back_name = card_back_specific_data['name']
@@ -194,9 +194,9 @@
 #   back_type = back_subtypes.shift
 #   back_flavor = get_flavor_text(card_back_specific_data['flavor_text'])
 #   back_twin = face_id
-#   back_loyalty = card_back_specific_data['loyalty']
+#   back_loyalty = card_back_specific_data['loyalty']&.to_i
 
-#   back = Card.new(name: back_name, edition: edition, legendary: back_legendary, multiverse_id: back_id, hi_res_img: back_hi_res, cropped_img: back_crop, power: back_power, toughness: back_toughness, artist: back_artist, mana: nil, card_type: back_type, subtypes: back_subtypes, flavor_text: back_flavor, flip_card_multiverse_id: back_twin)
+#   back = Card.new(name: back_name, edition: edition, legendary: back_legendary, multiverse_id: back_id, hi_res_img: back_hi_res, cropped_img: back_crop, power: back_power, toughness: back_toughness, artist: back_artist, mana: nil, card_type: back_type, subtypes: back_subtypes, flavor_text: back_flavor, flip_card_multiverse_id: back_twin, loyalty: back_loyalty)
 
 #   [face, back].each do | card | 
 #     card.legalities = legalities 
@@ -204,6 +204,7 @@
 #     card.year = year
 #     card.reserved = reserved
 #     card.rarity = rarity
+#     card.frame = frame
     
 #     card.save
 #   end  

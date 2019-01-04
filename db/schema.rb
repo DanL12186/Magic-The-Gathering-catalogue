@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_02_021329) do
+ActiveRecord::Schema.define(version: 2019_01_04_023436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 2019_01_02_021329) do
     t.boolean "legendary", default: false
     t.string "layout", default: "normal"
     t.integer "flip_card_multiverse_id"
+    t.integer "loyalty"
+    t.integer "frame"
     t.index ["abilities"], name: "index_cards_on_abilities", using: :gin
     t.index ["activated_abilities"], name: "index_cards_on_activated_abilities", using: :gin
     t.index ["colors"], name: "index_cards_on_colors", using: :gin
