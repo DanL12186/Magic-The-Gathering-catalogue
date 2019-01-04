@@ -6,7 +6,10 @@ class CardsController < ApplicationController
   include CardHelper
 
   def show
-    @card = params[:id].match?(/\d/) ? Card.find(params[:id]) : Card.find_by_name(params[:id])
+    @card = find_by_name_or_id(params[:id])
+    if @card.layout == 'transform'
+      @flip = Card.find_by(multiverse_id: @card.flip_card_multiverse_id)
+    end
   end
 
   def filter
@@ -23,7 +26,7 @@ class CardsController < ApplicationController
     name = card.name
     set = card.edition
     
-    #prevents a pack-back from triggering another update after a necessary update was performed
+    #prevents a back-click from triggering another update after a necessary update was performed
     if needs_updating?(card.updated_at, card.price)
       card.update(price: [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)], updated_at: Time.now)
     end
@@ -46,6 +49,12 @@ class CardsController < ApplicationController
     results = filters.empty? ? nil : Card.where(filters)
 
     render json: [results, filters]
+  end
+
+  private
+
+  def find_by_name_or_id(identifier)
+    identifier.match?(/\d/) ? Card.find(identifier) : Card.find_by(name: identifier)
   end
 
 end
