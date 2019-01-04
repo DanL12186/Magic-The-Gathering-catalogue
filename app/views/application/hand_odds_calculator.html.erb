@@ -1,4 +1,4 @@
-<h1 class="text-center"> Calculate Combo Odds </h1>
+<h1 class="text-center"> Calculate Combo Probability </h1>
 
 <button id="add-card-inputs" class="btn-sm margin-3em-top-bottom" value = "1" > 
   Add Another Card
@@ -44,10 +44,10 @@
       <%= f.number_field :cards_drawn, value: 7, min: 1, max: 15 %>
     </div>
 
-    <%= f.submit "Calculate Odds" %>
+    <%= f.submit "Calculate Probability" %>
     
     <h2> 
-      Odds of this exact combo: <h4 id="odds-results"> </h4>
+      Probability of this exact combo: <h4 id="odds-results"> </h4>
     </h2>
   
     <h1> <%= f.button "Clear Form", class: "btn-lg clear-form" %> </h1> 
