@@ -46,6 +46,8 @@
     height: 100%;
     position: absolute;
     backface-visibility: hidden;
+    //fix for firefox not responding properly to backface-visibility: hidden;
+    transform: rotateX(0deg);
 }
   
 .flip-card-front {
