@@ -4,6 +4,7 @@
     border-radius: 3.7%;
     height: 310px;
     width: 223px;
+    position: absolute;
 }
 
 .card_show.alpha {
@@ -47,7 +48,7 @@
     position: absolute;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    //fix for firefox not responding properly to backface-visibility: hidden;
+    //fix for firefox not responding to backface-visibility
     transform: rotateX(0deg);
 }
   

@@ -1,7 +1,12 @@
+//animations on the card show page
 $(document).on('turbolinks:load', function() {
-  let zoomed;
 
+  const pricesDiv = document.getElementById('prices')
+  let   zoomed;
+
+  //may src.replace('large', 'normal') for smaller 488x680 image @ ~55-60% file size
   function zoomOut(element) {
+    pricesDiv.style = 'transition: 2s; float: left';
     element.src = element.getAttribute('original_src');
     element.style.width = '223px';
     element.style.height = '310px';
@@ -9,31 +14,29 @@ $(document).on('turbolinks:load', function() {
   }
 
   function zoomIn(element) {
-    element.src = element.getAttribute('img_url'); //.replace('large', 'normal') for smaller image (488x680 @ ~55-60% file size)
+    pricesDiv.style = 'transition: 1.5s; margin-left: 57%; margin-top: 3.5%;';
+    element.src = element.getAttribute('img_url');
     element.style.width = '502px';
     element.style.height = '700px';
     zoomed = true;
   }
 
-  //switch transform images to high-res Scryfall image (672x936) from original low-res image (223x310)   
+  //switch transform images to high-res Scryfall image (672x936) from original low-res image (223x310)
   $("#card_show_img_face, #card_show_img_back").on('click', function() {
-    const cardFace    = this.id.includes('face') ? this : document.getElementById('card_show_img_face')
-    ,     cardBack    = this.id.includes('back') ? this : document.getElementById('card_show_img_back')
+    const cardFace = this.id.includes('face') ? this : document.getElementById('card_show_img_face')
+    ,     cardBack = this.id.includes('back') ? this : document.getElementById('card_show_img_back')
 
-    const pricesDiv     = document.getElementById('prices')
-    ,     flipContainer = document.getElementsByClassName('flip-card-inner')[0]
+    const flipContainer = document.getElementsByClassName('flip-card-inner')[0]
 
     if (zoomed) {
-      pricesDiv.style = 'transition: 2s; float: left';
       flipContainer.style.width = '223px';
       zoomOut(cardFace);
       zoomOut(cardBack);
     } else { 
-      pricesDiv.style = 'transition: 1.5s; margin-left: 57%; margin-top: 3.5%;';
       flipContainer.style.width = '502px';
       zoomIn(cardFace)
       zoomIn(cardBack)
-    }
+    };
   });
 
   //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
