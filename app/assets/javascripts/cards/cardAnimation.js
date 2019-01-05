@@ -14,7 +14,7 @@ $(document).on('turbolinks:load', function() {
   }
 
   function zoomIn(element) {
-    pricesDiv.style = 'transition: 1.5s; margin-left: 57%; margin-top: 3.5%;';
+    pricesDiv.style = 'transition: 1.2s; margin-left: 57%; margin-top: 3.5%;';
     element.src = element.getAttribute('img_url');
     element.style.width = '502px';
     element.style.height = '700px';
@@ -44,9 +44,9 @@ $(document).on('turbolinks:load', function() {
     zoomed ? zoomOut(this) : zoomIn(this)
   });
 
-  //rotate split-view cards 90 degress counter-clockwise
   let rotated;
 
+  //rotate split-view cards 90 degress counter-clockwise
   $("#rotate").on('click', function() {
     const direction = this.getAttribute('data-rotate') === 'cw' ? '90deg' : '-90deg'
     ,     image     = document.getElementById('card_show_img');
@@ -62,17 +62,33 @@ $(document).on('turbolinks:load', function() {
     };
   });
 
-  //flip dual-sided cards over
-  let transformed; 
+  function fadeCroppedImageInOut(transformed) {
+    const croppedDiv = $("#cropped-img-div"),
+          croppedImg = document.getElementById('cropped-img'),
+          faceCropURL = croppedImg.attributes.original_src.value,
+          backCropURL = croppedImg.attributes.reverse_src.value;
 
+    croppedDiv.fadeOut(750).fadeIn(750);
+
+    setTimeout(()=> {
+      croppedImg.src = transformed ? backCropURL : faceCropURL
+    }, 750)
+  }
+
+  let transformed;
+
+  //flip dual-sided cards over and change cropped image with a fade effect to match flipped side
   $('#transform').on('click', function() {
-    const div = document.getElementsByClassName('flip-card-inner')[0]
+    const cardDiv = document.getElementsByClassName('flip-card-inner')[0];
+    
+    fadeCroppedImageInOut()
+
     if (!transformed) {
-      div.style.transform = 'rotateY(180deg)';
+      cardDiv.style.transform = 'rotateY(180deg)';
       transformed = true;
     } else {
+      cardDiv.style.transform = 'rotateY(0deg)';
       transformed = false;
-      div.style.transform = 'rotateY(0deg)';
     };
   });
 });
