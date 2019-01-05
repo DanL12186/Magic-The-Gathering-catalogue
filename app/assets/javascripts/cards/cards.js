@@ -14,16 +14,25 @@ $(document).on('turbolinks:load', function() {
     return strNumArr.join('')
   }
 
-  let zoomed;
+  function zoomOut(element) {
+    element.src = element.getAttribute('original_src');
+    element.style.width = '223px';
+    element.style.height = '310px';
+    zoomed = false;
+  }
 
+  function zoomIn(element) {
+    element.src = element.getAttribute('img_url'); //.replace('large', 'normal') for smaller image (488x680 @ ~55-60% file size)
+    element.style.width = '502px';
+    element.style.height = '700px';
+    zoomed = true;
+  }
+
+  let zoomed;
   //switch transform images to high-res Scryfall image (672x936) from original low-res image (223x310)   
   $("#card_show_img_face, #card_show_img_back").on('click', function() {
     const cardFace    = this.id.includes('face') ? this : document.getElementById('card_show_img_face')
     ,     cardBack    = this.id.includes('back') ? this : document.getElementById('card_show_img_back')
-    ,     originalSrc = cardFace.getAttribute('original_src')
-    ,     hiResImgUrl = cardFace.getAttribute('img_url')
-    ,     originalTwinSrc = cardBack.getAttribute('original_src')
-    ,     hiResImgUrlTwin = cardBack.getAttribute('img_url');
 
     const pricesDiv     = document.getElementById('prices')
     ,     flipContainer = document.getElementsByClassName('flip-card-inner')[0]
@@ -31,36 +40,19 @@ $(document).on('turbolinks:load', function() {
     if (zoomed) {
       pricesDiv.style = 'transition: 2s; float: left';
       flipContainer.style.width = '223px';
-      cardFace.src = originalSrc;
-      cardBack.src = originalTwinSrc;
-      [cardFace, cardBack].forEach(face=> [face.style.width, face.style.height] = ['223px', '310px']);
-      zoomed = false;
+      zoomOut(cardFace);
+      zoomOut(cardBack);
     } else { 
-      pricesDiv.style = 'transition: 1.5s; margin-left: 57%; margin-top: 3.5%;'
+      pricesDiv.style = 'transition: 1.5s; margin-left: 57%; margin-top: 3.5%;';
       flipContainer.style.width = '502px';
-      cardFace.src = hiResImgUrl;
-      cardBack.src = hiResImgUrlTwin;
-      [cardFace, cardBack].forEach(face=> [face.style.width, face.style.height] = ['502px', '700px']);
-      zoomed = true
+      zoomIn(cardFace)
+      zoomIn(cardBack)
     }
   });
 
   //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
   $('#card_show_img').on('click', function() {
-    const originalSrc = this.getAttribute('original_src')
-    ,     hiResImgUrl = this.getAttribute('img_url')
-
-    if (zoomed) {
-      this.src = originalSrc;
-      this.style.width = '223px';
-      this.style.height = '310px';
-      zoomed = false
-    } else { 
-      this.src = hiResImgUrl; //.replace('large', 'normal') for smaller image (488x680 @ ~55-60% file size)
-      this.style.width = '502px';
-      this.style.height = '700px';
-      zoomed = true
-    }
+    zoomed ? zoomOut(this) : zoomIn(this)
   });
 
   //rotate split-view cards 90 degress counter-clockwise
@@ -120,10 +112,10 @@ $(document).on('turbolinks:load', function() {
               oldPrices[i].innerText = newPrice !== 'N/A' ? '$' + numberWithDelimiter(newPrice) : 'N/A'
             }, 750);
           };
-        }
-      })
-    }
-  }
+        };
+      });
+    };
+  };
 
   //popover for card search results page
   $(function () {
@@ -135,8 +127,8 @@ $(document).on('turbolinks:load', function() {
       content: function() { 
         return `<img src="${this.getAttribute('data-url')}" >`
       }
-    })
-  })
+    });
+  });
 
   //remove popover after leaving page
   $('li.card').on('click', function() {
