@@ -42,6 +42,10 @@ module CardHelper
     (Time.now - last_updated) > 24.hours
   end
 
+  def wizards_reserved_list
+    "https://magic.wizards.com/en/articles/archive/official-reprint-policy-2010-03-10"
+  end
+
   def add_prices_to_all
     cards = Card.where(price: [])
     cards.each do | card | 
