@@ -65,7 +65,7 @@ module CardHelper
 
 
   def mtgoldfish_url(card_name, card_set)
-    set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
+    set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/^Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
           .gsub(' ', '+').delete("':")
     name = I18n.transliterate(card_name).delete(",.:;'/").gsub(/ +/, '+')
 
@@ -101,7 +101,7 @@ module CardHelper
 
   def tcg_player_url(card_name, card_set)
     set = card_set.gsub(' ', '-').downcase.delete(':')
-    set += '-edition' if card_set.match?(/Alpha|Beta|Unl|Rev/)
+    set += '-edition' if card_set.match?(/Alpha|Beta|Unl|^Rev/)
     name = I18n.transliterate(card_name.downcase).delete(",.:;'/").gsub(/ +/, '-')
 
     "https://shop.tcgplayer.com/magic/#{set}/#{name}"
