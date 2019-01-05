@@ -18,8 +18,8 @@ $(document).on('turbolinks:load', function() {
 
   //switch transform images to high-res Scryfall image (672x936) from original low-res image (223x310)   
   $("#card_show_img_face, #card_show_img_back").on('click', function() {
-    const cardFace    = (this.id === 'card_show_img_face') ? (this) : (document.getElementById('card_show_img_back'))
-    ,     cardBack    = (cardFace.id) === 'card_show_img_face' ? document.getElementById('card_show_img_back') : document.getElementById('card_show_img_face')
+    const cardFace    = this.id.includes('face') ? this : document.getElementById('card_show_img_face')
+    ,     cardBack    = this.id.includes('back') ? this : document.getElementById('card_show_img_back')
     ,     originalSrc = cardFace.getAttribute('original_src')
     ,     hiResImgUrl = cardFace.getAttribute('img_url')
     ,     originalTwinSrc = cardBack.getAttribute('original_src')
@@ -29,24 +29,18 @@ $(document).on('turbolinks:load', function() {
     ,     flipContainer = document.getElementsByClassName('flip-card-inner')[0]
 
     if (zoomed) {
+      pricesDiv.style = 'transition: 2s; float: left';
       flipContainer.style.width = '223px';
       cardFace.src = originalSrc;
-      cardBack.src = originalTwinSrc
-      cardFace.style.width = '223px';
-      cardFace.style.height = '310px';
-      cardBack.style.width = '223px';
-      cardBack.style.height = '310px';
-      pricesDiv.style = 'transition: 2s; float: left';
+      cardBack.src = originalTwinSrc;
+      [cardFace, cardBack].forEach(face=> [face.style.width, face.style.height] = ['223px', '310px']);
       zoomed = false;
     } else { 
-      flipContainer.style.width = '500px';
+      pricesDiv.style = 'transition: 1.5s; margin-left: 57%; margin-top: 3.5%;'
+      flipContainer.style.width = '502px';
       cardFace.src = hiResImgUrl;
       cardBack.src = hiResImgUrlTwin;
-      cardFace.style.width = '502px';
-      cardFace.style.height = '700px';
-      cardBack.style.width = '502px';
-      cardBack.style.height = '700px';
-      pricesDiv.style = 'transition: 1.5s; margin-left: 57%; margin-top: 3.5%;'
+      [cardFace, cardBack].forEach(face=> [face.style.width, face.style.height] = ['502px', '700px']);
       zoomed = true
     }
   });
@@ -108,11 +102,12 @@ $(document).on('turbolinks:load', function() {
 
     if (stale) {
       const response = $.post(`/cards/update_prices?id=${id}`)
-      
+
       response.done(card=> {
-        //card.price is an array of mtgoldfish, card kingdom, and tcg player prices. Updates DOM if price has changed.
+        const oldPrices = document.getElementsByClassName('price')
+        //card.price is an array of mtgoldfish, card kingdom, and tcg player prices. Updates DOM if prices changed.
         for (let i = 0; i < 3; i++) {
-          const oldPrice = $('.price')[i].innerText.replace(/[\$,]/g,''),
+          const oldPrice = oldPrices[i].innerText.replace(/[\$,]/g,''),
                 newPrice = card.price[i];
           
           if (oldPrice !== newPrice) {
@@ -122,7 +117,7 @@ $(document).on('turbolinks:load', function() {
             priceSpan.fadeOut(750).fadeIn(750);
 
             setTimeout(() => {
-              $('.price')[i].innerText = newPrice !== 'N/A' ? '$' + numberWithDelimiter(newPrice) : 'N/A'
+              oldPrices[i].innerText = newPrice !== 'N/A' ? '$' + numberWithDelimiter(newPrice) : 'N/A'
             }, 750);
           };
         }
