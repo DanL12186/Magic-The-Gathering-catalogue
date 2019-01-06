@@ -71,7 +71,7 @@ $(document).on('turbolinks:load', function() {
     croppedDiv.fadeOut(750).fadeIn(750);
 
     setTimeout(()=> {
-      croppedImg.src = transformed ? backCropURL : faceCropURL
+      croppedImg.src = transformed ? faceCropURL : backCropURL
     }, 750)
   }
 
@@ -81,7 +81,7 @@ $(document).on('turbolinks:load', function() {
   $('#transform').on('click', function() {
     const cardDiv = document.getElementsByClassName('flip-card-inner')[0];
     
-    fadeCroppedImageInOut()
+    fadeCroppedImageInOut(transformed)
 
     if (!transformed) {
       cardDiv.style.transform = 'rotateY(180deg)';
