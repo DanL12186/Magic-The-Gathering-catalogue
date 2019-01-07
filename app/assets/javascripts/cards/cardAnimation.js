@@ -62,33 +62,30 @@ $(document).on('turbolinks:load', function() {
     };
   });
 
-  function fadeCroppedImageInOut(transformed) {
+  function fadeCroppedImageInOut() {
     const croppedDiv = $("#cropped-img-div"),
           croppedImg = document.getElementById('cropped-img'),
           faceCropURL = croppedImg.attributes.original_src.value,
           backCropURL = croppedImg.attributes.reverse_src.value;
 
     croppedDiv.fadeOut(750).fadeIn(750);
-
+   
     setTimeout(()=> {
       croppedImg.src = transformed ? faceCropURL : backCropURL
+      transformed = !transformed
     }, 750)
   }
 
-  let transformed;
+  const flipCardOver = cardDiv => { cardDiv.style.transform = `rotateY(${180-(transformed ? 180 : 0)}deg)` }
+
+  let transformed,
+  cardDiv;
 
   //flip dual-sided cards over and change cropped image with a fade effect to match flipped side
   $('#transform').on('click', function() {
-    const cardDiv = document.getElementsByClassName('flip-card-inner')[0];
-    
-    fadeCroppedImageInOut(transformed)
+    if (!cardDiv) cardDiv = document.getElementsByClassName('flip-card-inner')[0];
 
-    if (!transformed) {
-      cardDiv.style.transform = 'rotateY(180deg)';
-      transformed = true;
-    } else {
-      cardDiv.style.transform = 'rotateY(0deg)';
-      transformed = false;
-    };
+    flipCardOver(cardDiv)
+    fadeCroppedImageInOut(cardDiv)
   });
 });
