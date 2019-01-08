@@ -27,9 +27,8 @@ $(document).on('turbolinks:load', function() {
       //only update on change
       if (lastMatch !== firstEightMatches.toString()) {
         datalist.innerHTML = firstEightMatches.map(match=> `<option value="${match}" style="font-family: MagicMedieval;"></option>`);
+        lastMatch = firstEightMatches.toString();
       };
-
-      lastMatch = firstEightMatches.toString();
     };
   });
 });
