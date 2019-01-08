@@ -1,7 +1,7 @@
 //=== card image on card show page
 .card_show {
     transition: 1.5s;
-    border-radius: 3.7%;
+    border-radius: 4.5%;
     height: 310px;
     width: 223px;
     position: absolute;
@@ -9,6 +9,10 @@
 
 .card_show.alpha {
     border-radius: 6%;
+}
+
+#cropped-img {
+    min-height: 460px;
 }
 
 .card_show:hover {
