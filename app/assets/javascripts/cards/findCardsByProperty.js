@@ -1,4 +1,15 @@
 $(document).on('turbolinks:load', function() {
+  //clear "sort by" buttons when a card is clicked.
+  function listenForPageLeave() {
+    $(".thumb").on('click', function() {
+      $("a.btn-sm").empty()
+      document.getElementById("pagination-pg-num").style = "display: none;";
+      $("div#find-by-pagination")[0].innerHTML = null;
+    })
+  }
+  
+  listenForPageLeave();
+
   //populate /cards/find_by_properties with found cards
   $("form.find_by_properties").on('submit', function(event) {
     event.stopPropagation();
@@ -15,7 +26,7 @@ $(document).on('turbolinks:load', function() {
         return( 
           `<div class= col-sm-3>
             <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw;"> 
-              ${card.name} <img src="/assets/editions/${edition}" class=edition_${rarity} width=5% >
+              ${card.name} <img src="/assets/editions/${edition}" class=${rarity} width=5% >
             </h3>
             
             <div class=card_img_div> 
@@ -101,7 +112,7 @@ $(document).on('turbolinks:load', function() {
 
         generateAndDisplayHTML(cards, parseInt(this.innerHTML))
 
-        createEventListener();
+        listenForPageLeave();
         return;
       });
 
@@ -111,7 +122,7 @@ $(document).on('turbolinks:load', function() {
 
         const sortedCards = cards.sort((a,b) => a.name.localeCompare(b.name))
         generateAndDisplayHTML(sortedCards);
-        createEventListener();
+        listenForPageLeave();
       });
 
       $("#sort_by_id").on('click', function(event) {
@@ -119,7 +130,7 @@ $(document).on('turbolinks:load', function() {
         
         const sortedCards = cards.sort((a,b) => a.multiverse_id - b.multiverse_id)
         generateAndDisplayHTML(sortedCards);
-        createEventListener();
+        listenForPageLeave();
       });
 
       //this sorts only by the prices on CardKingdom, as other prices are only suggestions
@@ -132,7 +143,7 @@ $(document).on('turbolinks:load', function() {
         });
 
         generateAndDisplayHTML(sortedCards);
-        createEventListener();
+        listenForPageLeave();
       });
 
       $("#sort_by_color").on('click', function(event) {
@@ -150,7 +161,7 @@ $(document).on('turbolinks:load', function() {
         
         const sortedCards = cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color])
         generateAndDisplayHTML(sortedCards);
-        createEventListener();
+        listenForPageLeave();
       });
 
       $("#sort_by_type").on('click', function(event) {
@@ -169,18 +180,8 @@ $(document).on('turbolinks:load', function() {
         const sortedCards = cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type])
 
         generateAndDisplayHTML(sortedCards);
-        createEventListener();
+        listenForPageLeave();
       });
-
-      //clear "sort by" buttons when a card is clicked.
-      function createEventListener() {
-        $(".thumb").on('click', function() {
-          $("a.btn-sm").empty()
-          document.getElementById("pagination-pg-num").style = "display: none;";
-          $("div#find-by-pagination")[0].innerHTML = null;
-        })
-      }
-      createEventListener();
     });
   });
 
