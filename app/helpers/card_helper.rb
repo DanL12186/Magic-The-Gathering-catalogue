@@ -42,6 +42,10 @@ module CardHelper
     (Time.now - last_updated) > 24.hours
   end
 
+  def lazy_load?(idx, edition = nil)
+    idx > 1 && edition != 'Antiquities'
+  end
+
   def wizards_reserved_list
     "https://magic.wizards.com/en/articles/archive/official-reprint-policy-2010-03-10"
   end
@@ -105,7 +109,7 @@ module CardHelper
   def tcg_player_url(card_name, card_set)
     set = card_set.gsub(' ', '-').downcase.delete(':')
     set += card_set.match(/201[0-5]/) ? "-m#{set.match(/\d{2}$/)[0]}" : card_set.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
-    name = I18n.transliterate(card_name.downcase).delete(",.:;'/").gsub(/ +/, '-')
+    name = I18n.transliterate(card_name.downcase).delete(",.:;\"'/").gsub(/ +/, '-')
 
     "https://shop.tcgplayer.com/magic/#{set}/#{name}"
   end

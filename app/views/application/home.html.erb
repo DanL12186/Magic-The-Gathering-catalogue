@@ -1,28 +1,33 @@
-<center>
-  <% @iconic_cards.each_with_index do | card, idx | %>
-    <div>
-      <h1> <%= card.name %> </h1>
-      <h3 data-edition = <%= card.edition.downcase.gsub(' ', '_') %> data-rarity = <%= card.rarity.downcase %> > 
-        Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "edition_#{card.rarity.downcase}", width: '2%' %>
-      </h3>
-      <h4> Artist: <%= link_to card.artist, card.artist.delete('.') %> </h4>
-      
-      <% unless card.card_type == 'Land' %>
-        <h5> Mana: 
-          <% card.mana.each do | color | %>
-            <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22', lazy: (true if idx > 1)), mana_color(color) %>
-          <% end %>
-        </h5>
-      <% end %>
+<div class="text-center">
 
-      <% if card.flavor_text %>
-        <div class="col-sm-3 flavor"> 
-          <%= card.flavor_text.html_safe %> 
-        </div>
-      <% end %>
+  <% @iconic_cards.each_with_index do | card, idx | %>
+
+    <h1> <%= card.name %> </h1>
     
-      <div class = "card_img_div"> <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: (true if idx > 1))  ), card_path(card) %> </div>
-      
+    <h3 data-edition= <%= card.edition.downcase.gsub(' ', '_') %> data-rarity= <%= card.rarity.downcase %> > 
+      Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase}", width: '2%', lazy: lazy_load?(idx, card.edition) %>
+    </h3>
+    
+    <h4> Artist: <%= link_to card.artist, card.artist.delete('.') %> </h4>
+    
+    <% unless card.card_type == 'Land' %>
+      <h5> Mana: 
+        <% card.mana.each do | color | %>
+          <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22', lazy: lazy_load?(idx) ), mana_color(color) %>
+        <% end %>
+      </h5>
+    <% end %>
+
+    <% if card.flavor_text %>
+      <div class="flavor"> 
+        <%= card.flavor_text.html_safe %> 
+      </div>
+    <% end %>
+  
+    <div class = "card_img_div"> 
+      <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: lazy_load?(idx) )  ), card_path(card) %> 
     </div>
+      
   <% end %>
-</center>
+
+</div>

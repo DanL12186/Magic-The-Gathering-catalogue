@@ -4,6 +4,10 @@
 
 //*****CARD DISPLAY DIV***//
 
+.rare, .uncommon, .common {
+    height: 2%;
+}
+
 .card_img_div {
     margin-top: 2%;
     padding-left: 15px;
@@ -31,6 +35,7 @@
     margin-top: 0.5%;
     font-weight: 200;
     font-family: cursive;
-    float: none;
+    width: 20%;
+    margin: auto;
 }
 //************************//
