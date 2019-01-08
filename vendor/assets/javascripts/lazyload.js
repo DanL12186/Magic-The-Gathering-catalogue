@@ -75,7 +75,7 @@
         /* Cache container as jQuery as object. */
         $container = (settings.container === undefined ||
                       settings.container === window) ? $window : $(settings.container);
-
+        
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
             $container.off(settings.event).on(settings.event, function() {
@@ -88,13 +88,6 @@
             var $self = $(self);
 
             self.loaded = false;
-
-            // /* If no src attribute given use data:uri. */
-            // if ($self.attr("src") === undefined || $self.attr("src") === false) {
-            //     if ($self.is("img")) {
-            //         $self.attr("src", settings.placeholder);
-            //     }
-            // }
 
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
@@ -158,18 +151,6 @@
         $window.off("resize.lazyload").bind("resize.lazyload", function() {
             update();
         });
-
-        /* With IOS5 force loading images when navigating with back button. */
-        /* Non optimal workaround. */
-        if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
-            $window.on("pageshow", function(event) {
-                if (event.originalEvent && event.originalEvent.persisted) {
-                    elements.each(function() {
-                        $(this).trigger("appear");
-                    });
-                }
-            });
-        }
 
         /* Force initial check if images should appear. */
         $(function() {
