@@ -10,6 +10,8 @@
       <%= link_to image_tag("reserved list"), wizards_reserved_list, target: "_blank", rel: "noopener noreferrer", style: 'margin-left: 1%' %>
     <% end %>
 
+    <button class='legalities btn btn-sm' data-legalities = <%= @card.legalities.to_json %>> Legalities </button>
+    <div id="legal" style="inline;"></div>
     <% if @card.layout == 'split' %>
       <button id="rotate" class="btn btn-default btn-sm" data-rotate= <%= "#{rotation_type(@card.year)}" %> style="margin-left: 1%;">
         Rotate  
