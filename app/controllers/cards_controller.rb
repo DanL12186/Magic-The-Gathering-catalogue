@@ -1,5 +1,4 @@
 class CardsController < ApplicationController
-
   skip_before_action :verify_authenticity_token, only: [:update_prices]
 
   include Cards
@@ -48,7 +47,9 @@ class CardsController < ApplicationController
 
     results = filters.empty? ? nil : Card.where(filters)
 
-    render json: [results, filters]
+    results = CardSerializer.new(results).serializable_hash[:data]
+    
+    render json: results
   end
 
   private
