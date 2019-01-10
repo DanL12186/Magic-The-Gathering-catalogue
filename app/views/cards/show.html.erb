@@ -27,42 +27,43 @@
   </h4>
 
   <div class = "row" style='margin-right: 2%;'>
-  <% unless @card.layout == 'transform' %>
-    <div class="col-sm-3 margin-3em-top-bottom">
-      <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", img_url: @card.hi_res_img, original_src: @card.img_url) %> 
-    </div>
-  <% end %>
+
+    <% unless @card.layout == 'transform' %>
+      <div class="col-sm-3 margin-3em-top-bottom">
+        <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", img_url: @card.hi_res_img, original_src: @card.img_url) %> 
+      </div>
+    <% end %>
 
     <%= render 'transform_card' if @card.layout == "transform" %>
 
     <div class='col-sm-4'></div>
-      <div class='col-sm-3' style='min-height: 460px;' id='cropped-img-div'>
-        <%= image_tag(@card.cropped_img, id: 'cropped-img', reverse_src: @flip&.cropped_img, original_src: @card.cropped_img) %>
-        <h1 style = "font-size: 150%;"> <%= link_to(@card.artist, "/#{@card.artist.delete('.')}") %> </h1>
-      </div>
+
+    <div class='col-sm-3' style='min-height: 460px;' id='cropped-img-div'>
+      <%= image_tag(@card.cropped_img, id: 'cropped-img', reverse_src: @flip&.cropped_img, original_src: @card.cropped_img) %>
+      <h1 style = "font-size: 150%;"> <%= link_to(@card.artist, "/#{@card.artist.delete('.')}") %> </h1>
     </div>
+  </div>
 
-    <div id="prices" data-id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
-      <h4 id="mtg-fish"> 
-        <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-        <span class = 'price'> <%= insert_commas_in_price(@card.price[0]) %> </span>
-      </h4>
+  <div id="prices" data-id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
+    <h4 id="mtg-fish"> 
+      <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+      <span class = 'price'> <%= insert_commas_in_price(@card.price[0]) %> </span>
+    </h4>
 
-      <h4 id="card-kingdom">
-        <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-        <span class = 'price'> <%= insert_commas_in_price(@card.price[1]) %> </span>
-      </h4>
+    <h4 id="card-kingdom">
+      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+      <span class = 'price'> <%= insert_commas_in_price(@card.price[1]) %> </span>
+    </h4>
 
-      <h4 id="tcg-player">
-        <%= link_to 'TCG Player Market Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-        <span class = 'price'> <%= insert_commas_in_price(@card.price[2]) %> </span>
-      </h4>
+    <h4 id="tcg-player">
+      <%= link_to 'TCG Player Market Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+      <span class = 'price'> <%= insert_commas_in_price(@card.price[2]) %> </span>
+    </h4>
 
-      <h2>
-        <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %>
-      </h2>
-    </div>
-    
+    <h2>
+      <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %>
+    </h2>
+
   </div>
 
 </body>
