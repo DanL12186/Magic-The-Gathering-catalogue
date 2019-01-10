@@ -1,10 +1,10 @@
-<div class="text-center">
+<body class="text-center">
 
   <% @iconic_cards.each_with_index do | card, idx | %>
 
     <h1> <%= card.name %> </h1>
     
-    <h3 data-edition= <%= card.edition.downcase.gsub(' ', '_') %> data-rarity= <%= card.rarity.downcase %> > 
+    <h3 data-edition= <%= card.edition.downcase.gsub(' ', '_') %> > 
       Edition: <%= link_to("#{card.edition}", "#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase}", width: '2%', lazy: lazy_load?(idx, card.edition) %>
     </h3>
     
@@ -28,4 +28,4 @@
       
   <% end %>
 
-</div>
+</body>
