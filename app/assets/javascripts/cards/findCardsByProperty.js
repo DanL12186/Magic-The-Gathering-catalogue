@@ -17,7 +17,7 @@ $(document).on('turbolinks:load', function() {
       const slice = currentPage * 60
       return cards.map(card=> {
         const cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
-        ,     thumbnail = (card.hi_res_img || card.img_url).replace('large','small')
+        ,     thumbnail = card.hi_res_img.replace('large','small')
         ,     edition   = card.edition.toLowerCase().replace(':','')
         ,     rarity    = card.rarity.toLowerCase();
         
@@ -50,7 +50,7 @@ $(document).on('turbolinks:load', function() {
     ,     response = $.post(`/cards/find_by_properties`, serializedForm);
     
     response.done(response => {
-      const cards = response.map(JSON=> JSON.attributes)
+      const cards = response ? response.map(JSON=> JSON.attributes) : null
 
       //remove 'Page:' and page tabs if all one page
       if (!cards || cards.length <= 60) {
@@ -70,7 +70,7 @@ $(document).on('turbolinks:load', function() {
 
       const numPages = Math.ceil(cards.length / 60)
       ,     html = generateCardsHTML(cards, 0);
-
+      
       //change page tabs if necessary
       if (numPages > 1 && document.getElementsByClassName("jslink").length !== numPages) {
         document.getElementById("pagination-pg-num").style = "display: block"
