@@ -1,4 +1,4 @@
-<div class="card_show_page">
+<body class="card_show_page">
 
   <h1 class='show_page_card_name'> 
     <%= image_tag(edition_filename(@card.rarity, @card.edition), width: '64px') %>
@@ -12,17 +12,16 @@
 
     <button class='legalities btn btn-sm' data-legalities = <%= @card.legalities.to_json %>> Legalities </button>
     <div id="legal" style="inline;"></div>
+    
     <% if @card.layout == 'split' %>
       <button id="rotate" class="btn btn-default btn-sm" data-rotate= <%= "#{rotation_type(@card.year)}" %> style="margin-left: 1%;">
-        Rotate  
-        <span class="glyphicon glyphicon-repeat"></span> 
+        Rotate <span class="glyphicon glyphicon-repeat"></span> 
       </button>
     <% end %>
 
     <% if @card.layout == "transform" %>
       <button id="transform" class="btn btn-default btn-sm" style="margin-left: 1%;" >
-        Transform  
-        <span class="glyphicon glyphicon-refresh"></span> 
+        Transform <span class="glyphicon glyphicon-refresh"></span> 
       </button>
     <% end %>
   </h4>
@@ -34,45 +33,36 @@
     </div>
   <% end %>
 
-  <% if @card.layout == "transform" %>
-    <div class="col-sm-3 flip-card margin-3em-top-bottom" style='margin-right: 10%;'>
-      <div class="flip-card-inner" style="transition: 1.5s; width: 223px;">
-        <div class="flip-card-front">
-          <%= image_tag(@card.img_url, id: "card_show_img_face", class: "card_show transform", img_url: @card.hi_res_img, original_src: @card.img_url) %>
-        </div>
-        <div class="flip-card-back">
-          <%= image_tag(@flip.img_url, id: "card_show_img_back", class: "card_show transform", img_url: @flip.hi_res_img, original_src: @flip.img_url) %>
-        </div>
+    <%= render 'transform_card' if @card.layout == "transform" %>
+
+    <div class='col-sm-4'></div>
+      <div class='col-sm-3' style='min-height: 460px;' id='cropped-img-div'>
+        <%= image_tag(@card.cropped_img, id: 'cropped-img', reverse_src: @flip&.cropped_img, original_src: @card.cropped_img) %>
+        <h1 style = "font-size: 150%;"> <%= link_to(@card.artist, "/#{@card.artist.delete('.')}") %> </h1>
       </div>
     </div>
-  <% end %>
 
-  <div class='col-sm-4'></div>
-    <div class='col-sm-3' style='min-height: 460px;' id='cropped-img-div'>
-      <%= image_tag(@card.cropped_img, id: 'cropped-img', reverse_src: @flip&.cropped_img, original_src: @card.cropped_img) %>
-      <h1 style = "font-size: 150%;"> <%= link_to(@card.artist, "/#{@card.artist.delete('.')}") %> </h1>
+    <div id="prices" data-id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
+      <h4 id="mtg-fish"> 
+        <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+        <span class = 'price'> <%= insert_commas_in_price(@card.price[0]) %> </span>
+      </h4>
+
+      <h4 id="card-kingdom">
+        <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+        <span class = 'price'> <%= insert_commas_in_price(@card.price[1]) %> </span>
+      </h4>
+
+      <h4 id="tcg-player">
+        <%= link_to 'TCG Player Market Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
+        <span class = 'price'> <%= insert_commas_in_price(@card.price[2]) %> </span>
+      </h4>
+
+      <h2>
+        <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %>
+      </h2>
     </div>
+    
   </div>
 
-  <div id="prices" data-id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.price) %> >
-    <h4 id="mtg-fish"> 
-      <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span class = 'price'> <%= insert_commas_in_price(@card.price[0]) %> </span>
-    </h4>
-
-    <h4 id="card-kingdom">
-      <%= link_to 'Card Kingdom Price:', card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span class = 'price'> <%= insert_commas_in_price(@card.price[1]) %> </span>
-    </h4>
-
-    <h4 id="tcg-player">
-      <%= link_to 'TCG Player Market Price:', tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span class = 'price'> <%= insert_commas_in_price(@card.price[2]) %> </span>
-    </h4>
-
-    <h2>
-      <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %>
-    </h2>
-  </div>
-
-</div>
+</body>
