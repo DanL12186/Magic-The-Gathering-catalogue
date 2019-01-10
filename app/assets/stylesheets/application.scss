@@ -44,6 +44,7 @@ a {
 .search-bar {
     float: right;
     padding-bottom: 10px;
+    // margin-right: 15px;
     font-size: 0.9em; 
     font-family: 'Times New Roman'
 }
@@ -58,10 +59,12 @@ a {
 //****Filtered Pages*******//
 
 .filter-img {
-    border-radius: 3.3%;
+    border-radius: 3.5%;
 }
 
 .filter-img.alpha {
+    width: 223px;
+    height: 310px;
     border-radius: 5.4%;
 }
 
