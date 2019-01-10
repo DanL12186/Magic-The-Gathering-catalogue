@@ -7,8 +7,6 @@ $(document).on('turbolinks:load', function() {
       $("div#find-by-pagination")[0].innerHTML = null;
     })
   }
-  
-  listenForPageLeave();
 
   //populate /cards/find_by_properties with found cards
   $("form.find_by_properties").on('submit', function(event) {
@@ -19,7 +17,7 @@ $(document).on('turbolinks:load', function() {
       const slice = currentPage * 60
       return cards.map(card=> {
         const cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
-        ,     thumbnail = (card.hi_res_img || card.img_url).replace(/large/,'small')
+        ,     thumbnail = (card.hi_res_img || card.img_url).replace('large','small')
         ,     edition   = card.edition.toLowerCase().replace(':','')
         ,     rarity    = card.rarity.toLowerCase();
         
@@ -30,7 +28,7 @@ $(document).on('turbolinks:load', function() {
             </h3>
             
             <div class=card_img_div> 
-              <a href="/cards/${card.id}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a> 
+              <a href="/cards/${card.name}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a>
             </div>
             
           </div>`
@@ -51,8 +49,8 @@ $(document).on('turbolinks:load', function() {
     const serializedForm = $(this).serialize()
     ,     response = $.post(`/cards/find_by_properties`, serializedForm);
     
-    response.done(cardsAndFormOptions => {
-      const [cards, options] = cardsAndFormOptions
+    response.done(response => {
+      const cards = response.map(JSON=> JSON.attributes)
 
       //remove 'Page:' and page tabs if all one page
       if (!cards || cards.length <= 60) {
@@ -95,17 +93,19 @@ $(document).on('turbolinks:load', function() {
       document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
 
       //remove/don't display buttons to sort by properties that are already filtered for
-      if (options.color === undefined) {
+      if ($("#color")[0].value === '') {
         document.getElementById("sort_by_color").innerHTML = `<button>Sort By Color</button>`
       } else {
         $("#sort_by_color").empty();
       }
 
-      if (options.card_type === undefined) {
+      if ($("#card_type")[0].value === '') {
         document.getElementById("sort_by_type").innerHTML = `<button>Sort By Type</button>`
       } else {
         $("#sort_by_type").empty();
       }
+
+      listenForPageLeave();
 
       $(".jslink").on('click', function(event) {
         event.preventDefault();
@@ -117,6 +117,7 @@ $(document).on('turbolinks:load', function() {
       });
 
       //pre-haps give these buttons a sort class and $(".sort").on('click', function() { doGenericThing() })
+      //have a hash with ids as keys and functions as values for dealing with different sorting methods, listen for event in generic end
       $("#sort_by_name").on('click', function(event) {
         event.preventDefault();
 
