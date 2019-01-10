@@ -44,12 +44,9 @@ class CardsController < ApplicationController
 
   def filter_search
     filters = params.select { | key, value | ['rarity', 'reserved', 'legendary', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'].include?(key) && !value.empty? }.permit!
-
     results = filters.empty? ? nil : Card.where(filters)
-
-    results = CardSerializer.new(results).serializable_hash[:data]
     
-    render json: results
+    render json: CardSerializer.new(results).serializable_hash[:data]
   end
 
   private
