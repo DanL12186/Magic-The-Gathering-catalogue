@@ -23,10 +23,8 @@
         <%= card.flavor_text.html_safe %> 
       </div>
     <% end %>
-  
-    <div class = "card_img_div"> 
-      <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: lazy_load?(idx) )  ), card_path(card) %> 
-    </div>
+
+    <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: lazy_load?(idx) )  ), card_path(card) %> 
       
   <% end %>
 
