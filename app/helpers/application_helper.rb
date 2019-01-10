@@ -1,4 +1,3 @@
-require 'mtg_sdk'
 include Cards
 
 module ApplicationHelper
