@@ -1,18 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Basic//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-basic.dtd">
-<svg version="1.1" baseProfile="basic" id="Layer_1"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="223px" height="300px"
-	 viewBox="0 0 223 300" xml:space="preserve">
-<g>
-	<polygon points="-0.057,143.792 113.5,300 223.057,151.217 109.5,0 	"/>
-	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="26.9766" y1="117.5308" x2="197.7244" y2="179.6779">
-		<stop  offset="0" style="stop-color:#A42A28"/>
-		<stop  offset="0.5" style="stop-color:#E48728"/>
-		<stop  offset="1" style="stop-color:#A42A28"/>
-	</linearGradient>
-	<path fill="url(#SVGID_1_)" d="M68.498,172.872l-49.373-19.098l95.449,126.757l91.076-122.632l-41.744-15.18l-58.242,59.729
-		l-0.041-70.535L68.498,172.872z M19.084,139.213l41.783,15.262l57.996-59.356l0.041,70.658l37.371-41.455l49.332,19.098
-		L110.201,16.706L19.084,139.213z"/>
-</g>
-</svg>
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="223px"
+   height="300px"
+   viewBox="0 0 300 300"
+   xml:space="preserve"
+   sodipodi:docname="battle for zendikar mythic.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"><metadata
+     id="metadata20"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs18" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="910"
+     inkscape:window-height="603"
+     id="namedview16"
+     showgrid="false"
+     inkscape:zoom="0.78666667"
+     inkscape:cx="111.5"
+     inkscape:cy="150"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Layer_1" /><g
+     id="g13"
+     transform="translate(43.049328)"><polygon
+       points="223.057,151.217 109.5,0 -0.057,143.792 113.5,300 "
+       id="polygon2" /><linearGradient
+       id="SVGID_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="26.976601"
+       y1="117.5308"
+       x2="197.7244"
+       y2="179.6779"><stop
+         offset="0"
+         style="stop-color:#A42A28"
+         id="stop4" /><stop
+         offset="0.5"
+         style="stop-color:#E48728"
+         id="stop6" /><stop
+         offset="1"
+         style="stop-color:#A42A28"
+         id="stop8" /></linearGradient><path
+       d="m 68.498,172.872 -49.373,-19.098 95.449,126.757 91.076,-122.632 -41.744,-15.18 -58.242,59.729 -0.041,-70.535 z m -49.414,-33.659 41.783,15.262 57.996,-59.356 0.041,70.658 37.371,-41.455 49.332,19.098 -95.406,-126.714 z"
+       id="path11"
+       style="fill:url(#SVGID_1_)"
+       inkscape:connector-curvature="0" /></g></svg>
