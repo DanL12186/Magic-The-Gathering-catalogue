@@ -8,6 +8,22 @@ $(document).on('turbolinks:load', function() {
     })
   }
 
+  //change edition symbol color to silver or gold if card is uncommon or rare
+  function listenForThumbHover() {
+    const grabEdition = currentElement => currentElement.parentElement.parentElement.previousElementSibling.firstElementChild
+
+    $(".thumb, .card_img").on('mouseenter', function() {
+      const cardEditionSymbol = grabEdition(this)
+      const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
+      ,     rarity  = cardEditionSymbol.getAttribute('class').replace(/^common/, '')
+      cardEditionSymbol.src = `/assets/editions/${edition} ${rarity}`;
+    }).on('mouseleave', function() {
+      const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
+      const cardEditionSymbol = grabEdition(this)
+      cardEditionSymbol.src = `/assets/editions/${edition}`;
+    });
+  };
+
   //populate /cards/find_by_properties with found cards
   $("form.find_by_properties").on('submit', function(event) {
     event.stopPropagation();
@@ -24,7 +40,7 @@ $(document).on('turbolinks:load', function() {
         return( 
           `<div class= col-sm-3>
             <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw;"> 
-              ${card.name} <img src="/assets/editions/${edition}" class=${rarity} width=5% >
+              ${card.name} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
             </h3>
             
             <div class=card_img_div> 
@@ -106,6 +122,7 @@ $(document).on('turbolinks:load', function() {
       }
 
       listenForPageLeave();
+      listenForThumbHover();
 
       $(".jslink").on('click', function(event) {
         event.preventDefault();
@@ -113,6 +130,7 @@ $(document).on('turbolinks:load', function() {
         generateAndDisplayHTML(cards, parseInt(this.innerHTML))
 
         listenForPageLeave();
+        listenForThumbHover();
         return;
       });
 
@@ -124,6 +142,7 @@ $(document).on('turbolinks:load', function() {
         const sortedCards = cards.sort((a,b) => a.name.localeCompare(b.name))
         generateAndDisplayHTML(sortedCards);
         listenForPageLeave();
+        listenForThumbHover()
       });
 
       $("#sort_by_id").on('click', function(event) {
@@ -132,6 +151,7 @@ $(document).on('turbolinks:load', function() {
         const sortedCards = cards.sort((a,b) => a.multiverse_id - b.multiverse_id)
         generateAndDisplayHTML(sortedCards);
         listenForPageLeave();
+        listenForThumbHover()
       });
 
       //this sorts only by the prices on CardKingdom, as other prices are only suggestions
@@ -145,6 +165,7 @@ $(document).on('turbolinks:load', function() {
 
         generateAndDisplayHTML(sortedCards);
         listenForPageLeave();
+        listenForThumbHover()
       });
 
       $("#sort_by_color").on('click', function(event) {
@@ -163,6 +184,7 @@ $(document).on('turbolinks:load', function() {
         const sortedCards = cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color])
         generateAndDisplayHTML(sortedCards);
         listenForPageLeave();
+        listenForThumbHover()
       });
 
       $("#sort_by_type").on('click', function(event) {
@@ -182,6 +204,7 @@ $(document).on('turbolinks:load', function() {
 
         generateAndDisplayHTML(sortedCards);
         listenForPageLeave();
+        listenForThumbHover();
       });
     });
   });
