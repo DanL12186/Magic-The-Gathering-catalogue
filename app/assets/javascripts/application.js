@@ -18,18 +18,35 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
-    //lazyload images marked with lazyload: true
-    $("img").lazyload();
-    
-    //change edition symbol color to silver or gold if card is uncommon or rare
-    $(".rare, .uncommon, .mythic").on('mouseenter', function() {
-      const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ')
-      ,     rarity  = this.getAttribute('class');
-      this.src = `/assets/editions/${edition} ${rarity}`;
+  //lazyload images marked with lazyload: true
+  $("img").lazyload();
   
-    }).on('mouseleave', function() {
-      const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ');
-      this.src = `/assets/editions/${edition}`;
+  //change edition symbol color to silver or gold if card is uncommon or rare
+  $(".rare, .uncommon, .mythic").on('mouseenter', function() {
+    const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ')
+    ,     rarity  = this.getAttribute('class');
+    this.src = `/assets/editions/${edition} ${rarity}`;
+  }).on('mouseleave', function() {
+    const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ');
+    this.src = `/assets/editions/${edition}`;
+  });  
+
+  //popover for card search results page
+  $(function () {
+    $('[data-toggle="popover"]').popover({
+      html: true,
+      boundary: 'scrollParent',
+      trigger: 'hover',
+      delay: { "show": 200, "hide": 150 },
+      content: function() { 
+        return `<img src="${this.getAttribute('data-url')}" >`
+      }
     });
+  });
+
+  //remove popover from card-search page after leaving
+  $('li.card').on('click', function() {
+    this.children[1].remove()
+  });
   
-  })
+})

@@ -62,22 +62,4 @@ $(document).on('turbolinks:load', function() {
     };
   };
 
-  //popover for card search results page
-  $(function () {
-    $('[data-toggle="popover"]').popover({
-      html: true,
-      boundary: 'scrollParent',
-      trigger: 'hover',
-      delay: { "show": 200, "hide": 150 },
-      content: function() { 
-        return `<img src="${this.getAttribute('data-url')}" >`
-      }
-    });
-  });
-
-  //remove popover after leaving page
-  $('li.card').on('click', function() {
-    this.children[1].remove()
-  });
-
 });

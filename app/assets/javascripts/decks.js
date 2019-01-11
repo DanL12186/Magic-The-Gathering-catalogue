@@ -106,20 +106,6 @@ $(document).on("turbolinks:load", function() {
     new CanvasJS.Chart("splineContainer", options).render();
   };
 
-
-  //popover for deck overview page
-  $(function () {
-    $('[data-toggle="popover"]').popover({
-      html: true,
-      boundary: 'scrollParent',
-      trigger: 'hover',
-      delay: { "show": 200, "hide": 150 },
-      content: function() { 
-        return `<img src="${this.getAttribute('data-url')}" >`
-      }
-    })
-  })
-
   //popover remains after hitting back button without this
   $("a.popover-card").on('click', function() {
     $(".popover.fade.right.in").remove()
