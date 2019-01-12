@@ -23,6 +23,9 @@ $(document).on('turbolinks:load', function() {
       cardEditionSymbol.src = `/assets/editions/${edition}`;
     });
   };
+  
+  //for when user clicks off page and then backclicks
+  listenForThumbHover()
 
   //populate /cards/find_by_properties with found cards
   $("form.find_by_properties").on('submit', function(event) {
