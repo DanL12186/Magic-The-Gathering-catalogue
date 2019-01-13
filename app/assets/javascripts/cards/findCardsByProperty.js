@@ -1,4 +1,5 @@
 $(document).on('turbolinks:load', function() {
+
   //clear "sort by" buttons when a card is clicked.
   function listenForPageLeave() {
     $(".thumb").on('click', function() {
@@ -140,63 +141,15 @@ $(document).on('turbolinks:load', function() {
         return;
       });
 
-      //pre-haps give these buttons a sort class and $(".sort").on('click', function() { doGenericThing() })
-      //have a hash with ids as keys and functions as values for dealing with different sorting methods, listen for event in generic end
-      $("#sort_by_name").on('click', function(event) {
-        event.preventDefault();
-
-        const sortedCards = cards.sort((a,b) => a.name.localeCompare(b.name))
-        generateAndDisplayHTML(sortedCards);
-        listenForPageLeave();
-        listenForThumbHover()
-      });
-
-      $("#sort_by_id").on('click', function(event) {
-        event.preventDefault();
-        
-        const sortedCards = cards.sort((a,b) => a.multiverse_id - b.multiverse_id)
-        generateAndDisplayHTML(sortedCards);
-        listenForPageLeave();
-        listenForThumbHover()
-      });
-
-      //this sorts only by the prices on CardKingdom, as other prices are only suggestions
-      $("#sort_by_price").on('click', function(event) {
-        event.preventDefault();
-
-        const sortedCards = cards.sort((a,b) => {
-          const [priceA, priceB] = [a, b].map(card=> parseFloat(card.price[1].match(/\d+\,*\d*\.*\d*/)))
-          return priceB - priceA;
-        });
-
-        generateAndDisplayHTML(sortedCards);
-        listenForPageLeave();
-        listenForThumbHover()
-      });
-
-      $("#sort_by_color").on('click', function(event) {
-        event.preventDefault();
-
-        const colorWeights = {
-          'White' : 1,
-          'Blue'  : 2,
-          'Black' : 3,
-          'Red'   : 4,
-          'Green' : 5,
-          'Colorless' : 6,
-          'Gold'  : 7
-        }
-        
-        const sortedCards = cards.sort((a,b)=> colorWeights[a.color] - colorWeights[b.color])
-        generateAndDisplayHTML(sortedCards);
-        listenForPageLeave();
-        listenForThumbHover()
-      });
-
-      $("#sort_by_type").on('click', function(event) {
-        event.preventDefault();
-
-        const typeOrder = { 
+      const colorOrder = {
+        'White' : 1,
+        'Blue'  : 2,
+        'Black' : 3,
+        'Red'   : 4,
+        'Green' : 5,
+        'Colorless' : 6,
+        'Gold'  : 7
+      }, typeOrder = {
           'Land': 1, 
           'Basic': 1, 
           'Artifact': 2, 
@@ -204,9 +157,22 @@ $(document).on('turbolinks:load', function() {
           'Sorcery': 4, 
           'Enchantment': 5, 
           'Creature': 6 
-        }
-        
-        const sortedCards = cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type])
+      };
+
+      //sort by price sorts only by the prices on CardKingdom, as other prices are only suggestions
+      const sortButtonFunctions = {
+        'sort_by_id' : [...cards].sort((a,b) => a.multiverse_id - b.multiverse_id),
+        'sort_by_name' : [...cards].sort((a,b) => a.name.localeCompare(b.name)),
+        'sort_by_color' : [...cards].sort((a,b)=> colorOrder[a.color] - colorOrder[b.color]),
+        'sort_by_type' : [...cards].sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type]),
+        'sort_by_price' : [...cards].sort((a,b) => parseFloat(b.price[1]) - parseFloat(a.price[1]))
+      }
+
+      $(".sort").on('click', function(event) {
+        event.preventDefault();
+
+        const buttonId = event.currentTarget.id
+        ,     sortedCards = sortButtonFunctions[buttonId];
 
         generateAndDisplayHTML(sortedCards);
         listenForPageLeave();
