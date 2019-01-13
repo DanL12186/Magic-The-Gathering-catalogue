@@ -15,7 +15,7 @@ gem 'bootstrap-sass'
 
 gem 'seed_dump'
 
-gem 'mtg_sdk'
+#gem 'mtg_sdk'
 #Enables lazy-loading of images
 gem 'lazyload-rails'
 # Use Uglifier as compressor for JavaScript assets
