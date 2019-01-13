@@ -161,20 +161,21 @@ $(document).on('turbolinks:load', function() {
 
       //sort by price sorts only by the prices on CardKingdom, as other prices are only suggestions
       const sortButtonFunctions = {
-        'sort_by_id' : [...cards].sort((a,b) => a.multiverse_id - b.multiverse_id),
-        'sort_by_name' : [...cards].sort((a,b) => a.name.localeCompare(b.name)),
-        'sort_by_color' : [...cards].sort((a,b)=> colorOrder[a.color] - colorOrder[b.color]),
-        'sort_by_type' : [...cards].sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type]),
-        'sort_by_price' : [...cards].sort((a,b) => parseFloat(b.price[1]) - parseFloat(a.price[1]))
+        'sort_by_id' : fn => cards.sort((a,b) => a.multiverse_id - b.multiverse_id),
+        'sort_by_name' : fn => cards.sort((a,b) => a.name.localeCompare(b.name)),
+        'sort_by_color' : fn => cards.sort((a,b)=> colorOrder[a.color] - colorOrder[b.color]),
+        'sort_by_type' : fn => cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type]),
+        'sort_by_price' : fn => cards.sort((a,b) => parseFloat(b.price[1]) - parseFloat(a.price[1]))
       }
 
       $(".sort").on('click', function(event) {
         event.preventDefault();
 
         const buttonId = event.currentTarget.id
-        ,     sortedCards = sortButtonFunctions[buttonId];
+        ,     sortedCards = sortButtonFunctions[buttonId]();
 
         generateAndDisplayHTML(sortedCards);
+
         listenForPageLeave();
         listenForThumbHover();
       });
