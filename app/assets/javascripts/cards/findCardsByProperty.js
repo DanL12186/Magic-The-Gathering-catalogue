@@ -25,7 +25,9 @@ $(document).on('turbolinks:load', function() {
   };
   
   //for when user clicks off page and then backclicks
-  listenForThumbHover()
+  listenForThumbHover();
+
+  const truncateLongNames = name => name.length > 25 ? `${name.slice(0,20).trim()}...` : name
 
   //populate /cards/find_by_properties with found cards
   $("form.find_by_properties").on('submit', function(event) {
@@ -35,15 +37,16 @@ $(document).on('turbolinks:load', function() {
     function generateCardsHTML(cards, currentPage) {
       const slice = currentPage * 60
       return cards.map(card=> {
-        const cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
+        const shortName = truncateLongNames(card.name)
+        ,     cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
         ,     thumbnail = card.hi_res_img.replace('large','small')
         ,     edition   = card.edition.toLowerCase().replace(':','')
         ,     rarity    = card.rarity.toLowerCase();
         
         return( 
           `<div class= col-sm-3>
-            <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw;"> 
-              ${card.name} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
+            <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw; min-height:32px;"> 
+              ${shortName} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
             </h3>
             
             <div class=card_img_div> 
