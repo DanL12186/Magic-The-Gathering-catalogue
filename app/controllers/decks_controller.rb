@@ -7,6 +7,7 @@ class DecksController < ApplicationController
 
   def new
     @deck = Deck.new
+    @sorted = Card.all.sort_by(&:name)
   end
 
   def calculate_custom_hand_odds
@@ -49,7 +50,7 @@ class DecksController < ApplicationController
   end
 
   def deny_unauthorized_deck_access
-    redirect_to root_path if Deck.find(params[:id]).user_id != current_user.id
+    redirect_to root_path unless logged_in? && Deck.find(params[:id]).user_id == current_user.id
   end
   
 end
