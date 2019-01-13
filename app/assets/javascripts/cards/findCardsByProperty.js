@@ -12,7 +12,7 @@ $(document).on('turbolinks:load', function() {
   function listenForThumbHover() {
     const grabEdition = currentElement => currentElement.parentElement.parentElement.previousElementSibling.firstElementChild
 
-    $(".thumb, .card_img").on('mouseenter', function() {
+    $(".thumb").on('mouseenter', function() {
       const cardEditionSymbol = grabEdition(this)
       const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
       ,     rarity  = cardEditionSymbol.getAttribute('class').replace(/^common/, '')
