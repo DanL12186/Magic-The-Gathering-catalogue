@@ -12,15 +12,11 @@ module CardHelper
   end
 
   def is_modern_or_basic_land?(card)
-    !Editions[card.edition] && !card.edition.match?(/Urza's|Mercadian/) || card.card_type == "Basic" && !card.subtypes.include?("Nonbasic Land")
+    !Editions[card.edition] || card.card_type == "Basic" && !card.subtypes.include?("Nonbasic Land")
   end
 
   def mana_color(color)
-    (color.between?('0', '9') || color == 'X') ? 'Colorless' : color
-  end
-
-  def sort_by_number_and_name_desc(cards, deck_frequencies)
-    cards.uniq { | card | card.name }.sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }
+    color.match?(/\d+|X/) ? 'Colorless' : color
   end
 
   def insert_commas_in_price(price)

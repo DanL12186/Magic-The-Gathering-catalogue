@@ -83,7 +83,11 @@ module DeckHelper
   end
 
   def calculate_deck_value(cards)
-    value = cards.map { | card | (card.price[1] || '0').delete('$').to_f }.sum.round(4)
+    value = cards.map { | card | (card.price[1] || '0').to_f }.sum.round(4)
     number_with_delimiter(value)
+  end
+
+  def sort_by_number_and_name_desc(cards, deck_frequencies)
+    cards.uniq(&:name).sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }
   end
 end
