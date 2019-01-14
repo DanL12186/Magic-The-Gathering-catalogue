@@ -30,7 +30,15 @@ module Cards
 
     "Tempest" => "TE",
     "Stronghold" => "ST",
-    "Exodus" => "EX"
+    "Exodus" => "EX",
+
+    "Urza's Saga" => "UZ",
+    "Urza's Legacy"=>"UL",
+    "Urza's Destiny"=>"UD",
+
+    "Mercadian Masques"=>"MM",
+    "Nemesis" => "NE",
+    "Prophecy" => "PR"
   }
 
 end
