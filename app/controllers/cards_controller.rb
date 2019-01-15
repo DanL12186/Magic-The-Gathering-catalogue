@@ -11,12 +11,8 @@ class CardsController < ApplicationController
     end
   end
 
-  def filter
-    @cards = Card.all.select { | card | card.attributes.values.any? { | value | value.to_s.delete('.') == params[:filter] } }.sort_by(&:name)
-  end
-
   def card_names
-    names = Card.pluck(:name)
+    names = Card.where(reprint: false).pluck(:name)
     render json: names
   end
 
@@ -42,9 +38,13 @@ class CardsController < ApplicationController
     end
   end
 
+  def color
+    @cards = Card.where(color: params[:color], reprint: false).sort_by(&:name)
+  end
+
   def filter_search
-    filters = params.select { | key, value | ['rarity', 'reserved', 'legendary', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'].include?(key) && !value.empty? }.permit!
-    results = filters.empty? ? nil : Card.where(filters)
+    filters = params.select { | key, value | ['rarity', 'reserved', 'reprint', 'legendary', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'].include?(key) && !value.empty? }.permit!
+    results = filters.keys.size < 2 ? nil : Card.where(filters).limit(1200)
     
     render json: CardSerializer.new(results).serializable_hash[:data]
   end
