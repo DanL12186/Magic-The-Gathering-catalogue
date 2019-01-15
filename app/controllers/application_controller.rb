@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def artist
-    @cards = Card.where(artist: params[:artist]).sort_by { | card | [card.name, card.multiverse_id] }.uniq.sort_by { | card | [ card.multiverse_id, card.color ] }
+    @cards = Card.where(artist: params[:artist]).sort_by { | card | [ card.multiverse_id, card.color ] }.uniq(&:name)
   end
   
 end
