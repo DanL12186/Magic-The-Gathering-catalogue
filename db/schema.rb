@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_14_204323) do
+ActiveRecord::Schema.define(version: 2019_01_15_212329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -59,7 +59,10 @@ ActiveRecord::Schema.define(version: 2019_01_14_204323) do
     t.index ["abilities"], name: "index_cards_on_abilities", using: :gin
     t.index ["activated_abilities"], name: "index_cards_on_activated_abilities", using: :gin
     t.index ["colors"], name: "index_cards_on_colors", using: :gin
+    t.index ["iconic"], name: "index_cards_on_iconic", where: "(iconic = true)"
     t.index ["mana"], name: "index_cards_on_mana", using: :gin
+    t.index ["multiverse_id"], name: "index_cards_on_multiverse_id"
+    t.index ["reprint"], name: "index_cards_on_reprint", where: "(reprint = false)"
     t.index ["subtypes"], name: "index_cards_on_subtypes", using: :gin
   end
 
