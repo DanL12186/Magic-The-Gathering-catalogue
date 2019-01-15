@@ -23,6 +23,8 @@
     <%= f.label :Mana %>
     <%= f.number_field(:converted_mana_cost, min: 0, max: 20) %>
 
+    <%= f.hidden_field(:reprint, value: false) %>
+
   <h1> <%= f.submit "Find Cards", class: "btn-lg" %> </h1> 
 
 <% end %>
