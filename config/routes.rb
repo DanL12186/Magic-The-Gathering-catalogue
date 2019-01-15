@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
 
+  get '/artists/:artist' => 'application#artist'
+  get 'sets/:edition/' => 'application#edition'
+  get '/cards/color/:color' => 'cards#color'
+
   get '/about' => 'application#about'
 
   get '/hand_odds_calculator' => 'application#hand_odds_calculator'
@@ -26,6 +30,4 @@ Rails.application.routes.draw do
   get '/cards/:name' => 'cards#show'
 
   get '/decks/:id/overview' => 'decks#overview'
-  
-  get ':filter' => 'cards#filter'
 end

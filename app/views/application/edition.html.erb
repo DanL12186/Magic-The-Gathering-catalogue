@@ -1,0 +1,11 @@
+<h1 class='text-center'> <%= image_tag("/assets/editions/#{params[:edition].downcase}", width: '128') %> </h1>
+
+<% @cards.each do | card | %> 
+  <% unless card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land") %>
+    <h2> <%= card.name %> </h2> 
+
+    <div class = "col-sm-2 filter"> 
+      <%= link_to ( image_tag card.img_url, class: "filter-img #{card.edition.downcase}", lazy: true ), card_path(card) %> 
+    </div>
+  <% end %>
+<% end %>

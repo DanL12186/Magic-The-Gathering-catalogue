@@ -1,0 +1,11 @@
+<h1 class='text-center'> <%= params[:artist] %> </h1>
+
+<% @cards.each do | card | %> 
+  <% unless card.reprint %>
+    <h2> <%= card.name %> </h2> 
+
+    <div class = "col-sm-2 filter"> 
+      <%= link_to ( image_tag card.img_url, class: "filter-img #{card.edition.downcase}", lazy: true ), card_path(card) %> 
+    </div>
+  <% end %>
+<% end %>

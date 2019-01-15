@@ -1,0 +1,9 @@
+<h1 class='text-center'> <%= image_tag "mana_symbols/#{color_to_mana(params[:color])}", class: "spin" %> </h1>
+
+<% @cards.each do | card | %> 
+  <h2> <%= truncate_at_three_words(card.name) %> </h2> 
+
+  <div class = "col-sm-2 filter"> 
+    <%= link_to ( image_tag card.img_url, class: "filter-img #{card.edition.downcase}", lazy: true ), card_path(card) %> 
+  </div>
+<% end %>
