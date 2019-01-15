@@ -20,4 +20,10 @@ module ApplicationHelper
     card.edition == 'Alpha' ? 'card_img alpha' : 'card_img'
   end
 
+  def truncate_at_three_words(card_name)
+    words = card_name.split(/-| /)[0..2]
+    len = words.join(' ').length
+    card_name[0..len].strip
+  end
+
 end
