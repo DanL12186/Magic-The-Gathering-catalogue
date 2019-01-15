@@ -44,7 +44,8 @@ class CardsController < ApplicationController
 
   def filter_search
     filters = params.select { | key, value | ['rarity', 'reserved', 'reprint', 'legendary', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'].include?(key) && !value.empty? }.permit!
-    results = filters.keys.size < 2 ? nil : Card.where(filters).limit(1200)
+    filters.delete('reprint') if filters.keys.include?('edition')
+    results = filters.keys.size < (filters.keys.include?('edition') ? 1 : 2) ? nil : Card.where(filters).limit(1200)
     
     render json: CardSerializer.new(results).serializable_hash[:data]
   end
