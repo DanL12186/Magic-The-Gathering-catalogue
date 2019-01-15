@@ -11,18 +11,18 @@ module CardHelper
     file.delete(':')
   end
 
-  def is_modern_or_basic_land?(card)
-    !Editions[card.edition] || card.card_type == "Basic" && !card.subtypes.include?("Nonbasic Land")
-  end
-
   def mana_color(color)
     color.match?(/\d+|X/) ? 'Colorless' : color
   end
 
-  def insert_commas_in_price(price)
+  def display_price(price)
     return 'Fetching...' if price.nil?
     return 'N/A' if price == 'N/A'
 
+    insert_commas_in_price(price)
+  end
+
+  def insert_commas_in_price(price)
     "$#{number_with_delimiter(price)}"
   end
 
@@ -39,7 +39,7 @@ module CardHelper
   end
 
   def lazy_load?(idx, edition = nil)
-    idx > 1 && edition != 'Antiquities'
+    idx > 1 || edition == 'Antiquities'
   end
 
   def wizards_reserved_list
