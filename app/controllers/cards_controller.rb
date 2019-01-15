@@ -18,12 +18,17 @@ class CardsController < ApplicationController
 
   def update_prices
     card = Card.find(params[:id])
+    flip = card.flip_card_multiverse_id ? Card.find_by(multiverse_id: card.flip_card_multiverse_id) : nil
     name = card.name
     set = card.edition
     
-    #prevents a back-click from triggering another update after a necessary update was performed
+    #updated_at prevents repeated views from triggering updates after a necessary update was performed but no prices changed
     if needs_updating?(card.updated_at, card.price)
-      card.update(price: [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)], updated_at: Time.now)
+      price = [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)]
+      card.update(price: price, updated_at: Time.now)
+
+      #ensure later that only the front of a card can be directly accessed; for now this will do.
+      flip.update(price: price, updated_at: Time.now) if flip
     end
 
     render json: card
