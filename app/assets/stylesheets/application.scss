@@ -4,6 +4,11 @@
 @import "deck";
 @import "home_page";
 
+@font-face {
+    font-family:"MagicMedieval";
+    src: url(font-path('MagicMedieval.ttf'));
+}
+
 body {
     padding-left: 50px;
     background-color: rgb(1, 22, 9);
@@ -56,15 +61,15 @@ a {
 }
 //************************//
 
-//****Filtered Pages*******//
+//****Edition, Color and Artist Pages*******//
 
 .filter-img {
+    width: 223px;
+    height: 310px;
     border-radius: 3.5%;
 }
 
 .filter-img.alpha {
-    width: 223px;
-    height: 310px;
     border-radius: 5.4%;
 }
 
@@ -76,11 +81,6 @@ a {
     transform: scale(1.06);
 }
 
-.margin-3em-top-bottom {
-    margin-top: 3em;
-    margin-bottom: 3em;
-}
-
 .spin {
     animation: spin 4s linear infinite;
 
@@ -90,7 +90,7 @@ a {
 }
 //*************************//
 
-@font-face {
-    font-family:"MagicMedieval";
-    src: url(font-path('MagicMedieval.ttf'));
+.margin-3em-top-bottom {
+    margin-top: 3em;
+    margin-bottom: 3em;
 }
