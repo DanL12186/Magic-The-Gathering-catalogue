@@ -14,7 +14,7 @@ $(document).on('turbolinks:load', function() {
   }
 
   function zoomIn(element) {
-    pricesDiv.style = 'transition: 1.2s; margin-left: 57%; margin-top: 3.5%;';
+    pricesDiv.style = 'transition: 1.2s; margin-left: 58%; margin-top: 3.5%;';
     element.src = element.getAttribute('img_url');
     element.style.width = '502px';
     element.style.height = '700px';
@@ -46,7 +46,7 @@ $(document).on('turbolinks:load', function() {
 
   let rotated;
 
-  //rotate split-view cards 90 degress counter-clockwise
+  //rotate split-view cards 90 or -90 degrees
   $("#rotate").on('click', function() {
     const direction = this.getAttribute('data-rotate') === 'cw' ? '90deg' : '-90deg'
     ,     image     = document.getElementById('card_show_img');
