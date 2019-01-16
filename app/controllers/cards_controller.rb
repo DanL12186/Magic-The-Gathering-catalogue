@@ -1,5 +1,6 @@
 class CardsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:update_prices]
+  before_action :get_filter_search_results, only: [:filter_search]
 
   include Cards
   include CardHelper
@@ -17,6 +18,7 @@ class CardsController < ApplicationController
   end
 
   def update_prices
+    #info should just be passed as params to save a query
     card = Card.find(params[:id])
     flip = card.flip_card_multiverse_id ? Card.find_by(multiverse_id: card.flip_card_multiverse_id) : nil
     name = card.name
@@ -48,15 +50,22 @@ class CardsController < ApplicationController
   end
 
   def filter_search
-    filters = params.select { | key, value | ['rarity', 'reserved', 'reprint', 'legendary', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'].include?(key) && !value.empty? }.permit!
-    filters.delete('reprint') if filters.keys.include?('edition')
-    results = filters.keys.size < (filters.keys.include?('edition') ? 1 : 2) ? nil : Card.where(filters).limit(1200)
-    
-    render json: CardSerializer.new(results).serializable_hash[:data]
+    render json: CardSerializer.new(@results).serializable_hash[:data]
   end
 
   private
 
+  def get_filter_search_results
+    filter_options = Set.new(['rarity', 'reserved', 'reprint', 'legendary', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'])
+    
+    filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
+    filters.delete('reprint') if filters['edition']
+
+    min_filters = filters['edition'] ? 1 : 2
+
+    @results = Card.where(filters).limit(1200) unless filters.keys.size < min_filters
+  end
+  
   def find_by_name_or_id(identifier)
     identifier.match?(/\d/) ? Card.find(identifier) : Card.find_by(name: identifier)
   end
