@@ -1,5 +1,4 @@
 module Cards
-  require 'cgi'
 
   Editions = {
     "Alpha" => "LEA",

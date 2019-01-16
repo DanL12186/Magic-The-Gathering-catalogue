@@ -1,4 +1,5 @@
 class Card < ApplicationRecord
+  require 'cgi'
   include Cards
 
   has_many :users_cards
