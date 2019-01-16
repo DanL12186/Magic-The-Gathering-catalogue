@@ -15,21 +15,18 @@ class Card < ApplicationRecord
 
   def initialize(**args)
     super(args)
-
+    
     encoded_card_name = card_name_url_encode(args[:name])
     edition_abbreviation = Editions[args[:edition]]
 
-    if args[:name] && args[:edition]
-      self.img_url = "#{BASE_URL}/#{encoded_card_name}#{edition_abbreviation}%255D.jpg"
-    end
+    self.img_url = "#{BASE_URL}/#{encoded_card_name}#{edition_abbreviation}%255D.jpg"
+    self.color = args[:colors].size == 1 ? args[:colors].first : args[:colors].size > 1 ? 'Gold' : 'Colorless'
+  end
 
-    unless args[:mana].nil?
-      mana = args[:mana].reject { | str | str == '0' }
-      
-      self.converted_mana_cost = mana.map(&:to_i).sum + mana.reject { | str | str.to_i > 0 }.size
-      self.colors = mana.uniq.reject { | str | str.to_i > 0 || str == 'X' || str == '0' }
-      self.color = self.colors.size == 1 ? self.colors.first : self.colors.size > 1 ? 'Gold' : 'Colorless'
-    end
+  #double encoding
+  def card_name_url_encode(card_name)
+    name = I18n.transliterate(card_name)
+    CGI.escape(CGI.escape(name)) + "%2B%255B"
   end
 
   def self.search(search)

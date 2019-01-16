@@ -1,11 +1,6 @@
 module Cards
   require 'cgi'
 
-  def card_name_url_encode(card_name) #double encoding
-    name = I18n.transliterate(card_name)
-    CGI.escape(CGI.escape(name)) + "%2B%255B"
-  end
-
   Editions = {
     "Alpha" => "LEA",
     "Beta" => "LEB",
