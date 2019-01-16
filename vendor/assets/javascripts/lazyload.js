@@ -111,7 +111,7 @@
                                 } if ($self.is("video")) {
                                     $self.attr("poster", original);
                                 } else {
-                                    $self.css("background-image", "url('" + original + "')");
+                                    // $self.css("background-image", "url('" + original + "')");
                                 }
                                 $self[settings.effect](settings.effect_speed);
                             }

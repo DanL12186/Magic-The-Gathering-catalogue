@@ -5,7 +5,7 @@
     <h1> <%= card.name %> </h1>
     
     <h3 data-edition= <%= card.edition.downcase.gsub(' ', '_') %> > 
-      Edition: <%= link_to("#{card.edition}", "/sets/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase}", width: '2%', lazy: lazy_load?(idx, card.edition) %>
+      Edition: <%= link_to("#{card.edition}", "/sets/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase}", width: '2%', lazy: lazy_load?(idx) %>
     </h3>
     
     <h4> Artist: <%= link_to card.artist, "/artists/#{card.artist.delete('.')}/" %> </h4>

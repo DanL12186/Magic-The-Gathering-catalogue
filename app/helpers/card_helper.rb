@@ -38,8 +38,8 @@ module CardHelper
     (Time.now - last_updated) > 24.hours
   end
 
-  def lazy_load?(idx, edition = nil)
-    idx > 1 && edition != 'Antiquities'
+  def lazy_load?(idx)
+    idx > 1
   end
 
   def wizards_reserved_list
