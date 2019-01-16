@@ -35,18 +35,21 @@ class Card < ApplicationRecord
   def self.search(search)
     matches = []
     partial_matches = []
+    
+    Card.where(reprint: false).pluck(:id, :name, :img_url).each do | card_arr |       
+      next unless card_arr[1].match?(/#{search}/i)
+      
+      id, name, img_url = card_arr
+      
+      return name if name.downcase == search.downcase
 
-    Card.all.each do | card | 
-      next unless card.name.match?(/#{search}/i)
-      return card.name if card.name.downcase == search.downcase
-
-      if card.name.split.any? { | word | word.downcase == search.downcase } 
-        matches << card
+      if name.split.any? { | word | word.downcase == search.downcase } 
+        matches << card_arr
       else 
-        partial_matches << card
+        partial_matches << card_arr
       end
     end
-    [ matches, partial_matches ].map { | array | array.sort_by(&:name) }
+    [ matches, partial_matches ].map! { | array | array.sort_by! { | attributes | attributes[1] } } 
   end
   
 end

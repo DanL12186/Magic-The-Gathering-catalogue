@@ -39,11 +39,15 @@ module CardHelper
   end
 
   def lazy_load?(idx, edition = nil)
-    idx > 1 || edition == 'Antiquities'
+    idx > 1 && edition != 'Antiquities'
   end
 
   def wizards_reserved_list
     "https://magic.wizards.com/en/articles/archive/official-reprint-policy-2010-03-10"
+  end
+  
+  def hashify_search_results(results_arr)
+    results_arr.map! { | result_arr | { id: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
   end
 
   def add_prices_to_all
