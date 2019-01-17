@@ -8,7 +8,5 @@ class CreateDecks < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_index :decks, :colors, using: 'gin'
-    add_index :decks, :card_types, using: 'gin'
   end
 end
