@@ -42,10 +42,10 @@ $(document).on('turbolinks:load', function() {
 
       response.done(card=> {
         const oldPrices = document.getElementsByClassName('price')
-        //card.price is an array of mtgoldfish, card kingdom, and tcg player prices. Updates DOM if prices changed.
+        //Updates DOM if prices changed.
         for (let i = 0; i < 3; i++) {
           const oldPrice = oldPrices[i].innerText.replace(/[\$,]/g,''),
-                newPrice = card.price[i];
+                newPrice = card.prices[i];
           
           if (oldPrice !== newPrice) {
             const spanID = $('#prices h4')[i].id,
