@@ -9,7 +9,7 @@
     <%= f.select(:legendary, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %>
     <br>
     <%= f.label :edition %> 
-    <%= f.select(:edition, options_for_select( Editions.keys ), include_blank: true) %>
+    <%= f.select(:edition, grouped_options_for_select( CategoriedEditions.map { | category, sets | [ category, sets.keys ] } ),  include_blank: true) %>
     <br>
     <%= f.label :rarity %>
     <%= f.select(:rarity, options_for_select( ["Common", "Uncommon", "Rare", "Mythic"] ), include_blank: true) %>
