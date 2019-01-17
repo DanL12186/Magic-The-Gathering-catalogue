@@ -13,7 +13,7 @@
     <% unless card.card_type == 'Land' %>
       <h5> Mana: 
         <% card.mana.each do | color | %>
-          <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22', lazy: lazy_load?(idx) ), mana_color(color) %>
+          <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22', lazy: lazy_load?(idx) ), "/cards/color/#{mana_color(color)}" %>
         <% end %>
       </h5>
     <% end %>
