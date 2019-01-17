@@ -73,7 +73,8 @@ $(document).on('turbolinks:load', function() {
     ,     response = $.post(`/cards/find_by_properties`, serializedForm);
     
     response.done(response => {
-      const cards = response ? response.map(JSON=> JSON.attributes) : null
+      //temporary fix for cards not getting prices on cardkingdom
+      const cards = response ? response.map(JSON=> JSON.attributes).filter(card=> parseFloat(card.prices[1])) : null
 
       //remove 'Page:' and page tabs if all one page
       if (!cards || cards.length <= 60) {
@@ -163,9 +164,9 @@ $(document).on('turbolinks:load', function() {
       const sortButtonFunctions = {
         'sort_by_id' : fn => cards.sort((a,b) => a.multiverse_id - b.multiverse_id),
         'sort_by_name' : fn => cards.sort((a,b) => a.name.localeCompare(b.name)),
-        'sort_by_color' : fn => cards.sort((a,b)=> colorOrder[a.color] - colorOrder[b.color]),
-        'sort_by_type' : fn => cards.sort((a,b)=> typeOrder[a.card_type] - typeOrder[b.card_type]),
-        'sort_by_price' : fn => cards.sort((a,b) => parseFloat(b.price[1]) - parseFloat(a.price[1]))
+        'sort_by_color' : fn => cards.sort((a,b) => colorOrder[a.color] - colorOrder[b.color]),
+        'sort_by_type' : fn => cards.sort((a,b) => typeOrder[a.card_type] - typeOrder[b.card_type]),
+        'sort_by_price' : fn => cards.sort((a,b) => parseFloat(b.prices[1]) - parseFloat(a.prices[1]))
       }
 
       $(".sort").on('click', function(event) {
@@ -173,7 +174,7 @@ $(document).on('turbolinks:load', function() {
 
         const buttonId = event.currentTarget.id
         ,     sortedCards = sortButtonFunctions[buttonId]();
-
+        
         generateAndDisplayHTML(sortedCards);
 
         listenForPageLeave();
