@@ -25,12 +25,12 @@ class CardsController < ApplicationController
     set = card.edition
     
     #updated_at prevents repeated views from triggering updates after a necessary update was performed but no prices changed
-    if needs_updating?(card.updated_at, card.price)
-      price = [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)]
-      card.update(price: price, updated_at: Time.now)
+    if needs_updating?(card.updated_at, card.prices)
+      prices = [ get_mtgoldfish_price(name, set), get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)]
+      card.update(prices: prices, updated_at: Time.now)
 
       #ensure later that only the front of a card can be directly accessed; for now this will do.
-      flip.update(price: price, updated_at: Time.now) if flip
+      flip.update(prices: prices, updated_at: Time.now) if flip
     end
 
     render json: card

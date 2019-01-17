@@ -51,11 +51,11 @@ module CardHelper
   end
 
   def add_prices_to_all
-    cards = Card.where(price: [])
+    cards = Card.where(prices: [])
     cards.each do | card | 
       args = [card.name, card.edition]
       prices = [get_mtgoldfish_price(*args), get_card_kingdom_price(*args), get_tcg_player_price(*args) ]
-      card.update(price: prices)
+      card.update(prices: prices)
     end
   end
 
@@ -92,7 +92,7 @@ module CardHelper
     set = (card_set == 'Revised') ? ('3rd-edition') : (card_set == 'Fourth Edition') ? '4th-edition' : card_set.gsub(' ', '-').downcase.delete("':")
     set = set.match(/201[0-5]/) ? "#{set.match(/\d+/)[0]}-core-set" : set
     set = "Ravnica" if card_set.match?("Ravnica: City of Guilds")
-    name = I18n.transliterate(card_name.downcase).delete(",.:;'\"/!").gsub(/ +/,'-')
+    name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-')
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
   end
