@@ -1,5 +1,38 @@
 module Cards
 
-Editions = {"Alpha"=>"LEA", "Beta"=>"LEB", "Unlimited"=>"2ED", "Revised"=>"3ED", "Fourth Edition"=>"4ED", "Fifth Edition"=>"5ED", "Arabian Nights"=>"ARN", "Antiquities"=>"ATQ", "Legends"=>"LEG", "The Dark"=>"DRK", "Fallen Empires"=>"FEM", "Ice Age"=>"ICE", "Homelands"=>"HML", "Alliances"=>"ALL", "Mirage"=>"MI", "Visions"=>"VI", "Weatherlight"=>"WL", "Tempest"=>"TE", "Stronghold"=>"ST", "Exodus"=>"EX", "Portal" => "POR", "Urza's Saga"=>"UZ", "Urza's Legacy"=>"UL", "Urza's Destiny"=>"UD", "Mercadian Masques"=>"MM","Nemesis" => "NE","Prophecy"=>"PR", "Invasion" => "IN", "Planeshift"=>"PS", "Apocalypse"=>"AP", "Odyssey"=>"OD", "Judgment"=>"JUD", "Torment"=>"TOR","Onslaught"=>"ONS", "Legions" => "LGN", "Scourge" => "SCG", "Mirrodin"=>"MRD","Darksteel" => "DST","Fifth Dawn"=>"5DN", "Champions of Kamigawa"=>"CHK",  "Betrayers of Kamigawa" => "BOK", "Saviors of Kamigawa"=>"SOK", "Ravnica: City of Guilds" => "RAV", "Guildpact" => "GPT", "Dissension" => "DIS",  "Coldsnap"=>"CSP", "Time Shifted" => "TSB" , "Time Spiral" => "TSP", "Planar Chaos" => "PLC","Future Sight" => "FUT", "Lorwyn" => "LRW", "Morningtide" => "MOR", "Shadowmoor" => "SHM", "Eventide" => "EVE",  "Shards of Alara" => "ALA",  "Conflux" => "CON",  "Alara Reborn" => "ARB", "Zendikar"=>"ZEN", "Worldwake" => "WWK",  "Rise of the Eldrazi" => "ROE", "Scars of Mirrodin"=>"SOM", "Mirrodin Besieged" => "MBS" , "New Phyrexia" => "NPH", "Innistrad"=>"ISD", "Dark Ascension" => "DKA", "Avacyn Restored"=>"AVR", "Return to Ravnica" => "RTR",  "Gatecrash"=>"GTC", "Dragon's Maze" => "DGM",  "Theros" => "THS", "Born of the Gods" => "BNG", "Journey into Nyx" => "JOU", "Magic 2010"=>"M10", "Magic 2011"=>"M11", "Magic 2012"=>"M12", "Magic 2013" => "M13",  "Magic 2014" => "M14", "Magic 2015" => "M15", "Magic Origins"=>"ORI",    "Shadows over Innistrad"=>"SOI",     "Amonkhet"=>"AKH",      "Core Set 2019"=>"M19",    "Ixalan" => "XLN", "Rivals of Ixalan" => "RIX", "Kaladesh" => "KLD", "Hour of Devastation" => "HOU",   "Aether Revolt" => "AER" ,"Battle for Zendikar" => "BFZ",  "Commander" => "CMD",  "Unglued" => "UGL", "Unhinged" => "UNH"  } 
+  Editions = {
+    "Alpha" => "LEA",
+    "Beta" => "LEB",
+    "Unlimited" => "2ED",
+    "Revised" => "3ED",
+    "Fourth Edition" => "4ED",
+    "Fifth Edition" => "5ED",
+    
+    "Arabian Nights" => "ARN",
+    "Antiquities" => "ATQ",
+    "Legends" => "LEG",
+    "The Dark" => "DRK",
+    "Fallen Empires" => "FEM",
+
+    "Ice Age" => "ICE",
+    "Homelands" => "HML",
+    "Alliances" => "ALL",
+
+    "Mirage" => "MI",
+    "Visions" => "VI",
+    "Weatherlight" => "WL",
+
+    "Tempest" => "TE",
+    "Stronghold" => "ST",
+    "Exodus" => "EX",
+
+    "Urza's Saga" => "UZ",
+    "Urza's Legacy"=>"UL",
+    "Urza's Destiny"=>"UD",
+
+    "Mercadian Masques"=>"MM",
+    "Nemesis" => "NE",
+    "Prophecy" => "PR"
+  }
 
 end
