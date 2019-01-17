@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require lazyload
+//= require jquery.canvasjs.min
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
