@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   get '/cards/find_by_properties'
   post '/cards/find_by_properties' => 'cards#filter_search'
 
+  get '/cards/search_results' => 'cards#search_results'
   get '/cards/:edition/' => 'cards#edition'
   get '/cards/card_names' => 'cards#card_names'
-  get '/cards/search_results' => 'cards#search_results'  
   get '/cards/artists/:artist' => 'cards#artist'
   get '/cards/color/:color' => 'cards#color'
 
