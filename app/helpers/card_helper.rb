@@ -26,6 +26,10 @@ module CardHelper
     "$#{number_with_delimiter(price)}"
   end
 
+  def card_path(edition, name)
+    "/cards/#{edition}/#{name}"
+  end
+
   def rotation_type(year) 
     year.to_i < 2017 ? 'cw' : 'ccw'
   end
@@ -47,7 +51,7 @@ module CardHelper
   end
   
   def hashify_search_results(results_arr)
-    results_arr.map! { | result_arr | { id: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
+    results_arr.map! { | result_arr | { edition: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
   end
 
   def add_prices_to_all

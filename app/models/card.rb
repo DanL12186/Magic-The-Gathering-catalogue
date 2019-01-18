@@ -34,10 +34,10 @@ class Card < ApplicationRecord
     matches = []
     partial_matches = []
     
-    Card.where(reprint: false).pluck(:id, :name, :img_url).each do | card_arr |       
+    Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | card_arr |       
       next unless card_arr[1].match?(/#{search}/i)
       
-      id, name, img_url = card_arr
+      edition, name, img_url = card_arr
       
       return name if name.downcase == search.downcase
 

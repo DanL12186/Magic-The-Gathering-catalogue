@@ -6,7 +6,7 @@ class CardsController < ApplicationController
   include CardHelper
 
   def show
-    @card = find_by_name_or_id(params[:id])
+    @card = Card.find_by(edition: params[:edition], name: params[:card_name])
     if @card.layout == 'transform'
       @flip = Card.find_by(multiverse_id: @card.flip_card_multiverse_id)
     end
@@ -39,7 +39,8 @@ class CardsController < ApplicationController
   def search_results
     search_result = Card.search(params[:search])
     if search_result.is_a?(String)
-      redirect_to card_path(search_result)
+      card = Card.find_by(reprint: false, name: search_result)
+      redirect_to card_path(card.edition, card.name)
     else
       @matches, @partial_matches = search_result
     end
@@ -47,6 +48,15 @@ class CardsController < ApplicationController
 
   def color
     @cards = Card.where(color: params[:color], reprint: false).sort_by(&:name)
+  end
+
+  def edition
+    @cards = Card.where(edition: params[:edition]).sort_by(&:multiverse_id)
+  end
+
+  #only display original prints, ignoring reprints of that artist's work
+  def artist
+    @cards = Card.where(artist: params[:artist]).sort_by { | card | [ card.multiverse_id, card.color ] }.uniq(&:name)
   end
 
   def filter_search
@@ -64,10 +74,6 @@ class CardsController < ApplicationController
     min_filters = filters['edition'] ? 1 : 2
 
     @results = Card.where(filters).limit(1200) unless filters.keys.size < min_filters
-  end
-  
-  def find_by_name_or_id(identifier)
-    identifier.match?(/\d/) ? Card.find(identifier) : Card.find_by(name: identifier)
   end
 
 end

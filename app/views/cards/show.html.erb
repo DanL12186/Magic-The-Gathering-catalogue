@@ -1,7 +1,7 @@
 <body class="card_show_page">
 
   <h1 class='show_page_card_name'> 
-    <%= link_to image_tag(edition_filename(@card.rarity, @card.edition), width: '64px'), "/sets/#{@card.edition}" %>
+    <%= link_to image_tag(edition_filename(@card.rarity, @card.edition), width: '64px'), "/cards/#{@card.edition}" %>
     <%= card_and_edition(@card.name, @card.edition) %>
   </h1>
 
@@ -37,7 +37,7 @@
 
     <div class='col-sm-3' style='min-height: 460px;' id='cropped-img-div'>
       <%= image_tag(@card.cropped_img, id: 'cropped-img', reverse_src: @flip&.cropped_img, original_src: @card.cropped_img) %>
-      <h1 style = "font-size: 150%;"> <%= link_to(@card.artist, "/artists/#{@card.artist}") %> </h1>
+      <h1 style = "font-size: 150%;"> <%= link_to(@card.artist, "/cards/artists/#{@card.artist}") %> </h1>
     </div>
   </div>
 
