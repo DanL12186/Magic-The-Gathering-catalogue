@@ -5,8 +5,8 @@
     "npm": "^6.5.0",
     "popper.js": "^1.14.6"
   },
-  "engines" : {
-    "node" : "11.6.0"
+  "engines": {
+    "node": "11.6.0"
   },
   "devDependencies": {
     "webpack": "^4.28.4",
