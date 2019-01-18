@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/cards/artists/:artist' => 'cards#artist'
   get '/cards/color/:color' => 'cards#color'
 
-  get '/cards/:edition/:card_name' => 'cards#show'
+  get '/cards/:edition/:name' => 'cards#show'
 
   get '/about' => 'application#about'
 

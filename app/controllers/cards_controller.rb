@@ -6,7 +6,7 @@ class CardsController < ApplicationController
   include CardHelper
 
   def show
-    @card = Card.find_by(edition: params[:edition], name: params[:card_name])
+    @card = Card.find_by(edition: params[:edition], name: params[:name])
     if @card.layout == 'transform'
       @flip = Card.find_by(multiverse_id: @card.flip_card_multiverse_id)
     end
