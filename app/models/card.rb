@@ -3,12 +3,14 @@ require 'cgi'
 class Card < ApplicationRecord
   include Cards
 
-  has_many :users_cards
-  has_many :decks_cards, dependent: :destroy
-  has_many :collections_cards
+  has_many :user_cards
+  has_many :users, through: :user_cards
 
-  has_many :users, through: :users_cards
-  has_many :decks, through: :decks_cards
+  has_many :decks_cards, dependent: :destroy
+  has_many :decks, through: :deck_cards
+
+  has_many :collection_cards
+  has_many :collections, through: :collection_cards
 
   validates :multiverse_id, uniqueness: true
   validates :name, :edition, presence: true
