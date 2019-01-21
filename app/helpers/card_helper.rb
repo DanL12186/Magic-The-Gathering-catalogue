@@ -91,9 +91,10 @@ module CardHelper
     price ? price.delete(',') : 'N/A'
   end
 
+  EARLY_CORE_SETS = { 'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition' } 
 
   def card_kingdom_url(card_name, card_set)
-    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set == 'Fourth Edition') ? '4th-edition' : card_set.gsub(' ', '-').downcase.delete("':")
+    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set.match?('th Edition')) ? EARLY_CORE_SETS[card_set] : card_set.gsub(' ', '-').downcase.delete("':")
     set = set.match(/201[0-5]/) ? "#{set.match(/\d+/)[0]}-core-set" : set
     set = "Ravnica" if card_set.match?("Ravnica: City of Guilds")
     name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-')
