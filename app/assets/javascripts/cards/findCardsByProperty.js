@@ -30,44 +30,44 @@ $(document).on('turbolinks:load', function() {
 
   const truncateLongNames = name => name.length > 25 ? `${name.slice(0,20).trim()}...` : name
 
+  function generateCardsHTML(cards, currentPage) {
+    const slice = (currentPage - 1) * 60
+    return cards.map(card=> {
+      const shortName = truncateLongNames(card.name)
+      ,     cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
+      ,     thumbnail = card.hi_res_img.replace('large','small')
+      ,     edition   = card.edition.toLowerCase().replace(':','')
+      ,     rarity    = card.rarity.toLowerCase();
+      
+      return( 
+        `<div class= col-sm-3>
+          <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw; min-height:32px;"> 
+            ${shortName} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
+          </h3>
+          
+          <div class=card_img_div> 
+            <a href="/cards/${card.edition}/${card.name}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a>
+          </div>
+          
+        </div>`
+      )
+      
+    }).slice(slice, slice + 60).join('')
+  };
+
+  function displayResults(results) {
+    document.getElementById("find_cards").innerHTML = results;
+  }
+
+  function generateAndDisplayHTML(sortedResult, currentPage = 1) {
+    const sortedHTML = generateCardsHTML(sortedResult, currentPage)
+    displayResults(sortedHTML, currentPage)
+  }
+
   //populate /cards/find_by_properties with found cards
   $("form.find_by_properties").on('submit', function(event) {
     event.stopPropagation();
     event.preventDefault();
-    
-    function generateCardsHTML(cards, currentPage) {
-      const slice = currentPage * 60
-      return cards.map(card=> {
-        const shortName = truncateLongNames(card.name)
-        ,     cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
-        ,     thumbnail = card.hi_res_img.replace('large','small')
-        ,     edition   = card.edition.toLowerCase().replace(':','')
-        ,     rarity    = card.rarity.toLowerCase();
-        
-        return( 
-          `<div class= col-sm-3>
-            <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw; min-height:32px;"> 
-              ${shortName} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
-            </h3>
-            
-            <div class=card_img_div> 
-              <a href="/cards/${card.edition}/${card.name}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a>
-            </div>
-            
-          </div>`
-        )
-        
-      }).slice(slice, slice + 60).join('')
-    };
-
-    function displayResults(results) {
-      document.getElementById("find_cards").innerHTML = results;
-    }
-
-    function generateAndDisplayHTML(sortedResult, currentPage = 0) {
-      const sortedHTML = generateCardsHTML(sortedResult, currentPage)
-      displayResults(sortedHTML, currentPage)
-    }
 
     const serializedForm = $(this).serialize()
     ,     response = $.post(`/cards/find_by_properties`, serializedForm);
@@ -93,15 +93,16 @@ $(document).on('turbolinks:load', function() {
       }
 
       const numPages = Math.ceil(cards.length / 60)
-      ,     html = generateCardsHTML(cards, 0);
+      ,     html = generateCardsHTML(cards, 1);
       
       //change page tabs if necessary
       if (numPages > 1 && document.getElementsByClassName("jslink").length !== numPages) {
         document.getElementById("pagination-pg-num").style = "display: block"
         document.getElementById("find-by-pagination").innerHTML += `<span> </span>`
+        
         let pageButtons = '';
 
-        for (let i = 0; i < numPages; i++) {
+        for (let i = 1; i <= numPages; i++) {
           pageButtons += `<button class="btn-group-sm jslink"> ${i} </button>`;
         }
 
