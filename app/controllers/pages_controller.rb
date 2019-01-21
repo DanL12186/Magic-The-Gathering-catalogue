@@ -8,4 +8,7 @@ class PagesController < ApplicationController
   # def about
   # end
 
+  # def hand_odds_calculator
+  # end
+
 end

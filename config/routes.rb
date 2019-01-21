@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   get '/about' => 'pages#about'
 
-  get '/hand_odds_calculator' => 'application#hand_odds_calculator'
+  get '/hand_odds_calculator' => 'pages#hand_odds_calculator'
   post '/decks/calculate_custom_hand_odds' => 'decks#calculate_custom_hand_odds'
   
   post '/cards/update_prices' => 'cards#update_prices'
