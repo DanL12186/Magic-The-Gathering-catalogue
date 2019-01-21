@@ -5,10 +5,10 @@
     <h1> <%= card.name %> </h1>
     
     <h3 data-edition= <%= card.edition.downcase.gsub(' ', '_') %> > 
-      Edition: <%= link_to("#{card.edition}", "/sets/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase}", width: '2%', lazy: lazy_load?(idx) %>
+      Edition: <%= link_to("#{card.edition}", "/cards/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase}", width: '2%', lazy: lazy_load?(idx) %>
     </h3>
     
-    <h4> Artist: <%= link_to card.artist, "/artists/#{card.artist.delete('.')}/" %> </h4>
+    <h4> Artist: <%= link_to card.artist, "/cards/artists/#{card.artist}/" %> </h4>
     
     <% unless card.card_type == 'Land' %>
       <h5> Mana: 
@@ -24,7 +24,7 @@
       </div>
     <% end %>
 
-    <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: lazy_load?(idx) )  ), card_path(card) %> 
+    <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: lazy_load?(idx) )  ), "/cards/#{card.edition}/#{card.name}/" %> 
       
   <% end %>
 

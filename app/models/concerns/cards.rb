@@ -7,6 +7,8 @@ module Cards
     "Revised" => "3ED",
     "Fourth Edition" => "4ED",
     "Fifth Edition" => "5ED",
+    "Sixth Edition" => "6ED",
+    "Seventh Edition" => "7E",
     
     "Arabian Nights" => "ARN",
     "Antiquities" => "ATQ",
@@ -43,6 +45,7 @@ module Cards
       "Revised"=>"3ED",
       "Fourth Edition"=>"4ED",
       "Fifth Edition"=>"5ED",
+      "Sixth Edition"=>"6ED",
       "Arabian Nights"=>"ARN",
       "Antiquities"=>"ATQ",
       "Legends"=>"LEG",
@@ -121,6 +124,7 @@ module Cards
       "Battle for Zendikar" => "BFZ" 
     },
     "Core Sets" => {
+      "Seventh Edition" => "7E",
       "Magic 2010"=>"M10",
       "Magic 2011"=>"M11",
       "Magic 2012"=>"M12",

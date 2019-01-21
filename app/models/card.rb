@@ -1,5 +1,6 @@
+require 'cgi'
+
 class Card < ApplicationRecord
-  require 'cgi'
   include Cards
 
   has_many :users_cards
@@ -33,11 +34,12 @@ class Card < ApplicationRecord
   def self.search(search)
     matches = []
     partial_matches = []
+    target = Regexp.escape(search)
     
-    Card.where(reprint: false).pluck(:id, :name, :img_url).each do | card_arr |       
-      next unless card_arr[1].match?(/#{search}/i)
+    Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | card_arr |
+      next unless card_arr[1].match?(/#{target}/i)
       
-      id, name, img_url = card_arr
+      edition, name, img_url = card_arr
       
       return name if name.downcase == search.downcase
 

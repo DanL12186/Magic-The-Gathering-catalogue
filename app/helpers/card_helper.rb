@@ -26,6 +26,10 @@ module CardHelper
     "$#{number_with_delimiter(price)}"
   end
 
+  def card_path(edition, name)
+    "/cards/#{edition}/#{name}"
+  end
+
   def rotation_type(year) 
     year.to_i < 2017 ? 'cw' : 'ccw'
   end
@@ -47,7 +51,7 @@ module CardHelper
   end
   
   def hashify_search_results(results_arr)
-    results_arr.map! { | result_arr | { id: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
+    results_arr.map! { | result_arr | { edition: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
   end
 
   def add_prices_to_all
@@ -87,9 +91,10 @@ module CardHelper
     price ? price.delete(',') : 'N/A'
   end
 
+  EARLY_CORE_SETS = { 'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition' } 
 
   def card_kingdom_url(card_name, card_set)
-    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set == 'Fourth Edition') ? '4th-edition' : card_set.gsub(' ', '-').downcase.delete("':")
+    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set.match?('th Edition')) ? EARLY_CORE_SETS[card_set] : card_set.gsub(' ', '-').downcase.delete("':")
     set = set.match(/201[0-5]/) ? "#{set.match(/\d+/)[0]}-core-set" : set
     set = "Ravnica" if card_set.match?("Ravnica: City of Guilds")
     name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-')
