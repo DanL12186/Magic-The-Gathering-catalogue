@@ -51,7 +51,7 @@ $(document).on('turbolinks:load', function() {
             </h3>
             
             <div class=card_img_div> 
-              <a href="/cards/${card.name}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a>
+              <a href="/cards/${card.edition}/${card.name}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a>
             </div>
             
           </div>`
