@@ -79,7 +79,7 @@ module CardHelper
   def mtgoldfish_url(card_name, card_set)
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/^Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
           .gsub(' ', '+').delete("':")
-    name = I18n.transliterate(card_name).delete(",.:;\"'/!()").gsub(/ +/, '+')
+    name = I18n.transliterate(card_name).sub(/\([^\)]+\)$/) { | match | '-' + match }.delete(",.:;\"'/()!").gsub(/ +/, '+').sub('+-', '-')
 
     "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
   end
