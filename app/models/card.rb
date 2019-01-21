@@ -6,7 +6,7 @@ class Card < ApplicationRecord
   has_many :user_cards
   has_many :users, through: :user_cards
 
-  has_many :decks_cards, dependent: :destroy
+  has_many :deck_cards, dependent: :destroy
   has_many :decks, through: :deck_cards
 
   has_many :collection_cards
