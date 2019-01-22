@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_195744) do
+ActiveRecord::Schema.define(version: 2019_01_21_044356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 2018_11_02_195744) do
     t.string "scryfall_uri"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "hand_picked", default: false
+    t.index ["hand_picked"], name: "index_cards_on_hand_picked", where: "(hand_picked = true)"
     t.index ["iconic"], name: "index_cards_on_iconic", where: "(iconic = true)"
     t.index ["multiverse_id"], name: "index_cards_on_multiverse_id"
     t.index ["reprint"], name: "index_cards_on_reprint", where: "(reprint = false)"
