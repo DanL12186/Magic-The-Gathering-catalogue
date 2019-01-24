@@ -32,7 +32,8 @@ def get_set_prices(set_code)
 
   card_set_names = Card.where(edition: @set_name).map(&:name)
   card_set_names.each { | name |  @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
-
+  
+  #won't get all prices unless all cards have been added; uses local card count for page #'s 
   def get_mtgoldfish_set_prices(set_code)
     set = set_code.upcase
 
