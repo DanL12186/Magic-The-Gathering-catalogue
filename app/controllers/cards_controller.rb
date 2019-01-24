@@ -4,6 +4,7 @@ class CardsController < ApplicationController
 
   include Cards
   include CardHelper
+  include Pagy::Backend
 
   def show
     @card = Card.find_by(edition: params[:edition], name: params[:name])
@@ -22,7 +23,7 @@ class CardsController < ApplicationController
     card = Card.find(params[:id])
     flip = card.flip_card_multiverse_id ? Card.find_by(multiverse_id: card.flip_card_multiverse_id) : nil
     name = card.name
-    set = card.edition
+    set  = card.edition
     
     #updated_at prevents repeated views from triggering updates after a necessary update was performed but no prices changed
     if needs_updating?(card.updated_at, card.prices)
@@ -47,16 +48,16 @@ class CardsController < ApplicationController
   end
 
   def color
-    @cards = Card.where(color: params[:color], reprint: false).sort_by(&:name)
+    @pagy, @cards = pagy(Card.where(color: params[:color], reprint: false).order(:name), items: 100)
   end
 
   def edition
-    @cards = Card.where(edition: params[:edition]).sort_by(&:multiverse_id)
+    @pagy, @cards = pagy(Card.where(edition: params[:edition]).order(:multiverse_id), items: 100)
   end
 
   #only display original prints, ignoring reprints of that artist's work
   def artist
-    @cards = Card.where(artist: params[:artist]).sort_by { | card | [ card.multiverse_id, card.color ] }.uniq(&:name)
+    @cards = Card.where(artist: params[:artist]).order(:multiverse_id, :color).uniq(&:name)
   end
 
   def filter_search

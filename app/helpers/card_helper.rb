@@ -1,6 +1,7 @@
 module CardHelper
   include Cards
   require 'open-uri'
+  include Pagy::Frontend
   
   def card_and_edition(name, edition)
     edition.match?(/Alpha|Beta|Unlimited|Revised/) ? "#{edition} #{name}" : "#{name} (#{edition})"

@@ -18,7 +18,26 @@
 .card_show:hover {
     box-shadow: 1px 1px 8px rgba(0,0,0,1.0);
 }
-//===============================
+
+//===Boostrap/Pagy Pagination Styling===
+.pagination > li > a,
+.pagination > li > span {
+  color: #78b478;
+  background-color: #000;
+  border: 1px solid #1c8d25;
+  //font-family: MagicMedieval;
+}
+
+.pagination > .active > a {
+    background-color: #3c753d;
+}
+
+.pagination > .active:hover > a {
+    background-color: #3c753d;
+}
+
+
+//===========Card Show Page========
 
 .card_show_page {
     padding-left: 1%;
@@ -33,7 +52,7 @@
 }
 
 
-//~~~Transform cards~~~~~~~~~
+//~~~~Transform cards~~~~~~~~~
 .flip-card {
     width: 223px;
     height: 310px;

@@ -1,5 +1,7 @@
 <h1 class='text-center'> <%= image_tag("/assets/editions/#{params[:edition].downcase}", width: '128') %> </h1>
 
+<center> <h2 class="pagination text-center"> <%== pagy_bootstrap_nav(@pagy) %> </h2> </center>
+
 <% @cards.each do | card | %> 
   <% unless card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land") %>
     <h2> <%= card.name %> </h2> 
@@ -9,3 +11,5 @@
     </div>
   <% end %>
 <% end %>
+
+<h2 class="pagination text-center"> <%== pagy_bootstrap_nav(@pagy) %> </h2>
