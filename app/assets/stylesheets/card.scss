@@ -25,7 +25,21 @@
   color: #78b478;
   background-color: #000;
   border: 1px solid #1c8d25;
+  border-radius: 10%;
   //font-family: MagicMedieval;
+}
+
+//overrides for default Next/Prev pagination buttons
+.pagination > li:first-child > a, 
+.pagination > li:first-child > span {
+    border-top-left-radius: 10%;
+    border-bottom-left-radius: 10%;
+}
+
+.pagination > li:last-child > a, 
+.pagination > li:last-child > span {
+    border-top-left-radius: 10%;
+    border-bottom-left-radius: 10%;
 }
 
 .pagination > .active > a {
