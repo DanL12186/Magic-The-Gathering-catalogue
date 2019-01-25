@@ -50,7 +50,7 @@ class DecksController < ApplicationController
   end
 
   def deny_unauthorized_deck_access
-    redirect_to root_path unless logged_in? && Deck.find(params[:id]).user_id == current_user.id
+    redirect_to root_path unless logged_in? && @deck.user_id == current_user.id
   end
   
 end
