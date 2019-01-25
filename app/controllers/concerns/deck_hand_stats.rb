@@ -29,9 +29,6 @@ module DeckHandStats
       'creatures' => 0, 
       'spells' => 0,
       'artifacts' => 0, 
-      'small_creatures' => 0,
-      'medium_creatures' => 0,
-      'large_creatures' => 0
     }
     
     hand.each do | card | 
@@ -43,16 +40,7 @@ module DeckHandStats
         classifications['nonbasic_lands'] += 1 if card.subtypes.include?('Nonbasic Land')
       end
 
-      if card.card_type.match?('Creature')
-        classifications['creatures'] += 1 
-        if card.power <= 2
-          classifications['small_creatures'] += 1 
-        elsif card.power <= 4
-          classifications['medium_creatures'] += 1
-        else
-          classifications['large_creatures'] += 1
-        end
-      end
+      classifications['creatures'] += 1 if card.card_type.match?('Creature')
     end
     classifications
   end
