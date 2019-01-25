@@ -22,8 +22,9 @@ module ApplicationHelper
 
   def truncate_at_three_words(card_name)
     words = card_name.split(/-| /)[0..2]
-    len = words.join(' ').length
-    card_name[0..len].strip
+    name_len = words.join(' ').length
+    truncated_name = card_name[0..name_len].strip
+    truncated_name == card_name ? card_name : "#{truncated_name}..."
   end
 
 end
