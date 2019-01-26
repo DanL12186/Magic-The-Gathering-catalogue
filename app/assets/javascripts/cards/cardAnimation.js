@@ -52,11 +52,13 @@ $(document).on('turbolinks:load', function() {
     ,     image     = document.getElementById('card_show_img');
     
     if (!rotated) {  
+      image.style.marginLeft = '15%';
       image.style.transition = '1.5s';
       image.style.transform = `rotate(${direction}`;
       rotated = true;
     } else {
       rotated = false;
+      image.style.marginLeft = '0%';
       image.style.transition = '1.0s';
       image.style.transform = 'rotate(0deg)';
     };
