@@ -24,6 +24,7 @@ EARLY_CORE_SETS = {
 }
 
 # # CardKingdom Set Scraping
+##Problem with core sets.
 def get_set_prices(set_code)
   @set_name = Editions.invert[set_code.upcase]
 
@@ -61,7 +62,8 @@ def get_set_prices(set_code)
   end
 
   def get_card_kingdom_set_prices(set_code)
-    set = @set_name.gsub(' ', '-').downcase
+    set = @set_name.match(/201[0-5]/) ? "#{@set_name.match(/\d+/)[0]}-core-set" : @set_name
+    set = set.gsub(' ', '-').downcase
     set = EARLY_CORE_SETS[set.titleize] || set
     total_pages = @cards.size.fdiv(60).ceil
 
@@ -87,7 +89,8 @@ def get_set_prices(set_code)
 
   #tcg player does 7th edition, 8th edition etc but fourth fifth sixth edition
   def get_tcg_player_set_prices(set_code)
-    set = @set_name.gsub(' ', '-').downcase
+    set = @set_name.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete(':')
+    set += @set_name.match(/201[0-5]/) ? "-m#{set.match(/\d{2}$/)[0]}" : @set_name.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
     set = "classic-sixth-edition" if set == "sixth-edition"
 
     url = "https://shop.tcgplayer.com/price-guide/magic/#{set}"
