@@ -1,8 +1,11 @@
 <div class="card_show_page">
 
   <h1 class='show_page_card_name'> 
-    <%= link_to image_tag(edition_filename(@card.rarity, @card.edition), width: '64px'), "/cards/#{@card.edition}" %>
+    <%= link_to image_tag(edition_image_filename(@card.rarity, @card.edition), style: 'min-width: 64px; max-width: 96px; max-height: 66px;'), "/cards/#{@card.edition}" %>
     <%= card_and_edition(@card.name, @card.edition) %>
+    <% unless @card.other_editions.none? { | ed | AllEditionsStandardCodes.invert[ed] } %>
+      <span style = 'float: right; margin-right: 8%;'> Other Editions: <%= @card.other_editions.map { | ed | link_to(image_tag(edition_image_filename('Common', AllEditionsStandardCodes.invert[ed.upcase]), width: '32px', style: 'margin-right: 2px;'),"/cards/#{AllEditionsStandardCodes.invert[ed.upcase]}/#{@card.name}") if AllEditionsStandardCodes.invert[ed.upcase] }.join.html_safe %> </span>
+    <% end %>
   </h1>
 
   <h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank", rel: "noopener noreferrer" %> 
@@ -10,7 +13,7 @@
       <%= link_to image_tag("reserved list"), wizards_reserved_list, target: "_blank", rel: "noopener noreferrer", style: 'margin-left: 1%' %>
     <% end %>
     
-    <% if @card.layout == 'split' %>
+    <% if @card.layout.match?(/split|flip/) %>
       <button id="rotate" class="btn btn-default btn-sm" data-rotate= <%= "#{rotation_type(@card.year)}" %> style="margin-left: 1%;">
         Rotate <span class="glyphicon glyphicon-repeat"></span> 
       </button>
@@ -35,7 +38,7 @@
 
     <div class='col-sm-4'></div>
 
-    <div class='col-sm-3' style='min-height: 460px;' id='cropped-img-div'>
+    <div class='col-sm-3' style='min-height: 500px; max-height: 500px;' id='cropped-img-div'>
       <%= image_tag(@card.cropped_img, id: 'cropped-img', reverse_src: @flip&.cropped_img, original_src: @card.cropped_img) %>
       <h1 style = "font-size: 150%;"> <%= link_to(@card.artist, "/cards/artists/#{@card.artist}") %> </h1>
     </div>
