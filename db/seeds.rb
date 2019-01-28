@@ -1,17 +1,19 @@
 # require 'open-uri'
-# require 'nokogiri'
 # require 'mtg_sdk'
 
 # #get other edition printings from MTG SDK after loading card set
 # #set code, e.g. 'mir', 'hml', 'all', 'lea'
+
 def get_editions(set_code)
+  @ignore = Set.new([set_code, 'vma', 'me1', 'me2', 'me3', 'me4', 'tpr', 'pz1', 'pz2', 'pmodo', 'xmods', 'rin', 'ren', 'rqs', 'itp', 'prm', 'fbb', 'sum', 'f05', 'btd', 'prel', 'psus', 'ptc', 'wc97', 'wc98', 'wc99', 'wc00', 'wc01', 'wc02', 'wc03', 'md1', 'dpa', 'brb', 'bbd', 'f06', 'f07', 'f08', 'f09', 'p09', 'td0', 'j16', 'ps11', 'psal', 'pg07', 'g10' ].map(&:upcase)) #(ignore a card's own set and online/promo/foreign/odd sets)
+  set_codes_in_chronological_order = AllEditionsStandardCodes.invert.map.with_index { | (set_code, set_name), idx | set_code = set_code, set_name = idx }.to_h
+
   cards = MTG::Card.where(set: set_code).all;
-  cards.each { | card | card.representable_attrs = nil; card.legalities = nil; card.foreign_names = nil; card.rulings = nil }; nil
-  cards.map! { | card | JSON.parse(card.serialize) } #easier view... 
+  cards.map! { | card | JSON.parse(card.serialize) }
   cards.each do | card_hash |
     card = Card.find_by(multiverse_id: card_hash["multiverseid"])
     next unless card && !card_hash['supertypes'].include?('Basic')
-    other_editions = card_hash["printings"].reject { | ed | ed == card_hash['set'] }
+    other_editions = card_hash["printings"].reject { | ed | !set_codes_in_chronological_order[ed] || @ignore.include?(ed) || ed.length == 4 }.sort_by { | set_code | set_codes_in_chronological_order[set_code] }
     card.update(other_editions:  other_editions)
   end
 end
@@ -20,11 +22,13 @@ EARLY_CORE_SETS = {
   'Fourth Edition' => '4th-edition', 
   'Fifth Edition' => '5th-edition',
   'Sixth Edition' => '6th-edition', 
-  'Seventh Edition' => '7th-edition' 
+  'Seventh Edition' => '7th-edition',
+  'Eighth Edition' => '8th-edition',
+  'Ninth Edition' => '9th-edition',
+  'Tenth Edition' => '10th-edition'
 }
 
 # # CardKingdom Set Scraping
-##Problem with core sets.
 def get_set_prices(set_code)
   @set_name = Editions.invert[set_code.upcase]
 
@@ -62,7 +66,7 @@ def get_set_prices(set_code)
   end
 
   def get_card_kingdom_set_prices(set_code)
-    set = @set_name.match(/201[0-5]/) ? "#{@set_name.match(/\d+/)[0]}-core-set" : @set_name
+    set = @set_name.match(/201[0-5]/) ? "#{@set_name.match(/\d+/)}-core-set" : @set_name
     set = set.gsub(' ', '-').downcase
     set = EARLY_CORE_SETS[set.titleize] || set
     total_pages = @cards.size.fdiv(60).ceil
@@ -90,7 +94,7 @@ def get_set_prices(set_code)
   #tcg player does 7th edition, 8th edition etc but fourth fifth sixth edition
   def get_tcg_player_set_prices(set_code)
     set = @set_name.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete(':')
-    set += @set_name.match(/201[0-5]/) ? "-m#{set.match(/\d{2}$/)[0]}" : @set_name.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
+    set += @set_name.match(/201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : @set_name.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
     set = "classic-sixth-edition" if set == "sixth-edition"
 
     url = "https://shop.tcgplayer.com/price-guide/magic/#{set}"
