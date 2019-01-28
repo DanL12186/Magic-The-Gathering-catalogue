@@ -1,14 +1,14 @@
 module CardHelper
-  include Cards
   require 'open-uri'
   include Pagy::Frontend
+  include Cards
   
   def card_and_edition(name, edition)
     edition.match?(/Alpha|Beta|Unlimited|Revised/) ? "#{edition} #{name}" : "#{name} (#{edition})"
   end
 
-  def edition_filename(rarity, edition)
-    file = rarity == "Common" ? "editions/#{edition.downcase}" : "editions/#{edition.downcase} #{rarity.downcase}"
+  def edition_image_filename(rarity, edition)
+    file = rarity.match?(/Common|Special/) ? "editions/#{edition.downcase}" : "editions/#{edition.downcase} #{rarity.downcase}"
     file.delete(':')
   end
 
@@ -27,9 +27,9 @@ module CardHelper
     "$#{number_with_delimiter(price)}"
   end
 
-  def card_path(edition, name)
-    "/cards/#{edition}/#{name}"
-  end
+  # def card_path(edition, name)
+  #   "/cards/#{edition}/#{name}"
+  # end
 
   def rotation_type(year) 
     year.to_i < 2017 ? 'cw' : 'ccw'
@@ -79,7 +79,7 @@ module CardHelper
 
   def mtgoldfish_url(card_name, card_set)
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/^Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
-          .gsub(' ', '+').delete("':")
+          .sub('Time Spiral ', '').gsub(' ', '+').delete("':")
     name = I18n.transliterate(card_name).sub(/\([^\)]+\)$/) { | match | '-' + match }.delete(",.:;\"'/()!").gsub(/ +/, '+').sub('+-', '-')
 
     "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
@@ -92,11 +92,11 @@ module CardHelper
     price ? price.delete(',') : 'N/A'
   end
 
-  EARLY_CORE_SETS = { 'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition' } 
+  EARLY_CORE_SETS = { 'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th Edition', 'Ninth Edition' => '9th Edition', 'Tenth Edition' => '10th Edition' }
 
   def card_kingdom_url(card_name, card_set)
-    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set.match?('th Edition')) ? EARLY_CORE_SETS[card_set] : card_set.gsub(' ', '-').downcase.delete("':")
-    set = set.match(/201[0-5]/) ? "#{set.match(/\d+/)[0]}-core-set" : set
+    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set.match?('th Edition')) ? EARLY_CORE_SETS[card_set] : card_set.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete("':")
+    set = set.match(/201[0-5]/) ? "#{set.match(/\d+/)}-core-set" : set
     set = "Ravnica" if card_set.match?("Ravnica: City of Guilds")
     name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-')
 
@@ -113,8 +113,8 @@ module CardHelper
 
 
   def tcg_player_url(card_name, card_set)
-    set = card_set.gsub(' ', '-').downcase.delete(':')
-    set += card_set.match(/201[0-5]/) ? "-m#{set.match(/\d{2}$/)[0]}" : card_set.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
+    set = card_set.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete(':')
+    set += card_set.match(/201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : card_set.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
     name = I18n.transliterate(card_name.downcase).delete(",.:;\"'/").gsub(/ +/, '-')
 
     "https://shop.tcgplayer.com/magic/#{set}/#{name}"
