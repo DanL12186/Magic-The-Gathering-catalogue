@@ -16,7 +16,7 @@ $(document).on('turbolinks:load', function() {
     $(".thumb").on('mouseenter', function() {
       const cardEditionSymbol = grabEdition(this)
       const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
-      ,     rarity  = cardEditionSymbol.getAttribute('class').replace(/^common/, '')
+      ,     rarity  = cardEditionSymbol.getAttribute('class').replace(/^common|special/i, '')
       cardEditionSymbol.src = `/assets/editions/${edition} ${rarity}`;
     }).on('mouseleave', function() {
       const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
