@@ -1,10 +1,10 @@
-<h1 class='text-center'> <%= image_tag("/assets/editions/#{params[:edition].downcase}", width: '128') %> </h1>
+<h1 class='text-center'> <%= image_tag(edition_image_filename(params[:edition]), width: '128') %> </h1>
 
 <h2 style='text-align: center'> <%== pagy_bootstrap_nav(@pagy) if @pagy.count > 100 %> </h2>
 
 <% @cards.each do | card | %> 
   <% unless card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land") %>
-    <h2> <%= card.name %> </h2> 
+    <h2> <%= truncate_at_three_words(card.name) %> </h2> 
 
     <div class = "col-sm-2 filter"> 
       <%= link_to ( image_tag card.img_url, class: "filter-img #{card.edition.downcase}", lazy: true ), card_path(card.edition, card.name) %> 
