@@ -7,7 +7,7 @@ module CardHelper
     edition.match?(/Alpha|Beta|Unlimited|Revised/) ? "#{edition} #{name}" : "#{name} (#{edition})"
   end
 
-  def edition_image_filename(rarity, edition)
+  def edition_image_filename(rarity = 'Common', edition)
     file = rarity.match?(/Common|Special/) ? "editions/#{edition.downcase}" : "editions/#{edition.downcase} #{rarity.downcase}"
     file.delete(':')
   end
@@ -76,10 +76,13 @@ module CardHelper
     end.value
   end
 
+  def is_foil(edition) #should just use a bool later as a card attr
+    edition.match?(/From the Vault/) ? ':Foil' : ''
+  end
 
   def mtgoldfish_url(card_name, card_set)
     set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/^Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
-          .sub('Time Spiral ', '').gsub(' ', '+').delete("':")
+          .sub('Time Spiral ', '').gsub(' ', '+').delete("':") + is_foil(card_set)
     name = I18n.transliterate(card_name).sub(/\([^\)]+\)$/) { | match | '-' + match }.delete(",.:;\"'/()!").gsub(/ +/, '+').sub('+-', '-')
 
     "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
@@ -113,7 +116,7 @@ module CardHelper
 
 
   def tcg_player_url(card_name, card_set)
-    set = card_set.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete(':')
+    set = card_set.match?(/Seventh|Eighth|Ninth|Tenth/) ? EARLY_CORE_SETS[card_set] : card_set.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete(':')
     set += card_set.match(/201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : card_set.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
     name = I18n.transliterate(card_name.downcase).delete(",.:;\"'/").gsub(/ +/, '-')
 
