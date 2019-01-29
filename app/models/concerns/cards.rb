@@ -109,7 +109,7 @@ module Cards
       "Worldwake" => "WWK",
       "Rise of the Eldrazi" => "ROE",
       "Scars of Mirrodin"=>"SOM",
-      "Mirrodin Besieged" => "MBS" ,
+      "Mirrodin Besieged" => "MBS",
       "New Phyrexia" => "NPH",
       "Innistrad"=>"ISD",
       "Dark Ascension" => "DKA",
@@ -120,14 +120,25 @@ module Cards
       "Theros" => "THS",
       "Born of the Gods" => "BNG",
       "Journey into Nyx" => "JOU",
+      "Khans of Tarkir" => "KTK",
+      "Fate Reforged" => "FRF",
+      "Dragons of Tarkir" => "DTK",
+      "Zendikar Expeditions" => "EXP",
+      "Battle for Zendikar" => "BFZ",
+      "Oath of the Gatewatch" => "OGW",
       "Shadows over Innistrad"=>"SOI",
-      "Amonkhet"=>"AKH", 
+      "Eldritch Moon" => "EMN",
+      "Kaladesh Inventions" => "MS2",
+      "Kaladesh" => "KLD",
+      "Aether Revolt" => "AER",
+      "Amonkhet Invocations" => "MS3",
+      "Amonkhet" => "AKH",
+      "Hour of Devastation" => "HOU",
       "Ixalan" => "XLN",
       "Rivals of Ixalan" => "RIX",
-      "Kaladesh" => "KLD",
-      "Hour of Devastation" => "HOU",
-      "Aether Revolt" => "AER" ,
-      "Battle for Zendikar" => "BFZ" 
+      "Dominaria" => "DOM",
+      "Guilds of Ravnica" => "GRN",
+      "Ravnica Allegiance" => "RNA"
     },
     "Core Sets" => {
       "Magic 2010"=> "M10",
@@ -150,6 +161,7 @@ module Cards
   };
 
   AllEditionsStandardCodes = {
+  #vintage
     "Alpha"=>"LEA",
     "Beta"=>"LEB",
     "Unlimited"=>"2ED",
@@ -192,7 +204,7 @@ module Cards
     "Onslaught"=>"ONS",
     "Legions" => "LGN",
     "Scourge" => "SCG",
-
+   #modern
     "Mirrodin"=>"MRD",
     "Darksteel" => "DST",
     "Fifth Dawn"=>"5DN",
@@ -229,15 +241,25 @@ module Cards
     "Theros" => "THS",
     "Born of the Gods" => "BNG",
     "Journey into Nyx" => "JOU",
+    "Khans of Tarkir" => "KTK",
+    "Fate Reforged" => "FRF",
+    "Dragons of Tarkir" => "DTK",
+    "Zendikar Expeditions" => "EXP",
+    "Battle for Zendikar" => "BFZ",
+    "Oath of the Gatewatch" => "OGW",
     "Shadows over Innistrad"=>"SOI",
-    "Amonkhet"=>"AKH", 
+    "Eldritch Moon" => "EMN",
+    "Kaladesh Inventions" => "MS2",
+    "Kaladesh" => "KLD",
+    "Aether Revolt" => "AER",
+    "Amonkhet Invocations" => "MS3",
+    "Amonkhet" => "AKH",
+    "Hour of Devastation" => "HOU",
+
     "Ixalan" => "XLN",
     "Rivals of Ixalan" => "RIX",
-    "Kaladesh" => "KLD",
-    "Hour of Devastation" => "HOU",
-    "Aether Revolt" => "AER" ,
-    "Battle for Zendikar" => "BFZ",
 
+    #core sets
     "Magic 2010" => "M10",
     "Magic 2011" => "M11",
     "Magic 2012" => "M12",
@@ -247,13 +269,14 @@ module Cards
     "Magic Origins" => "ORI",
     "Core Set 2019" => "M19",
 
+    #commander
     "Commander" => "CMD",
     "Commander 2013" => "C13",
-    # "Commander 2014" => "C14",
-    # "Commander 2015" => "C15",
-    # "Commander 2016" => "C16",
-    # "Commander Anthology" => "CMA",
-    # "Commander 2017" => "C17",
+    "Commander 2014" => "C14",
+    "Commander 2015" => "C15",
+    "Commander 2016" => "C16",
+    "Commander Anthology" => "CMA",
+    "Commander 2017" => "C17",
     # "Commander 2018" => "C18",
 
     "Unglued" => "UGL", 
@@ -264,30 +287,30 @@ module Cards
 
     "Anthologies" => "ATH",
     
-    # "Modern Masters" => "MMA",
-    # "Modern Masters 2015" => "MM2",
-    # "Eternal Masters" => "EMA",
-    # "Iconic Masters" => "IMA",
-    # "Masters 25" => "A25",
-    # "Ultimate Masters" => "UMA",
+    "Modern Masters" => "MMA",
+    "Modern Masters 2015" => "MM2",
+    "Eternal Masters" => "EMA",
+    "Iconic Masters" => "IMA",
+    "Masters 25" => "A25",
+    "Ultimate Masters" => "UMA",
 
-    # "Portal Second Age" => "PO2",
-    # "Portal Three Kingdoms" => "PTK",
+    "Portal Second Age" => "PO2",
+    "Portal Three Kingdoms" => "PTK",
     # "Starter 1999" => "S99",
     # "Starter 2000" => "S00",
 
     # "Conspiracy" => "CNS",
 
-    # "From The Vault: Dragons" => "DRB",
-    # "From The Vault: Exiled" => "V09",
-    # "From The Vault: Relics" => "V10",
-    # "From The Vault: Legends" => "V11",
-    # "From The Vault: Realms" => "V12",
-    # "From The Vault: Twenty" => "V13",
-    # "From The Vault: Annihilation" => "V14",
-    # "From The Vault: Angels" => "V15",
-    # "From The Vault: Lore" => "V16",
-    # "From The Vault: Transform" => "V17",
+    "From the Vault: Dragons" => "DRB",
+    "From the Vault: Exiled" => "V09",
+    "From the Vault: Relics" => "V10",
+    "From the Vault: Legends" => "V11",
+    "From the Vault: Realms" => "V12",
+    "From the Vault: Twenty" => "V13",
+    "From the Vault: Annihilation" => "V14",
+    "From the Vault: Angels" => "V15",
+    "From the Vault: Lore" => "V16",
+    "From the Vault: Transform" => "V17",
 
     # "DD: Elves vs. Goblins" => "EVG",
     # "DD: Jace vs. Chandra" => "DD2",
@@ -314,8 +337,6 @@ module Cards
     # "DD: Mind vs. Might" => "DDS",
     # "DD: Merfolk vs. Goblins" => "DDT",
     # "DD: Elves vs. Inventors" => "DDU"
-
-
   };
 
 end
