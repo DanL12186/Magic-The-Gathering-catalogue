@@ -297,7 +297,7 @@ def create_transform_cards(card_hash)
   face_flavor = get_flavor_text(card_face_specific_data['flavor_text'])
   face_twin = back_id
   face_loyalty = card_face_specific_data['loyalty']&.to_i
-  face_oracle_text = card_face_spcific_data['oracle_text']
+  face_oracle_text = card_face_specific_data['oracle_text']
   
   face = Card.new(name: face_name, edition: edition, legendary: face_legendary, multiverse_id: face_id, colors: face_colors, hi_res_img: face_hi_res, cropped_img: face_crop, power: face_power, toughness: face_toughness, artist: face_artist, mana: face_mana, card_type: face_type, subtypes: face_subtypes, flavor_text: face_flavor, flip_card_multiverse_id: face_twin, loyalty: face_loyalty, oracle_text: face_oracle_text)
 
@@ -315,7 +315,7 @@ def create_transform_cards(card_hash)
   back_flavor = get_flavor_text(card_back_specific_data['flavor_text'])
   back_twin = face_id
   back_loyalty = card_back_specific_data['loyalty']&.to_i
-  back_oracle_text = card_back_spcific_data['oracle_text']
+  back_oracle_text = card_back_specific_data['oracle_text']
 
   back = Card.new(name: back_name, edition: edition, legendary: back_legendary, multiverse_id: back_id, colors: back_colors, hi_res_img: back_hi_res, cropped_img: back_crop, power: back_power, toughness: back_toughness, artist: back_artist, mana: nil, card_type: back_type, subtypes: back_subtypes, flavor_text: back_flavor, flip_card_multiverse_id: back_twin, loyalty: back_loyalty, oracle_text: back_oracle_text)
 
