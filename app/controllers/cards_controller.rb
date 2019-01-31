@@ -39,9 +39,8 @@ class CardsController < ApplicationController
 
   def search_results
     search_result = Card.search(params[:search])
-    if search_result.is_a?(String)
-      card = Card.find_by(reprint: false, name: search_result)
-      redirect_to card_path(card.edition, card.name)
+    if search_result.is_a?(Hash)
+      redirect_to card_path(search_result[:edition], search_result[:name])
     else
       @matches, @partial_matches = search_result
     end
@@ -68,8 +67,8 @@ class CardsController < ApplicationController
 
   def get_filter_search_results
     #required attributes are required for the page to display and for sort buttons to work. Filter options are the user's selection of filters.
-    required_attributes = ['rarity', 'edition', 'converted_mana_cost', 'prices', 'card_type', 'color', 'name', 'hi_res_img', 'multiverse_id']
-    filter_options = Set.new(['rarity', 'reserved', 'reprint', 'legendary', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'])
+    required_attributes = [:rarity, :edition, :converted_mana_cost, :prices, :card_type, :color, :name, :hi_res_img, :multiverse_id]
+    filter_options = Card.attribute_names
     
     filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
     filters.delete('reprint') if filters['edition']

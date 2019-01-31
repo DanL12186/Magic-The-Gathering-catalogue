@@ -41,7 +41,7 @@ class Card < ApplicationRecord
       
       edition, name, img_url = card_arr
       
-      return name if name.downcase == search.downcase
+      return { name: name, edition: edition } if name.downcase == search.downcase
 
       if name.split.any? { | word | word.downcase == search.downcase } 
         matches << card_arr
