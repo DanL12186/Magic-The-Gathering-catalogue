@@ -68,6 +68,10 @@ module CardHelper
     end
   end
 
+  def handle_foil(edition) #should just use a bool later as a card attr
+    edition.match?(/From the Vault|Commander's Arsenal|Expeditions|Invokations|Inventions/) ? ':Foil' : ''
+  end
+
   ##################################### Links and Scraping #####################################
 
   def scrape_page_if_exists(url)
@@ -80,15 +84,20 @@ module CardHelper
     end.value
   end
 
-  def is_foil(edition) #should just use a bool later as a card attr
-    edition.match?(/From the Vault|Commander's Arsenal|Expeditions|Invokations|Inventions/) ? ':Foil' : ''
+
+  def process_mtgfish_edition(edition)
+    set = edition.match?(/Alpha|Beta/) ? ("Limited Edition #{edition}") : edition.match?(/^Rev|Unl/) ? ("#{edition} Edition") : (edition)
+    set += ' Core Set' if set.match?(/Magic 201[4-5]/)
+    set.sub('Time Spiral ', '').gsub(' ', '+').delete("':")
   end
 
   def mtgoldfish_url(card_name, card_set)
-    set = (card_set.match?(/Alpha|Beta/) ? ("Limited Edition #{card_set}") : card_set.match?(/^Rev|Unl/) ? ("#{card_set} Edition") : (card_set))
-          .sub('Time Spiral ', '').gsub(' ', '+').delete("':") + is_foil(card_set)
-    name = I18n.transliterate(card_name).sub(/\([^\)]+\)$/) { | match | '-' + match }.delete(",.:;\"'/()!").gsub(/ +/, '+').sub('+-', '-')
-
+    set = process_mtgfish_edition(card_set) + handle_foil(card_set)
+    name = I18n.transliterate(card_name)
+               .sub(/\([^\)]+\)$/) { | match | '-' + match }
+               .delete(",.:;\"'/()!")
+               .gsub(/\s+/, '+')
+               .sub('+-','-')
     "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
   end
 
@@ -99,12 +108,19 @@ module CardHelper
     price ? price.delete(',') : 'N/A'
   end
 
-  EARLY_CORE_SETS = { 'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th Edition', 'Ninth Edition' => '9th Edition', 'Tenth Edition' => '10th Edition' }
+
+  def process_card_kingdom_edition(edition)
+    ck_exceptions = { 
+      'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition',
+      'Eighth Edition' => '8th-edition', 'Ninth-edition' => '9th-edition', 'Tenth-edition' => '10th-edition', 'Revised' => '3rd-edition', 
+      'Ravnica: City of Guilds' => 'Ravnica', 'Time Spiral Timeshifted' => 'Timeshifted'
+    }
+    set = ck_exceptions[edition] || edition.gsub(' ', '-').downcase.delete("':")
+    set = set.match(/magic-201[0-5]/) ? "#{set.match(/\d+/)}-core-set" : set
+  end
 
   def card_kingdom_url(card_name, card_set)
-    set = (card_set == 'Revised') ? ('3rd-edition') : (card_set.match?('th Edition')) ? EARLY_CORE_SETS[card_set] : card_set.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete("':")
-    set = set.match(/magic-201[0-5]/) ? "#{set.match(/\d+/)}-core-set" : set
-    set = "Ravnica" if card_set.match?("Ravnica: City of Guilds")
+    set = process_card_kingdom_edition(card_set)
     name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-')
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
@@ -113,15 +129,23 @@ module CardHelper
   def get_card_kingdom_price(card_name, card_set)
     url = card_kingdom_url(card_name, card_set)
     page = scrape_page_if_exists(url)
-    price = page.css('span.stylePrice').first.text.strip if page
+    price = page.css('span.stylePrice').first.text.delete('$').strip if page
     
-    price ? price.delete('$') : 'N/A'
+    price || 'N/A'
   end
 
 
+  def process_tcg_player_edition(edition)
+    tcg_exceptions = { 
+      'Sixth Edition' => 'classic-sixth-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition',
+      'Tenth Edition' => '10th-edition', 'Ravnica: City of Guilds' => 'Ravnica', 'Time Spiral Timeshifted' => 'Timeshifted'
+    }
+    set = tcg_exceptions[edition] || edition.gsub(' ', '-').downcase.delete(':')
+    set += edition.match(/Magic 201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : edition.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
+  end
+
   def tcg_player_url(card_name, card_set)
-    set = card_set.match?(/Seventh|Eighth|Ninth|Tenth/) ? EARLY_CORE_SETS[card_set] : card_set.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete(':')
-    set += card_set.match(/Magic 201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : card_set.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
+    set = process_tcg_player_edition(card_set)
     name = I18n.transliterate(card_name.downcase).delete(",.:;\"'/").gsub(/ +/, '-')
 
     "https://shop.tcgplayer.com/magic/#{set}/#{name}"
@@ -130,9 +154,9 @@ module CardHelper
   def get_tcg_player_price(card_name, card_set)
     url = tcg_player_url(card_name, card_set)
     page = scrape_page_if_exists(url)
-    price = page ? page.css('div.price-point.price-point--market td').first.text : nil
+    price = page ? page.css('div.price-point.price-point--market td').first.text.delete('$,') : nil
 
-    price ? price.delete('$,') : 'N/A'
+    price || 'N/A'
   end
 
 
