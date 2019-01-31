@@ -27,9 +27,13 @@ module CardHelper
     "$#{number_with_delimiter(price)}"
   end
 
-  # def card_path(edition, name)
-  #   "/cards/#{edition}/#{name}"
-  # end
+  def display_other_editions(card)
+    inverted_editions = AllEditionsStandardCodes.invert
+    card.other_editions.map do | set_code | 
+      edition_name = inverted_editions[set_code]
+      link_to image_tag(edition_image_filename(edition_name), width: '32px', style: 'margin-right: 2px;'), "/cards/#{edition_name}/#{@card.name}" if edition_name
+    end.join.html_safe
+  end
 
   def rotation_type(year) 
     year.to_i < 2017 ? 'cw' : 'ccw'
@@ -77,7 +81,7 @@ module CardHelper
   end
 
   def is_foil(edition) #should just use a bool later as a card attr
-    edition.match?(/From the Vault/) ? ':Foil' : ''
+    edition.match?(/From the Vault|Commander's Arsenal|Expeditions|Invokations|Inventions/) ? ':Foil' : ''
   end
 
   def mtgoldfish_url(card_name, card_set)
@@ -99,7 +103,7 @@ module CardHelper
 
   def card_kingdom_url(card_name, card_set)
     set = (card_set == 'Revised') ? ('3rd-edition') : (card_set.match?('th Edition')) ? EARLY_CORE_SETS[card_set] : card_set.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete("':")
-    set = set.match(/201[0-5]/) ? "#{set.match(/\d+/)}-core-set" : set
+    set = set.match(/magic-201[0-5]/) ? "#{set.match(/\d+/)}-core-set" : set
     set = "Ravnica" if card_set.match?("Ravnica: City of Guilds")
     name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-')
 
@@ -117,7 +121,7 @@ module CardHelper
 
   def tcg_player_url(card_name, card_set)
     set = card_set.match?(/Seventh|Eighth|Ninth|Tenth/) ? EARLY_CORE_SETS[card_set] : card_set.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete(':')
-    set += card_set.match(/201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : card_set.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
+    set += card_set.match(/Magic 201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : card_set.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
     name = I18n.transliterate(card_name.downcase).delete(",.:;\"'/").gsub(/ +/, '-')
 
     "https://shop.tcgplayer.com/magic/#{set}/#{name}"

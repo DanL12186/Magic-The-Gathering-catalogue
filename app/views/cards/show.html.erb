@@ -4,7 +4,7 @@
     <%= link_to image_tag(edition_image_filename(@card.rarity, @card.edition), style: 'min-width: 64px; max-width: 96px; max-height: 66px;'), "/cards/#{@card.edition}" %>
     <%= card_and_edition(@card.name, @card.edition) %>
     <% unless @card.other_editions.none? { | ed | AllEditionsStandardCodes.invert[ed] } %>
-      <span style = 'float: right; margin-right: 8%;'> Other Editions: <%= @card.other_editions.map { | ed | link_to(image_tag(edition_image_filename('Common', AllEditionsStandardCodes.invert[ed.upcase]), width: '32px', style: 'margin-right: 2px;'),"/cards/#{AllEditionsStandardCodes.invert[ed.upcase]}/#{@card.name}") if AllEditionsStandardCodes.invert[ed.upcase] }.join.html_safe %> </span>
+      <span style = 'float: right; margin-right: 3%;'> Other Editions: <%= display_other_editions(@card) %> </span>
     <% end %>
   </h1>
 
