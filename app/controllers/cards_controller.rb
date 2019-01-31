@@ -68,7 +68,7 @@ class CardsController < ApplicationController
 
   def get_filter_search_results
     #required attributes are required for the page to display and for sort buttons to work. Filter options are the user's selection of filters.
-    required_attributes = ['rarity', 'edition', 'converted_mana_cost', 'reprint', 'prices', 'card_type', 'color', 'name', 'hi_res_img', 'multiverse_id']
+    required_attributes = ['rarity', 'edition', 'converted_mana_cost', 'prices', 'card_type', 'color', 'name', 'hi_res_img', 'multiverse_id']
     filter_options = Set.new(['rarity', 'reserved', 'reprint', 'legendary', 'card_type', 'color', 'edition', 'converted_mana_cost', 'name'])
     
     filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
@@ -76,7 +76,7 @@ class CardsController < ApplicationController
 
     min_filters = filters['edition'] ? 1 : 2
 
-    @results = Card.select(filters.keys + required_attributes).where(filters).limit(1200) unless filters.keys.size < min_filters
+    @results = Card.select(filters.keys + required_attributes).where(filters).first(1200) unless filters.keys.size < min_filters
   end
 
 end
