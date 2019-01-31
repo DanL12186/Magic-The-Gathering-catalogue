@@ -1,10 +1,10 @@
 <div class="card_show_page">
 
   <h1 class='show_page_card_name'> 
-    <%= link_to image_tag(edition_image_filename(@card.rarity, @card.edition), style: 'min-width: 64px; max-width: 96px; max-height: 66px;'), "/cards/#{@card.edition}" %>
+    <%= link_to image_tag(edition_image_filename(@card.rarity, @card.edition), id: 'show_page_edition_svg_link'), "/cards/#{@card.edition}" %>
     <%= card_and_edition(@card.name, @card.edition) %>
-    <% unless @card.other_editions.none? { | ed | AllEditionsStandardCodes.invert[ed] } %>
-      <span style = 'float: right; margin-right: 3%;'> Other Editions: <%= display_other_editions(@card) %> </span>
+    <% unless edition_not_present?(@card.other_editions) %>
+      <span id='other_editions'> Other Editions: <%= display_other_editions(@card) %> </span>
     <% end %>
   </h1>
 
@@ -14,8 +14,8 @@
     <% end %>
     
     <% if @card.layout.match?(/split|flip/) %>
-      <button id="rotate" class="btn btn-default btn-sm" data-rotate= <%= "#{rotation_type(@card.year)}" %> style="margin-left: 1%;">
-        Rotate <span class="glyphicon glyphicon-repeat"></span> 
+      <button id="rotate" class="btn btn-default btn-sm" data-rotate= <%= "#{rotation_angle(@card.year, @card.layout)}" %> >
+        Rotate <span class="glyphicon glyphicon-repeat"> </span>
       </button>
     <% end %>
 

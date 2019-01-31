@@ -12,6 +12,11 @@ module CardHelper
     file.delete(':')
   end
 
+  def edition_not_present?(edition_codes)
+    set_codes = AllEditionsStandardCodes.invert
+    edition_codes.none? { | code | set_codes[code] }
+  end
+
   def mana_color(color)
     color.match?(/\d+|X/) ? 'Colorless' : color
   end
@@ -35,8 +40,9 @@ module CardHelper
     end.join.html_safe
   end
 
-  def rotation_type(year) 
-    year.to_i < 2017 ? 'cw' : 'ccw'
+  def rotation_angle(year, layout)
+    return '180deg' if layout == 'flip'
+    year.to_i < 2017 ? '90deg' : '-90deg'
   end
 
   def needs_updating?(last_updated, price)
@@ -68,7 +74,7 @@ module CardHelper
     end
   end
 
-  def handle_foil(edition) #should just use a bool later as a card attr
+  def handle_foil(edition) #should just use a bool later as a card attr. card kingdom just gets '-foil' at the end; only for cards that also have nonfoil versions
     edition.match?(/From the Vault|Commander's Arsenal|Expeditions|Invokations|Inventions/) ? ':Foil' : ''
   end
 
@@ -113,7 +119,7 @@ module CardHelper
     ck_exceptions = { 
       'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition',
       'Eighth Edition' => '8th-edition', 'Ninth-edition' => '9th-edition', 'Tenth-edition' => '10th-edition', 'Revised' => '3rd-edition', 
-      'Ravnica: City of Guilds' => 'Ravnica', 'Time Spiral Timeshifted' => 'Timeshifted'
+      'Ravnica: City of Guilds' => 'ravnica', 'Time Spiral Timeshifted' => 'timeshifted', 'Portal Three Kingdoms' => 'portal-3k'
     }
     set = ck_exceptions[edition] || edition.gsub(' ', '-').downcase.delete("':")
     set = set.match(/magic-201[0-5]/) ? "#{set.match(/\d+/)}-core-set" : set

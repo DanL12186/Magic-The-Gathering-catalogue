@@ -1,24 +1,3 @@
-//=== card image on card show page
-.card_show {
-    transition: 1.5s;
-    border-radius: 4.5%;
-    height: 310px;
-    width: 223px;
-    position: absolute;
-}
-
-.card_show.alpha {
-    border-radius: 6%;
-}
-
-#cropped-img {
-    min-height: 460px;
-}
-
-.card_show:hover {
-    box-shadow: 1px 1px 8px rgba(0,0,0,1.0);
-}
-
 //===Boostrap/Pagy Pagination Styling===
 .pagination > li > a,
 .pagination > li > span {
@@ -67,7 +46,41 @@
     max-height: 64px;
 }
 
+#show_page_edition_svg_link {
+    min-width: 64px; 
+    max-width: 96px; 
+    max-height: 66px;
+}
 
+#other_editions {
+    float: right; 
+    margin-right: 3%;
+}
+
+//=== card image on card show page
+.card_show {
+    transition: 1.5s;
+    border-radius: 4%;
+    height: 310px;
+    width: 223px;
+    position: absolute;
+}
+
+.card_show.alpha {
+    border-radius: 6%;
+}
+
+#cropped-img {
+    min-height: 460px;
+}
+
+.card_show:hover {
+    box-shadow: 1px 1px 8px rgba(0,0,0,1.0);
+}
+
+#rotate {
+    margin-left: 1%;
+}
 //~~~~Transform cards~~~~~~~~~
 .flip-card {
     width: 223px;
