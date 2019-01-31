@@ -52,6 +52,7 @@ module Cards
       "Fourth Edition"=>"4ED",
       "Fifth Edition"=>"5ED",
       "Sixth Edition"=>"6ED",
+      "Seventh Edition" => "7E",
       "Arabian Nights"=>"ARN",
       "Antiquities"=>"ATQ",
       "Legends"=>"LEG",
@@ -94,7 +95,7 @@ module Cards
       "Guildpact" => "GPT",
       "Dissension" => "DIS",
       "Coldsnap"=>"CSP",
-      "Time Shifted" => "TSB" ,
+      "Time Spiral" => "TSB" ,
       "Time Spiral Timeshifted" => "TSP",
       "Planar Chaos" => "PLC",
       "Future Sight" => "FUT",
@@ -123,15 +124,12 @@ module Cards
       "Khans of Tarkir" => "KTK",
       "Fate Reforged" => "FRF",
       "Dragons of Tarkir" => "DTK",
-      "Zendikar Expeditions" => "EXP",
       "Battle for Zendikar" => "BFZ",
       "Oath of the Gatewatch" => "OGW",
       "Shadows over Innistrad"=>"SOI",
       "Eldritch Moon" => "EMN",
-      "Kaladesh Inventions" => "MS2",
       "Kaladesh" => "KLD",
       "Aether Revolt" => "AER",
-      "Amonkhet Invocations" => "MS3",
       "Amonkhet" => "AKH",
       "Hour of Devastation" => "HOU",
       "Ixalan" => "XLN",
@@ -141,6 +139,9 @@ module Cards
       "Ravnica Allegiance" => "RNA"
     },
     "Core Sets" => {
+      "Eighth Edition" => "8ED",
+      "Ninth Edition" => "9ED",
+      "Tenth Edition" => "10E",
       "Magic 2010"=> "M10",
       "Magic 2011"=> "M11",
       "Magic 2012"=> "M12",
@@ -152,7 +153,25 @@ module Cards
     }, 
     "Commander" => {
       "Commander" => "CMD",
-      "Commander 2013" => "C13"
+      "Commander's Arsenal" => "CM1",
+      "Commander 2013" => "C13",
+      "Commander 2014" => "C14",
+      "Commander 2015" => "C15",
+      "Commander 2016" => "C16",
+      "Commander 2017" => "C17"
+    },
+    "Masters" => {
+      "Modern Masters" => "MMA",
+      "Modern Masters 2015" => "MM2",
+      "Eternal Masters" => "EMA",
+      "Iconic Masters" => "IMA",
+      "Masters 25" => "A25",
+      "Ultimate Masters" => "UMA"
+    },
+    "Masterpiece Sets" => {
+      "Zendikar Expeditions" => "EXP",
+      "Kaladesh Inventions" => "MS2",
+      "Amonkhet Invocations" => "MS3",
     },
     "Un-Sets" => {
       "Unglued" => "UGL", 
@@ -258,6 +277,8 @@ module Cards
 
     "Ixalan" => "XLN",
     "Rivals of Ixalan" => "RIX",
+    "Dominaria" => "DOM",
+    "Guilds of Ravnica" => "GRN",
 
     #core sets
     "Magic 2010" => "M10",
@@ -271,11 +292,12 @@ module Cards
 
     #commander
     "Commander" => "CMD",
+    "Commander's Arsenal" => "CM1",
     "Commander 2013" => "C13",
     "Commander 2014" => "C14",
     "Commander 2015" => "C15",
     "Commander 2016" => "C16",
-    "Commander Anthology" => "CMA",
+    # "Commander Anthology" => "CMA",
     "Commander 2017" => "C17",
     # "Commander 2018" => "C18",
 
@@ -285,7 +307,7 @@ module Cards
 
     #editions that aren't sorted or added yet
 
-    "Anthologies" => "ATH",
+    # "Anthologies" => "ATH",
     
     "Modern Masters" => "MMA",
     "Modern Masters 2015" => "MM2",
