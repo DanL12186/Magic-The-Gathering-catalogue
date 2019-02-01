@@ -26,7 +26,7 @@ $(document).on('turbolinks:load', function() {
 
       //only update on change
       if (lastMatch !== firstEightMatches.toString()) {
-        datalist.innerHTML = firstEightMatches.map(match=> `<option value="${match}" style="font-family: MagicMedieval;"></option>`);
+        datalist.innerHTML = firstEightMatches.map(match=> `<option value="${match}"></option>`);
         lastMatch = firstEightMatches.toString();
       };
     };
