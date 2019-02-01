@@ -21,7 +21,7 @@
 
     <% if @card.layout == "transform" %>
       <button id="transform" class="btn btn-default btn-sm" style="margin-left: 1%;">
-        Transform <span class="glyphicon glyphicon-refresh"></span> 
+        Transform <span class="glyphicon glyphicon-refresh"> </span> 
       </button>
     <% end %>
   </h4>
@@ -38,7 +38,7 @@
 
     <div class='col-sm-4'></div>
 
-    <div class='col-sm-3' style='min-height: 500px; max-height: 500px;' id='cropped-img-div'>
+    <div class='col-sm-3' id='cropped-img-div'>
       <%= image_tag(@card.cropped_img, id: 'cropped-img', reverse_src: @flip&.cropped_img, original_src: @card.cropped_img) %>
       <h1 style = "font-size: 150%;"> <%= link_to(@card.artist, "/cards/artists/#{@card.artist}") %> </h1>
     </div>

@@ -71,7 +71,8 @@
 }
 
 #cropped-img {
-    min-height: 460px;
+    min-height: 460px; 
+    max-height: 500px;
 }
 
 .card_show:hover {
