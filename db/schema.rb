@@ -61,6 +61,11 @@ ActiveRecord::Schema.define(version: 2018_11_02_195744) do
     t.index ["reprint"], name: "index_cards_on_reprint", where: "(reprint = false)"
   end
 
+  create_table "collection_cards", force: :cascade do |t|
+    t.integer "card_id"
+    t.integer "collection_id"
+  end
+
   create_table "collections", force: :cascade do |t|
     t.string "name"
     t.string "user_id"
@@ -68,9 +73,10 @@ ActiveRecord::Schema.define(version: 2018_11_02_195744) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "collections_cards", force: :cascade do |t|
+  create_table "deck_cards", force: :cascade do |t|
     t.integer "card_id"
-    t.integer "collection_id"
+    t.integer "deck_id"
+    t.integer "copies", default: 1
   end
 
   create_table "decks", force: :cascade do |t|
@@ -82,10 +88,9 @@ ActiveRecord::Schema.define(version: 2018_11_02_195744) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "decks_cards", force: :cascade do |t|
+  create_table "user_cards", force: :cascade do |t|
+    t.integer "user_id"
     t.integer "card_id"
-    t.integer "deck_id"
-    t.integer "copies", default: 1
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,11 +99,6 @@ ActiveRecord::Schema.define(version: 2018_11_02_195744) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "users_cards", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "card_id"
   end
 
 end

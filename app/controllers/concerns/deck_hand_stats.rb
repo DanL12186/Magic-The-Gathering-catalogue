@@ -6,7 +6,7 @@ module DeckHandStats
   def shuffled_deck(deck)
     cards = []
 
-    deck.decks_cards.uniq { | dc | dc.card_id }.each do | deck_card | 
+    deck.deck_cards.uniq { | dc | dc.card_id }.each do | deck_card | 
       card = deck.cards.find { | card | card.id == deck_card.card_id }
       deck_card.copies.times { cards << card } 
     end
