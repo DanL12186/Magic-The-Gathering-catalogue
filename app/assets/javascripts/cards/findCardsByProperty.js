@@ -13,12 +13,12 @@ $(document).on('turbolinks:load', function() {
   function listenForThumbHover() {
     const grabEdition = currentElement => currentElement.parentElement.parentElement.previousElementSibling.firstElementChild
 
-    $(".thumb").on('mouseenter', function() {
+    $('.thumb').on('mouseenter', function() {
       const cardEditionSymbol = grabEdition(this)
       const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
       ,     rarity  = cardEditionSymbol.getAttribute('class').replace(/^common|special/i, '')
       cardEditionSymbol.src = `/assets/editions/${edition} ${rarity}`;
-    }).on('mouseleave', function() {
+    }).on('mouseleave click', function() {
       const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
       const cardEditionSymbol = grabEdition(this)
       cardEditionSymbol.src = `/assets/editions/${edition}`;
