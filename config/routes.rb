@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "home_page#home"
+  root "pages#home"
 
   get "/login" => "sessions#new"
   post '/login' => 'sessions#create'
@@ -16,9 +16,9 @@ Rails.application.routes.draw do
 
   get '/cards/:edition/:name' => 'cards#show'
 
-  get '/about' => 'application#about'
+  get '/about' => 'pages#about'
 
-  get '/hand_odds_calculator' => 'application#hand_odds_calculator'
+  get '/hand_odds_calculator' => 'pages#hand_odds_calculator'
   post '/decks/calculate_custom_hand_odds' => 'decks#calculate_custom_hand_odds'
   
   post '/cards/update_prices' => 'cards#update_prices'
