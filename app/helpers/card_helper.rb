@@ -91,7 +91,7 @@ module CardHelper
   end
 
 
-  def process_mtgfish_edition(edition)
+  def process_mtgfish_edition(edition) #c13 => commander 2013 edition, 
     set = edition.match?(/Alpha|Beta/) ? ("Limited Edition #{edition}") : edition.match?(/^Rev|Unl/) ? ("#{edition} Edition") : (edition)
     set += ' Core Set' if set.match?(/Magic 201[4-5]/)
     set.sub('Time Spiral ', '').gsub(' ', '+').delete("':")
@@ -118,8 +118,8 @@ module CardHelper
   def process_card_kingdom_edition(edition)
     ck_exceptions = { 
       'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition',
-      'Eighth Edition' => '8th-edition', 'Ninth-edition' => '9th-edition', 'Tenth-edition' => '10th-edition', 'Revised' => '3rd-edition', 
-      'Ravnica: City of Guilds' => 'ravnica', 'Time Spiral Timeshifted' => 'timeshifted', 'Portal Three Kingdoms' => 'portal-3k'
+      'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition', 'Tenth Edition' => '10th-edition', 'Revised' => '3rd-edition', 
+      'Ravnica: City of Guilds' => 'ravnica', 'Time Spiral Timeshifted' => 'timeshifted', 'Portal Second Age' => 'portal-ii', 'Portal Three Kingdoms' => 'portal-3k'
     }
     set = ck_exceptions[edition] || edition.gsub(' ', '-').downcase.delete("':")
     set = set.match(/magic-201[0-5]/) ? "#{set.match(/\d+/)}-core-set" : set
@@ -144,10 +144,10 @@ module CardHelper
   def process_tcg_player_edition(edition)
     tcg_exceptions = { 
       'Sixth Edition' => 'classic-sixth-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition',
-      'Tenth Edition' => '10th-edition', 'Ravnica: City of Guilds' => 'Ravnica', 'Time Spiral Timeshifted' => 'Timeshifted'
+      'Tenth Edition' => '10th-edition', 'Time Spiral Timeshifted' => 'timeshifted'
     }
     set = tcg_exceptions[edition] || edition.gsub(' ', '-').downcase.delete(':')
-    set += edition.match(/Magic 201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : edition.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
+    edition.match(/Magic 201[0-5]/) ? "#{set}-m#{set.match(/\d{2}$/)}" : edition.match?(/Alpha|Beta|Unl|^Rev/) ? "#{set}-edition" : set
   end
 
   def tcg_player_url(card_name, card_set)
