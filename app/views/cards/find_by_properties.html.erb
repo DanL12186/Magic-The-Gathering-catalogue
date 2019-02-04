@@ -1,5 +1,7 @@
 <h1 class="text-center"> Find Cards By Property </h1>
 
+<div style='margin-bottom: 1%;'> Select one or more options </div>
+
 <%= form_with url: "/cards/find_by_properties", class: "find_by_properties", method: 'POST' do | f | %> 
 
     <%= f.label :reserved_list %>
@@ -12,13 +14,13 @@
     <%= f.select(:edition, grouped_options_for_select( CategoriedEditions.map { | category, sets | [ category, sets.keys ] } ),  include_blank: true) %>
     <br>
     <%= f.label :rarity %>
-    <%= f.select(:rarity, options_for_select( ["Common", "Uncommon", "Rare", "Mythic"] ), include_blank: true) %>
+    <%= f.select(:rarity, options_for_select( ['Common', 'Uncommon', 'Rare', 'Mythic'] ), include_blank: true) %>
     <br>
     <%= f.label :color %> 
-    <%= f.select(:color, options_for_select( ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless"] ), include_blank: true) %>
+    <%= f.select(:color, options_for_select( ['White', 'Blue', 'Black', 'Red', 'Green', 'Gold', 'Colorless'] ), include_blank: true) %>
     <br>
     <%= f.label :type %>
-    <%= f.select(:card_type, options_for_select( ["Creature", "Land", "Artifact", "Instant", "Sorcery", "Enchantment", "Planeswalker"] ), include_blank: true) %> 
+    <%= f.select(:card_type, options_for_select( ['Creature', 'Land', 'Artifact', 'Instant', 'Sorcery', 'Enchantment', 'Planeswalker'] ), include_blank: true) %> 
     <br>
     <%= f.label :Mana %>
     <%= f.number_field(:converted_mana_cost, min: 0, max: 20) %>
