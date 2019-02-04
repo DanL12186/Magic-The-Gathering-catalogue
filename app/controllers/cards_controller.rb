@@ -59,6 +59,10 @@ class CardsController < ApplicationController
     @cards = Card.where(artist: params[:artist]).order(:multiverse_id, :color).uniq(&:name)
   end
 
+  def reserved_list
+    @pagy, @cards = pagy(Card.where(reserved: true, reprint: false).order(:multiverse_id), items: 50)
+  end
+
   def filter_search
     render json: CardSerializer.new(@results).serializable_hash[:data]
   end
@@ -71,9 +75,9 @@ class CardsController < ApplicationController
     filter_options = Card.attribute_names
     
     filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
-    filters.delete('reprint') if filters['edition']
+    filters.delete(:reprint) if filters[:edition]
 
-    min_filters = filters['edition'] ? 1 : 2
+    min_filters = filters[:edition] ? 1 : 2
 
     @results = Card.select(filters.keys + required_attributes).where(filters).first(1200) unless filters.keys.size < min_filters
   end
