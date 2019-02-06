@@ -1,6 +1,6 @@
 <h1 class='text-center'> <%= image_tag "mana_symbols/#{color_to_mana(params[:color])}", class: "spin" %> </h1>
 
-<center> <h2 class="pagination text-center"> <%== pagy_bootstrap_nav(@pagy) %> </h2> </center>
+<h2 style='text-align: center'> <%== pagy_bootstrap_nav(@pagy) %> </h2>
 
 <% @cards.each do | card | %> 
   <h2> <%= truncate_at_three_words(card.name) %> </h2> 
