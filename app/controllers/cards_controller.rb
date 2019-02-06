@@ -13,9 +13,10 @@ class CardsController < ApplicationController
     end
   end
 
+  #grabbing all unique names; calling .to_s as it's faster than .to_json and render json
   def card_names
     names = Card.where(reprint: false).pluck(:name)
-    render json: names
+    render json: names.to_s
   end
 
   def update_prices
@@ -70,7 +71,7 @@ class CardsController < ApplicationController
   private
 
   def get_filter_search_results
-    #required attributes are required for the page to display and for sort buttons to work. Filter options are the user's selection of filters.
+    #required_attributes are required for the page to display and for sort buttons to work; filter_options are the user's selection of filters.
     required_attributes = [:rarity, :edition, :converted_mana_cost, :prices, :card_type, :color, :name, :hi_res_img, :multiverse_id]
     filter_options = Card.attribute_names
     
