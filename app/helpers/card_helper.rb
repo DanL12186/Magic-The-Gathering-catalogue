@@ -75,7 +75,7 @@ module CardHelper
   end
 
   def handle_foil(edition) #should just use a bool later as a card attr. card kingdom just gets '-foil' at the end; only for cards that also have nonfoil versions
-    edition.match?(/From the Vault|Commander's Arsenal|Expeditions|Invokations|Inventions/) ? ':Foil' : ''
+    edition.match?(/From the Vault|Box Topper|Commander's Arsenal|Expeditions|Invocations|Inventions/) ? ':Foil' : ''
   end
 
   ##################################### Links and Scraping #####################################
@@ -144,7 +144,7 @@ module CardHelper
   def process_tcg_player_edition(edition)
     tcg_exceptions = { 
       'Sixth Edition' => 'classic-sixth-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition',
-      'Tenth Edition' => '10th-edition', 'Time Spiral Timeshifted' => 'timeshifted'
+      'Tenth Edition' => '10th-edition', 'Time Spiral Timeshifted' => 'timeshifted', 'Amonkhet Invocations' => 'masterpiece-series-amonkhet-invocations', 'Ultimate Box Topper' => 'ultimate-masters-box-toppers'
     }
     set = tcg_exceptions[edition] || edition.gsub(' ', '-').downcase.delete(':')
     edition.match(/Magic 201[0-5]/) ? "#{set}-m#{set.match(/\d{2}$/)}" : edition.match?(/Alpha|Beta|Unl|^Rev/) ? "#{set}-edition" : set
