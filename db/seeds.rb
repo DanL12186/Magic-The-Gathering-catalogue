@@ -161,9 +161,11 @@ def update_set(set_code)
       type = subtypes.shift
       edition = format_edition(obj['set_name'])
       subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
+      has_foil_version = obj['foil']
+      has_nonfoil_version = obj['nonfoil']
 
       card = Card.find_by(multiverse_id: obj['multiverse_ids'][0])
-      card.update(:hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, subtypes: subtypes, legalities: legalities, frame: obj['frame'].to_i, loyalty: loyalty, card_type: type, layout: obj['layout'], reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'], border_color: obj['border_color'], oracle_text: obj['oracle_text']) if card
+      card.update(:hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, subtypes: subtypes, legalities: legalities, frame: obj['frame'].to_i, loyalty: loyalty, card_type: type, layout: obj['layout'], reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'], border_color: obj['border_color'], oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version) if card
     end
 
     if set['next_page'].nil?
@@ -247,7 +249,7 @@ end
 
 # # #single card
 def create_card(id_or_obj)
-  if id_or_obj.class == Integer
+  if id_or_obj.is_a?(Integer)
     @url = "https://api.scryfall.com/cards/multiverse/#{id_or_obj}"
     obj = JSON.parse(Nokogiri::HTML(open(@url).read))
   else
@@ -262,21 +264,23 @@ def create_card(id_or_obj)
   subtypes = get_card_types(obj['type_line'])
   type = subtypes.shift
   edition = format_edition(obj['set_name'])
-  #for planeswalkers
   loyalty = obj['loyalty']&.to_i
-#  changing json format from { 'vintage' => 'legal' } to { 'vintage' => true }
   legalities = obj['legalities']
 
   mana = get_mana_cost(obj['mana_cost'])
   colors = get_colors(mana)
   subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
+  has_foil_version = obj['foil']
+  has_nonfoil_version = obj['nonfoil']
 
-  Card.create(name: obj['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: mana, converted_mana_cost: obj['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(obj['flavor_text']), layout: obj['layout'], frame: obj['frame'].to_i, loyalty: loyalty, reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: obj['border_color'], oracle_text: obj['oracle_text'] )
+  Card.create(name: obj['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: mana, converted_mana_cost: obj['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(obj['flavor_text']), layout: obj['layout'], frame: obj['frame'].to_i, loyalty: loyalty, reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: obj['border_color'], oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version )
 end
 
 def create_transform_cards(card_hash)
   card_face_specific_data, card_back_specific_data = card_hash['card_faces']
   face_id, back_id = card_hash['multiverse_ids']
+  has_nonfoil_version = obj['nonfoil']
+  has_foil_version = obj['foil']
   scryfall_uri = card_hash['scryfall_uri']
   border_color = card_hash['border_color']
   legalities = card_hash['legalities']
@@ -326,6 +330,8 @@ def create_transform_cards(card_hash)
   back = Card.new(name: back_name, edition: edition, legendary: back_legendary, multiverse_id: back_id, colors: back_colors, hi_res_img: back_hi_res, cropped_img: back_crop, power: back_power, toughness: back_toughness, artist: back_artist, mana: nil, card_type: back_type, subtypes: back_subtypes, flavor_text: back_flavor, flip_card_multiverse_id: back_twin, loyalty: back_loyalty, oracle_text: back_oracle_text)
 
   [face, back].each do | card | 
+    card.nonfoil_version_exists = has_nonfoil_version
+    card.foil_version_exists = has_foil_version
     card.scryfall_uri = scryfall_uri
     card.border_color = border_color
     card.legalities = legalities
@@ -339,8 +345,3 @@ def create_transform_cards(card_hash)
     card.save
   end  
 end
-
-# # Examples:
-
-# #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-# #   Character.create(name: 'Luke', movie: movies.first)
