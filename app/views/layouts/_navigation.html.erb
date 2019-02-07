@@ -5,11 +5,12 @@
   <%= link_to "Calculator", "/hand_odds_calculator" %> 
   <%= link_to "Find Cards by Property", "/cards/find_by_properties" %>
   <%= link_to "About", "/about" %>
+  <%= link_to "Reserved List", "/cards/reserved_list" %>
   <%= link_to "Log Out", "/logout", method: :delete if logged_in? %>
   
   <span class="account-settings"> 
     <%= link_to("Account Settings", user_path(current_user)) if logged_in? %> 
   </span>
 
-  <%= render "/layouts/search_bar" %>
+  <%= render "layouts/search_bar" %>
 </h5>
