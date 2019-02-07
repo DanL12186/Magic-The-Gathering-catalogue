@@ -1,5 +1,5 @@
 module Cards
-
+  #vintage editions
   Editions = {
     "Alpha" => "LEA",
     "Beta" => "LEB",
@@ -158,24 +158,40 @@ module Cards
       "Commander 2014" => "C14",
       "Commander 2015" => "C15",
       "Commander 2016" => "C16",
-      "Commander 2017" => "C17"
+      "Commander 2017" => "C17",
+      "Commander 2018" => "C18"
     },
     "Masters" => {
       "Modern Masters" => "MMA",
       "Modern Masters 2015" => "MM2",
+      "Modern Masters 2017" => "MM3",
       "Eternal Masters" => "EMA",
       "Iconic Masters" => "IMA",
       "Masters 25" => "A25",
-      "Ultimate Masters" => "UMA"
+      "Ultimate Masters" => "UMA",
+      "Ultimate Box Topper" => "PUMA"
+    },
+    "From the Vault" => {
+      "From the Vault: Dragons" => "DRB",
+      "From the Vault: Exiled" => "V09",
+      "From the Vault: Relics" => "V10",
+      "From the Vault: Legends" => "V11",
+      "From the Vault: Realms" => "V12",
+      "From the Vault: Twenty" => "V13",
+      "From the Vault: Annihilation" => "V14",
+      "From the Vault: Angels" => "V15",
+      "From the Vault: Lore" => "V16",
+      "From the Vault: Transform" => "V17"
     },
     "Masterpiece Sets" => {
       "Zendikar Expeditions" => "EXP",
       "Kaladesh Inventions" => "MS2",
-      "Amonkhet Invocations" => "MS3",
+      "Amonkhet Invocations" => "MS3"
     },
     "Un-Sets" => {
       "Unglued" => "UGL", 
-      "Unhinged" => "UNH"
+      "Unhinged" => "UNH",
+      "Unstable" => "UST"
     }
   };
 
@@ -297,13 +313,13 @@ module Cards
     "Commander 2014" => "C14",
     "Commander 2015" => "C15",
     "Commander 2016" => "C16",
-    # "Commander Anthology" => "CMA",
+    "Commander Anthology" => "CMA",
     "Commander 2017" => "C17",
-    # "Commander 2018" => "C18",
+    "Commander 2018" => "C18",
 
     "Unglued" => "UGL", 
     "Unhinged" => "UNH",
-    # "Unstable" => "UST",
+    "Unstable" => "UST",
 
     #editions that aren't sorted or added yet
 
@@ -311,17 +327,19 @@ module Cards
     
     "Modern Masters" => "MMA",
     "Modern Masters 2015" => "MM2",
+    "Modern Masters 2017" => "MM3",
     "Eternal Masters" => "EMA",
     "Iconic Masters" => "IMA",
     "Masters 25" => "A25",
     "Ultimate Masters" => "UMA",
+    "Ultimate Box Topper" => "PUMA",
 
     "Portal Second Age" => "PO2",
     "Portal Three Kingdoms" => "PTK",
     # "Starter 1999" => "S99",
     # "Starter 2000" => "S00",
 
-    # "Conspiracy" => "CNS",
+    "Conspiracy" => "CNS",
 
     "From the Vault: Dragons" => "DRB",
     "From the Vault: Exiled" => "V09",
