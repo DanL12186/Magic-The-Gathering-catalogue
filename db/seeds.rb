@@ -28,7 +28,7 @@ EARLY_CORE_SETS = {
   'Tenth Edition' => '10th-edition'
 }
 
-# # CardKingdom Set Scraping
+#won't get all prices unless all cards have been added; uses local card count for page #'s 
 def get_set_prices(set_code)
   @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
 
@@ -38,15 +38,15 @@ def get_set_prices(set_code)
   card_set_names = Card.where(edition: @set_name).map(&:name)
   card_set_names.each { | name |  @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
   
-  #won't get all prices unless all cards have been added; uses local card count for page #'s 
+  #set for mtgoldfish is actually the set code for full sets
   def get_mtgoldfish_set_prices(set_code)
-    set = set_code.upcase
-    #filter all sets that are two letters in mtg instead of 3
-    set = "NE" if set === "NEM"
+    set_code.upcase!
+    #filter all alt set codes that are two letters in mtgoldfish instead of 3
+    set_code = Cards::Editions[@set_name] if Cards::Editions[@set_name]
 
-    set += '_F' if set.match?(/MS2|MS3|EXP/)
+    set_code += '_F' if set_code.match?(/MS2|MS3|EXP/)
 
-    url = "https://www.mtggoldfish.com/index/#{set}#paper"
+    url = "https://www.mtggoldfish.com/index/#{set_code}#paper"
 
     #MTGoldFish loads its online prices before refreshing with its paper prices..
     #so it's necessary to wait on the thread so the page can provide the correct data
@@ -75,6 +75,7 @@ def get_set_prices(set_code)
     set = 'ravnica' if set_code.match?(/rav/i)
     set = "masterpiece-series-#{set.split('-')[-1]}" if set.match?(/expeditions|inventions|invocations/)
     set = EARLY_CORE_SETS[set.titleize] || set
+    
     total_pages = @cards.size.fdiv(60).ceil
 
     (1..total_pages).each do | idx |
@@ -83,7 +84,7 @@ def get_set_prices(set_code)
         card_divs = Nokogiri::HTML(open(url)).css('div.productItemWrapper.productCardWrapper')
 
         card_divs.each do | card_div | 
-          name = card_div.css('span a').text.sub("(Oversized Foil)",'').sub(/\((Foil|HOU|AKH)\)/,'').strip
+          name = card_div.css('span a').text.sub("(Oversized Foil)",'').sub(/\((Foil|HOU|AKH|KLD|AER|OGW.+|BFZ.+)\)/,'').strip
           price = card_div.css('.itemAddToCart.NM').text.match(/\d+\.\d+/)[0]
 
           if !@cards[name]
@@ -99,9 +100,15 @@ def get_set_prices(set_code)
 
   #tcg player does 7th edition, 8th edition etc but fourth fifth sixth edition
   def get_tcg_player_set_prices(set_code)
-    set = @set_name.sub('Time Spiral ', '').gsub(' ', '-').downcase.delete(':')
+    tcg_exceptions = { 
+      'Sixth Edition' => 'classic-sixth-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition',
+      'Tenth Edition' => '10th-edition', 'Time Spiral Timeshifted' => 'timeshifted', 'Amonkhet Invocations' => 'masterpiece-series-amonkhet-invocations',
+      'Kaladesh Inventions' => 'masterpiece-series-kaladesh-inventions', 'Ultimate Box Topper' => 'ultimate-masters-box-toppers'
+    }
+    
+    set = tcg_exceptions[@set_name] || @set_name.gsub(' ', '-').downcase.delete(':')
     set += @set_name.match(/magic 201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : @set_name.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
-    set = "classic-sixth-edition" if set == "sixth-edition"
+    
 
     url = "https://shop.tcgplayer.com/price-guide/magic/#{set}"
 
