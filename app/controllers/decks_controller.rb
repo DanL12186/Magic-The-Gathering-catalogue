@@ -7,16 +7,16 @@ class DecksController < ApplicationController
 
   def new
     @deck = Deck.new
-    @sorted = Card.all.sort_by(&:name)
+    # @sorted = Card.where(reprint: false).pluck(:name).sort
   end
 
   def calculate_custom_hand_odds
     deck_size = params[:deck_size].to_i
     cards_drawn = params[:cards_drawn].to_i
     multivar_args = get_param_stats(params).values
-    answer = multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
+    probability = multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
 
-    render json: answer
+    render json: probability
   end
 
   def show
