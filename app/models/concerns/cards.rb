@@ -132,9 +132,12 @@ module Cards
       "Aether Revolt" => "AER",
       "Amonkhet" => "AKH",
       "Hour of Devastation" => "HOU",
+    },
+    "Standard" => {
       "Ixalan" => "XLN",
       "Rivals of Ixalan" => "RIX",
       "Dominaria" => "DOM",
+      "Core Set 2019"=>"M19",
       "Guilds of Ravnica" => "GRN",
       "Ravnica Allegiance" => "RNA"
     },
@@ -149,7 +152,6 @@ module Cards
       "Magic 2014" => "M14",
       "Magic 2015" => "M15",
       "Magic Origins"=>"ORI",
-      "Core Set 2019"=>"M19" 
     }, 
     "Commander" => {
       "Commander" => "CMD",
@@ -295,6 +297,7 @@ module Cards
     "Rivals of Ixalan" => "RIX",
     "Dominaria" => "DOM",
     "Guilds of Ravnica" => "GRN",
+    "Ravnica Allegiance" => "RNA",
 
     #core sets
     "Magic 2010" => "M10",
