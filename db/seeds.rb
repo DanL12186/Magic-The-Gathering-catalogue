@@ -37,13 +37,20 @@ def get_set_prices(set_code)
 
   card_set_names = Card.where(edition: @set_name).map(&:name)
   card_set_names.each { | name |  @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
+
+  get_mtgoldfish_set_prices(set_code)
+  get_card_kingdom_set_prices(set_code)
+  get_tcg_player_set_prices(set_code)
+
+  @threads.each(&:join)
+
+  save_prices(set_code)
   
   #set for mtgoldfish is actually the set code for full sets
   def get_mtgoldfish_set_prices(set_code)
     set_code.upcase!
     #filter all alt set codes that are two letters in mtgoldfish instead of 3
     set_code = Cards::Editions[@set_name] if Cards::Editions[@set_name]
-
     set_code += '_F' if set_code.match?(/MS2|MS3|EXP/)
 
     url = "https://www.mtggoldfish.com/index/#{set_code}#paper"
@@ -109,7 +116,6 @@ def get_set_prices(set_code)
     set = tcg_exceptions[@set_name] || @set_name.gsub(' ', '-').downcase.delete(':')
     set += @set_name.match(/magic 201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : @set_name.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
     
-
     url = "https://shop.tcgplayer.com/price-guide/magic/#{set}"
 
     card_rows = Nokogiri::HTML(open(url)).css('tbody tr')
@@ -142,14 +148,6 @@ def get_set_prices(set_code)
       card.save unless card.prices.all? { | price | price == 'N/A' }
     end
   end
-
-  get_mtgoldfish_set_prices(set_code)
-  get_card_kingdom_set_prices(set_code)
-  get_tcg_player_set_prices(set_code)
-
-  @threads.each(&:join)
-
-  save_prices(set_code)
 end
 # # Scryfall updating: 
 # # each page is 175 cards; loop cards/175 times
@@ -172,7 +170,12 @@ def update_set(set_code)
       has_nonfoil_version = obj['nonfoil']
 
       card = Card.find_by(multiverse_id: obj['multiverse_ids'][0])
-      card.update(:hi_res_img => obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'], :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, subtypes: subtypes, legalities: legalities, frame: obj['frame'].to_i, loyalty: loyalty, card_type: type, layout: obj['layout'], reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'], border_color: obj['border_color'], oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version) if card
+
+      card.update(hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), cropped_img: obj['image_uris']['art_crop'].sub(/\?\d+$/,''), reserved: obj['reserved'], 
+      year: obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, 
+      subtypes: subtypes, legalities: legalities, frame: obj['frame'].to_i, loyalty: loyalty, card_type: type, layout: obj['layout'], 
+      reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'], border_color: obj['border_color'], flavor_text: get_flavor_text(obj['flavor_text']), 
+      oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version) if card
     end
 
     if set['next_page'].nil?
