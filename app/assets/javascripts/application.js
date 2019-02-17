@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require rails-ujs
-//= require jquery3
+//= require jquery3.min
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require lazyload
@@ -20,7 +20,9 @@
 
 $(document).on('turbolinks:load', function() {
   //lazyload images marked with lazyload: true
-  $("img").lazyload();
+  $("img").lazyload({
+    effect : "fadeIn"
+  });
   
   //change edition symbol color to silver or gold if card is uncommon or rare
   $(".rare, .uncommon, .mythic").on('mouseenter', function() {
