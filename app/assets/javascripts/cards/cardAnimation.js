@@ -81,7 +81,7 @@ $(document).on('turbolinks:load', function() {
   const flipCardOver = cardDiv => { cardDiv.style.transform = `rotateY(${180-(transformed ? 180 : 0)}deg)` }
 
   let transformed,
-  cardDiv;
+      cardDiv;
 
   //flip dual-sided cards over and change cropped image with a fade effect to match flipped side
   $('#transform').on('click', function() {
