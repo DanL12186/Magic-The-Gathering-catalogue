@@ -27,4 +27,8 @@ module ApplicationHelper
     truncated_name == card_name ? card_name : "#{truncated_name}..."
   end
 
+  def title(page_name)
+    content_for(:title) { page_name }
+  end
+
 end
