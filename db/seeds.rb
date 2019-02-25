@@ -6,9 +6,9 @@
 
 def get_editions(set_code)
   @ignore = Set.new([set_code, 'vma', 'me1', 'me2', 'me3', 'me4', 'tpr', 'pz1', 'pz2', 'pmodo', 'xmods', 'rin', 'ren', 'rqs', 'itp', 'prm', 'fbb', 'sum', 'f05', 'btd', 'prel', 'psus', 'ptc', 'wc97', 'wc98', 'wc99', 'wc00', 'wc01', 'wc02', 'wc03', 'md1', 'dpa', 'brb', 'bbd', 'f06', 'f07', 'f08', 'f09', 'p09', 'td0', 'j16', 'ps11', 'psal', 'pg07', 'g10' ].map(&:upcase)) #(ignore a card's own set and online/promo/foreign/odd sets)
-  set_codes_in_chronological_order = AllEditionsStandardCodes.invert.map.with_index { | (set_code, set_name), idx | set_code = set_code, set_name = idx }.to_h
+  set_codes_in_chronological_order = AllEditionsStandardCodes.invert.map.with_index { | (set_code, set_name), idx | [set_code, idx] }.to_h
 
-  cards = MTG::Card.where(set: set_code).all;
+  cards = MTG::Card.where(set: set_code).all
   cards.map! { | card | JSON.parse(card.serialize) }
   cards.each do | card_hash |
     card = Card.find_by(multiverse_id: card_hash["multiverseid"])
