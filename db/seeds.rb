@@ -37,14 +37,6 @@ def get_set_prices(set_code)
 
   card_set_names = Card.where(edition: @set_name).map(&:name)
   card_set_names.each { | name |  @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
-
-  get_mtgoldfish_set_prices(set_code)
-  get_card_kingdom_set_prices(set_code)
-  get_tcg_player_set_prices(set_code)
-
-  @threads.each(&:join)
-
-  save_prices(set_code)
   
   #set for mtgoldfish is actually the set code for full sets
   def get_mtgoldfish_set_prices(set_code)
@@ -148,6 +140,14 @@ def get_set_prices(set_code)
       card.save unless card.prices.all? { | price | price == 'N/A' }
     end
   end
+
+  get_mtgoldfish_set_prices(set_code)
+  get_card_kingdom_set_prices(set_code)
+  get_tcg_player_set_prices(set_code)
+
+  @threads.each(&:join)
+
+  save_prices(set_code)
 end
 # # Scryfall updating: 
 # # each page is 175 cards; loop cards/175 times
