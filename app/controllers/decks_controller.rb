@@ -7,7 +7,6 @@ class DecksController < ApplicationController
 
   def new
     @deck = Deck.new
-    # @sorted = Card.where(reprint: false).pluck(:name).sort
   end
 
   def calculate_custom_hand_odds
@@ -52,5 +51,5 @@ class DecksController < ApplicationController
   def deny_unauthorized_deck_access
     redirect_to root_path unless logged_in? && @deck.user_id == current_user.id
   end
-  
+
 end
