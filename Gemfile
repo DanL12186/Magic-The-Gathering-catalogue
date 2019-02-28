@@ -11,7 +11,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
 gem 'sassc-rails'
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '>= 3.3', '< 4.0'
 #fast, efficient pagination gem
 gem 'pagy'
 #Enables lazy-loading of images
