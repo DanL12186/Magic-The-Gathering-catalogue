@@ -9,18 +9,19 @@ $(document).on('turbolinks:load', function() {
     })
   }
 
-  //change edition symbol color to silver or gold if card is uncommon or rare
+  //change set/edition symbol color to silver or gold if card is uncommon or rare
   function listenForThumbHover() {
-    const grabEdition = currentElement => currentElement.parentElement.parentElement.previousElementSibling.firstElementChild
+    const getSet = thumb => thumb.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
+    ,     getSetSymbolIcon = thumb => thumb.parentElement.parentElement.previousElementSibling.firstElementChild;
 
     $('.thumb').on('mouseenter', function() {
-      const cardEditionSymbol = grabEdition(this)
-      const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
+      const edition = getSet(this)
+      ,     cardEditionSymbol = getSetSymbolIcon(this)
       ,     rarity  = cardEditionSymbol.getAttribute('class').replace(/^common|special/i, '')
       cardEditionSymbol.src = `/assets/editions/${edition} ${rarity}`;
     }).on('mouseleave click', function() {
-      const edition = this.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
-      const cardEditionSymbol = grabEdition(this)
+      const edition = getSet(this)
+      ,     cardEditionSymbol = getSetSymbolIcon(this)
       cardEditionSymbol.src = `/assets/editions/${edition}`;
     });
   };
@@ -73,7 +74,7 @@ $(document).on('turbolinks:load', function() {
     ,     response = $.post(`/cards/find_by_properties`, serializedForm);
     
     response.done(response => {
-      //temporary fix for cards not getting prices on cardkingdom
+      //fix for cards not getting prices on cardkingdom
       const cards = response ? response.map(JSON=> JSON.attributes).filter(card=> parseFloat(card.prices[1])) : null
 
       //remove 'Page:' and page tabs if all one page
@@ -165,7 +166,7 @@ $(document).on('turbolinks:load', function() {
       const sortButtonFunctions = {
         'sort_by_id' : fn => cards.sort((a,b) => a.multiverse_id - b.multiverse_id),
         'sort_by_name' : fn => cards.sort((a,b) => a.name.localeCompare(b.name)),
-        'sort_by_color' : fn => cards.sort((a,b) => colorOrder[a.color] - colorOrder[b.color]),
+        'sort_by_color' : fn => cards.sort((a,b) => colorOrder[a.color] - colorOrder[b.color] || a.name.localeCompare(b.name)),
         'sort_by_type' : fn => cards.sort((a,b) => typeOrder[a.card_type] - typeOrder[b.card_type]),
         'sort_by_price' : fn => cards.sort((a,b) => parseFloat(b.prices[1]) - parseFloat(a.prices[1]))
       }
