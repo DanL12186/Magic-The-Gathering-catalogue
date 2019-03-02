@@ -56,10 +56,6 @@ module CardHelper
   def lazy_load?(idx)
     idx > 1
   end
-
-  def wizards_reserved_list
-    "https://magic.wizards.com/en/articles/archive/official-reprint-policy-2010-03-10"
-  end
   
   def hashify_search_results(results_arr)
     results_arr.map! { | result_arr | { edition: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
@@ -91,7 +87,7 @@ module CardHelper
   end
 
 
-  def process_mtgfish_edition(edition) #c13 => commander 2013 edition, 
+  def process_mtgfish_edition(edition) #c13 => commander 2013 edition, masters 2017 edition
     set = edition.match?(/Alpha|Beta/) ? ("Limited Edition #{edition}") : edition.match?(/^Rev|Unl/) ? ("#{edition} Edition") : (edition)
     set += ' Core Set' if set.match?(/Magic 201[4-5]/)
     set.sub('Time Spiral ', '').gsub(' ', '+').delete("':")
