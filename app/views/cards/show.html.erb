@@ -10,9 +10,11 @@
     <% end %>
   </h1>
 
-  <h4> <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank", rel: "noopener noreferrer" %> 
+  <h4> 
+    <%= link_to "Official Gatherer Page", gatherer_link(@card.multiverse_id), target: "_blank", rel: "noopener noreferrer" %> 
+    
     <% if @card.reserved %>
-      <%= link_to image_tag("reserved list"), "/cards/reserved_list", target: "_blank", rel: "noopener noreferrer", style: 'margin-left: 1%' %>
+      <%= link_to image_tag("reserved list"), "/cards/reserved_list", style: 'margin-left: 1%' %>
     <% end %>
     
     <% if @card.layout.match?(/split|flip/) %>
