@@ -73,7 +73,7 @@ module DeckHandStats
 
     deck_total = hand_deck_count_pairs.map { | k, v | v.first }.sum
     hand_total = hand_deck_count_pairs.map { | k, v | v.last }.sum
-    #accounts for when there are fewer total target cards than drawn cards
+    #ensures there are fewer total target cards than drawn cards
     if hand_total < params[:cards_drawn].to_i
       hand_deck_count_pairs[len] = [ params[:deck_size].to_i - deck_total, params[:cards_drawn].to_i - hand_total ]
     end

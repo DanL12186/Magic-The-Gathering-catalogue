@@ -1,4 +1,4 @@
-//===Boostrap/Pagy Pagination Styling===
+//=====Boostrap/Pagy Pagination Styling override======
 .pagination > li > a,
 .pagination > li > span {
   color: #78b478;
@@ -8,7 +8,7 @@
   //font-family: MagicMedieval;
 }
 
-//overrides for default Next/Prev pagination buttons
+//Next/Prev pagination buttons
 .pagination > li:first-child > a, 
 .pagination > li:first-child > span {
     border-top-left-radius: 10%;
