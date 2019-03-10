@@ -19,16 +19,17 @@ class CardsController < ApplicationController
     render json: names.to_s
   end
 
+  #only called if card hasn't been updated in > 24h
   def update_prices
-    #info should just be passed as params to save a query
     card = Card.find(params[:id])
-    flip = card.flip_card_multiverse_id ? Card.find_by(multiverse_id: card.flip_card_multiverse_id) : nil
+    flip = Card.find_by(multiverse_id: card.flip_card_multiverse_id) if card.flip_card_multiverse_id
     name = card.name
     set  = card.edition
     
     #updated_at prevents repeated views from triggering updates after a necessary update was performed but no prices changed
+    #check needs_updating? again so backclicks don't cause a retrigger
     if needs_updating?(card.updated_at, card.prices)
-      prices = [ get_mtgoldfish_price(name, set),  get_card_kingdom_price(name, set),  get_tcg_player_price(name, set)]
+      prices = [ get_mtgoldfish_price(name, set),  get_card_kingdom_price(name, set),  get_tcg_player_price(name, set) ]
       card.update(prices: prices, updated_at: Time.now)
 
       #ensure later that only the front of a card can be directly accessed; for now this will do.
