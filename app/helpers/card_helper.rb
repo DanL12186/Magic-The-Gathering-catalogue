@@ -61,15 +61,6 @@ module CardHelper
     results_arr.map! { | result_arr | { edition: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
   end
 
-  def add_prices_to_all
-    cards = Card.where(prices: [])
-    cards.each do | card | 
-      args = [card.name, card.edition]
-      prices = [get_mtgoldfish_price(*args), get_card_kingdom_price(*args), get_tcg_player_price(*args) ]
-      card.update(prices: prices)
-    end
-  end
-
   def handle_foil(edition) #should just use a bool later as a card attr. card kingdom just gets '-foil' at the end; only for cards that also have nonfoil versions
     edition.match?(/From the Vault|Box Topper|Commander's Arsenal|Expeditions|Invocations|Inventions/) ? ':Foil' : ''
   end
@@ -106,7 +97,7 @@ module CardHelper
   def get_mtgoldfish_price(card_name, card_set)
     url = mtgoldfish_url(card_name, card_set)
     page = scrape_page_if_exists(url)
-    price = page ? page.css('.price-box-price').children.last.try(:text) : nil
+    price = page.css('.price-box-price').children.last.try(:text) if page
     price ? price.delete(',') : 'N/A'
   end
 
@@ -156,7 +147,7 @@ module CardHelper
   def get_tcg_player_price(card_name, card_set)
     url = tcg_player_url(card_name, card_set)
     page = scrape_page_if_exists(url)
-    price = page ? page.css('div.price-point.price-point--market td').first.text.delete('$,') : nil
+    price = page.css('div.price-point.price-point--market td').first.text.delete('$,') if page
 
     price || 'N/A'
   end
@@ -167,8 +158,8 @@ module CardHelper
   end
 
   def ebay_search_link(card_name, card_set)
-    set = card_set.downcase.gsub(' ', '+')
-    name = card_name.downcase.gsub(' ', '+')
+    set, name = [card_set, card_name].map { | str | str.downcase.gsub(' ', '+') }
+    
     "https://www.ebay.com/sch/i.html?&_nkw=#{set}+#{name}"
   end
   #######################################################################################################
