@@ -11,7 +11,7 @@
 
 body {
     padding-left: 50px;
-    background-color: rgb(1, 22, 9);
+    background-color: rgb(1, 22, 9); //1,29,12 is decent too
     background-image: url('/assets/wall-4-light.png');
     color: silver;
 }
@@ -25,7 +25,7 @@ input, select, button {
 }
 
 a {
-    color: rgb(120, 180, 120);
+    color: rgb(150, 197, 150);
 }
 
 //********navbar tweaks***//
@@ -42,7 +42,7 @@ a {
 
 .navbar a {
     padding-right: 2%;
-    margin-left: 2%;
+    margin-left: 1%;
 }
 
 //****Search Bar***//
@@ -50,13 +50,14 @@ a {
     float: right;
     padding-bottom: 10px;
     margin-right: 10px;
-    font-size: 0.9em; 
-    font-family: 'Times New Roman'
+    font-size: 0.9em;
+    font-family: 'Times New Roman';
 }
 
 .search-input {
     text-align: center;
     border-radius: 12px;
+    border: 1px darkblue;
 }
 //*****************//
 
