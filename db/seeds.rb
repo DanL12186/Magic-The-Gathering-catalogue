@@ -90,8 +90,9 @@ def create_set(set_code)
   end
 end
 
+#/P accounts for cards with Phyrexian casting costs (e.g. {G/P} means 'either one green mana or 2 life')
 def get_mana_cost(str)
-  str.delete('{}').chars.map { | char | @mana_abbrev[char] || char }
+  str.delete('{}/P').chars.map { | char | @mana_abbrev[char] || char }
 end
 
 @mana_abbrev = {
