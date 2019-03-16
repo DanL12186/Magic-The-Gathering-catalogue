@@ -1,4 +1,5 @@
 <h5 class = "navbar"> 
+  <%= link_to "Sign Up", "/signup" unless logged_in? %>
   <%= link_to "Log In", "/login" unless logged_in? %>
   <%= link_to "Home", root_path %>  
   <%= link_to "Your Decks", decks_path if logged_in? %> 
