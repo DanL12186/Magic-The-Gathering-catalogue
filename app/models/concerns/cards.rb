@@ -188,7 +188,8 @@ module Cards
     "Masterpiece Sets" => {
       "Zendikar Expeditions" => "EXP",
       "Kaladesh Inventions" => "MS2",
-      "Amonkhet Invocations" => "MS3"
+      "Amonkhet Invocations" => "MS3",
+      "Ravnica Allegiance Mythic Edition" => "MED"
     },
     "Un-Sets" => {
       "Unglued" => "UGL", 
@@ -298,6 +299,7 @@ module Cards
     "Dominaria" => "DOM",
     "Guilds of Ravnica" => "GRN",
     "Ravnica Allegiance" => "RNA",
+    "Ravnica Allegiance Mythic Edition" => "MED",
 
     #core sets
     "Magic 2010" => "M10",
@@ -343,6 +345,7 @@ module Cards
     # "Starter 2000" => "S00",
 
     "Conspiracy" => "CNS",
+    "Conspiracy: Take the Crown" => "CN2",
 
     "From the Vault: Dragons" => "DRB",
     "From the Vault: Exiled" => "V09",
