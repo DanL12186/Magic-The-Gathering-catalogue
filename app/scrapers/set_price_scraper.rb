@@ -8,25 +8,18 @@
 #################################################################################################################
 require 'open-uri'
 
-EARLY_CORE_SETS = { 
-  'Fourth Edition' => '4th-edition', 
-  'Fifth Edition' => '5th-edition',
-  'Sixth Edition' => '6th-edition', 
-  'Seventh Edition' => '7th-edition',
-  'Eighth Edition' => '8th-edition',
-  'Ninth Edition' => '9th-edition',
-  'Tenth Edition' => '10th-edition'
-}
+module SetScraper
 
-def get_set_prices(set_code)
-  @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
+  EARLY_CORE_SETS = { 
+    'Fourth Edition' => '4th-edition', 
+    'Fifth Edition' => '5th-edition',
+    'Sixth Edition' => '6th-edition', 
+    'Seventh Edition' => '7th-edition',
+    'Eighth Edition' => '8th-edition',
+    'Ninth Edition' => '9th-edition',
+    'Tenth Edition' => '10th-edition'
+  }
 
-  @threads = []
-  @cards = {}
-
-  card_set_names = Card.where(edition: @set_name).map(&:name)
-  card_set_names.each { | name | @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
-  
   #set for mtgoldfish is actually the set code for full sets
   def get_mtgoldfish_set_prices(set_code)
     set_code.upcase!
@@ -42,7 +35,7 @@ def get_set_prices(set_code)
       page = Thread.new { open(url) }.value
       Nokogiri::HTML(page)
     end.value.css('tbody tr')
- 
+
     card_rows.each do | card_row |
       name = card_row.css('td a').text
       price = card_row.css('td.text-right').text.match(/\d+\,*\d*\.\d+/)[0].delete(',')
@@ -59,7 +52,7 @@ def get_set_prices(set_code)
   end
 
   def get_card_kingdom_set_prices(set_code)
-    set = @set_name.match(/Magic 201[0-5]/) ? "#{@set_name.match(/\d+/)}-core-set" : @set_name.delete("':")
+    set = @set_name.match?(/Magic 201[0-5]/) ? "#{@set_name.match(/\d+/)}-core-set" : @set_name.delete("':")
     set = set.gsub(' ', '-').downcase
     set = 'ravnica' if set_code.match?(/rav/i)
     set = "masterpiece-series-#{set.split('-')[-1]}" if set.match?(/expeditions|inventions|invocations/)
@@ -131,11 +124,21 @@ def get_set_prices(set_code)
     end
   end
 
-  get_mtgoldfish_set_prices(set_code)
-  get_card_kingdom_set_prices(set_code)
-  get_tcg_player_set_prices(set_code)
+  def get_set_prices(set_code)
+    @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
 
-  @threads.each(&:join)
+    @threads = []
+    @cards = {}
 
-  save_prices(set_code)
+    card_set_names = Card.where(edition: @set_name).map(&:name)
+    card_set_names.each { | name | @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
+
+    get_mtgoldfish_set_prices(set_code)
+    get_card_kingdom_set_prices(set_code)
+    get_tcg_player_set_prices(set_code)
+
+    @threads.each(&:join)
+
+    save_prices(set_code)
+  end
 end
