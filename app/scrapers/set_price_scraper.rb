@@ -8,7 +8,7 @@
 #################################################################################################################
 require 'open-uri'
 
-module SetScraper
+class SetScraper
 
   EARLY_CORE_SETS = { 
     'Fourth Edition' => '4th-edition', 
@@ -21,7 +21,7 @@ module SetScraper
   }
 
   #set for mtgoldfish is actually the set code for full sets
-  def get_mtgoldfish_set_prices(set_code)
+  def self.get_mtgoldfish_set_prices(set_code)
     set_code.upcase!
     #filter all alt set codes that are two letters in mtgoldfish instead of 3
     set_code = Cards::Editions[@set_name] if Cards::Editions[@set_name]
@@ -51,7 +51,7 @@ module SetScraper
     end
   end
 
-  def get_card_kingdom_set_prices(set_code)
+  def self.get_card_kingdom_set_prices(set_code)
     set = @set_name.match?(/Magic 201[0-5]/) ? "#{@set_name.match(/\d+/)}-core-set" : @set_name.delete("':")
     set = set.gsub(' ', '-').downcase
     set = 'ravnica' if set_code.match?(/rav/i)
@@ -81,7 +81,7 @@ module SetScraper
   end
 
   #tcg player does 7th edition, 8th edition etc but fourth fifth sixth edition
-  def get_tcg_player_set_prices(set_code)
+  def self.get_tcg_player_set_prices(set_code)
     tcg_exceptions = { 
       'Sixth Edition' => 'classic-sixth-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition',
       'Tenth Edition' => '10th-edition', 'Time Spiral Timeshifted' => 'timeshifted', 'Amonkhet Invocations' => 'masterpiece-series-amonkhet-invocations',
@@ -107,7 +107,7 @@ module SetScraper
     end
   end
 
-  def save_prices(set_code)
+  def self.save_prices(set_code)
     @cards.each do | name, prices |
       edition = @set_name
       #could probably save a lot of querying by saving all the cards as objects to the @cards hash, updating and saving from there.
@@ -115,8 +115,7 @@ module SetScraper
 
       #Sites strip I18n from card names :(
       if !card
-        matched_editions = Card.where(edition: edition)
-        card = matched_editions.find { | card | I18n.transliterate(card.name) == name }
+        card = @card_set_names.find { | card | I18n.transliterate(card.name) == name }
         next unless card
       end
       card.prices = prices
@@ -124,13 +123,13 @@ module SetScraper
     end
   end
 
-  def get_set_prices(set_code)
+  def self.get_set_prices(set_code)
     @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
 
     @threads = []
     @cards = {}
 
-    card_set_names = Card.where(edition: @set_name).map(&:name)
+    @card_set_names = Card.where(edition: @set_name).pluck(:name)
     card_set_names.each { | name | @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
 
     get_mtgoldfish_set_prices(set_code)
