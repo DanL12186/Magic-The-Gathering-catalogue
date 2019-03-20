@@ -222,7 +222,7 @@ module Cards
     "Alliances"=>"ALL",
     "Mirage"=>"MIR",
     "Visions"=>"VIS",
-    "Weatherlight"=>"WTL",
+    "Weatherlight"=>"WTH",
     "Tempest"=>"TMP",
     "Stronghold"=>"STH",
     "Exodus"=>"EXO",
