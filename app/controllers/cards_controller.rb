@@ -76,7 +76,7 @@ class CardsController < ApplicationController
   private
 
   def get_filter_search_results
-    #required_attributes are required for the page to display and for sort buttons to work; filter_options are the user's selection of filters.
+    #required_attributes are required for the page to display and for sort buttons to work; filters are the user's selection of options.
     required_attributes = [:rarity, :edition, :converted_mana_cost, :prices, :card_type, :color, :name, :hi_res_img, :multiverse_id]
     filter_options = Card.attribute_names
     
