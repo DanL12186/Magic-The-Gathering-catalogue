@@ -3,19 +3,22 @@
 
 # #get other edition printings from MTG SDK after loading card set
 # #set code, e.g. 'mir', 'hml', 'all', 'lea'
-
 def get_editions(set_code)
-  set_codes_in_chronological_order = AllEditionsStandardCodes.invert.map.with_index { | (set_code, set_name), idx | [set_code, idx] }.to_h
-  cards = MTG::Card.where(set: set_code).all
+  set_codes_in_chronological_order = AllEditionsStandardCodes.invert.map.with_index { | (set_code, _), idx | [set_code, idx] }.to_h
+  set_name = AllEditionsStandardCodes.invert[set_code.upcase]
   
-  cards.map! { | card | JSON.parse(card.serialize) }
+  sdk_cards = MTG::Card.where(set: set_code).all
+  sdk_cards.map! { | card | JSON.parse(card.serialize) }
 
-  cards.each do | card_hash |
-    card = Card.find_by(multiverse_id: card_hash["multiverseid"])
-    next unless card && !card_hash['supertypes'].include?('Basic')
-    other_editions = card_hash["printings"].reject { | ed | !set_codes_in_chronological_order[ed] || ed == set_code.upcase }.sort_by { | set_code | set_codes_in_chronological_order[set_code] }
+  db_cards = Card.where(edition: set_name)
+  
+  db_cards.each do | db_card |
+    sdk_card = sdk_cards.find { | card | card['name'] == db_card.name }
+    next unless sdk_card && !sdk_card['supertypes'].include?('Basic')
+   
+    other_editions = sdk_card["printings"].reject { | ed | !set_codes_in_chronological_order[ed] || ed == set_code.upcase }.sort_by { | code | set_codes_in_chronological_order[code] }
     
-    card.update(other_editions:  other_editions)
+    db_card.update(other_editions: other_editions) unless other_editions.empty?
   end
 end
 
