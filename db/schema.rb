@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_215429) do
+ActiveRecord::Schema.define(version: 2019_03_24_000415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_215429) do
     t.integer "total_art_ratings", default: 0
     t.boolean "foil_version_exists", default: false
     t.boolean "nonfoil_version_exists", default: true
+    t.string "card_number"
     t.index ["edition"], name: "index_cards_on_edition"
     t.index ["hand_picked"], name: "index_cards_on_hand_picked", where: "(hand_picked = true)"
     t.index ["iconic"], name: "index_cards_on_iconic", where: "(iconic = true)"
