@@ -1,3 +1,5 @@
+###Card-building Tools###
+
 # require 'open-uri'
 # require 'mtg_sdk'
 
@@ -31,6 +33,17 @@ def update_set(set_code)
     card_set = set['data']
 
     card_set.each do | obj | 
+      next if obj['layout'] == 'split'
+
+      card = Card.find_by(multiverse_id: obj['multiverse_ids'][0])
+
+      #allow transform card method to take over for flip cards
+      if card.layout == 'transform'
+        back = Card.find_by(multiverse_id: card.flip_card_multiverse_id)
+        create_transform_cards(obj, card, back)
+        next
+      end
+
       legendary = legendary?(obj['type_line'])
       legalities = obj['legalities']
       legendary = obj['type_line'].include?("Legendary")
@@ -41,14 +54,13 @@ def update_set(set_code)
       subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
       has_foil_version = obj['foil']
       has_nonfoil_version = obj['nonfoil']
-
-      card = Card.find_by(multiverse_id: obj['multiverse_ids'][0])
+      card_number = obj['collector_number']
 
       card.update(hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), cropped_img: obj['image_uris']['art_crop'].sub(/\?\d+$/,''), reserved: obj['reserved'], 
       year: obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, 
       subtypes: subtypes, legalities: legalities, frame: obj['frame'].to_i, loyalty: loyalty, card_type: type, layout: obj['layout'], 
       reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'], border_color: obj['border_color'], flavor_text: get_flavor_text(obj['flavor_text']), 
-      oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version) if card
+      oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number) if card
     end
 
     if set['next_page'].nil?
@@ -132,15 +144,15 @@ def get_colors(mana)
 end
 
 # # #single card
-def create_card(id_or_obj)
-  if id_or_obj.is_a?(Integer)
-    @url = "https://api.scryfall.com/cards/multiverse/#{id_or_obj}"
-    obj = JSON.parse(Nokogiri::HTML(open(@url).read))
+def create_card(id_or_hash)
+  if id_or_hash.is_a?(Integer)
+    @url = "https://api.scryfall.com/cards/multiverse/#{id_or_hash}"
+    hash = JSON.parse(Nokogiri::HTML(open(@url).read))
   else
-    obj = id_or_obj
+    hash = id_or_hash
   end
-  if obj['layout'] == 'transform'
-    create_transform_cards(obj)
+  if hash['layout'] == 'transform'
+    create_transform_cards(hash)
     return
   end
 
@@ -156,17 +168,19 @@ def create_card(id_or_obj)
   subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
   has_foil_version = obj['foil']
   has_nonfoil_version = obj['nonfoil']
+  card_number = obj['collector_number']
 
-  Card.create(name: obj['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: mana, converted_mana_cost: obj['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(obj['flavor_text']), layout: obj['layout'], frame: obj['frame'].to_i, loyalty: loyalty, reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: obj['border_color'], oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version )
+  Card.create(name: obj['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: mana, converted_mana_cost: obj['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(obj['flavor_text']), layout: obj['layout'], frame: obj['frame'].to_i, loyalty: loyalty, reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: obj['border_color'], oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number )
 end
 
-def create_transform_cards(card_hash)
+def create_transform_cards(card_hash, card_face_object = nil, card_back_object = nil)
   card_face_specific_data, card_back_specific_data = card_hash['card_faces']
   face_id, back_id = card_hash['multiverse_ids']
-  has_nonfoil_version = obj['nonfoil']
-  has_foil_version = obj['foil']
+  has_nonfoil_version = card_hash['nonfoil']
+  has_foil_version = card_hash['foil']
   scryfall_uri = card_hash['scryfall_uri']
   border_color = card_hash['border_color']
+  card_number = card_hash['collector_number']
   legalities = card_hash['legalities']
   reserved = card_hash['reserved']
   reprint = card_hash['reprint']
@@ -193,7 +207,15 @@ def create_transform_cards(card_hash)
   face_loyalty = card_face_specific_data['loyalty']&.to_i
   face_oracle_text = card_face_specific_data['oracle_text']
   
-  face = Card.new(name: face_name, edition: edition, legendary: face_legendary, multiverse_id: face_id, colors: face_colors, hi_res_img: face_hi_res, cropped_img: face_crop, power: face_power, toughness: face_toughness, artist: face_artist, mana: face_mana, card_type: face_type, subtypes: face_subtypes, flavor_text: face_flavor, flip_card_multiverse_id: face_twin, loyalty: face_loyalty, oracle_text: face_oracle_text)
+  card_face_attributes = { name: face_name, edition: edition, legendary: face_legendary, multiverse_id: face_id, colors: face_colors, hi_res_img: face_hi_res, cropped_img: face_crop, power: face_power, toughness: face_toughness, artist: face_artist, mana: face_mana, card_type: face_type, subtypes: face_subtypes, flavor_text: face_flavor, flip_card_multiverse_id: face_twin, loyalty: face_loyalty, oracle_text: face_oracle_text, card_number: "#{card_number}a" }
+  
+  #if updating, assign attributes to passed in Ruby object; otherwise create one via hash.
+  if !!card_face_object 
+    face = card_face_object
+    face.assign_attributes(card_face_attributes)
+  else
+    face = Card.new(card_face_attributes)
+  end
 
   #card_back attributes
   back_name = card_back_specific_data['name']
@@ -211,7 +233,14 @@ def create_transform_cards(card_hash)
   back_loyalty = card_back_specific_data['loyalty']&.to_i
   back_oracle_text = card_back_specific_data['oracle_text']
 
-  back = Card.new(name: back_name, edition: edition, legendary: back_legendary, multiverse_id: back_id, colors: back_colors, hi_res_img: back_hi_res, cropped_img: back_crop, power: back_power, toughness: back_toughness, artist: back_artist, mana: nil, card_type: back_type, subtypes: back_subtypes, flavor_text: back_flavor, flip_card_multiverse_id: back_twin, loyalty: back_loyalty, oracle_text: back_oracle_text)
+  card_back_attributes = { name: back_name, edition: edition, legendary: back_legendary, multiverse_id: back_id, colors: back_colors, hi_res_img: back_hi_res, cropped_img: back_crop, power: back_power, toughness: back_toughness, artist: back_artist, mana: nil, card_type: back_type, subtypes: back_subtypes, flavor_text: back_flavor, flip_card_multiverse_id: back_twin, loyalty: back_loyalty, oracle_text: back_oracle_text, card_number: "#{card_number}b" }
+
+  if !!card_back_object
+    back = card_back_object
+    back.assign_attributes(card_back_attributes)
+  else
+    back = Card.new(card_back_attributes)
+  end
 
   [face, back].each do | card | 
     card.nonfoil_version_exists = has_nonfoil_version
@@ -227,5 +256,5 @@ def create_transform_cards(card_hash)
     card.year = year
 
     card.save
-  end  
+  end
 end
