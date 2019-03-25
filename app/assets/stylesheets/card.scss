@@ -67,6 +67,10 @@
     position: absolute;
 }
 
+.card_show:hover {
+    box-shadow: 1px 1px 8px rgba(0,0,0,1.0);
+}
+
 .card_show.alpha {
     border-radius: 6%;
 }
@@ -74,10 +78,6 @@
 #cropped-img {
     min-height: 460px; 
     max-height: 500px;
-}
-
-.card_show:hover {
-    box-shadow: 1px 1px 8px rgba(0,0,0,1.0);
 }
 
 #rotate {
