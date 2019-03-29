@@ -62,7 +62,7 @@ module CardHelper
   end
 
   def handle_foil(edition) #should just use a bool later as a card attr. card kingdom just gets '-foil' at the end; only for cards that also have nonfoil versions
-    edition.match?(/From the Vault|Box Topper|Commander's Arsenal|Expeditions|Invocations|Inventions/) ? ':Foil' : ''
+    edition.match?(/From the Vault|Box Topper|Commander's Arsenal|Expeditions|Invocations|Inventions|Mythic Edition/) ? ':Foil' : ''
   end
 
   ##################################### Links and Scraping #####################################
