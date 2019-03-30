@@ -19,6 +19,8 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
+  'use strict';
+  
   //lazyload images marked with lazyload: true
   $("img").lazyload({
     effect : "fadeIn"
