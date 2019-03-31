@@ -1,9 +1,11 @@
 $(document).on('turbolinks:load', function() {
-  
+  //clear search bar on page refresh
+  this.getElementById('search').value = ''
+
   let cardNames,
       lastMatch;
 
-  $('#search').on('focus', ()=> {
+  $('#search').on('focus', () => {
     if (!cardNames) {
       const response = $.get('/cards/card_names');
       response.done(names => {
