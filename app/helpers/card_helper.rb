@@ -58,8 +58,8 @@ module CardHelper
   end
 
   #Make sure the backs of flip cards link to the front face of the card
-  def ensure_not_flip_card_back(card_num, name)
-    card_num&.end_with?('b') ? Card.find_by(multiverse_id: card.flip_card_multiverse_id).name : name
+  def ensure_not_flip_card_back(card_num, name, flip_id)
+    card_num&.end_with?('b') ? Card.find_by(multiverse_id: flip_id).name : name
   end
   
   def hashify_search_results(results_arr)
