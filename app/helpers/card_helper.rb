@@ -53,8 +53,13 @@ module CardHelper
     (Time.now - last_updated) > 24.hours
   end
 
-  def lazy_load?(idx)
-    idx > 1
+  def lazy_load?(idx, threshold = 1)
+    idx > threshold
+  end
+
+  #Make sure the backs of flip cards link to the front face of the card
+  def ensure_not_flip_card_back(card_num, name)
+    card_num&.end_with?('b') ? Card.find_by(multiverse_id: card.flip_card_multiverse_id).name : name
   end
   
   def hashify_search_results(results_arr)
