@@ -8,6 +8,6 @@
   <h2> <%= truncate_at_three_words(card.name) %> </h2> 
 
   <div class = "col-sm-2 filter"> 
-    <%= link_to ( image_tag card.img_url, class: "filter-img #{card.edition.downcase}", lazy: (true if idx > 5) ), card_path(card.edition, card.name) %> 
+    <%= link_to ( image_tag card.img_url, class: "filter-img #{card.edition.downcase}", lazy: (true if idx > 5) ), card_path(card.edition, card.card_number&.include?('b') ? Card.find_by(multiverse_id: card.flip_card_multiverse_id).name : card.name) %>
   </div>
 <% end %>
