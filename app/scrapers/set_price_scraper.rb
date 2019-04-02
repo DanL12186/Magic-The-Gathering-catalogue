@@ -130,7 +130,7 @@ class SetScraper
     @cards = {}
 
     @card_set_names = Card.where(edition: @set_name).pluck(:name)
-    card_set_names.each { | name | @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
+    @card_set_names.each { | name | @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
 
     get_mtgoldfish_set_prices(set_code)
     get_card_kingdom_set_prices(set_code)
