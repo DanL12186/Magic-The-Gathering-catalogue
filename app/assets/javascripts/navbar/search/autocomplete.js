@@ -21,9 +21,9 @@ $(document).on('turbolinks:load', function() {
   //autocomplete search for finding cards by name
   $('#search').on('keyup', event => {
     if (event.target.value) {
-      const userEntry = event.target.value.toLowerCase()
-      ,     matches = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry))
-      ,     datalist = document.getElementById('autocomplete')
+      const userEntry         = event.target.value.toLowerCase()
+      ,     matches           = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry))
+      ,     datalist          = document.getElementById('autocomplete')
       ,     firstEightMatches = matches.slice(0,8);
 
       //only update on change
