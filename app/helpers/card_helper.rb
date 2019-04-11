@@ -1,5 +1,6 @@
+require 'open-uri'
+
 module CardHelper
-  require 'open-uri'
   include Pagy::Frontend
   include Cards
   
