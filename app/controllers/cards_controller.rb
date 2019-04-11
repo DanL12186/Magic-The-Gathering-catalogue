@@ -32,9 +32,8 @@ class CardsController < ApplicationController
     #check needs_updating? again so backclicks don't cause a retrigger
     if needs_updating?(card.updated_at, card.prices)
       prices = [ get_mtgoldfish_price(name, set),  get_card_kingdom_price(name, set),  get_tcg_player_price(name, set) ]
-      card.update(prices: prices, updated_at: Time.now)
 
-      #ensure later that only the front of a card can be directly accessed; for now this will do.
+      card.update(prices: prices, updated_at: Time.now)
       flip.update(prices: prices, updated_at: Time.now) if flip
     end
 
