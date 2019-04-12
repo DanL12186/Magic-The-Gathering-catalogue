@@ -24,12 +24,13 @@ def get_editions(set_code)
   end
 end
 
-# # Scryfall updating: 
-# # each page is 175 cards; loop cards/175 times
+# # Scryfall updating: each page is 175 cards;
 def update_set(set_code)
   url = "https://api.scryfall.com/cards/search?q=set:#{set_code}"
   set = JSON.parse(open(url).read)
-  ((set['total_cards']/175) + 1).times do
+  page_count = set['total_cards'].fdiv(175).ceil
+
+  page_count.times do
     card_set = set['data']
 
     card_set.each do | obj | 
@@ -40,13 +41,12 @@ def update_set(set_code)
       #allow transform card method to take over for flip cards
       if card.layout == 'transform'
         back = Card.find_by(multiverse_id: card.flip_card_multiverse_id)
-        create_or_update_transform_cards(obj, card, back)
+        create_or_update_transform_card(obj, card, back)
         next
       end
 
       legendary = legendary?(obj['type_line'])
       legalities = obj['legalities']
-      legendary = obj['type_line'].include?("Legendary")
       loyalty = obj['loyalty']&.to_i
       subtypes = get_card_types(obj['type_line'])
       type = subtypes.shift
@@ -152,7 +152,7 @@ def create_card(id_or_hash)
     hash = id_or_hash
   end
   if hash['layout'] == 'transform'
-    create_or_update_transform_cards(hash)
+    create_or_update_transform_card(hash)
     return
   end
 
@@ -173,7 +173,7 @@ def create_card(id_or_hash)
   Card.create(name: obj['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => obj['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => obj['reserved'], :year => obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, power: obj['power'].try(:to_i), artist: obj['artist'], toughness: obj['toughness'].try(:to_i), mana: mana, converted_mana_cost: obj['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(obj['flavor_text']), layout: obj['layout'], frame: obj['frame'].to_i, loyalty: loyalty, reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: obj['border_color'], oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number )
 end
 
-def create_or_update_transform_cards(card_hash, card_face_object = nil, card_back_object = nil)
+def create_or_update_transform_card(card_hash, card_face_object = nil, card_back_object = nil)
   card_face_specific_data, card_back_specific_data = card_hash['card_faces']
   face_id, back_id = card_hash['multiverse_ids']
   has_nonfoil_version = card_hash['nonfoil']
