@@ -4,5 +4,7 @@ class Deck < ApplicationRecord
   has_many :card_types, through: :cards
   has_many :colors, through: :cards
 
+  validates :name, uniqueness: { scope: :user_id }
+
   belongs_to :user
 end
