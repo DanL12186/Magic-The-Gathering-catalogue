@@ -1,0 +1,45 @@
+<%= form_for(deck) do | form | %>
+
+  <div class="field">
+    <%= form.hidden_field :user_id, value: current_user.id %>
+    <%= form.label :deck_name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <br>
+
+  <%= fields_for :decks_cards do | dc | %>
+
+    <div class="nested_fields">
+      <div class="field">
+        <%= dc.label :card %>
+
+        <span class="deck_creator_search_field">
+          <%= form_with url: '#', method: "GET", local: true, id: 'deckCardSearch' do %>
+            <%= text_field_tag :search, params[:search], id: 'deck_card_find', list: 'deck_build_search', required: true, autocomplete: 'off', placeholder: 'Add a Card'%>
+            <datalist id="deck_build_search"> </datalist>
+          <% end %>
+          <button id = 'addCard'>Add Card</button>
+        </span>
+
+        <%= dc.text_area(:list)%>
+      </div>
+
+      <div class="field">
+        <%= dc.label :copies %>
+        <%= dc.number_field :copies, min: 1, max: 4, value: 1 %>
+      </div>
+      <br>
+      <div class="field">
+        <%= dc.label :Basic_Land %>
+        <%= dc.select(:name, options_for_select(['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'])) %>
+      </div>
+      <div class="field">
+        <%= dc.label :copies %>
+        <%= dc.number_field :copies, min: 1, max: 24 %>
+      </div>
+    </div>
+
+  <% end %>
+  <button id=submit_form>Create Deck</button>
+<% end %>
