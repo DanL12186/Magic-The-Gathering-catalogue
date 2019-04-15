@@ -1,4 +1,8 @@
 $(document).on("turbolinks:load", function() {
+  //clear autocomplete form on refresh
+  if (this.getElementById('deck_card_find')) {
+    this.getElementById('deck_card_find').value = ''
+  }
 
   const sum = arr => arr.reduce((a,b)=> a+b)
 
@@ -108,5 +112,77 @@ $(document).on("turbolinks:load", function() {
   $("a.popover-card").on('click', function() {
     $(".popover.fade.right.in").remove()
   });
+
+//=======================================
+
+  let cardNames,
+      lastMatch;
+
+  $('#deck_card_find').on('focus', () => {
+    if (!cardNames) {
+      console.log('heyder')
+      const response = $.get('/cards/card_names');
+      response.done(names => cardNames = names.sort())
+    }
+  });
+
+  function addCardToList(event) {
+    event.preventDefault();
+
+    const addedCardList = document.getElementById('decks_cards_list')
+    const datalist      = document.getElementById('deck_build_search')
+    const copies        = document.getElementById('decks_cards_copies')
+    const input         = document.getElementById('deck_card_find')
+
+    addedCardList.innerHTML += `${copies.value}x ${datalist.options[0].innerText.trim()} \n`
+
+    datalist.innerHTML = ''
+    input.value = ''
+  }
+
+  //autocomplete search for finding cards by name
+  //console.log(event.key) gives me the current key. On enter, I can hijack the form. 
+  $('#deck_card_find').on('keyup', event => {
+    if (event.target.value) {
+      const userEntry       = event.target.value.toLowerCase()
+      ,     matches         = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry))
+      ,     datalist        = document.getElementById('deck_build_search')
+      ,     firstTenMatches = matches.slice(0,10);
+
+      //only update on change
+      if (lastMatch !== firstTenMatches.toString()) {
+        datalist.innerHTML = firstTenMatches.map(match=> `<option> ${match} </option>`).join('');
+        lastMatch = firstTenMatches.toString();
+      };
+    };
+  });
+
+  //this also triggers just by hitting enter as a mouse event for reasons I don't understand.
+  $("#addCard").on('click', event => {
+    console.log(event, 'addCard was clicked')
+    addCardToList(event)
+    //this is the field ,not really submitted
+  })
+
+  //form for deck_card_find
+  $("#deckCardSearch").on('submit', event => {
+    event.preventDefault()
+    console.log("deckCardSearch form submitted and stopped")
+
+  })
+  $("#new_deck").on('submit', event => {
+    event.preventDefault()
+    console.log("new_deck form submitted and stopped")
+
+  })
+
+
+//==============================================
+
+
+
+
+
+
 
 });
