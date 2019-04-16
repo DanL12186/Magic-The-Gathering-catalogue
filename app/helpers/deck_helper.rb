@@ -84,4 +84,17 @@ module DeckHelper
   def sort_by_number_and_name_desc(cards, deck_frequencies)
     cards.uniq(&:name).sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }
   end
+
+  
+  #return the id of the exact match if user specifies edition, otherwise find cheapest version's id
+  def find_specific_or_cheapest_card_variant_id(name, edition = nil)
+    return Card.find_by(name: name, edition: edition).id unless edition.nil?
+    return Card.find_by(name: name).id if ApplicationHelper::LANDS.include?(name)
+
+    Card.select(:id, :prices, :name)
+        .where(name: name)
+        .reject { | card | card.prices[1] == "N/A" }
+        .min_by { | card | card.prices[1] }
+        .id
+  end
 end
