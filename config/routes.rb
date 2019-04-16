@@ -29,7 +29,10 @@ Rails.application.routes.draw do
   post '/cards/update_prices' => 'cards#update_prices'
 
   resources :users, except: [:index]
-  resources :decks
+  resources :decks, except: [:create]
+  
+  #js-created cards
+  post '/decks/create'
 
   get '/cards/:name' => 'cards#show'
 
