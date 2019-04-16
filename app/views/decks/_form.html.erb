@@ -31,15 +31,16 @@
       </div>
       <br>
       <div class="field">
-        <%= dc.label :Basic_Land %>
-        <%= dc.select(:name, options_for_select(['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'])) %>
+        <%= dc.label :basic_land %>
+        <%= dc.select(:land_name, options_for_select(['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'])) %>
+        <button id="addLand"> Add Basic Land </button>
       </div>
       <div class="field">
         <%= dc.label :copies %>
-        <%= dc.number_field :copies, min: 1, max: 24 %>
+        <%= dc.number_field :land_copies, min: 1, max: 24, value: 1 %>
       </div>
     </div>
 
   <% end %>
-  <button id=submit_form>Create Deck</button>
+  <button id="createDeck"> Create Deck </button>
 <% end %>
