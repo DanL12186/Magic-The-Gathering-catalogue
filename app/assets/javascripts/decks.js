@@ -120,22 +120,21 @@ $(document).on("turbolinks:load", function() {
 
   $('#deck_card_find').on('focus', () => {
     if (!cardNames) {
-      console.log('heyder')
+      console.log('deck_card_find clicked for the first time')
       const response = $.get('/cards/card_names');
       response.done(names => cardNames = names.sort())
     }
   });
 
-  function addCardToList(event) {
+  function addCardToList(event, cardName, copies) {
     event.preventDefault();
 
     const addedCardList = document.getElementById('decks_cards_list')
-    const datalist      = document.getElementById('deck_build_search')
-    const copies        = document.getElementById('decks_cards_copies')
-    const input         = document.getElementById('deck_card_find')
+    ,     datalist      = document.getElementById('deck_build_search')
+    ,     input         = document.getElementById('deck_card_find')
 
-    addedCardList.innerHTML += `${copies.value}x ${datalist.options[0].innerText.trim()} \n`
-
+    addedCardList.innerHTML += `${copies}x ${cardName} \n`
+    
     datalist.innerHTML = ''
     input.value = ''
   }
@@ -151,7 +150,7 @@ $(document).on("turbolinks:load", function() {
 
       //only update on change
       if (lastMatch !== firstTenMatches.toString()) {
-        datalist.innerHTML = firstTenMatches.map(match=> `<option> ${match} </option>`).join('');
+        datalist.innerHTML = firstTenMatches.map(match=> `<option> ${match} </option>`);
         lastMatch = firstTenMatches.toString();
       };
     };
@@ -159,21 +158,42 @@ $(document).on("turbolinks:load", function() {
 
   //this also triggers just by hitting enter as a mouse event for reasons I don't understand.
   $("#addCard").on('click', event => {
-    console.log(event, 'addCard was clicked')
-    addCardToList(event)
-    //this is the field ,not really submitted
+    console.log('addCard was clicked')
+    const cardOption = document.getElementById('deck_build_search').options[0]
+    ,     copies     = document.getElementById('decks_cards_copies').value;
+
+    if (cardOption) {
+      const cardName = cardOption.innerText.trim()
+
+      addCardToList(event, cardName, copies)
+    }
   })
 
   //form for deck_card_find
   $("#deckCardSearch").on('submit', event => {
     event.preventDefault()
     console.log("deckCardSearch form submitted and stopped")
-
   })
+
+  $("#createDeck").on('click', event => {
+    event.preventDefault()
+    console.log("new_deck form submitted and stopped")
+    const serializedForm = $("#new_deck").serialize()
+    
+    $.post(`/decks/create`, serializedForm);
+  })
+
+
   $("#new_deck").on('submit', event => {
     event.preventDefault()
     console.log("new_deck form submitted and stopped")
+  })
 
+  $("#addLand").on('click', event => {
+    const landName = document.getElementById('decks_cards_land_name').value
+    ,     copies   = document.getElementById('decks_cards_land_copies').value;
+
+    addCardToList(event, landName, copies)
   })
 
 
