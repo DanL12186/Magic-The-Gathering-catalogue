@@ -94,7 +94,7 @@ module DeckHelper
     Card.select(:id, :prices, :name)
         .where(name: name)
         .reject { | card | card.prices[1] == "N/A" }
-        .min_by { | card | card.prices[1] }
+        .min_by { | card | card.prices[1].to_i }
         .id
   end
 end
