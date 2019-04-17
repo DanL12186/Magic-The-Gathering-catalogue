@@ -71,11 +71,12 @@ class DecksController < ApplicationController
 
     @decks_cards = cards_with_quantities.map do | card_string | 
       edition_match = card_string.match(/[a-z]+(?=\])/i)
+      edition = edition_match[0] if edition_match
       
       copies, name = card_string.sub(/ \[[a-z]+\]/i, '').split(/x /)
       
       #find cheapest card variant if no edition/set is specified
-      card_id = find_specific_or_cheapest_card_variant_id(name, edition_match[0])
+      card_id = find_specific_or_cheapest_card_variant_id(name, edition)
     
       { copies: copies.to_i, deck_id: @deck.id, card_id: card_id }
     end
