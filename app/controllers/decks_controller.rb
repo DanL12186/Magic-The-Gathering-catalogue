@@ -60,12 +60,14 @@ class DecksController < ApplicationController
 
   #create the deck 'manually' here.
   def build_deck
-    cards_with_quantities = params[:decks_cards][:list].split(/ \r\n/)
+    cards_with_quantities = params[:decks_cards][:list].split(/ \r\n/)  
     
     deck_name = deck_params[:name]
 
     @deck = Deck.new( {name: deck_name, user_id: current_user.id } )
     @deck.save
+
+    unfound_cards = []
 
     return nil unless @deck.id
 
@@ -77,6 +79,11 @@ class DecksController < ApplicationController
       
       #find cheapest card variant if no edition/set is specified
       card_id = find_specific_or_cheapest_card_variant_id(name, edition)
+
+      unless card_id
+        unfound_cards << name
+        puts "thank u,"; next
+      end
     
       { copies: copies.to_i, deck_id: @deck.id, card_id: card_id }
     end
