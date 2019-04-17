@@ -120,7 +120,6 @@ $(document).on("turbolinks:load", function() {
 
   $('#deck_card_find').on('focus', () => {
     if (!cardNames) {
-      console.log('deck_card_find clicked for the first time')
       const response = $.get('/cards/card_names');
       response.done(names => cardNames = names.sort())
     }
@@ -156,7 +155,7 @@ $(document).on("turbolinks:load", function() {
     };
   });
 
-  //this also triggers just by hitting enter as a mouse event for reasons I don't understand.
+  //this also triggers just by hitting enter as a mouse event
   $("#addCard").on('click', event => {
     console.log('addCard was clicked')
     const cardOption = document.getElementById('deck_build_search').options[0]
@@ -169,31 +168,17 @@ $(document).on("turbolinks:load", function() {
     }
   })
 
-  //form for deck_card_find
-  $("#deckCardSearch").on('submit', event => {
-    event.preventDefault()
-    console.log("deckCardSearch form submitted and stopped")
-  })
-
-  $("#createDeck").on('click', event => {
-    event.preventDefault()
-    console.log("new_deck form submitted and stopped")
-    const serializedForm = $("#new_deck").serialize()
-    
-    $.post(`/decks/create`, serializedForm);
-  })
-
-
-  $("#new_deck").on('submit', event => {
-    event.preventDefault()
-    console.log("new_deck form submitted and stopped")
-  })
-
   $("#addLand").on('click', event => {
     const landName = document.getElementById('decks_cards_land_name').value
     ,     copies   = document.getElementById('decks_cards_land_copies').value;
 
     addCardToList(event, landName, copies)
+  })
+
+  $("#createDeck").on('click', () => {
+    const serializedForm = $("#new_deck").serialize()
+    
+    $.post(`/decks/create`, serializedForm);
   })
 
 
