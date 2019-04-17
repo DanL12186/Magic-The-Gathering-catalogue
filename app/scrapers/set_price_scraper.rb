@@ -107,7 +107,7 @@ class SetScraper
     end
   end
 
-  def self.save_prices(set_code)
+  def self.save_prices
     @cards.each do | name, prices |
       edition = @set_name
       #could probably save a lot of querying by saving all the cards as objects to the @cards hash, updating and saving from there.
@@ -138,6 +138,6 @@ class SetScraper
 
     @threads.each(&:join)
 
-    save_prices(set_code)
+    save_prices
   end
 end
