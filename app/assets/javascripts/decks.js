@@ -6,7 +6,7 @@ $(document).on("turbolinks:load", function() {
 
   const sum = arr => arr.reduce((a,b)=> a+b)
 
-  //clicking hrough cards on deck show page
+  //clicking through cards on deck show page
   $('.deck-display').on('click', function() {
     let   cardCount = this.parentElement.getAttribute('value');
     const currentCardNumber = document.getElementById('card-counter')
@@ -166,6 +166,11 @@ $(document).on("turbolinks:load", function() {
 
       addCardToList(event, cardName, copies)
     }
+  })
+
+  $("#new_deck").on('submit', event => {
+    event.preventDefault()
+    console.log("deckCardSearch form submitted and stopped")
   })
 
   $("#addLand").on('click', event => {
