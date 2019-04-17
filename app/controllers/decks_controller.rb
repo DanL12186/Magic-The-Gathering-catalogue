@@ -75,7 +75,8 @@ class DecksController < ApplicationController
       edition_match = card_string.match(/[a-z]+(?=\])/i)
       edition = edition_match[0] if edition_match
       
-      copies, name = card_string.sub(/ \[[a-z]+\]/i, '').split(/x /)
+      #remove set name in brackets if it exists, then split on 'x ' coming after digits
+      copies, name = card_string.sub(/ \[[a-z]+\]/i, '').split(/(?<=\d)x /)
       
       #find cheapest card variant if no edition/set is specified
       card_id = find_specific_or_cheapest_card_variant_id(name, edition)
