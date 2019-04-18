@@ -107,16 +107,18 @@ class SetScraper
     end
   end
 
+  #could probably save a lot of querying by saving all the cards as objects to the @cards hash, updating and saving from there.
   def self.save_prices
-    @cards.each do | name, prices |
-      edition = @set_name
-      #could probably save a lot of querying by saving all the cards as objects to the @cards hash, updating and saving from there.
-      card = Card.find_by(name: name, edition: edition)
+    edition = @set_name
 
-      #Sites strip I18n from card names :(
+    @cards.each do | name, prices |
+      card = Card.find_by(name: name, edition: edition)
+      
+      #Sites strip I18n from card names
       if !card
-        card = @card_set_names.find { | card | I18n.transliterate(card.name) == name }
-        next unless card
+        card_name = @card_set_names.find { | str | I18n.transliterate(str) == name }
+        next unless card_name
+        card = Card.find_by(name: card_name, edition: edition)
       end
       card.prices = prices
       card.save unless card.prices.all? { | price | price == 'N/A' }
