@@ -1,6 +1,7 @@
 include Cards
 
 module ApplicationHelper
+  LANDS = Set.new(['Swamp', 'Island', 'Mountain', 'Forest', 'Plains'])
 
   def color_to_mana(color)
     mana_types = {

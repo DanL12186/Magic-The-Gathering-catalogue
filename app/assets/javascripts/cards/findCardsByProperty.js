@@ -1,4 +1,5 @@
 $(document).on('turbolinks:load', function() {
+  'use strict';
 
   //clear "sort by" buttons when a card is clicked.
   function listenForPageLeave() {
@@ -66,7 +67,7 @@ $(document).on('turbolinks:load', function() {
   }
 
   //populate /cards/find_by_properties with found cards
-  $("form.find_by_properties").on('submit', function(event) {
+  $("#find_by_properties").on('submit', function(event) {
     event.stopPropagation();
     event.preventDefault();
 
