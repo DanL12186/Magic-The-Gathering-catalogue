@@ -37,7 +37,9 @@ def update_set(set_code)
       next if obj['layout'] == 'split'
 
       card = Card.find_by(multiverse_id: obj['multiverse_ids'][0])
-
+      
+      next unless card
+      
       #allow transform card method to take over for flip cards
       if card.layout == 'transform'
         back = Card.find_by(multiverse_id: card.flip_card_multiverse_id)
@@ -60,7 +62,7 @@ def update_set(set_code)
       year: obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, 
       subtypes: subtypes, legalities: legalities, frame: obj['frame'].to_i, loyalty: loyalty, card_type: type, layout: obj['layout'], 
       reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'], border_color: obj['border_color'], flavor_text: get_flavor_text(obj['flavor_text']), 
-      oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number) if card
+      oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number)
     end
 
     if set['next_page'].nil?
