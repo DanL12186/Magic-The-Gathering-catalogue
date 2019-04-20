@@ -118,6 +118,10 @@ $(document).on("turbolinks:load", function() {
   let cardNames,
       lastMatch;
 
+  //for some reason, form and head auth tokens don't match util refresh, this is a fix
+  const railsAuthenticityToken = $("head meta")[1].content,
+        formAuthenticityToken  = $("#new_deck input")[1]
+
   $('#deckCardFind').on('focus', () => {
     if (!cardNames) {
       const response = $.get('/cards/card_names');
@@ -181,6 +185,7 @@ $(document).on("turbolinks:load", function() {
   })
 
   $("#createDeck").on('click', () => {
+    formAuthenticityToken.value = railsAuthenticityToken
     const serializedForm = $("#new_deck").serialize()
     
     $.post(`/decks/create`, serializedForm);
