@@ -35,12 +35,11 @@ class Card < ApplicationRecord
     matches = []
     partial_matches = []
 
-    exact_match = Card.find_by(name: search, reprint: false)
-
     #if user used the autocomplete feature to select an exact match, return the first print of the given card
+    exact_match = Card.find_by(name: search, reprint: false)
     return { name: exact_match.name, edition: exact_match.edition } if exact_match
 
-    #otherwise, we check card names against a downcased, Regex-escaped search term ignoring case, skipping card names that don't match at all
+    #otherwise, we check card names against a downcased, Regex-escaped search, ignoring case, skipping card names that don't match at all
     downcased_search = search.downcase
     escaped_search = Regexp.escape(search)
     target = (/#{escaped_search}/i)
@@ -48,9 +47,8 @@ class Card < ApplicationRecord
     Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | card_arr |
       next unless card_arr[1].match?(target)
       
+      #return if an exact match (ignoring casing) has been found
       edition, name, img_url = card_arr
-      
-      #return if an exact match has been found where the user's casing didn't match the card's
       return { name: name, edition: edition } if name.downcase == downcased_search
 
       if name.split.any? { | word | word.downcase == downcased_search } 
