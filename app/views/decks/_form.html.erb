@@ -1,7 +1,6 @@
 <%= form_for(deck) do | form | %>
 
   <div>
-    <%= form.hidden_field :user_id, value: current_user.id %>
     <%= form.label :deck_name, style: 'margin-top: 15px;' %>
     <%= form.text_field :name %>
   </div>
@@ -17,12 +16,12 @@
 
       <%= dc.label :card %>
 
-      <span class="deck_creator_search_field" style= 'margin-bottom: 10px; margin-left: 30px;'>
+      <span style= 'margin-bottom: 10px; margin-left: 30px;'>
         <%= form_with url: '#', method: "GET", local: true, id: 'deckCardSearch' do %>
-          <%= text_field_tag :search, params[:search], id: 'deck_card_find', list: 'deck_build_search', required: true, autocomplete: 'off', placeholder: 'Add a Card'%>
-          <datalist id="deck_build_search"> </datalist>
+          <%= text_field_tag :search, params[:search], id: 'deckCardFind', list: 'deckBuildSearch', required: true, autocomplete: 'off', placeholder: 'Add a Card'%>
+          <datalist id="deckBuildSearch"> </datalist>
         <% end %>
-        <button id = 'addCard'>Add Card</button>
+        <button id='addCard'>Add Card</button>
       </span>
 
       <div style='margin-top: 55px;'>
