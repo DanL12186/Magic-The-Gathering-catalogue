@@ -86,7 +86,7 @@ class DecksController < ApplicationController
       end
     
       { copies: copies.to_i, deck_id: @deck.id, card_id: card_id }
-    end.compact!
+    end.compact
 
     DecksCard.create(@decks_cards)
   end
