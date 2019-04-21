@@ -67,8 +67,12 @@ module CardHelper
     results_arr.map! { | result_arr | { edition: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
   end
 
-  def handle_foil(edition) #should just use a bool later as a card attr. card kingdom just gets '-foil' at the end; only for cards that also have nonfoil versions
-    edition.match?(/From the Vault|Box Topper|Commander's Arsenal|Expeditions|Invocations|Inventions|Mythic Edition/) ? ':Foil' : ''
+  def handle_foil(edition, site = 'mtg') #should just use a bool later as a card attr. card kingdom just gets '-foil' at the end
+    if site == 'mtg'
+      edition.match?(/From the Vault|Box Topper|Commander's Arsenal|Expeditions|Invocations|Inventions|Mythic Edition/) ? ':Foil' : ''
+    elsif site == 'ck'
+      edition == "Commander's Arsenal" ? '-foil' : ''
+    end
   end
 
   ##################################### Links and Scraping #####################################
@@ -121,7 +125,7 @@ module CardHelper
 
   def card_kingdom_url(card_name, card_set)
     set = process_card_kingdom_edition(card_set)
-    name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-')
+    name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-') + handle_foil(card_set, 'ck')
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
   end
