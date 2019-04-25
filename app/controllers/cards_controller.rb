@@ -12,6 +12,7 @@ class CardsController < ApplicationController
     @card = Card.find_by(edition: params[:edition], name: params[:name])
     if @card.layout == 'transform'
       @flip = Card.find_by(multiverse_id: @card.flip_card_multiverse_id)
+      redirect_if_not_face_card
     end
   end
 
@@ -85,6 +86,10 @@ class CardsController < ApplicationController
     min_filters = filters[:edition] ? 1 : 2
 
     @results = Card.select(filters.keys + required_attributes).where(filters).first(1200) unless filters.keys.size < min_filters
+  end
+
+  def redirect_if_not_face_card
+    redirect_to card_path(@flip.edition, @flip.name) if @card.card_number&.end_with?('b')
   end
 
 end
