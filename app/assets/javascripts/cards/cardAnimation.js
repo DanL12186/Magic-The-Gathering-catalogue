@@ -1,10 +1,11 @@
 //animations on the card show page
 $(document).on('turbolinks:load', function() {
 
-  const pricesDiv = document.getElementById('prices')
+  const pricesDiv = document.getElementById('prices');
   let   zoomed;
 
   //may src.replace('large', 'normal') for smaller 488x680 image @ ~55-60% file size
+  //should probably just addClass/removeClass and set class to do work instead of JS
   function zoomOut(element) {
     pricesDiv.style = 'transition: 2s; float: left';
     element.src = element.getAttribute('original_src');
@@ -55,25 +56,27 @@ $(document).on('turbolinks:load', function() {
       image.style.marginLeft = '15%';
       image.style.transition = '1.5s';
       image.style.transform = `rotate(${angle}`;
-      rotated = true;
     } else {
-      rotated = false;
       image.style.marginLeft = '0%';
       image.style.transition = '1.0s';
       image.style.transform = 'rotate(0deg)';
     };
+    rotated = !rotated
   });
 
   function fadeCroppedImageInOut() {
-    const croppedDiv = $("#cropped-img-div"),
+    const button = $("#transform")[0],
+          croppedDiv = $("#cropped-img-div"),
           croppedImg = document.getElementById('cropped-img'),
           faceCropURL = croppedImg.attributes.original_src.value,
           backCropURL = croppedImg.attributes.reverse_src.value;
 
     croppedDiv.fadeOut(750).fadeIn(750);
-   
+    button.setAttribute('disabled', true);
+
     setTimeout(()=> {
       croppedImg.src = transformed ? faceCropURL : backCropURL
+      button.removeAttribute('disabled');
       transformed = !transformed
     }, 750)
   }
@@ -85,9 +88,29 @@ $(document).on('turbolinks:load', function() {
 
   //flip dual-sided cards over and change cropped image with a fade effect to match flipped side
   $('#transform').on('click', function() {
-    if (!cardDiv) cardDiv = document.getElementsByClassName('flip-card-inner')[0];
+    if (cardDiv === undefined) {
+      cardDiv = document.getElementsByClassName('flip-card-inner')[0];
+    }
 
     flipCardOver(cardDiv)
-    fadeCroppedImageInOut(cardDiv)
+    fadeCroppedImageInOut()
+    switchName()
   });
+
+  let faceCardName,
+      backCardName;
+
+  if (document.getElementById("transform")) {
+    faceCardName = this.getElementsByClassName("show_page_card_name")[0].innerText.replace(/\(.+/, '').trim()
+    backCardName = this.getElementsByClassName("col-sm-3 flip-card")[0].getAttribute('data-flipname').replace(/_/g, ' ');
+
+    //change flip card name to the face that's currently showing
+    function switchName() {
+      const currentFaceName = transformed ? backCardName : faceCardName,
+            currentBackName = transformed ? faceCardName : backCardName;
+
+      $(".show_page_card_name")[0].innerHTML = $(".show_page_card_name")[0].innerHTML.replace(currentFaceName, currentBackName)
+    }
+  };
+
 });
