@@ -17,9 +17,13 @@ class CardsController < ApplicationController
   end
 
   #grabbing all unique names; calling .to_s as it's faster than .to_json
+  #Query result will almost never change (only when new sets are added manually)
   def card_names
-    names = Card.where(reprint: false).pluck(:name)
-    render json: names.to_s
+    cache_key = "all_unique_card_names#{Time.now.day}"
+    names = Rails.cache.fetch("#{cache_key}/names", expires_in: 24.hours) do
+      Card.where(reprint: false).pluck(:name).to_s
+    end
+    render json: names
   end
 
   #only called if card hasn't been updated in > 24h
