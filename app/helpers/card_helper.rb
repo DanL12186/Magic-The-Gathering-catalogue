@@ -57,11 +57,6 @@ module CardHelper
   def lazy_load?(idx, threshold = 1)
     idx > threshold
   end
-
-  #Make sure the backs of flip cards link to the front face of the card
-  def ensure_not_flip_card_back(card_num, name, flip_id)
-    card_num&.end_with?('b') ? Card.find_by(multiverse_id: flip_id).name : name
-  end
   
   def hashify_search_results(results_arr)
     results_arr.map! { | result_arr | { edition: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
