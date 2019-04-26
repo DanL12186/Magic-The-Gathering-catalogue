@@ -11,16 +11,19 @@ def get_editions(set_code)
   
   sdk_cards = MTG::Card.where(set: set_code).all
   sdk_cards.map! { | card | JSON.parse(card.serialize) }
-
-  db_cards = Card.where(edition: set_name)
   
-  db_cards.each do | db_card |
-    sdk_card = sdk_cards.find { | card | card['name'] == db_card.name }
-    next unless sdk_card && !sdk_card['supertypes'].include?('Basic')
-   
-    other_editions = sdk_card["printings"].reject { | ed | !set_codes_in_chronological_order[ed] || ed == set_code.upcase }.sort_by { | code | set_codes_in_chronological_order[code] }
-    
-    db_card.update(other_editions: other_editions) unless other_editions.empty?
+  #find in batches of 100 and only commit once per batch
+  Card.where(edition: set_name).find_in_batches(batch_size: 100) do | db_cards | 
+    Card.transaction do
+      db_cards.each do | db_card |
+        sdk_card = sdk_cards.find { | card | card['name'] == db_card.name }
+        next unless sdk_card && !sdk_card['supertypes'].include?('Basic')
+      
+        other_editions = sdk_card["printings"].reject { | ed | !set_codes_in_chronological_order[ed] || ed == set_code.upcase }.sort_by { | code | set_codes_in_chronological_order[code] }
+        
+        db_card.update(other_editions: other_editions) unless other_editions.empty?
+      end
+    end
   end
 end
 
