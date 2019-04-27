@@ -38,7 +38,7 @@
       </div>
     <% end %>
 
-    <%= render 'transform_card' if @card.layout == "transform" %>
+    <%= render partial: 'transform_card', locals: { flip: @flip, card: @card } if @card.layout == "transform" %>
 
     <div class='col-sm-4'></div>
 

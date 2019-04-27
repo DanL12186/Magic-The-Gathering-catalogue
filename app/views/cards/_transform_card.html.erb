@@ -1,10 +1,10 @@
-    <div class="col-sm-3 flip-card margin-3em-top-bottom" style='margin-right: 10%;' data-flipname=<%= @flip.name.gsub(' ', '_') %> >
+    <div class="col-sm-3 flip-card margin-3em-top-bottom" style='margin-right: 10%;' data-flipname=<%= flip.name.gsub(' ', '_') %> >
       <div class="flip-card-inner">
         <div class="flip-card-front">
-          <%= image_tag(@card.img_url, id: "card_show_img_face", class: "card_show transform", img_url: @card.hi_res_img, original_src: @card.img_url) %>
+          <%= image_tag(card.img_url, id: "card_show_img_face", class: "card_show transform", img_url: card.hi_res_img, original_src: card.img_url) %>
         </div>
         <div class="flip-card-back">
-          <%= image_tag(@flip.img_url, id: "card_show_img_back", class: "card_show transform", img_url: @flip.hi_res_img, original_src: @flip.img_url) %>
+          <%= image_tag(flip.img_url, id: "card_show_img_back", class: "card_show transform", img_url: flip.hi_res_img, original_src: flip.img_url) %>
         </div>
       </div>
     </div>
