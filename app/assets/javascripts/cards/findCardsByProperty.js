@@ -1,7 +1,7 @@
 $(document).on('turbolinks:load', function() {
   'use strict';
 
-  //clear "sort by" buttons when a card is clicked.
+  //clear "sort by" and page buttons when a card is clicked
   function listenForPageLeave() {
     $(".thumb").on('click', function() {
       $("a.btn-sm").empty()
@@ -168,13 +168,11 @@ $(document).on('turbolinks:load', function() {
         'sort_by_id' : fn => cards.sort((a,b) => a.multiverse_id - b.multiverse_id),
         'sort_by_name' : fn => cards.sort((a,b) => a.name.localeCompare(b.name)),
         'sort_by_color' : fn => cards.sort((a,b) => colorOrder[a.color] - colorOrder[b.color] || a.name.localeCompare(b.name)),
-        'sort_by_type' : fn => cards.sort((a,b) => typeOrder[a.card_type] - typeOrder[b.card_type]),
-        'sort_by_price' : fn => cards.sort((a,b) => parseFloat(b.prices[1]) - parseFloat(a.prices[1]))
+        'sort_by_type' : fn => cards.sort((a,b) => typeOrder[a.card_type] - typeOrder[b.card_type] || a.name.localeCompare(b.name)),
+        'sort_by_price' : fn => cards.sort((a,b) => parseFloat(b.prices[1]) - parseFloat(a.prices[1]) || a.name.localeCompare(b.name))
       }
 
       $(".sort").on('click', function(event) {
-        event.preventDefault();
-
         const buttonId = event.currentTarget.id
         ,     sortedCards = sortButtonFunctions[buttonId]();
         
