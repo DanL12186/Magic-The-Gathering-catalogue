@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_24_000415) do
+ActiveRecord::Schema.define(version: 2019_04_28_002602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,7 +69,6 @@ ActiveRecord::Schema.define(version: 2019_03_24_000415) do
     t.index ["iconic"], name: "index_cards_on_iconic", where: "(iconic = true)"
     t.index ["multiverse_id"], name: "index_cards_on_multiverse_id"
     t.index ["name"], name: "index_cards_on_name"
-    t.index ["reprint"], name: "index_cards_on_reprint", where: "(reprint = false)"
     t.index ["reserved"], name: "index_cards_on_reserved", where: "(reserved = true)"
   end
 
