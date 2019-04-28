@@ -64,7 +64,7 @@ $(document).on('turbolinks:load', function() {
     rotated = !rotated
   });
 
-  function fadeCroppedImageInOut() {
+  function fadeSwitchImage() {
     const button = $("#transform")[0],
           croppedDiv = $("#cropped-img-div"),
           croppedImg = document.getElementById('cropped-img'),
@@ -93,23 +93,29 @@ $(document).on('turbolinks:load', function() {
     }
 
     flipCardOver(cardDiv)
-    fadeCroppedImageInOut()
-    switchName()
+    fadeSwitchImage()
+    fadeSwitchName()
   });
 
   let faceCardName,
       backCardName;
 
   if (document.getElementById("transform")) {
-    faceCardName = this.getElementsByClassName("show_page_card_name")[0].innerText.replace(/\(.+/, '').trim()
+    const cardNameDiv = $(".show_page_card_name")
+    
+    faceCardName = cardNameDiv[0].innerText.replace(/\(.+/, '').trim()
     backCardName = this.getElementsByClassName("col-sm-3 flip-card")[0].getAttribute('data-flipname').replace(/_/g, ' ');
 
     //change flip card name to the face that's currently showing
-    function switchName() {
+    function fadeSwitchName() {
       const currentFaceName = transformed ? backCardName : faceCardName,
             currentBackName = transformed ? faceCardName : backCardName;
 
-      $(".show_page_card_name")[0].innerHTML = $(".show_page_card_name")[0].innerHTML.replace(currentFaceName, currentBackName)
+      cardNameDiv.fadeOut(750).fadeIn(750)
+
+      setTimeout(()=> {
+        cardNameDiv[0].innerHTML = cardNameDiv[0].innerHTML.replace(currentFaceName, currentBackName)
+      }, 750)
     }
   };
 
