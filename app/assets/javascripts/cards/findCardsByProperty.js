@@ -65,11 +65,26 @@ $(document).on('turbolinks:load', function() {
     const sortedHTML = generateCardsHTML(sortedResult, currentPage)
     displayResults(sortedHTML, currentPage)
   }
+  
+  const submitButton = document.getElementById("find_submit")
+
+  //form will disable the submit button when it's submitted. This listens for when user 
+  //makes a different or additional selection on the form and re-enables the submit button
+  function listenForFormChange() {
+    $("#find_by_properties").on('change', function() {
+      submitButton.removeAttribute('disabled')
+    });
+  }
+
+  listenForFormChange();
 
   //populate /cards/find_by_properties with found cards
   $("#find_by_properties").on('submit', function(event) {
     event.stopPropagation();
     event.preventDefault();
+
+    //disable button until form changes to prevent spamming
+    submitButton.setAttribute('disabled', true)
 
     const serializedForm = $(this).serialize()
     ,     response = $.post(`/cards/find_by_properties`, serializedForm);
