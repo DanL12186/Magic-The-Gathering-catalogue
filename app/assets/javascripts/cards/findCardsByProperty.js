@@ -12,7 +12,7 @@ $(document).on('turbolinks:load', function() {
 
   //change set/edition symbol color to silver or gold if card is uncommon or rare
   function listenForThumbHover() {
-    const getSet = thumb => thumb.parentElement.parentElement.previousElementSibling.getAttribute('data-edition').replace(/_/g,' ')
+    const getSet = thumb => thumb.parentElement.parentElement.previousElementSibling.getAttribute('data-edition')
     ,     getSetSymbolIcon = thumb => thumb.parentElement.parentElement.previousElementSibling.firstElementChild;
 
     $('.thumb').on('mouseenter', function() {
@@ -43,7 +43,7 @@ $(document).on('turbolinks:load', function() {
       
       return( 
         `<div class= col-sm-3>
-          <h3 data-edition= ${edition.replace(/ /g, '_')} data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw; min-height:32px;"> 
+          <h3 data-edition= "${edition}" data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw; min-height:32px;"> 
             ${shortName} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
           </h3>
           

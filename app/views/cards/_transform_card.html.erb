@@ -1,4 +1,4 @@
-    <div class="col-sm-3 flip-card margin-3em-top-bottom" style='margin-right: 10%;' data-flipname=<%= flip.name.gsub(' ', '_') %> >
+    <div class="col-sm-3 flip-card margin-3em-top-bottom" style='margin-right: 10%;' data-flipname="<%= flip.name %>" >
       <div class="flip-card-inner">
         <div class="flip-card-front">
           <%= image_tag(card.img_url, id: "card_show_img_face", class: "card_show transform", hi_res_src: card.hi_res_img, original_src: card.img_url) %>

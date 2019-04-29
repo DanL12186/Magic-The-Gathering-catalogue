@@ -104,7 +104,7 @@ $(document).on('turbolinks:load', function() {
     const cardNameDiv = $(".show_page_card_name")
     
     faceCardName = cardNameDiv[0].innerText.replace(/\(.+/, '').trim()
-    backCardName = this.getElementsByClassName("col-sm-3 flip-card")[0].getAttribute('data-flipname').replace(/_/g, ' ');
+    backCardName = this.getElementsByClassName("col-sm-3 flip-card")[0].getAttribute('data-flipname')
 
     //change flip card name to the face that's currently showing
     function fadeSwitchName() {

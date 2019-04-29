@@ -28,11 +28,11 @@ $(document).on('turbolinks:load', function() {
   
   //change edition symbol color to silver or gold if card is uncommon or rare
   $(".rare, .uncommon, .mythic").on('mouseenter', function() {
-    const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ')
+    const edition = this.parentElement.getAttribute('data-edition')
     ,     rarity  = this.getAttribute('class');
     this.src = `/assets/editions/${edition} ${rarity}`;
   }).on('mouseleave', function() {
-    const edition = this.parentElement.getAttribute('data-edition').replace(/_/g, ' ');
+    const edition = this.parentElement.getAttribute('data-edition');
     this.src = `/assets/editions/${edition}`;
   });  
 
