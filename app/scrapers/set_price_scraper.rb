@@ -8,17 +8,7 @@
 #################################################################################################################
 require 'open-uri'
 
-class SetScraper
-
-  EARLY_CORE_SETS = { 
-    'Fourth Edition' => '4th-edition', 
-    'Fifth Edition' => '5th-edition',
-    'Sixth Edition' => '6th-edition', 
-    'Seventh Edition' => '7th-edition',
-    'Eighth Edition' => '8th-edition',
-    'Ninth Edition' => '9th-edition',
-    'Tenth Edition' => '10th-edition'
-  }
+class SetPriceScraper
 
   #set for mtgoldfish is actually the set code for full sets
   def self.get_mtgoldfish_set_prices(set_code)
@@ -52,11 +42,22 @@ class SetScraper
   end
 
   def self.get_card_kingdom_set_prices(set_code)
+    ck_exceptions = { 
+      'Revised' => '3rd-edition',
+      'Fourth Edition' => '4th-edition', 
+      'Fifth Edition' => '5th-edition',
+      'Sixth Edition' => '6th-edition', 
+      'Seventh Edition' => '7th-edition',
+      'Eighth Edition' => '8th-edition',
+      'Ninth Edition' => '9th-edition',
+      'Tenth Edition' => '10th-edition',
+      'Ravnica City of Guilds' => 'ravnica'
+    }
+    
     set = @set_name.match?(/Magic 201[0-5]/) ? "#{@set_name.match(/\d+/)}-core-set" : @set_name.delete("':")
+    set = ck_exceptions[set] if CK_EXCEPTIONS.include?(set)
     set = set.gsub(' ', '-').downcase
-    set = 'ravnica' if set_code.match?(/rav/i)
     set = "masterpiece-series-#{set.split('-')[-1]}" if set.match?(/expeditions|inventions|invocations/)
-    set = EARLY_CORE_SETS[set.titleize] || set
     
     total_pages = @cards.size.fdiv(60).ceil
 
@@ -111,17 +112,13 @@ class SetScraper
   def self.save_prices
     edition = @set_name
 
-    @cards.each do | name, prices |
-      card = Card.find_by(name: name, edition: edition)
-      
-      #Sites strip I18n from card names
-      if !card
-        card_name = @card_set_names.find { | str | I18n.transliterate(str) == name }
-        next unless card_name
-        card = Card.find_by(name: card_name, edition: edition)
+    Card.where(edition: edition).find_in_batches(batch_size: 100) do | cards |
+      Card.transaction do
+        cards.each do | card |
+          prices = @cards[card.name] || @cards[I18n.transliterate(card.name)]
+          card.update(prices: prices) unless prices.nil? || card.prices.all? { | price | price == 'N/A' }
+        end
       end
-      card.prices = prices
-      card.save unless card.prices.all? { | price | price == 'N/A' }
     end
   end
 
