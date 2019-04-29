@@ -34,7 +34,5 @@ Rails.application.routes.draw do
   #js-created cards
   post '/decks/create'
 
-  get '/cards/:name' => 'cards#show'
-
   get '/decks/:id/overview' => 'decks#overview'
 end
