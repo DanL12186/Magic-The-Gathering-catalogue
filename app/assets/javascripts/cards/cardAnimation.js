@@ -16,7 +16,7 @@ $(document).on('turbolinks:load', function() {
 
   function zoomIn(element) {
     pricesDiv.style = 'transition: 1.2s; margin-left: 57.5%; margin-top: 3.5%;';
-    element.src = element.getAttribute('img_url');
+    element.src = element.getAttribute('hi_res_src');
     element.style.width = '502px';
     element.style.height = '700px';
     zoomed = true;
