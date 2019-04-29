@@ -325,11 +325,8 @@ module Cards
     "Unglued" => "UGL", 
     "Unhinged" => "UNH",
     "Unstable" => "UST",
-
-    #editions that aren't sorted or added yet
-
-    # "Anthologies" => "ATH",
     
+    #masters
     "Modern Masters" => "MMA",
     "Modern Masters 2015" => "MM2",
     "Modern Masters 2017" => "MM3",
@@ -341,8 +338,6 @@ module Cards
 
     "Portal Second Age" => "PO2",
     "Portal Three Kingdoms" => "PTK",
-    # "Starter 1999" => "S99",
-    # "Starter 2000" => "S00",
 
     "Conspiracy" => "CNS",
     "Conspiracy: Take the Crown" => "CN2",
@@ -358,6 +353,14 @@ module Cards
     "From the Vault: Lore" => "V16",
     "From the Vault: Transform" => "V17",
 
+    #editions that aren't sorted or added yet
+
+    # "Starter 1999" => "S99",
+    # "Starter 2000" => "S00",
+    # "Anthologies" => "ATH",
+
+    #duel decks
+    
     # "DD: Elves vs. Goblins" => "EVG",
     # "DD: Jace vs. Chandra" => "DD2",
     # "DD: Divine vs. Demonic" => "DDC",
