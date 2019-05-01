@@ -4,7 +4,7 @@
 
   <h1 class='show_page_card_name'> 
     <%= link_to image_tag(edition_image_filename(@card.rarity, @card.edition), id: 'show_page_edition_svg_link'), "/cards/#{@card.edition}" %>
-    <%= card_and_edition(@card.name, @card.edition) %>
+    <span id='name_and_edition'> <%= card_and_edition(@card.name, @card.edition) %> </span>
     <% unless edition_not_present?(@card.other_editions) %>
       <span id='other_editions'> Other Editions: <%= display_other_editions(@card) %> </span>
     <% end %>

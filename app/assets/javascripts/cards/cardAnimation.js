@@ -101,9 +101,9 @@ $(document).on('turbolinks:load', function() {
       backCardName;
 
   if (document.getElementById("transform")) {
-    const cardNameDiv = $(".show_page_card_name")
+    const cardNameSpan = $("#name_and_edition")
     
-    faceCardName = cardNameDiv[0].innerText.replace(/\(.+/, '').trim()
+    faceCardName = cardNameSpan[0].innerText.replace(/\(.+/, '').trim()
     backCardName = this.getElementsByClassName("col-sm-3 flip-card")[0].getAttribute('data-flipname')
 
     //change flip card name to the face that's currently showing
@@ -111,10 +111,10 @@ $(document).on('turbolinks:load', function() {
       const currentFaceName = transformed ? backCardName : faceCardName,
             currentBackName = transformed ? faceCardName : backCardName;
 
-      cardNameDiv.fadeOut(750).fadeIn(750)
+      cardNameSpan.fadeOut(750).fadeIn(750)
 
       setTimeout(()=> {
-        cardNameDiv[0].innerHTML = cardNameDiv[0].innerHTML.replace(currentFaceName, currentBackName)
+        cardNameSpan[0].innerHTML = cardNameSpan[0].innerHTML.replace(currentFaceName, currentBackName)
       }, 750)
     }
   };
