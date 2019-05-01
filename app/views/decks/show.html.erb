@@ -28,7 +28,7 @@
   <h1 class="text-center"> Upcoming Cards </h1>
   <br>
   <br>
-  <% @next_eight_cards.each.with_index(2) do | card, idx | %>
+  <% next_eight_cards(@shuffled_deck_cards).each.with_index(2) do | card, idx | %>
     <div class = "col-sm-1 filter">
       <div class="text-center"> Turn <%= idx %> </div>
       <div class="deck-show-card-name"> <%= truncate_at_three_words(card.name) %> </div>
