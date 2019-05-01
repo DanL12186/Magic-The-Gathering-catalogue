@@ -139,7 +139,8 @@ module Cards
       "Dominaria" => "DOM",
       "Core Set 2019"=>"M19",
       "Guilds of Ravnica" => "GRN",
-      "Ravnica Allegiance" => "RNA"
+      "Ravnica Allegiance" => "RNA",
+      "War of the Spark" => "WAR"
     },
     "Core Sets" => {
       "Eighth Edition" => "8ED",
@@ -293,13 +294,14 @@ module Cards
     "Amonkhet Invocations" => "MS3",
     "Amonkhet" => "AKH",
     "Hour of Devastation" => "HOU",
-
+    #standard
     "Ixalan" => "XLN",
     "Rivals of Ixalan" => "RIX",
     "Dominaria" => "DOM",
     "Guilds of Ravnica" => "GRN",
     "Ravnica Allegiance" => "RNA",
     "Ravnica Allegiance Mythic Edition" => "MED",
+    "War of the Spark" => "WAR",
 
     #core sets
     "Magic 2010" => "M10",
