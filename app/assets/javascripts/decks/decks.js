@@ -18,7 +18,6 @@ $(document).on("turbolinks:load", function() {
   //pie chart for displaying deck card-types breakdown on deck overview page
   if (document.getElementById("pieChartContainer")) {
     $("#pieChartContainer").ready(pieChartLoader);
-    $("#pieChartContainer").on('turbolinks:load', pieChartLoader)
   }
 
   function pieChartLoader() {
