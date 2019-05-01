@@ -15,19 +15,14 @@ class DecksController < ApplicationController
   end
 
   def calculate_custom_hand_odds
-    deck_size = params[:deck_size].to_i
-    cards_drawn = params[:cards_drawn].to_i
-    multivar_args = get_param_stats(params).values
-    probability = multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
+    probability = calculate_odds
 
     render json: probability
   end
 
   def show
     @sample_hand = sample_hand(@shuffled_deck_cards)
-    @next_eight_cards = next_eight_cards(@shuffled_deck_cards)
     @card_types = card_classifications(@sample_hand)
-
     @hand_frequencies = card_frequencies(@sample_hand)
     @deck_frequencies = card_frequencies(@shuffled_deck_cards)
 
@@ -59,6 +54,14 @@ class DecksController < ApplicationController
 
 
   #create the deck and then its decks_cards
+  def calculate_odds
+    deck_size = params[:deck_size].to_i
+    cards_drawn = params[:cards_drawn].to_i
+    multivar_args = hand_and_deck_card_counts(params).values
+    
+    multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
+  end
+
   def build_deck
     cards_with_quantities = params[:decks_cards][:list].split(/ \r\n/)  
     
