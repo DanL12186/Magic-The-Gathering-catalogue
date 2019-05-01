@@ -1,7 +1,7 @@
 #These methods are here because they're needed by both the controller and the view
 
 module DeckHandStats
- include DeckHelper
+  include DeckHelper
 
   def shuffled_deck(deck)
     cards = []
@@ -25,7 +25,7 @@ module DeckHandStats
     
     classifications = { 
       'lands' => 0,
-      'nonbasic_lands' => 0,
+      'nonbasic lands' => 0,
       'creatures' => 0, 
       'spells' => 0,
       'artifacts' => 0, 
@@ -37,7 +37,7 @@ module DeckHandStats
 
       if card.card_type.match?(/Land|Basic/)
         classifications['lands'] += 1
-        classifications['nonbasic_lands'] += 1 if card.subtypes.include?('Nonbasic Land')
+        classifications['nonbasic lands'] += 1 if card.subtypes.include?('Nonbasic Land')
       end
 
       classifications['creatures'] += 1 if card.card_type.match?('Creature')
