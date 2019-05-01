@@ -6,7 +6,7 @@ $(document).on("turbolinks:load", function() {
   $('.deck-display').on('click', function() {
     let   cardCount = this.parentElement.getAttribute('value');
     const currentCardNumber = document.getElementById('card-counter')
-    ,     numCards = parseInt(currentCardNumber.innerHTML.trim().match(/\d+$/)[0]);
+    ,     numCards = currentCardNumber.innerHTML.trim().match(/\d+$/)[0];
 
     document.getElementById('deck-holder').setAttribute('value', ++cardCount);
 
@@ -16,14 +16,14 @@ $(document).on("turbolinks:load", function() {
   });
 
   //pie chart for displaying deck card-types breakdown on deck overview page
-  if (document.getElementById("pieChartContainer")) { //load only on correct page
+  if (document.getElementById("pieChartContainer")) {
     $("#pieChartContainer").ready(pieChartLoader);
     $("#pieChartContainer").on('turbolinks:load', pieChartLoader)
   }
 
   function pieChartLoader() {
     const jsonData = $("#pieChartContainer").data('json'),
-          [ labels, frequencies ] = [ Object.keys(jsonData).map(str=> str.replace('_', ' ')), Object.values(jsonData) ],
+          [ labels, frequencies ] = [ Object.keys(jsonData), Object.values(jsonData) ],
           totalCards = sum(frequencies),
           dataPoints = [];
 
