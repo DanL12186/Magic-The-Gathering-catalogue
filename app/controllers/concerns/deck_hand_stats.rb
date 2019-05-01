@@ -3,24 +3,6 @@
 module DeckHandStats
   include DeckHelper
 
-  def shuffled_deck(deck)
-    cards = []
-
-    deck.decks_cards.includes(:card).each do | deck_card | 
-      card = deck_card.card
-      deck_card.copies.times { cards << card } 
-    end
-    cards.shuffle
-  end
-
-  def sample_hand(deck, n=7)
-    deck.first(n)
-  end
-
-  def next_eight_cards(deck)
-    deck[7..-1].first(8)
-  end
-
   def card_classifications(hand)
     
     classifications = { 
@@ -62,7 +44,9 @@ module DeckHandStats
     total_and_target_arrays
   end
 
-  def get_param_stats(params) 
+  #generates the multivariate arguments for multivariate_hypergeometric_distribution calculation. Responsible for grabbing user-inputted hand and deck card counts.
+  #Called by the hand odds calculator form with user's input. Returns an array of arrays in the format [ [desired_cards_in_hand1, total_desired_cards_in_deck1] ..]
+  def hand_and_deck_card_counts(params) 
     hand_deck_count_pairs = {}
     pertinent_keys = params.select { | param | param.match?("in_") }.keys
     len = pertinent_keys.size/2
@@ -71,8 +55,8 @@ module DeckHandStats
       hand_deck_count_pairs[idx] = [ params["in_deck_#{idx}"].to_i, params["in_hand_#{idx}"].to_i ]
     end
 
-    deck_total = hand_deck_count_pairs.map { | k, v | v.first }.sum
-    hand_total = hand_deck_count_pairs.map { | k, v | v.last }.sum
+    deck_total = hand_deck_count_pairs.map { | _, value | value.first }.sum
+    hand_total = hand_deck_count_pairs.map { | _, value | value.last }.sum
     #ensures there are fewer total target cards than drawn cards
     if hand_total < params[:cards_drawn].to_i
       hand_deck_count_pairs[len] = [ params[:deck_size].to_i - deck_total, params[:cards_drawn].to_i - hand_total ]
