@@ -44,24 +44,25 @@ module DeckHandStats
     total_and_target_arrays
   end
 
-  #generates the multivariate arguments for multivariate_hypergeometric_distribution calculation. Responsible for grabbing user-inputted hand and deck card counts.
-  #Called by the hand odds calculator form with user's input. Returns an array of arrays in the format [ [desired_cards_in_hand1, total_desired_cards_in_deck1] ..]
-  def hand_and_deck_card_counts(params) 
-    hand_deck_count_pairs = {}
+  #Responsible for grabbing the user's input from the hand odds calculator form, for  multivariate_hypergeometric_distribution calculation.
+  #Returns an array of arrays in the format [ [desired_cards_in_hand1, total_desired_cards_in_deck1] ..]
+  def hand_and_deck_card_counts(params)
+    total_vs_desired_card_counts = {}
     pertinent_keys = params.select { | param | param.match?("in_") }.keys
     len = pertinent_keys.size/2
 
     (0...len).each do | idx | 
-      hand_deck_count_pairs[idx] = [ params["in_deck_#{idx}"].to_i, params["in_hand_#{idx}"].to_i ]
+      total_vs_desired_card_counts[idx] = [ params["in_deck_#{idx}"].to_i, params["in_hand_#{idx}"].to_i ]
     end
 
-    deck_total = hand_deck_count_pairs.map { | _, value | value.first }.sum
-    hand_total = hand_deck_count_pairs.map { | _, value | value.last }.sum
+    deck_total = total_vs_desired_card_counts.map { | _, value | value.first }.sum
+    hand_total = total_vs_desired_card_counts.map { | _, value | value.last }.sum
     #ensures there are fewer total target cards than drawn cards
     if hand_total < params[:cards_drawn].to_i
-      hand_deck_count_pairs[len] = [ params[:deck_size].to_i - deck_total, params[:cards_drawn].to_i - hand_total ]
+      total_vs_desired_card_counts[len] = [ params[:deck_size].to_i - deck_total, params[:cards_drawn].to_i - hand_total ]
     end
-    hand_deck_count_pairs
+    
+    total_vs_desired_card_counts
   end
 
 end
