@@ -76,6 +76,24 @@ module DeckHelper
     graph_data.to_json
   end
 
+  def shuffled_deck(deck)
+    cards = []
+
+    deck.decks_cards.includes(:card).each do | deck_card | 
+      card = deck_card.card
+      deck_card.copies.times { cards << card } 
+    end
+    cards.shuffle
+  end
+
+  def sample_hand(deck, n=7)
+    deck.first(n)
+  end
+
+  def next_eight_cards(deck)
+    deck[7..-1].first(8)
+  end
+
   def calculate_deck_value(cards)
     value = cards.map { | card | (card.prices[1] || '0').to_f }.sum.round(4)
     number_with_delimiter(value)
@@ -85,7 +103,6 @@ module DeckHelper
     cards.uniq(&:name).sort_by { | card | [ -@deck_frequencies[card.name], card.name ] }
   end
 
-  
   #return the id of the exact match if user specifies edition, otherwise find cheapest version's id
   def find_specific_or_cheapest_card_variant_id(name, edition = nil)
     return Card.find_by(name: name, edition: edition).id unless edition.nil?
