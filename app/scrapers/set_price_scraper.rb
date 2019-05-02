@@ -14,7 +14,7 @@ class SetPriceScraper
   def self.get_mtgoldfish_set_prices(set_code)
     set_code.upcase!
     #filter all alt set codes that are two letters in mtgoldfish instead of 3
-    set_code = Cards::Editions[@set_name] if Cards::Editions[@set_name]
+    set_code = Cards::Editions[@set_name] || set_code
     set_code += '_F' if set_code.match?(/MS2|MS3|EXP/)
 
     url = "https://www.mtggoldfish.com/index/#{set_code}#paper"
@@ -55,7 +55,7 @@ class SetPriceScraper
     }
     
     set = @set_name.match?(/Magic 201[0-5]/) ? "#{@set_name.match(/\d+/)}-core-set" : @set_name.delete("':")
-    set = ck_exceptions[set] if CK_EXCEPTIONS.include?(set)
+    set = ck_exceptions[set] if ck_exceptions.include?(set)
     set = set.gsub(' ', '-').downcase
     set = "masterpiece-series-#{set.split('-')[-1]}" if set.match?(/expeditions|inventions|invocations/)
     
@@ -98,17 +98,17 @@ class SetPriceScraper
 
     card_rows.each do | card_row | 
       name = I18n.transliterate(card_row.css('div.productDetail a').text)
-      price = card_row.css('td.marketPrice').text.match(/\d+\,*\d*\.\d+/)[0].delete(',')
       
       if !@cards[name]
         puts "Failed to get price for #{name} on tcgplayer"
         next
       end
+      price = card_row.css('td.marketPrice').text.match(/\d+\,*\d*\.\d+/)[0].delete(',')
+      
       @cards[name][2] = price
     end
   end
 
-  #could probably save a lot of querying by saving all the cards as objects to the @cards hash, updating and saving from there.
   def self.save_prices
     edition = @set_name
 
@@ -116,7 +116,7 @@ class SetPriceScraper
       Card.transaction do
         cards.each do | card |
           prices = @cards[card.name] || @cards[I18n.transliterate(card.name)]
-          card.update(prices: prices) unless prices.nil? || card.prices.all? { | price | price == 'N/A' }
+          card.update(prices: prices) unless prices.nil? || card.prices.size > 0 && card.prices.all? { | price | price == 'N/A' }
         end
       end
     end
