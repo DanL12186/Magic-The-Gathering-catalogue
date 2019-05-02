@@ -86,7 +86,7 @@ module CardHelper
   def process_mtgfish_edition(edition) #c13 => commander 2013 edition, masters 2017 edition
     set = edition.match?(/Alpha|Beta/) ? ("Limited Edition #{edition}") : edition.match?(/^Rev|Unl/) ? ("#{edition} Edition") : (edition)
     set += ' Core Set' if set.match?(/Magic 201[4-5]/)
-    set.sub('Time Spiral ', '').gsub(' ', '+').delete("':")
+    set.sub('Time Spiral ', '').sub('Mythic Edition', 'Masterpieces').gsub(' ', '+').delete("':")
   end
 
   def mtgoldfish_url(card_name, card_set)
@@ -112,7 +112,7 @@ module CardHelper
       'Fourth Edition' => '4th-edition', 'Fifth Edition' => '5th-edition', 'Sixth Edition' => '6th-edition', 'Seventh Edition' => '7th-edition',
       'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition', 'Tenth Edition' => '10th-edition', 'Revised' => '3rd-edition', 
       'Ravnica: City of Guilds' => 'ravnica', 'Time Spiral Timeshifted' => 'timeshifted', 'Portal Second Age' => 'portal-ii', 'Portal Three Kingdoms' => 'portal-3k',
-      'Ravnica Allegiance Mythic Edition' => 'masterpiece-Series-mythic-edition'
+      'Ravnica Allegiance Mythic Edition' => 'masterpiece-series-mythic-edition'
     }
     set = ck_exceptions[edition] || edition.gsub(' ', '-').downcase.delete("':")
     set = set.match(/magic-201[0-5]/) ? "#{set.match(/\d+/)}-core-set" : set
