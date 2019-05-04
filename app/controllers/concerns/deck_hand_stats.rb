@@ -44,8 +44,8 @@ module DeckHandStats
     total_and_target_arrays
   end
 
-  #Responsible for grabbing the user's input from the hand odds calculator form, for  multivariate_hypergeometric_distribution calculation.
-  #Returns an array of arrays in the format [ [desired_cards_in_hand1, total_desired_cards_in_deck1] ..]
+  #Responsible for grabbing the user's input from the hand odds calculator form, (how many cards they have in the deck vs how many they want to draw) for 
+  #multivariate_hypergeometric_distribution calculation. Returns hash of arrays: { 0 => [ card1_copies_in_deck, card1_copies_needed ], 1 => [ card2_copies_in_deck, card2_copies_needed ]..]
   def hand_and_deck_card_counts(params)
     total_vs_desired_card_counts = {}
     pertinent_keys = params.select { | param | param.match?("in_") }.keys
