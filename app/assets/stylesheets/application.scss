@@ -28,6 +28,10 @@ a {
     color: rgb(150, 197, 150);
 }
 
+a:hover {
+    text-decoration: none;
+        color: rgba(217, 235, 218, 0.75);
+}
 //********navbar tweaks***//
 .navbar {
     display: block;
@@ -43,6 +47,10 @@ a {
 .navbar a {
     padding-right: 2%;
     margin-left: 1%;
+}
+
+.navbar a:hover {
+    color: rgb(119, 163, 119);
 }
 
 //****Search Bar***//
