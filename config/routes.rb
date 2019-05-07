@@ -30,9 +30,9 @@ Rails.application.routes.draw do
 
   resources :users, except: [:index]
   resources :decks, except: [:create]
+  get '/decks/:id/overview' => 'decks#overview'
   
   #js-created cards
   post '/decks/create'
 
-  get '/decks/:id/overview' => 'decks#overview'
 end
