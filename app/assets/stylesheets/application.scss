@@ -24,13 +24,13 @@ input, select, button {
     margin-right: 0px;
 }
 
-a {
+a, a:visited {
     color: rgb(150, 197, 150);
 }
 
 a:hover {
     text-decoration: none;
-        color: rgba(217, 235, 218, 0.75);
+    color: rgba(217, 235, 218, 0.75);
 }
 //********navbar tweaks***//
 .navbar {
