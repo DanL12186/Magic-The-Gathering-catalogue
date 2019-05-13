@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title> 
+      <%= content_for?(:title) ? yield(:title) : 'MTG Calalogue' %> 
+    </title>
+
     <%= favicon_link_tag asset_path('card_back.ico'), rel: 'icon', type: 'image/x-icon' %>
-    <title> <%= content_for?(:title) ? yield(:title) : 'MTG Calalogue' %> </title>
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
