@@ -33,7 +33,7 @@ $(document).on('turbolinks:load', function() {
   }
 
   //autocomplete search for finding cards by name
-  //console.log(event.key) gives me the current key. On enter, I can hijack the form. 
+  //$(document)[0].body.innerHTML += `<img src= "https://img.scryfall.com/cards/small/en/chr/81.jpg">`
   $('#deckCardFind').on('keyup', event => {
     if (event.target.value) {
       const userEntry       = event.target.value.toLowerCase()
@@ -51,7 +51,6 @@ $(document).on('turbolinks:load', function() {
 
   //this also triggers just by hitting enter as a mouse event
   $("#addCard").on('click', event => {
-    console.log('addCard was clicked')
     const cardOption = document.getElementById('deckBuildSearch').options[0]
     ,     copies     = document.getElementById('decks_cards_copies').value;
 
