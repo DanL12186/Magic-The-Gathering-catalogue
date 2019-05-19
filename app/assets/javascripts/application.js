@@ -30,9 +30,11 @@ $(document).on('turbolinks:load', function() {
   $(".rare, .uncommon, .mythic").on('mouseenter', function() {
     const edition = this.parentElement.getAttribute('data-edition')
     ,     rarity  = this.getAttribute('class');
+    if (!edition) return
     this.src = `/assets/editions/${edition} ${rarity}`;
   }).on('mouseleave', function() {
     const edition = this.parentElement.getAttribute('data-edition');
+    if (!edition) return
     this.src = `/assets/editions/${edition}`;
   });  
 
@@ -50,7 +52,7 @@ $(document).on('turbolinks:load', function() {
   });
 
   //remove popover from card-search page after leaving
-  $('li.card').on('click', function() {
+  $('li.card').on('click', () => {
     $('.popover.fade').remove()
   });
   
