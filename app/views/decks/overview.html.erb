@@ -17,13 +17,20 @@
     <h5 id="deck-value"> Total Value: $<%= calculate_deck_value(@shuffled_deck_cards) %></h5>
   </div>
   
+  <!-- Deck display. Cards are inserted into theh DOM one on top of the other, leading to reverse order. 
+  First cards applied are the bottom n-6 cards to be loaded later. Top cards (the second loop) are loaded immediately.-->
   <div class="large-deck col-sm-4" id="deck-holder" value="1"> 
     <p id="card-counter"> Card 1 of <%= @shuffled_deck_cards.size %> </p>
     <%= image_tag 'card back', id: "deck-holder-card-back" %>
     
-    <% @shuffled_deck_cards.each.with_index(1) do | card,  idx | %>
+    <% @shuffled_deck_cards[0..-6].each.with_index(1) do | card,  idx | %>
+      <%= image_tag "wall-4-light", image_placeholder: card.hi_res_img.sub('/large','/normal'), class: "deck-display large #{card.edition.downcase} lazy", id: "deck-card-#{idx}" %> 
+    <% end %>
+
+    <% @shuffled_deck_cards[-5..-1].each.with_index(@shuffled_deck_cards.size - 4) do | card,  idx | %>
       <%= image_tag card.hi_res_img.sub('/large','/normal'), class: "deck-display large #{card.edition.downcase}", id: "deck-card-#{idx}" %> 
     <% end %>
+
   </div>
   
   <div style="padding-top: 2%">
