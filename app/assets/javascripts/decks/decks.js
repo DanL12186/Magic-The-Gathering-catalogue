@@ -2,11 +2,11 @@ $(document).on("turbolinks:load", function() {
 
   const sum = arr => arr.reduce((a,b)=> a+b)
 
-  function loadTwoCardsAhead(twoCardsAhead) {
+  function loadTwoCardsAhead(numCards, cardCount) {
     const inverseNumber = numCards - cardCount
     ,     twoCardsAhead = document.getElementById(`deck-card-${inverseNumber - 1}`)
 
-    twoCardsAhead.src = nextCard.getAttribute('image_placeholder');
+    twoCardsAhead.src = twoCardsAhead.getAttribute('image_placeholder');
   }
 
   //clicking through cards on deck show/overview page
@@ -22,7 +22,7 @@ $(document).on("turbolinks:load", function() {
     //only apply to large, lazy cards, starting at idx 3 (non-lazy loaded), 
     //we load two card images ahead from then on, excluding the second-to-last card)
     if (cardCount > 3 && cardCount < numCards - 1 && this.getAttribute('class').includes('large')) {
-      loadTwoCardsAhead(numCards, cardCount, twoCardsAhead)
+      loadTwoCardsAhead(numCards, cardCount)
     }
 
     this.remove();
