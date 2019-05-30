@@ -19,7 +19,7 @@ $(document).on('turbolinks:load', function() {
   //would certainly be the way to go. Maybe move this inside of the search on focus event listener
 
   //autocomplete search for finding cards by name
-  $('#search').on('keyup', event => {
+  document.getElementById('search').addEventListener('keyup', event => {
     if (event.target.value) {
       const userEntry         = event.target.value.toLowerCase()
       ,     matches           = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry))
