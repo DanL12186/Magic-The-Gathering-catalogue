@@ -1,7 +1,10 @@
 $(document).on("turbolinks:load", function() {
+  const sum = array => array.reduce((a,b)=> a+b);
 
-  const sum = arr => arr.reduce((a,b)=> a+b)
-
+  const cardCountDiv = document.getElementById('card-counter')
+  ,     deckHolder   = document.getElementById('deck-holder')
+  ,     numCards     = cardCountDiv ? cardCountDiv.innerHTML.trim().match(/\d+$/)[0] : null
+  
   function loadTwoCardsAhead(numCards, cardCount) {
     const inverseNumber = numCards - cardCount
     ,     twoCardsAhead = document.getElementById(`deck-card-${inverseNumber - 1}`)
@@ -11,18 +14,16 @@ $(document).on("turbolinks:load", function() {
 
   //clicking through cards on deck show/overview page
   $('.deck-display').on('click', function() {
-    let   cardCount = this.parentElement.getAttribute('value');
-    const currentCardNumber = document.getElementById('card-counter')
-    ,     numCards = currentCardNumber.innerHTML.trim().match(/\d+$/)[0];
+    let currentCard = this.parentElement.getAttribute('value');
 
-    document.getElementById('deck-holder').setAttribute('value', ++cardCount);
+    deckHolder.setAttribute('value', ++currentCard);
 
-    currentCardNumber.innerHTML = (cardCount <= numCards) ? (`Card ${cardCount} of ${numCards}`) : ('<br>');
+    cardCountDiv.innerHTML = (currentCard <= numCards) ? (`Card ${currentCard} of ${numCards}`) : ('<br>');
 
     //only apply to large, lazy cards, starting at idx 3 (non-lazy loaded), 
     //we load two card images ahead from then on, excluding the second-to-last card)
-    if (cardCount > 3 && cardCount < numCards - 1 && this.getAttribute('class').includes('large')) {
-      loadTwoCardsAhead(numCards, cardCount)
+    if (currentCard > 3 && currentCard < numCards - 1 && this.getAttribute('class').includes('large')) {
+      loadTwoCardsAhead(numCards, currentCard)
     }
 
     this.remove();
