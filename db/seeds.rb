@@ -13,7 +13,7 @@ def get_editions(set_code)
   sdk_cards.map! { | card | JSON.parse(card.serialize) }
   
   #find in batches of 100 and only commit once per batch
-  Card.where(edition: set_name).find_in_batches(batch_size: 100) do | db_cards | 
+  Card.where(edition: set_name).find_in_batches(batch_size: 200) do | db_cards | 
     Card.transaction do
       db_cards.each do | db_card |
         sdk_card = sdk_cards.find { | card | card['name'] == db_card.name }
