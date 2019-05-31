@@ -67,7 +67,7 @@ class DecksController < ApplicationController
     
     deck_name = deck_params[:name]
 
-    @deck = Deck.create( {name: deck_name, user_id: current_user.id } )
+    @deck = Deck.create({ name: deck_name, user_id: current_user.id })
 
     return nil unless @deck.id
 
