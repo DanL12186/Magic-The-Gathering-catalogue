@@ -1,5 +1,6 @@
 //animations on the card show page
 $(document).on('turbolinks:load', function() {
+  'use strict';
 
   const pricesDiv = document.getElementById('prices');
   let   zoomed;
@@ -21,7 +22,12 @@ $(document).on('turbolinks:load', function() {
     zoomed = true;
   }
 
-  //switch transform face/back  images to high-res Scryfall image (672x936) from original low-res images (223x310)
+  //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
+  $('#card_show_img').on('click', function() {
+    zoomed ? zoomOut(this) : zoomIn(this)
+  });
+
+  //switch transform face/back images to high-res Scryfall image (672x936) from original low-res images (223x310)
   $("#card_show_img_face, #card_show_img_back").on('click', function() {
     const cardFace = this.id.includes('face') ? this : document.getElementById('card_show_img_face')
     ,     cardBack = this.id.includes('back') ? this : document.getElementById('card_show_img_back')
@@ -37,11 +43,6 @@ $(document).on('turbolinks:load', function() {
       zoomIn(cardFace)
       zoomIn(cardBack)
     };
-  });
-
-  //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
-  $('#card_show_img').on('click', function() {
-    zoomed ? zoomOut(this) : zoomIn(this)
   });
 
   //rotate split-view cards 90 or -90 degrees
@@ -78,7 +79,7 @@ $(document).on('turbolinks:load', function() {
     }, 750)
   }
 
-  const flipCardOver = () => { cardDiv.style.transform = `rotateY(${180-(transformed ? 180 : 0)}deg)` }
+  const flipCardOver = () => cardDiv.style.transform = `rotateY(${180-(transformed ? 180 : 0)}deg)`
 
   function temporarilyDisableButton(button, duration = 750) {
     button.setAttribute('disabled', true);
