@@ -17,7 +17,6 @@ class CardsController < ApplicationController
   end
 
   #grabbing all unique names; calling .to_s as it's faster than .to_json
-  #Query result will almost never change (only when new sets are added manually)
   def card_names
     cache_key = "all_unique_card_names#{Time.now.day}"
     names = Rails.cache.fetch("#{cache_key}", expires_in: 5.hours) do
