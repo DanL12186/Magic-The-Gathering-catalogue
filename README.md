@@ -13,7 +13,7 @@ Things you may want to cover:
 
 * Database creation
 
-* Database initialization
+* To initialize database: Boot up PostGreSQL app, run rake db:create and rake db:migrate
 
 * How to run the test suite
 
