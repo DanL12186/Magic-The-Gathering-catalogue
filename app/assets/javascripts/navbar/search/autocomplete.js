@@ -1,4 +1,6 @@
 $(document).on('turbolinks:load', function() {
+  const datalist = this.getElementById('autocomplete')
+  
   //clear search bar on page refresh
   this.getElementById('search').value = ''
 
@@ -14,16 +16,11 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
-  //at the moment, from a performance standpoint it makes more sense to search and then sort the results each time.
-  //If performance were ever really an issue, though, sorting once as above and then breaking after eight matches are found, while less concise,
-  //would certainly be the way to go. Maybe move this inside of the search on focus event listener
-
   //autocomplete search for finding cards by name
   document.getElementById('search').addEventListener('keyup', event => {
     if (event.target.value) {
       const userEntry         = event.target.value.toLowerCase()
       ,     matches           = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry))
-      ,     datalist          = document.getElementById('autocomplete')
       ,     firstEightMatches = matches.slice(0,8);
 
       //only update on change
