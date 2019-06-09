@@ -19,16 +19,17 @@ class Card < ApplicationRecord
     super(args)
     
     encoded_card_name = card_name_url_encode(args[:name])
-    edition_abbreviation = Editions[args[:edition]]
+    edition_abbreviation = Editions[args[:edition]] || AllEditionsStandardCodes[args[:edition]]
+    colors = args[:colors]
 
-    self.img_url = "#{BASE_URL}/#{encoded_card_name}#{edition_abbreviation}%255D.jpg"
-    self.color = args[:colors].size == 1 ? args[:colors].first : args[:colors].size > 1 ? 'Gold' : 'Colorless'
+    self.img_url = "#{BASE_URL}/#{encoded_card_name}%2B%255B#{edition_abbreviation}%255D.jpg"
+    self.color = colors.size == 1 ? colors[0] : colors.size > 1 ? 'Gold' : 'Colorless'
   end
 
   #double encoding
   def card_name_url_encode(card_name)
     name = I18n.transliterate(card_name)
-    CGI.escape(CGI.escape(name)) + "%2B%255B"
+    CGI.escape(CGI.escape(name))
   end
 
   def self.search(search)
@@ -44,6 +45,7 @@ class Card < ApplicationRecord
     escaped_search = Regexp.escape(search)
     target = (/#{escaped_search}/i)
 
+    #could probably cache this as array with downcased names
     Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | card_arr |
       next unless card_arr[1].match?(target)
       
