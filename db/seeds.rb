@@ -158,7 +158,7 @@ def create_card(id_or_hash)
   end
 
   if card_hash['layout'] == 'transform'
-    create_or_update_transform_card(hash)
+    create_or_update_transform_card(card_hash)
     return
   end
 
