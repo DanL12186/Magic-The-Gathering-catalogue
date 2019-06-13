@@ -90,7 +90,7 @@ $(document).on('turbolinks:load', function() {
     ,     response = $.post(`/cards/find_by_properties`, serializedForm);
     
     response.done(response => {
-      //fix for cards not getting prices on cardkingdom
+      //filter out cards which don't have prices from cardkingdom
       const cards = response ? response.map(JSON=> JSON.attributes).filter(card=> parseFloat(card.prices[1])) : null
 
       //remove 'Page:' and page tabs if all one page
