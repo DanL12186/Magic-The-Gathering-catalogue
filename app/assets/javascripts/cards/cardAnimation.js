@@ -11,6 +11,7 @@ $(document).on('turbolinks:load', function() {
     element.src = element.getAttribute('original_src');
     element.style.width = '223px';
     element.style.height = '310px';
+    element.classList.remove('zoomed')
     zoomed = false;
   }
 
@@ -19,6 +20,7 @@ $(document).on('turbolinks:load', function() {
     element.src = element.getAttribute('hi_res_src');
     element.style.width = '502px';
     element.style.height = '700px';
+    element.classList.add('zoomed')
     zoomed = true;
   }
 
