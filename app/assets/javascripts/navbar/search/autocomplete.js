@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load', function() {
+document.addEventListener('turbolinks:load', function() {
   const datalist = this.getElementById('autocomplete')
   
   //clear search bar on page refresh
@@ -7,7 +7,7 @@ $(document).on('turbolinks:load', function() {
   let cardNames,
       lastMatch;
 
-  $('#search').on('focus', () => {
+  document.getElementById('search').addEventListener('focus', () => {
     if (!cardNames) {
       const response = $.get('/cards/card_names');
       response.done(names => {
