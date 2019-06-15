@@ -2,6 +2,8 @@
 
 <h1 style="margin-left: 33%;"> <%= @deck.name.titleize %> Overview </h1>
 
+<h2 id="sample_hand"> <%= link_to("Generate Sample Hand", deck_path(@deck)) %> </h2>
+
 <div class="row">
   <div class="col-sm-3">
     <h4 id="deck-list-title"> Cards </h4>
