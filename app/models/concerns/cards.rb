@@ -40,6 +40,14 @@ module Cards
     "Nemesis" => "NE",
     "Prophecy" => "PR",
 
+    "Invasion" => "IN",
+    "Planeshift" => "PS",
+    "Apocalypse" => "AP",
+
+    "Odyssey" => "OD",
+    "Torment" => "TOR",
+    "Judgment" => "JUD",
+
     "Unglued" => "UGL"
   }
 
