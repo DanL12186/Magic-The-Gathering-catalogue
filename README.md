@@ -3,7 +3,7 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-* Minimum Ruby version 2.4 (use of `.sum` and `.match?`); tested on Ruby 2.4.1 - 2.6.0 on Rails 5.2 - 5.2.3.
+* Minimum Ruby version 2.4 (use of `.sum` and `.match?`); tested on Ruby 2.4.1 - 2.6.0 on Rails 5.2 - 5.2.3 on MacOS 10.9 - 10.14 and Win 7/10.
 
 * Uses Nokogiri, Bootstrap, Lazyload and Pagy gems. Also uses lazyload.js for lazy image loading, CanvasJS (canvasjs.jquery.min.js) for charts, and popper.js for popovers. 
 
