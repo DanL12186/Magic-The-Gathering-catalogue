@@ -1,7 +1,7 @@
 require 'cgi'
 
 class Card < ApplicationRecord
-  include Cards
+  include CardSets
 
   has_many :users_cards
   has_many :decks_cards, dependent: :destroy

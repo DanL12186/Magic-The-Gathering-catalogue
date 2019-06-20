@@ -14,7 +14,7 @@ class SetPriceScraper
   def self.get_mtgoldfish_set_prices(set_code)
     set_code.upcase!
     #filter all alt set codes that are two letters in mtgoldfish instead of 3
-    set_code = Cards::Editions[@set_name] || set_code
+    set_code = CardSets::VintageEditions[@set_name] || set_code
     set_code += '_F' if set_code.match?(/MS2|MS3|EXP/)
 
     url = "https://www.mtggoldfish.com/index/#{set_code}#paper"

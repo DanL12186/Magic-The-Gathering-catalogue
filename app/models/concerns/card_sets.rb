@@ -1,6 +1,6 @@
-module Cards
-  #vintage editions
-  Editions = {
+module CardSets
+  #vintage editions; cards which may have two-letter set codes
+  VintageEditions = {
     "Alpha" => "LEA",
     "Beta" => "LEB",
     "Unlimited" => "2ED",

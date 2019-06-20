@@ -1,4 +1,4 @@
-include Cards
+include CardSets
 
 module ApplicationHelper
   LANDS = Set.new(['Swamp', 'Island', 'Mountain', 'Forest', 'Plains'])
