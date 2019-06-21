@@ -23,11 +23,13 @@
 
 .pagination > .active > a {
     background-color: #3c753d;
+
+    &:hover {
+        background-color: #3c753d;
+    }
 }
 
-.pagination > .active:hover > a {
-    background-color: #3c753d;
-}
+
 
 
 //===========Card Show Page========
@@ -129,31 +131,27 @@
 
 //=========Popover============
 
-div.popover.right {
+.popover {
+    height: 310px;
+    width: 223px;
     border-radius: 4.5%;
-    margin-left: 14%;
-}
 
-div.popover.left {
-    border-radius: 4.5%;
+    img {
+        border-radius: 4%;
+    }
+
+    .popover-title {
+        display: none;
+    }
+    
+    &.right {
+        margin-left: 14%;
+    }    
 }
 
 //removes border
 .popover-content {
     padding: 0px;
-}
-
-.popover-content img {
-    border-radius: 4%;
-}
-
-.popover-title {
-    display: none;
-}
-
-.popover {
-    height: 310px;
-    width: 223px;
 }
 
 //=====Find By Property Page========
@@ -167,12 +165,12 @@ h1#pagination-pg-num {
 .thumb {
     border-radius: 3.6%;
     transition: 1.1s;
-}
 
-.thumb:hover {
-    box-shadow: 1px 1px 50px rgb(254, 255, 245);
-}
+    &.alpha {
+        border-radius: 5.9%;
+    }
 
-.thumb.alpha {
-    border-radius: 5.9%;
+    &:hover {
+        box-shadow: 1px 1px 50px rgb(254, 255, 245);
+    }
 }
