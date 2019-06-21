@@ -41,7 +41,6 @@ document.addEventListener('turbolinks:load', function() {
       const response = $.post(`/cards/update_prices?id=${id}`)
 
       response.done(cardPrices=> {
-        console.log(cardPrices)
         const oldPrices = document.getElementsByClassName('price')
         //Updates DOM if prices changed.
         for (let i = 0; i < 3; i++) {
