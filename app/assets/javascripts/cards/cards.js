@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load', function() {
+document.addEventListener('turbolinks:load', function() {
 
   $('.legalities').on('click', function() {
     const legalDiv = document.getElementById('legal')
@@ -40,12 +40,13 @@ $(document).on('turbolinks:load', function() {
     if (stale) {
       const response = $.post(`/cards/update_prices?id=${id}`)
 
-      response.done(card=> {
+      response.done(cardPrices=> {
+        console.log(cardPrices)
         const oldPrices = document.getElementsByClassName('price')
         //Updates DOM if prices changed.
         for (let i = 0; i < 3; i++) {
           const oldPrice = oldPrices[i].innerText.replace(/[\$,]/g,''),
-                newPrice = card.prices[i];
+                newPrice = cardPrices[i];
           
           if (oldPrice !== newPrice) {
             const spanID = $('#prices h4')[i].id,

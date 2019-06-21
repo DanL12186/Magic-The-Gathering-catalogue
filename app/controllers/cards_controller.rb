@@ -43,7 +43,7 @@ class CardsController < ApplicationController
 
     #SetPriceScraper.get_set_prices(AllEditionsStandardCodes[card.edition])
 
-    render json: card.to_json
+    render json: card.prices
   end
 
   def search_results
