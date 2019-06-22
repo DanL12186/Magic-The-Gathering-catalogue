@@ -62,6 +62,13 @@ div.btn.btn-sm {
     width: 400px;
 }
 
+@media(min-width: 2000px) {
+    .deck-display.large {
+        height: 680px;
+        width: 488px;
+    }
+}
+
 #deck-value {
     font-family: Times; 
     font-size: 80%
