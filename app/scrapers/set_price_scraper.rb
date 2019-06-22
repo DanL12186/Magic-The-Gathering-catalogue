@@ -12,7 +12,6 @@ class SetPriceScraper
 
   #set for mtgoldfish is actually the set code for full sets
   def self.get_mtgoldfish_set_prices(set_code)
-    set_code.upcase!
     #filter all alt set codes that are two letters in mtgoldfish instead of 3
     set_code = CardSets::VintageEditions[@set_name] || set_code
     set_code += '_F' if set_code.match?(/MS2|MS3|EXP/)
@@ -41,7 +40,7 @@ class SetPriceScraper
     end
   end
 
-  def self.get_card_kingdom_set_prices(set_code)
+  def self.get_card_kingdom_set_prices
     ck_exceptions = { 
       'Revised' => '3rd-edition',
       'Fourth Edition' => '4th-edition', 
@@ -70,7 +69,7 @@ class SetPriceScraper
           name = card_div.css('span a').text.sub("(Oversized Foil)",'').sub(/\((Foil|HOU|AKH|KLD|AER|OGW.+|BFZ.+)\)/,'').strip
           price = card_div.css('.itemAddToCart.NM').text.match(/\d+\.\d+/)[0]
 
-          if !@cards[name]
+          unless @cards[name]
             puts "Failed to get price for #{name} on cardkingdom"
             next
           end
@@ -82,7 +81,7 @@ class SetPriceScraper
   end
 
   #tcg player does 7th edition, 8th edition etc but fourth fifth sixth edition
-  def self.get_tcg_player_set_prices(set_code)
+  def self.get_tcg_player_set_prices
     tcg_exceptions = { 
       'Sixth Edition' => 'classic-sixth-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition',
       'Tenth Edition' => '10th-edition', 'Time Spiral Timeshifted' => 'timeshifted', 'Amonkhet Invocations' => 'masterpiece-series-amonkhet-invocations',
@@ -99,7 +98,7 @@ class SetPriceScraper
     card_rows.each do | card_row | 
       name = I18n.transliterate(card_row.css('div.productDetail a').text)
       
-      if !@cards[name]
+      unless @cards[name]
         puts "Failed to get price for #{name} on tcgplayer"
         next
       end
@@ -123,7 +122,8 @@ class SetPriceScraper
   end
 
   def self.get_set_prices(set_code)
-    @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
+    set_code.upcase!
+    @set_name = AllEditionsStandardCodes.invert[set_code]
 
     @threads = []
     @cards = {}
@@ -132,8 +132,8 @@ class SetPriceScraper
     @card_set_names.each { | name | @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
 
     get_mtgoldfish_set_prices(set_code)
-    get_card_kingdom_set_prices(set_code)
-    get_tcg_player_set_prices(set_code)
+    get_card_kingdom_set_prices()
+    get_tcg_player_set_prices()
 
     @threads.each(&:join)
 
