@@ -3,7 +3,7 @@ $(document).on('turbolinks:load', function() {
 
   //clear "sort by" and page buttons when a card is clicked
   function listenForPageLeave() {
-    $(".thumb").on('click', function() {
+    $(".thumb").on('click', () => {
       $("a.btn-sm").empty()
       document.getElementById("pagination-pg-num").style = "display: none;";
       $("div#find-by-pagination")[0].innerHTML = null;
