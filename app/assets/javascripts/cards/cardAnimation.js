@@ -34,7 +34,7 @@ $(document).on('turbolinks:load', function() {
     const cardFace = this.id.includes('face') ? this : document.getElementById('card_show_img_face')
     ,     cardBack = this.id.includes('back') ? this : document.getElementById('card_show_img_back')
 
-    const flipContainer = document.getElementsByClassName('flip-card-inner')[0]
+    const flipContainer = document.querySelector('.flip-card-inner')
 
     if (zoomed) {
       flipContainer.style.width = '223px';
@@ -91,7 +91,7 @@ $(document).on('turbolinks:load', function() {
     }, duration);
   }
 
-  const cardNameSpan = $("#name_and_edition");
+  const cardNameSpan = document.getElementById("name_and_edition");
   let   faceCardName,
         backCardName;
 
