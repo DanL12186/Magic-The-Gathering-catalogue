@@ -91,7 +91,7 @@ $(document).on('turbolinks:load', function() {
     }, duration);
   }
 
-  const cardNameSpan = document.getElementById("name_and_edition");
+  const cardNameSpan = $("#name_and_edition");
   let   faceCardName,
         backCardName;
 
