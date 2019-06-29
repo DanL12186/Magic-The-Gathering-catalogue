@@ -36,7 +36,7 @@
       <%= render partial: 'transform_card', locals: { flip: @flip, card: @card } %>
     <% else %>
       <div class="col-sm-3 margin-3em-top-bottom">
-        <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", hi_res_src: @card.hi_res_img, original_src: @card.img_url) %> 
+        <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", hi_res_src: @card.hi_res_img) %> 
       </div>
     <% end %>
 

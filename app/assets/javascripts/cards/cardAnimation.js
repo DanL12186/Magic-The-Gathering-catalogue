@@ -8,7 +8,6 @@ $(document).on('turbolinks:load', function() {
   //should probably just addClass/removeClass and set class to do work instead of JS
   function zoomOut(element) {
     pricesDiv.style = 'transition: 2s; float: left';
-    element.src = element.getAttribute('original_src');
     element.style.width = '223px';
     element.style.height = '310px';
     element.classList.remove('zoomed')
