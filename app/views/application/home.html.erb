@@ -8,7 +8,9 @@
       Edition: <%= link_to("#{card.edition}", "/cards/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase} fp-edition", lazy: lazy_load?(idx) %>
     <% end -%>
     
-    <h4> Artist: <%= link_to card.artist, "/cards/artists/#{card.artist}/" %> </h4>
+    <h4>
+      Artist: <%= link_to card.artist, "/cards/artists/#{card.artist}" %>
+    </h4>
     
     <% unless card.card_type == 'Land' %>
       <h5> Mana: 
@@ -20,11 +22,11 @@
 
     <% if card.flavor_text %>
       <div class="flavor"> 
-        <%= card.flavor_text.html_safe %> 
+        <%= card.flavor_text %> 
       </div>
     <% end %>
 
-    <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: lazy_load?(idx) )  ), "/cards/#{card.edition}/#{card.name}/" %> 
+    <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: lazy_load?(idx) )  ), "/cards/#{card.edition}/#{card.name}" %> 
       
   <% end %>
 
