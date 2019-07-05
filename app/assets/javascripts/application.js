@@ -29,7 +29,7 @@ $(document).on('turbolinks:load', function() {
   //change edition symbol color to silver or gold if card is uncommon or rare
   $(".rare, .uncommon, .mythic").on('mouseenter', function() {
     const edition = this.parentElement.getAttribute('data-edition')
-    ,     rarity  = this.getAttribute('class');
+    ,     rarity  = this.getAttribute('class').match(/rare|uncommon|common/)
     if (!edition) return
     this.src = `/assets/editions/${edition} ${rarity}`;
   }).on('mouseleave', function() {
