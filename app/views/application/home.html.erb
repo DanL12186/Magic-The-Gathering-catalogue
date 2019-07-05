@@ -4,9 +4,9 @@
 
     <h1> <%= card.name %> </h1>
     
-    <h3 data-edition= "<%= card.edition.downcase %>" > 
-      Edition: <%= link_to("#{card.edition}", "/cards/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase}", width: '2%', lazy: lazy_load?(idx) %>
-    </h3>
+    <%= content_tag(:h3, data: { edition: card.edition.downcase }) do -%>
+      Edition: <%= link_to("#{card.edition}", "/cards/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase} fp-edition", lazy: lazy_load?(idx) %>
+    <% end -%>
     
     <h4> Artist: <%= link_to card.artist, "/cards/artists/#{card.artist}/" %> </h4>
     
