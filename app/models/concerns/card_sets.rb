@@ -180,7 +180,8 @@ module CardSets
       "Iconic Masters" => "IMA",
       "Masters 25" => "A25",
       "Ultimate Masters" => "UMA",
-      "Ultimate Box Topper" => "PUMA"
+      "Ultimate Box Topper" => "PUMA",
+      "Modern Horizons" => "MH1"
     },
     "From the Vault" => {
       "From the Vault: Dragons" => "DRB",
@@ -345,6 +346,7 @@ module CardSets
     "Masters 25" => "A25",
     "Ultimate Masters" => "UMA",
     "Ultimate Box Topper" => "PUMA",
+    "Modern Horizons" => "MH1",
 
     "Portal Second Age" => "PO2",
     "Portal Three Kingdoms" => "PTK",
