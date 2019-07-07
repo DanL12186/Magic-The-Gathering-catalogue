@@ -1,7 +1,7 @@
 ###Card-building Tools###
 
-# require 'open-uri'
-# require 'mtg_sdk'
+require 'open-uri'
+require 'mtg_sdk'
 
 # #get other edition printings from MTG SDK after loading card set
 # #set code, e.g. 'mir', 'hml', 'all', 'lea'
