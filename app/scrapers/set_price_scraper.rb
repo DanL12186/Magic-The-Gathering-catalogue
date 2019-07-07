@@ -9,6 +9,7 @@
 require 'open-uri'
 
 class SetPriceScraper
+  include CardSets
 
   #set for mtgoldfish is actually the set code for full sets
   def self.get_mtgoldfish_set_prices(set_code)
