@@ -19,7 +19,7 @@ class Card < ApplicationRecord
     super(args)
     
     encoded_card_name = card_name_url_encode(args[:name])
-    edition_abbreviation = Editions[args[:edition]] || AllEditionsStandardCodes[args[:edition]]
+    edition_abbreviation = VintageEditions[args[:edition]] || AllEditionsStandardCodes[args[:edition]]
     colors = args[:colors]
 
     self.img_url = "#{BASE_URL}/#{encoded_card_name}%2B%255B#{edition_abbreviation}%255D.jpg"
