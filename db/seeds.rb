@@ -2,6 +2,7 @@
 
 require 'open-uri'
 require 'mtg_sdk'
+include CardSets
 
 # #get other edition printings from MTG SDK after loading card set
 # #set code, e.g. 'mir', 'hml', 'all', 'lea'
@@ -36,36 +37,38 @@ def update_set(set_code)
   page_count.times do
     card_set = set['data']
 
-    card_set.each do | obj | 
-      next if obj['layout'] == 'split'
+    Card.transaction do
+      card_set.each do | obj | 
+        next if obj['layout'] == 'split'
 
-      card = Card.find_by(multiverse_id: obj['multiverse_ids'][0])
-      
-      next unless card
-      
-      #allow transform card method to take over for flip cards
-      if card.layout == 'transform'
-        back = Card.find_by(multiverse_id: card.flip_card_multiverse_id)
-        create_or_update_transform_card(obj, card, back)
-        next
+        card = Card.find_by(multiverse_id: obj['multiverse_ids'][0])
+        
+        next unless card
+        
+        #allow transform card method to take over for flip cards
+        if card.layout == 'transform'
+          back = Card.find_by(multiverse_id: card.flip_card_multiverse_id)
+          create_or_update_transform_card(obj, card, back)
+          next
+        end
+
+        legendary = legendary?(obj['type_line'])
+        legalities = obj['legalities']
+        loyalty = obj['loyalty']&.to_i
+        subtypes = get_card_types(obj['type_line'])
+        type = subtypes.shift
+        edition = format_edition(obj['set_name'])
+        subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
+        has_foil_version = obj['foil']
+        has_nonfoil_version = obj['nonfoil']
+        card_number = obj['collector_number']
+
+        card.update(hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), cropped_img: obj['image_uris']['art_crop'].sub(/\?\d+$/,''), reserved: obj['reserved'], 
+        year: obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, 
+        subtypes: subtypes, legalities: legalities, frame: obj['frame'].to_i, loyalty: loyalty, card_type: type, layout: obj['layout'], 
+        reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'], border_color: obj['border_color'], flavor_text: get_flavor_text(obj['flavor_text']), 
+        oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number)
       end
-
-      legendary = legendary?(obj['type_line'])
-      legalities = obj['legalities']
-      loyalty = obj['loyalty']&.to_i
-      subtypes = get_card_types(obj['type_line'])
-      type = subtypes.shift
-      edition = format_edition(obj['set_name'])
-      subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(obj['name'])
-      has_foil_version = obj['foil']
-      has_nonfoil_version = obj['nonfoil']
-      card_number = obj['collector_number']
-
-      card.update(hi_res_img: obj['image_uris']['large'].sub(/\?\d+/,''), cropped_img: obj['image_uris']['art_crop'].sub(/\?\d+$/,''), reserved: obj['reserved'], 
-      year: obj['released_at'][0..3], :multiverse_id => obj['multiverse_ids'][0], :rarity => obj['rarity'].capitalize, legendary: legendary, 
-      subtypes: subtypes, legalities: legalities, frame: obj['frame'].to_i, loyalty: loyalty, card_type: type, layout: obj['layout'], 
-      reprint: obj['reprint'], scryfall_uri: obj['scryfall_uri'], border_color: obj['border_color'], flavor_text: get_flavor_text(obj['flavor_text']), 
-      oracle_text: obj['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number)
     end
 
     if set['next_page'].nil?
