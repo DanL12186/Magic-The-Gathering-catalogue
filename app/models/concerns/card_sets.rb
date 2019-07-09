@@ -148,7 +148,8 @@ module CardSets
       "Core Set 2019"=>"M19",
       "Guilds of Ravnica" => "GRN",
       "Ravnica Allegiance" => "RNA",
-      "War of the Spark" => "WAR"
+      "War of the Spark" => "WAR",
+      "Core Set 2020" => "M20"
     },
     "Core Sets" => {
       "Eighth Edition" => "8ED",
@@ -321,6 +322,7 @@ module CardSets
     "Magic 2015" => "M15",
     "Magic Origins" => "ORI",
     "Core Set 2019" => "M19",
+    "Core Set 2020" => "M20",
 
     #commander
     "Commander" => "CMD",
