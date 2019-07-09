@@ -103,8 +103,14 @@ class SetPriceScraper
         puts "Failed to get price for #{name} on tcgplayer"
         next
       end
-      price = card_row.css('td.marketPrice').text.match(/\d+\,*\d*\.\d+/)[0].delete(',')
+
+      price = card_row.css('td.marketPrice').text.match(/\d+\,*\d*\.\d+/).to_s.delete(',')
       
+      #newly-released sets on TCG will have a lot of missing prices
+      if price.empty? 
+        price = 'Pricing Not Yet Available'
+      end
+
       @cards[name][2] = price
     end
   end
