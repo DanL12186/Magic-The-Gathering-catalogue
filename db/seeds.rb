@@ -78,9 +78,9 @@ def update_set(set_code)
 
     url = set['next_page']
 
-    puts ''
+    puts
     puts "Loading next page..."
-    puts ''
+    puts
 
     set = JSON.parse(open(url).read)
   end
@@ -91,9 +91,11 @@ end
 def create_set(set_code)
   url = "https://api.scryfall.com/cards/search?q=set:#{set_code}"
   set = JSON.parse(open(url).read)
-  ((set['total_cards']/175).ceil + 1).times do
+  page_count = set['total_cards'].fdiv(175).ceil
+  
+  page_count.times do
     card_set = set['data']
-    
+  
     card_set.each do | obj |
       create_card(obj)
     end
@@ -105,9 +107,9 @@ def create_set(set_code)
 
     url = set['next_page']
 
-    puts ''
+    puts
     puts "Loading next page..."
-    puts ''
+    puts
     
     set = JSON.parse(open(url).read)
   end
@@ -115,16 +117,16 @@ end
 
 #/P accounts for cards with Phyrexian casting costs (e.g. {G/P} means 'either one green mana or 2 life')
 def get_mana_cost(str)
-  str.delete('{}/P').chars.map { | char | @mana_abbrev[char] || char }
-end
+  mana_abbrev = {
+    "R" => "Red",
+    "G" => "Green",
+    "U" => "Blue", 
+    "B" => "Black",
+    "W" => "White"
+  }
 
-@mana_abbrev = {
-  "R" => "Red",
-  "G" => "Green",
-  "U" => "Blue", 
-  "B" => "Black",
-  "W" => "White"
-}
+  str.delete('{}/P').chars.map { | char | mana_abbrev[char] || char }
+end
 
 def legendary?(str)
   str.include?("Legendary")
@@ -151,7 +153,7 @@ def get_colors(mana)
   mana.uniq.reject { | str | str.to_i > 0 || str == 'X' || str == '0' }
 end
 
-# # #single card
+#creates a single card, either via the command-line where user specifies a multiverse ID, or when called by create_set, passed a hash.
 def create_card(id_or_hash)
   if id_or_hash.is_a?(Integer)
     @url = "https://api.scryfall.com/cards/multiverse/#{id_or_hash}"
@@ -182,6 +184,7 @@ def create_card(id_or_hash)
   Card.create(name: card_hash['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: card_hash['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => card_hash['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => card_hash['reserved'], :year => card_hash['released_at'][0..3], :multiverse_id => card_hash['multiverse_ids'][0], :rarity => card_hash['rarity'].capitalize, power: card_hash['power'].try(:to_i), artist: card_hash['artist'], toughness: card_hash['toughness'].try(:to_i), mana: mana, converted_mana_cost: card_hash['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(card_hash['flavor_text']), layout: card_hash['layout'], frame: card_hash['frame'].to_i, loyalty: loyalty, reprint: card_hash['reprint'], scryfall_uri: card_hash['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: card_hash['border_color'], oracle_text: card_hash['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number )
 end
 
+#Either updates an existing transform card from existing data (accepts Ruby object), or creates one when called by create_set and passed a hash
 def create_or_update_transform_card(card_hash, card_face_object = nil, card_back_object = nil)
   card_face_specific_data, card_back_specific_data = card_hash['card_faces']
   face_id, back_id = card_hash['multiverse_ids']
@@ -218,7 +221,7 @@ def create_or_update_transform_card(card_hash, card_face_object = nil, card_back
   
   card_face_attributes = { name: face_name, edition: edition, legendary: face_legendary, multiverse_id: face_id, colors: face_colors, hi_res_img: face_hi_res, cropped_img: face_crop, power: face_power, toughness: face_toughness, artist: face_artist, mana: face_mana, card_type: face_type, subtypes: face_subtypes, flavor_text: face_flavor, flip_card_multiverse_id: face_twin, loyalty: face_loyalty, oracle_text: face_oracle_text, card_number: "#{card_number}a" }
   
-  #if updating, assign attributes to passed in Ruby object; otherwise create one via hash.
+  #if updating, assign attributes to passed-in Ruby object; otherwise create one via hash.
   if !!card_face_object 
     face = card_face_object
     face.assign_attributes(card_face_attributes)
