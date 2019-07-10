@@ -138,19 +138,19 @@ def format_edition(edition)
   edition
 end
 
-def get_card_types(str)
-  types = str.sub('Legendary ', '').split
+def get_card_types(typeline)
+  types = typeline.sub('Legendary ', '').split
   types.delete('—')
   types
 end
 
-def get_flavor_text(str)
-  return str.gsub("â", "—") if str
-  nil
+def get_flavor_text(flavor)
+  flavor.gsub("â", "—") if flavor
 end
 
+#remove non-colors from mana cost (e.g. 3, X colorless)
 def get_colors(mana)
-  mana.uniq.reject { | str | str.to_i > 0 || str == 'X' || str == '0' }
+  mana.uniq.reject { | str | str.match?(/\d|X/) }
 end
 
 #creates a single card, either via the command-line where user specifies a multiverse ID, or when called by create_set, passed a hash.
