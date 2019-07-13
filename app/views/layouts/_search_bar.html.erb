@@ -1,6 +1,6 @@
   <div class="search-bar">
     <%= form_with url: '/cards/search_results', method: "GET", local: true do %>
-      <%= text_field_tag :search, params[:search], list: 'autocomplete', required: true, class: 'search-input', autocomplete: 'off', placeholder: 'Card Search'%>
+      <%= text_field_tag :search, params[:search], list: 'autocomplete', required: true, class: 'search-input', autocomplete: 'off', placeholder: 'Card Search', label: 'Card Search'%>
       <datalist id="autocomplete"> </datalist>
     <% end %>
   </div>
