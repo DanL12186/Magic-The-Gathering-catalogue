@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
   <head>
     <title> 
       <%= content_for?(:title) ? yield(:title) : 'MTG Calalogue' %> 
     </title>
+
+    <meta charset="utf-8">
+    <meta name="description" content="Magic: The Gathering Catalogue and Deck Builder">
+    <meta name="author" content="Daniel Lempesis">
 
     <%= favicon_link_tag asset_path('favicon.ico'), rel: 'icon', type: 'image/x-icon' %>
     
