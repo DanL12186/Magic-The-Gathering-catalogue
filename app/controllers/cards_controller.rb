@@ -84,11 +84,13 @@ class CardsController < ApplicationController
     filter_options = Card.attribute_names
     
     filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
+    
+    #do not exclude reprints if a particular edition/set is selected, as many editions have reprints in them
     filters.delete(:reprint) if filters[:edition]
 
     min_filters = filters[:edition] ? 1 : 2
 
-    @results = Card.select(filters.keys + required_attributes).where(filters).first(1200) unless filters.keys.size < min_filters
+    @results = Card.select(filters.keys + required_attributes).where(filters).limit(1200) unless filters.keys.size < min_filters
   end
 
   def redirect_if_not_face_card
