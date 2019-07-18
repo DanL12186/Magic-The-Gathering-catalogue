@@ -95,9 +95,11 @@ def create_set(set_code)
   
   page_count.times do
     card_set = set['data']
-  
-    card_set.each do | obj |
-      create_card(obj)
+    
+    Card.transaction do
+      card_set.each do | obj |
+        create_card(obj)
+      end
     end
 
     if set['next_page'].nil?
