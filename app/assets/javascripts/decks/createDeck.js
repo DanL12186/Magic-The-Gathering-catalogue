@@ -9,7 +9,7 @@ $(document).on('turbolinks:load', function() {
       lastMatch;
 
   //for some reason, form and head auth tokens don't match until refresh, this is a fix
-  const railsAuthenticityToken = $("head meta")[1].content,
+  const railsAuthenticityToken = $('head [name=csrf-token]')[0].content,
         formAuthenticityToken  = $("#new_deck input")[1]
 
   $('#deckCardFind').on('focus', () => {
