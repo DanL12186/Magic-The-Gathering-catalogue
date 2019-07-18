@@ -5,17 +5,17 @@
     <h1> <%= card.name %> </h1>
     
     <%= content_tag(:h3, data: { edition: card.edition.downcase }) do -%>
-      Edition: <%= link_to("#{card.edition}", "/cards/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", class: "#{card.rarity.downcase} fp-edition", lazy: lazy_load?(idx) %>
+      Edition: <%= link_to("#{card.edition}", "/cards/#{card.edition}") %> <%= image_tag "editions/#{card.edition.downcase}", alt: '', class: "#{card.rarity.downcase} fp-edition", lazy: lazy_load?(idx) %>
     <% end -%>
     
     <h4>
-      Artist: <%= link_to card.artist, "/cards/artists/#{card.artist}" %>
+      Artist: <%= link_to card.artist, "/cards/artists/#{card.artist}", aria: { label: "See more cards drawn by #{card.artist}" } %>
     </h4>
     
     <% unless card.card_type == 'Land' %>
       <h5> Mana: 
         <% card.mana.each do | color | %>
-          <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22', lazy: lazy_load?(idx) ), "/cards/color/#{mana_color(color)}" %>
+          <%= link_to (image_tag "mana_symbols/#{color_to_mana(color)}", size: '22', alt: '', aria: { label: "View all #{color} cards" }, lazy: lazy_load?(idx) ), "/cards/color/#{mana_color(color)}" %>
         <% end %>
       </h5>
     <% end %>
@@ -26,7 +26,7 @@
       </div>
     <% end %>
 
-    <%= link_to ( image_tag(card.img_url, class: card_class(card), lazy: lazy_load?(idx) )  ), "/cards/#{card.edition}/#{card.name}" %> 
+    <%= link_to ( image_tag(card.img_url, class: card_class(card), alt: card.name, aria: { label: "View #{card.edition} set" }, lazy: lazy_load?(idx) )  ), "/cards/#{card.edition}/#{card.name}" %> 
       
   <% end %>
 
