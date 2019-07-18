@@ -4,11 +4,14 @@ require 'open-uri'
 require 'mtg_sdk'
 include CardSets
 
+SET_CODES_IN_CHRONOLOGICAL_ORDER = AllEditionsStandardCodes.invert.map.with_index { | (set_code, _), idx | [set_code, idx] }.to_h
+
 # #get other edition printings from MTG SDK after loading card set
 # #set code, e.g. 'mir', 'hml', 'all', 'lea'
 def get_editions(set_code)
-  set_codes_in_chronological_order = AllEditionsStandardCodes.invert.map.with_index { | (set_code, _), idx | [set_code, idx] }.to_h
-  set_name = AllEditionsStandardCodes.invert[set_code.upcase]
+  set_code.upcase!
+  
+  set_name = AllEditionsStandardCodes.invert[set_code]
   
   sdk_cards = MTG::Card.where(set: set_code).all
   sdk_cards.map! { | card | JSON.parse(card.serialize) }
@@ -20,7 +23,8 @@ def get_editions(set_code)
         sdk_card = sdk_cards.find { | card | card['name'] == db_card.name }
         next unless sdk_card && !sdk_card['supertypes'].include?('Basic')
       
-        other_editions = sdk_card["printings"].reject { | ed | !set_codes_in_chronological_order[ed] || ed == set_code.upcase }.sort_by { | code | set_codes_in_chronological_order[code] }
+        other_editions = sdk_card["printings"].reject { | ed | !SET_CODES_IN_CHRONOLOGICAL_ORDER[ed] || ed == set_code.upcase }
+                                              .sort_by { | code | SET_CODES_IN_CHRONOLOGICAL_ORDER[code] }
         
         db_card.update(other_editions: other_editions) unless other_editions.empty?
       end
