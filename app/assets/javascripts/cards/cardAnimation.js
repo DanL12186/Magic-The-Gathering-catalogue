@@ -33,7 +33,7 @@ $(document).on('turbolinks:load', function() {
     const cardFace = this.id.includes('face') ? this : document.getElementById('card_show_img_face')
     ,     cardBack = this.id.includes('back') ? this : document.getElementById('card_show_img_back')
 
-    const flipContainer = document.querySelector('.flip-card-inner')
+    const flipContainer = document.querySelector('.flip-card-inner');
 
     if (zoomed) {
       flipContainer.style.width = '223px';
@@ -90,6 +90,14 @@ $(document).on('turbolinks:load', function() {
     }, duration);
   }
 
+  function temporarilyHideOverflow() {
+    document.body.classList.add('hide-overflow')
+
+    setTimeout(()=> {
+      document.body.classList.remove('hide-overflow');
+    }, 900);
+  }
+
   const cardNameSpan = $("#name_and_edition");
   let   faceCardName,
         backCardName;
@@ -123,6 +131,13 @@ $(document).on('turbolinks:load', function() {
     temporarilyDisableButton(this, 750);
 
     flipCardOver();
+
+    //hide overflow if user does not have a vertical scroll bar (card can rotate partway off screen and create one)
+    if (document.body.clientHeight <= window.innerHeight()) {
+      temporarilyHideOverflow();
+    }
+    
+
     fadeSwitchName();
     fadeSwitchCroppedImage();
   });
