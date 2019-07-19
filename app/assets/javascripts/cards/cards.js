@@ -1,4 +1,5 @@
 document.addEventListener('turbolinks:load', function() {
+  const railsAuthenticityToken = $('head [name=csrf-token]')[0].content
 
   $('.legalities').on('click', function() {
     const legalDiv = document.getElementById('legal')
@@ -38,8 +39,8 @@ document.addEventListener('turbolinks:load', function() {
     ,     id = $('#prices').data('id');
 
     if (stale) {
-      const response = $.post(`/cards/update_prices?id=${id}`)
-
+      const response = $.post(`/cards/update_prices`, { id: id, authenticity_token: railsAuthenticityToken } )
+    
       response.done(cardPrices=> {
         const oldPrices = document.getElementsByClassName('price')
         //Updates DOM if prices changed.

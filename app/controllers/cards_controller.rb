@@ -1,7 +1,6 @@
 require 'set_price_scraper.rb'
 
 class CardsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:update_prices]
   before_action :get_filter_search_results, only: [:filter_search]
 
   include CardSets
