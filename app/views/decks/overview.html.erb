@@ -26,7 +26,7 @@
     <%= image_tag 'card back', id: "deck-holder-card-back" %>
     
     <% @shuffled_deck_cards[0..-6].each.with_index(1) do | card,  idx | %>
-      <%= image_tag "wall-4-light", image_placeholder: card.hi_res_img.sub('/large','/normal'), class: "deck-display large #{card.edition.downcase} lazy", id: "deck-card-#{idx}" %> 
+      <%= image_tag "wall-4-light.png", image_placeholder: card.hi_res_img.sub('/large','/normal'), class: "deck-display large #{card.edition.downcase} lazy", id: "deck-card-#{idx}" %> 
     <% end %>
 
     <% @shuffled_deck_cards[-5..-1].each.with_index(@shuffled_deck_cards.size - 4) do | card,  idx | %>
