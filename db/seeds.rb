@@ -23,7 +23,7 @@ def get_editions(set_code)
         sdk_card = sdk_cards.find { | card | card['name'] == db_card.name }
         next unless sdk_card && !sdk_card['supertypes'].include?('Basic')
       
-        other_editions = sdk_card["printings"].reject { | ed | !SET_CODES_IN_CHRONOLOGICAL_ORDER[ed] || ed == set_code.upcase }
+        other_editions = sdk_card["printings"].reject  { |  ed  | !SET_CODES_IN_CHRONOLOGICAL_ORDER[ed] || ed == set_code }
                                               .sort_by { | code | SET_CODES_IN_CHRONOLOGICAL_ORDER[code] }
         
         db_card.update(other_editions: other_editions) unless other_editions.empty?
