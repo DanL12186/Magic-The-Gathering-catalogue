@@ -82,7 +82,7 @@ $(document).on('turbolinks:load', function() {
 
   const flipCardOver = () => cardDiv.style.transform = `rotateY(${180-(transformed ? 180 : 0)}deg)`
 
-  function temporarilyDisableButton(button, duration = 750) {
+  function temporarilyDisableButton(button, duration = 850) {
     button.setAttribute('disabled', true);
     
     setTimeout(()=> {
@@ -95,7 +95,7 @@ $(document).on('turbolinks:load', function() {
 
     setTimeout(()=> {
       document.body.classList.remove('hide-overflow');
-    }, 900);
+    }, 950);
   }
 
   const cardNameSpan = $("#name_and_edition");
@@ -128,12 +128,12 @@ $(document).on('turbolinks:load', function() {
       cardDiv = document.getElementsByClassName('flip-card-inner')[0];
     }
 
-    temporarilyDisableButton(this, 750);
+    temporarilyDisableButton(this, 950);
 
     flipCardOver();
 
     //hide overflow if user does not have a vertical scroll bar (card can rotate partway off screen and create one)
-    if (document.body.clientHeight <= window.innerHeight()) {
+    if (document.body.clientHeight <= window.innerHeight) {
       temporarilyHideOverflow();
     }
     
