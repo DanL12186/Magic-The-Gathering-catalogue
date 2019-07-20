@@ -42,6 +42,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'pry'
+  gem 'mtg_sdk'
 end
 
 group :development do
