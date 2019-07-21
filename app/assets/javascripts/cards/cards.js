@@ -49,10 +49,10 @@ document.addEventListener('turbolinks:load', function() {
                 newPrice = cardPrices[i];
           
           if (oldPrice !== newPrice) {
-            const spanID = $('#prices h4')[i].id,
-                  priceSpan = $(`h4#${spanID} span`);
+            const spanID = document.querySelectorAll('#prices h4')[i].id,
+                  priceSpan = document.querySelector(`h4#${spanID} span`);
 
-            priceSpan.fadeOut(750).fadeIn(750);
+            $(priceSpan).fadeOut(750).fadeIn(750);
 
             setTimeout(() => {
               oldPrices[i].innerText = newPrice !== 'N/A' ? '$' + numberWithDelimiter(newPrice) : 'N/A'
