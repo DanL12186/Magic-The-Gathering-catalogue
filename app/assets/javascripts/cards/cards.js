@@ -10,10 +10,13 @@ document.addEventListener('turbolinks:load', function() {
       return;
     }
 
-    const legalities = JSON.parse(this.getAttribute('data-legalities')),
-          legalityHTML = Object.keys(legalities).map(format=> {
-            return `<div>${format.replace(format[0], format[0].toUpperCase())}: ${legalities[format] ? 'Legal' : 'Not Legal'}</div>`
-          }).join('');
+    const legalities   =  JSON.parse(this.getAttribute('data-legalities')),
+          legalityHTML =  Object.keys(legalities)
+                                .map(format=> {
+                                  const upperCaseFormat = format.replace(format[0], format[0].toUpperCase()),
+                                        legality = legalities[format].replace('_', ' ');
+                                  return `<div>${upperCaseFormat}: ${legality}</div>`
+                                }).join('');
       
     legalDiv.innerHTML = legalityHTML
     legalDiv.style = "background-color: rgba(255,255,255,0.250); max-width: 300px; padding: 20px; border-radius: 5%; transition: 5s;"
