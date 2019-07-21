@@ -90,6 +90,12 @@ module DeckHelper
     deck.first(n)
   end
 
+  #rotates each card by two degrees times its distance from the center (7 cards)
+  def set_rotation_angle(idx)
+    angle = (2 * idx) - 6
+    "transform: rotate(#{angle}deg)"
+  end
+
   def next_eight_cards(deck)
     deck[7..-1].first(8)
   end

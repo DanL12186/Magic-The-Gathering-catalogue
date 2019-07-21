@@ -6,10 +6,10 @@
 
 <div class = "row margin-bottom" >
 
-  <% @sample_hand.each do | card | %>
-    <div class = 'col-sm-1 filter'> 
+  <% @sample_hand.each_with_index do | card, idx | %>
+    <div class='col-sm-1 filter'> 
       <div class="deck-show-card-name"> <%= truncate_at_three_words(card.name) %> </div> 
-      <%= image_tag card.img_url, class: 'hand-card' %>
+      <%= image_tag card.img_url, class: 'hand-card', style: "#{set_rotation_angle(idx)}" %>
     </div>
   <% end %>
 
