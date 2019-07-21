@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require rails-ujs
-//= require jquery3.min
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require lazyload

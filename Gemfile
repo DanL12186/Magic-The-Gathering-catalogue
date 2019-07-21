@@ -20,7 +20,6 @@ gem 'lazyload-rails'
 gem 'uglifier', '>= 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '>= 5.2'
 # Fast JSON serializer by Netflix
