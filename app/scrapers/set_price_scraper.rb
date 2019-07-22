@@ -128,9 +128,42 @@ class SetPriceScraper
     end
   end
 
+  def self.display_errors(error)
+    if error.match?('Not Found')
+      puts 'Page was not found; the site may currently be down.'
+      return nil
+    elsif error == 'Invalid Set Code'
+      puts "Whoops! That doesn't seem to be a valid set code" 
+      puts "if you know the name of the set you're trying input, type it in and we'll try again!"
+      puts "Do you know the name of the set you're trying to scrape? y/n"
+
+      input = gets.strip.downcase
+
+      if input.match?(/^y/)
+        lowercase_set_names = AllEditionsStandardCodes.map { | set_name, set_code | [ set_name.downcase, set_code ] }.to_h
+
+        puts "Enter the set name (case insensitive):"
+        
+        set_name = gets.strip.downcase
+        
+        set_code = lowercase_set_names[set_name]
+
+        if set_code
+          return SetPriceScraper.get_set_prices(set_code)
+        else
+          puts "Sorry, that doesn't appear to be a valid set name!"
+          return nil
+        end
+      end
+    end
+  end
+
   def self.get_set_prices(set_code)
-    set_code.upcase!
-    @set_name = AllEditionsStandardCodes.invert[set_code]
+    @set_name = AllEditionsStandardCodes.invert[set_code.upcase!]
+
+    if @set_name.nil?
+      return SetPriceScraper.display_errors('Invalid Set Code')
+    end
 
     @threads = []
     @cards = {}
