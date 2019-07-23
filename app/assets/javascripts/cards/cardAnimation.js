@@ -2,25 +2,20 @@
 $(document).on('turbolinks:load', function() {
   'use strict';
 
-  const pricesDiv = document.getElementById('prices');
+  const pricesDiv = document.querySelector('.prices-js');
   let   zoomed;
 
-  //should probably just addClass/removeClass and set class to do work instead of JS
-  function zoomOut(element) {
-    pricesDiv.style = 'transition: 2s; float: left';
-    element.style.width = '223px';
-    element.style.height = '310px';
-    element.classList.remove('zoomed')
-    zoomed = false;
+  function zoomIn(element) {
+    element.src = element.getAttribute('hi_res_src');
+    element.classList.add('zoomed')
+    pricesDiv.classList.add('pushed-right')
+    zoomed = true;
   }
 
-  function zoomIn(element) {
-    pricesDiv.style = 'transition: 1.2s; margin-left: 57.5%; margin-top: 3.5%;';
-    element.src = element.getAttribute('hi_res_src');
-    element.style.width = '502px';
-    element.style.height = '700px';
-    element.classList.add('zoomed')
-    zoomed = true;
+  function zoomOut(element) {
+    element.classList.remove('zoomed')
+    pricesDiv.classList.remove('pushed-right')
+    zoomed = false;
   }
 
   //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 

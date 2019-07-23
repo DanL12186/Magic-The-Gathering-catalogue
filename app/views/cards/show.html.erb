@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <div id="prices" data-id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.prices) %> >
+  <div id="prices" class='prices-js' data-id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.prices) %> >
     <h4 id="mtg-fish"> 
       <%= link_to 'MTGoldfish Price:', mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
       <span class = 'price'> <%= display_price(@card.prices[0]) %> </span>

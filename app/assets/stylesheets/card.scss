@@ -78,10 +78,24 @@
     }
 
     &.zoomed {
+        width: 502px;
+        height: 700px;
         &:hover {
             cursor: zoom-out;
         }
     }
+}
+
+#prices {
+  transition: 2s; 
+  float: left;
+
+  &.pushed-right {
+    transition: 1.2s;
+    margin-left: 57.5%; 
+    margin-top: 3.5%;
+  } 
+
 }
 
 // .card_show:hover {
