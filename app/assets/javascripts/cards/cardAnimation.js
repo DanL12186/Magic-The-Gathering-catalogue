@@ -51,7 +51,7 @@ $(document).on('turbolinks:load', function() {
     if (!rotated) { 
       image.style.marginLeft = '15%';
       image.style.transition = '1.5s';
-      image.style.transform = `rotate(${angle}`;
+      image.style.transform = `rotate(${angle})`;
     } else {
       image.style.marginLeft = '0%';
       image.style.transition = '1.0s';
