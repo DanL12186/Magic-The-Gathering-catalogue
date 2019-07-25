@@ -3,6 +3,8 @@
 @import "card";
 @import "deck";
 @import "home_page";
+@import "navigation";
+@import "search_bar";
 
 @font-face {
     font-family:"MagicMedieval";
@@ -36,56 +38,6 @@ a, a:visited {
         color: rgba(217, 235, 218, 0.75);
     }
 }
-
-//********navbar tweaks***//
-.navbar {
-    display: block;
-    text-align: center;
-
-    padding-top: 0.75%;
-    margin-right: 50px;
-    background-color: black;
-    border: 2px solid #3c763d;
-    font-size: 20px;
-
-    a {
-        padding-right: 2%;
-        margin-left: 1%;
-    
-        &:hover {
-            color: rgb(119, 163, 119);
-        }
-    }
-}
-
-@media (max-width: 1208px) {
-    .navbar {
-        font-size: 15px;
-        padding-top: 1.5%;
-    }
-}
-
-//****Search Bar***//
-.search-bar {
-    float: right;
-    padding-bottom: 10px;
-    margin-right: 10px;
-    font-size: 0.9em;
-    font-family: 'Times New Roman';
-}
-
-.search-input {
-    text-align: center;
-    border-radius: 12px;
-    border: 1px darkblue;
-}
-//*****************//
-
-.account-settings {
-    float: right; 
-    font-size: 10px;
-}
-//************************//
 
 //****Edition, Color and Artist Pages*******//
 

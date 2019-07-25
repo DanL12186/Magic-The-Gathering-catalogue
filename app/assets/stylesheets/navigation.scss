@@ -1,0 +1,32 @@
+//********navbar tweaks***//
+.navbar {
+    display: block;
+    text-align: center;
+
+    padding-top: 0.75%;
+    margin-right: 50px;
+    background-color: black;
+    border: 2px solid #3c763d;
+    font-size: 20px;
+
+    a {
+        padding-right: 2%;
+        margin-left: 1%;
+    
+        &:hover {
+            color: rgb(119, 163, 119);
+        }
+    }
+}
+
+@media (max-width: 1208px) {
+    .navbar {
+        font-size: 15px;
+        padding-top: 1.5%;
+    }
+}
+
+.account-settings {
+    float: right; 
+    font-size: 10px;
+}
