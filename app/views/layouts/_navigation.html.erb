@@ -1,7 +1,7 @@
 <h5 class = "navbar"> 
   <%= link_to "Sign Up", "/signup" unless logged_in? %>
   <%= link_to "Log In", "/login" unless logged_in? %>
-  <%= link_to "Home", root_path %>  
+  <%= link_to "Home", root_path unless current_page?(root_path) %>  
   <%= link_to "Your Decks", decks_path if logged_in? %> 
   <%= link_to "Calculator", "/hand_odds_calculator" %> 
   <%= link_to "Find Cards by Property", "/cards/find_by_properties" %>
