@@ -6,7 +6,7 @@
 
 <%= form_with url: "/cards/find_by_properties", id: "find_by_properties", method: 'POST' do | f | %> 
 
-    <%= f.label :reserved_list %>
+    <%= f.label :reserved, 'Reserved list' %>
     <%= f.select(:reserved, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %>
     <br>
     <%= f.label :legendary %>
