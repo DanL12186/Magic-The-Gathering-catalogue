@@ -19,15 +19,20 @@ document.addEventListener('turbolinks:load', function() {
   //autocomplete search for finding cards by name
   document.getElementById('search').addEventListener('keyup', event => {
     if (event.target.value) {
-      const userEntry         = event.target.value.toLowerCase()
-      ,     matches           = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry))
-      ,     firstEightMatches = matches.slice(0,8);
+      const userEntry         = event.target.value.toLowerCase(),
+            matches           = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry)),
+            firstEightMatches = matches.slice(0,8);
 
       //only update on change
       if (lastMatch !== firstEightMatches.toString()) {
         datalist.innerHTML = firstEightMatches.map(match=> `<option value="${match}"></option>`);
         lastMatch = firstEightMatches.toString();
       };
+
+      //fix for iOS devices not submitting otherwise
+      if (event.key === 'Enter') {
+        $(event)[0].target.parentElement.submit()
+      }
     };
   });
 });
