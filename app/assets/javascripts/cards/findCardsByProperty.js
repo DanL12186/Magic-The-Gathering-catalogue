@@ -12,18 +12,23 @@ $(document).on('turbolinks:load', function() {
 
   //change set/edition symbol color to silver or gold if card is uncommon or rare
   function listenForThumbHover() {
-    const getSet = thumb => thumb.parentElement.parentElement.previousElementSibling.getAttribute('data-edition')
-    ,     getSetSymbolIcon = thumb => thumb.parentElement.parentElement.previousElementSibling.firstElementChild;
+    const getCardHeading = cardThumb   => cardThumb.parentElement.parentElement.previousElementSibling,
+          getCardSetIcon = cardHeading => cardHeading.firstElementChild,
+          getCardSet     = cardHeading => cardHeading.getAttribute('data-edition')
 
-    $('.thumb').on('mouseenter', function() {
-      const edition = getSet(this)
-      ,     cardEditionSymbol = getSetSymbolIcon(this)
-      ,     rarity  = cardEditionSymbol.getAttribute('class').replace(/^common|special/i, '')
-      cardEditionSymbol.src = `/assets/editions/${edition} ${rarity}`;
-    }).on('mouseleave click', function() {
-      const edition = getSet(this)
-      ,     cardEditionSymbol = getSetSymbolIcon(this)
-      cardEditionSymbol.src = `/assets/editions/${edition}`;
+    $('.thumb').on('mouseenter', event => {
+      const heading      = getCardHeading(event.target),
+            edition      = getCardSet(heading),
+            cardSetIcon  = getCardSetIcon(heading),
+            rarity       = cardSetIcon.getAttribute('class').replace(/^common|special/i, '');
+
+      cardSetIcon.src = `/assets/editions/${edition} ${rarity}`;
+    }).on('mouseleave click', event => {
+      const heading     = getCardHeading(event.target),
+            edition     = getCardSet(heading),
+            cardSetIcon = getCardSetIcon(heading)
+
+      cardSetIcon.src = `/assets/editions/${edition}`;
     });
   };
   
@@ -32,14 +37,15 @@ $(document).on('turbolinks:load', function() {
 
   const truncateLongNames = name => name.length > 25 ? `${name.slice(0,20).trim()}...` : name
 
+  //probably good candidate for an object/class
   function generateCardsHTML(cards, currentPage) {
     const slice = (currentPage - 1) * 60
     return cards.map(card=> {
-      const shortName = truncateLongNames(card.name)
-      ,     cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb'
-      ,     thumbnail = card.hi_res_img.replace('large','small')
-      ,     edition   = card.edition.toLowerCase().replace(':','')
-      ,     rarity    = card.rarity.toLowerCase();
+      const shortName = truncateLongNames(card.name),
+            cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb',
+            thumbnail = card.hi_res_img.replace('large','small'),
+            edition   = card.edition.toLowerCase().replace(':',''),
+            rarity    = card.rarity.toLowerCase();
       
       return( 
         `<div class= col-sm-3>
@@ -48,7 +54,7 @@ $(document).on('turbolinks:load', function() {
           </h3>
           
           <div class=card_img_div> 
-            <a href="/cards/${card.edition}/${card.name}/"> <img src="${thumbnail}" class="${cardClass}" style="width: 146px; height: 204px;"> </a>
+            <a href="/cards/${card.edition}/${card.name}/"> <img src="${thumbnail}" class="${cardClass}"> </a>
           </div>
           
         </div>`
@@ -71,9 +77,7 @@ $(document).on('turbolinks:load', function() {
   //form will disable the submit button when it's submitted. This listens for when user 
   //makes a different or additional selection on the form and re-enables the submit button
   function listenForFormChange() {
-    $("#find_by_properties").on('change', function() {
-      submitButton.removeAttribute('disabled')
-    });
+    $("#find_by_properties").on('change', () => submitButton.removeAttribute('disabled') );
   }
 
   listenForFormChange();
@@ -101,12 +105,10 @@ $(document).on('turbolinks:load', function() {
 
       if (cards === null) {
         $("a.btn-sm").empty()
-        displayResults('Please Select One or More Options')
-        return;
-      } else if (cards.length === 0) {
+        return displayResults('Please Select One or More Options')
+      } else if (!cards.length) {
         $("a.btn-sm").empty()
-        displayResults("No results found")
-        return;
+        return displayResults("No results found")
       }
 
       const numPages = Math.ceil(cards.length / 60)
@@ -130,9 +132,9 @@ $(document).on('turbolinks:load', function() {
 
       //create buttons to sort newly displayed card results
       //could make sort buttons into a dropdown instead for space reasons
-      document.getElementById("sort_by_name").innerHTML = `<button>Sort By Name</button>`
-      document.getElementById("sort_by_id").innerHTML = `<button>Sort By Multiverse ID</button>`
-      document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price</button>`
+      document.getElementById("sort_by_name").innerHTML  = `<button>Sort By Name</button>`
+      document.getElementById("sort_by_id").innerHTML    = `<button>Sort By Multiverse ID</button>`
+      document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price &#9660</button>`
 
       //remove/don't display buttons to sort by properties that are already filtered for
       if ($("#color")[0].value === '') {
@@ -180,16 +182,16 @@ $(document).on('turbolinks:load', function() {
 
       //sort by price sorts only by the prices on CardKingdom, as other prices are only suggestions
       const sortButtonFunctions = {
-        'sort_by_id' : fn => cards.sort((a,b) => a.multiverse_id - b.multiverse_id),
-        'sort_by_name' : fn => cards.sort((a,b) => a.name.localeCompare(b.name)),
-        'sort_by_color' : fn => cards.sort((a,b) => colorOrder[a.color] - colorOrder[b.color] || a.name.localeCompare(b.name)),
-        'sort_by_type' : fn => cards.sort((a,b) => typeOrder[a.card_type] - typeOrder[b.card_type] || a.name.localeCompare(b.name)),
-        'sort_by_price' : fn => cards.sort((a,b) => parseFloat(b.prices[1]) - parseFloat(a.prices[1]) || a.name.localeCompare(b.name))
+        'sort_by_id'    : () => cards.sort((a,b) => a.multiverse_id - b.multiverse_id),
+        'sort_by_name'  : () => cards.sort((a,b) => a.name.localeCompare(b.name)),
+        'sort_by_color' : () => cards.sort((a,b) => colorOrder[a.color] - colorOrder[b.color] || a.name.localeCompare(b.name)),
+        'sort_by_type'  : () => cards.sort((a,b) => typeOrder[a.card_type] - typeOrder[b.card_type] || a.name.localeCompare(b.name)),
+        'sort_by_price' : () => cards.sort((a,b) => parseFloat(b.prices[1]) - parseFloat(a.prices[1]) || a.name.localeCompare(b.name))
       }
 
-      $(".sort").on('click', function(event) {
-        const buttonId = event.currentTarget.id
-        ,     sortedCards = sortButtonFunctions[buttonId]();
+      $(".sort").on('click', event => {
+        const buttonId = event.currentTarget.id;
+        const sortedCards = sortButtonFunctions[buttonId]();
         
         generateAndDisplayHTML(sortedCards);
 
