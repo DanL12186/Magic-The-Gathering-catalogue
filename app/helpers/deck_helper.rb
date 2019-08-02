@@ -86,7 +86,7 @@ module DeckHelper
     cards.shuffle
   end
 
-  def sample_hand(deck, n=7)
+  def draw_hand(deck, n=7)
     deck.first(n)
   end
 

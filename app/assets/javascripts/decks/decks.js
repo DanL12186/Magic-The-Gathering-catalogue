@@ -12,7 +12,7 @@ $(document).on("turbolinks:load", function() {
     twoCardsAhead.src = twoCardsAhead.getAttribute('image_placeholder');
   }
 
-  //clicking through cards on deck show/overview page
+  //clicking through cards on deck show/sample hand
   $('.deck-display').on('click', function() {
     let currentCard = this.parentElement.getAttribute('value');
 
@@ -29,7 +29,7 @@ $(document).on("turbolinks:load", function() {
     this.remove();
   });
 
-  //pie chart for displaying deck card-types breakdown on deck overview page
+  //pie chart for displaying deck card-types breakdown on deck show page
   if (document.getElementById("pieChartContainer")) {
     $("#pieChartContainer").ready(pieChartLoader);
   }

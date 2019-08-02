@@ -1,9 +1,9 @@
 class DecksController < ApplicationController
   include DeckHandStats
   
-  before_action :set_deck, only: [:show, :overview]
-  before_action :set_shuffled_deck, only: [:show, :overview]
-  before_action :deny_unauthorized_deck_access, only: [:show, :overview, :edit, :update, :destroy]
+  before_action :set_deck, only: [:show, :sample_hand]
+  before_action :set_shuffled_deck, only: [:show, :sample_hand]
+  before_action :deny_unauthorized_deck_access, only: [:show, :sample_hand, :edit, :update, :destroy]
   before_action :build_deck, only: [:create]
 
   def new
@@ -20,8 +20,8 @@ class DecksController < ApplicationController
     render json: probability
   end
 
-  def show
-    @sample_hand = sample_hand(@shuffled_deck_cards)
+  def sample_hand
+    @sample_hand = draw_hand(@shuffled_deck_cards)
     @card_types = card_classifications(@sample_hand)
     @hand_frequencies = card_frequencies(@sample_hand)
     @deck_frequencies = card_frequencies(@shuffled_deck_cards)
@@ -29,7 +29,7 @@ class DecksController < ApplicationController
     @multivar_args = multivar_geo_freq_args(@hand_frequencies, @deck_frequencies).values
   end
 
-  def overview
+  def show
     @deck_frequencies = card_frequencies(@shuffled_deck_cards)
     @card_types = card_classifications(@shuffled_deck_cards).to_json
   end

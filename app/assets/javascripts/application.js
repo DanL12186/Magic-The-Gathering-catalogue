@@ -37,7 +37,7 @@ $(document).on('turbolinks:load', function() {
     this.src = `/assets/editions/${edition}`;
   });  
 
-  //popover for card search results and deck overview pages
+  //popover for card search results and deck show pages
   $(function () {
     $('[data-toggle="popover"]').popover({
       html: true,

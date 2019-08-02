@@ -1,0 +1,48 @@
+<% title(@deck.name) %>
+
+<h1 class="text-center"> <%= @deck.name %> </h1>
+<h4 class="text-center"> Turn 1 </h4>
+<br>
+
+<div class="row margin-bottom" >
+
+  <% @sample_hand.each_with_index do | card, idx | %>
+    <div class='col-sm-1 filter'> 
+      <div class="deck-show-card-name"> <%= truncate_at_three_words(card.name) %> </div> 
+      <%= image_tag card.img_url, class: 'hand-card', style: "#{set_rotation_angle(idx)}" %>
+    </div>
+  <% end %>
+
+  <div class="stats" >
+    <b> <%= link_to("Deck Overview", deck_path(@deck)) %> </b>
+    <h4> Lands: <%= @card_types['lands'] %> </h4>
+    <h4> Spells: <%= @card_types['spells'] %> </h4>
+    <h4> Artifacts: <%= @card_types['artifacts'] %> </h4>
+    <h4> Creatures: <%= @card_types['creatures'] %> </h4>
+    <h4> Hand Odds: <%= multivariate_hypergeometric_distribution(deck_size = @shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>% </h4>
+  </div>
+
+</div>
+
+<div class="row">
+  <h1 class="text-center"> Upcoming Cards </h1>
+  <br>
+  <br>
+  <% next_eight_cards(@shuffled_deck_cards).each.with_index(2) do | card, idx | %>
+    <div class = "col-sm-1 filter">
+      <div class="text-center"> Turn <%= idx %> </div>
+      <div class="deck-show-card-name"> <%= truncate_at_three_words(card.name) %> </div>
+        
+      <%= image_tag card.img_url, class: 'hand-card' %>
+    </div>
+  <% end %>
+
+  <div id="deck-holder" class="col-sm-2 pad-4" value="8"> 
+    <p id="card-counter"> Card 8 of <%= @shuffled_deck_cards.size %> </p>
+    <%= image_tag 'card back', id: "deck-holder-card-back", size: '223x310' %>
+    <% @shuffled_deck_cards[7..-1].reverse.each.with_index(8) do | card,  idx | %>
+      <%= image_tag card.img_url, class: 'deck-display', id: "deck-card-#{idx}", size: '223x310' %> 
+    <% end %>
+  </div>
+
+</div>
