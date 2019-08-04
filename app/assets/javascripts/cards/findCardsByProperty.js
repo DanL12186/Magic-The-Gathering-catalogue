@@ -49,7 +49,7 @@ $(document).on('turbolinks:load', function() {
       
       return( 
         `<div class= col-sm-3>
-          <h3 data-edition= "${edition}" data-rarity=${rarity} style="font-family: MagicMedieval; font-size:1.5vw; min-height:32px;"> 
+          <h3 class="thumb-header" data-edition= "${edition}" data-rarity=${rarity}> 
             ${shortName} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
           </h3>
           
