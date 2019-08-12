@@ -71,9 +71,10 @@ class DecksController < ApplicationController
 
     return nil unless @deck.id
 
+    #this will later be used to let the user know if any of the cards they entered were invalid and didn't work
     unfound_cards = []
 
-    @decks_cards = cards_with_quantities.map do | card_string | 
+    decks_cards = cards_with_quantities.map do | card_string | 
       edition_match = card_string.match(/[a-z]+(?=\])/i)
       edition = edition_match[0] if edition_match
       
@@ -91,7 +92,7 @@ class DecksController < ApplicationController
       { copies: copies.to_i, deck_id: @deck.id, card_id: card_id }
     end.compact
 
-    DecksCard.create(@decks_cards)
+    DecksCard.create(decks_cards)
   end
 
   def deck_params
