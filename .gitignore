@@ -45,3 +45,5 @@ test/integration/.keep
 test/helpers/.keep
 
 vendor/assets/javascripts/lazyload.js
+
+spec/examples.txt
