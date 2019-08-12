@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_28_002602) do
+ActiveRecord::Schema.define(version: 2019_08_12_151021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2019_04_28_002602) do
   create_table "collections_cards", force: :cascade do |t|
     t.integer "card_id"
     t.integer "collection_id"
+    t.integer "copies", default: 1
   end
 
   create_table "decks", force: :cascade do |t|
