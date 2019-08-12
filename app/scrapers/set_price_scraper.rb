@@ -149,7 +149,7 @@ class SetPriceScraper
         set_code = lowercase_set_names[set_name]
 
         if set_code
-          return SetPriceScraper.get_set_prices(set_code)
+          SetPriceScraper.get_set_prices(set_code)
         else
           puts "Sorry, that doesn't appear to be a valid set name!"
           return nil
@@ -159,7 +159,7 @@ class SetPriceScraper
   end
 
   def self.get_set_prices(set_code)
-    @set_name = AllEditionsStandardCodes.invert[set_code.upcase!]
+    @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
 
     if @set_name.nil?
       return SetPriceScraper.display_errors('Invalid Set Code')
@@ -171,7 +171,7 @@ class SetPriceScraper
     @card_set_names = Card.where(edition: @set_name).pluck(:name)
     @card_set_names.each { | name | @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
 
-    get_mtgoldfish_set_prices(set_code)
+    get_mtgoldfish_set_prices(set_code.upcase)
     get_card_kingdom_set_prices()
     get_tcg_player_set_prices()
 
