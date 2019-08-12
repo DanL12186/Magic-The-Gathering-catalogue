@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   get '/cards/search_results' => 'cards#search_results'
   get '/cards/card_names' => 'cards#card_names'
+  get '/cards/card_names_with_editions' => 'cards#card_names_with_editions'
   get '/cards/:edition/' => 'cards#edition'
   get '/cards/artists/:artist' => 'cards#artist'
   get '/cards/color/:color' => 'cards#color'
@@ -29,11 +30,13 @@ Rails.application.routes.draw do
   post '/cards/update_prices' => 'cards#update_prices'
 
   resources :users, except: [:index]
-  
   resources :decks, except: [:create]
   get '/decks/:id/sample_hand' => 'decks#sample_hand'
+
+  resources :collections, except: [:edit, :create]
   
   #js-created cards
   post '/decks/create'
+  post '/collections/create'
 
 end
