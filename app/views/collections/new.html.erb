@@ -1,0 +1,36 @@
+<% title('New Collection') %>
+
+<%= form_for(@collection) do | form | %>
+
+  <div>
+    <%= form.label :collection_name, style: 'margin-top: 15px;' %>
+    <%= form.text_field :name %>
+  </div>
+
+  <br><br>
+
+  <%= fields_for :collections_cards do | dc | %>
+    <div>
+      <div>
+        <%= dc.label :copies %>
+        <%= dc.number_field :copies, min: 1, value: 1, style: 'margin-bottom: 10px; margin-left: 15px;' %>
+      </div>
+
+      <%= dc.label :card %>
+
+      <span style='margin-bottom: 10px; margin-left: 30px;'>
+        <%= form_with url: '#', method: "GET", local: true, id: 'collectionCardSearch' do %>
+          <%= text_field_tag :search, params[:search], id: 'collectionCardFind', list: 'collectionBuildSearch', required: true, autocomplete: 'off', placeholder: 'Add a Card'%>
+          <datalist id="collectionBuildSearch"> </datalist>
+        <% end %>
+        <button id='addCollectionCard'>Add Card</button>
+      </span>
+
+      <div> 
+        <%= dc.text_area(:list, style: 'color: black; min-height: 100px; min-width: 200px; margin-top: 50px;') %> 
+      </div>
+    </div>
+
+  <% end %>
+  <button id="createCollection" style='margin-top: 50px;'> Create Collection </button>
+<% end %>
