@@ -40,63 +40,64 @@ class DecksController < ApplicationController
 
   private
 
-  def set_deck
-    @deck = Deck.find(params[:id])
-  end
+    def set_deck
+      @deck = Deck.find(params[:id])
+    end
 
-  def set_shuffled_deck
-    @shuffled_deck_cards = shuffled_deck(@deck)
-  end
+    def set_shuffled_deck
+      @shuffled_deck_cards = shuffled_deck(@deck)
+    end
 
-  def deny_unauthorized_deck_access
-    redirect_to root_path unless logged_in? && @deck.user_id == current_user.id
-  end
+    def deny_unauthorized_deck_access
+      redirect_to root_path unless logged_in? && @deck.user_id == current_user.id
+    end
 
-
-  #create the deck and then its decks_cards
-  def calculate_odds
-    deck_size = params[:deck_size].to_i
-    cards_drawn = params[:cards_drawn].to_i
-    multivar_args = hand_and_deck_card_counts(params).values
-    
-    multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
-  end
-
-  def build_deck
-    cards_with_quantities = params[:decks_cards][:list].split(/ \r\n/)  
-    
-    deck_name = deck_params[:name]
-
-    @deck = Deck.create({ name: deck_name, user_id: current_user.id })
-
-    return nil unless @deck.id
-
-    #this will later be used to let the user know if any of the cards they entered were invalid and didn't work
-    unfound_cards = []
-
-    decks_cards = cards_with_quantities.map do | card_string | 
-      edition_match = card_string.match(/[a-z]+(?=\])/i)
-      edition = edition_match[0] if edition_match
+    #create the deck and then its decks_cards
+    def calculate_odds
+      deck_size = params[:deck_size].to_i
+      cards_drawn = params[:cards_drawn].to_i
+      multivar_args = hand_and_deck_card_counts(params).values
       
-      #remove set name in brackets if it exists, then split on 'x ' coming after digits
-      copies, name = card_string.sub(/ \[[a-z]+\]/i, '').split(/(?<=\d)x /)
-      
-      #find cheapest card variant if no edition/set is specified
-      card_id = find_specific_or_cheapest_card_variant_id(name, edition)
+      multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
+    end
 
-      if card_id.nil?
-        unfound_cards << name
-        puts "thank u,"; next
+    def build_deck
+      cards_with_quantities = params[:decks_cards][:list].split(/ \r\n/)  
+      
+      deck_name = deck_params[:name]
+
+      @deck = Deck.create({ name: deck_name, user_id: current_user.id })
+
+      return nil unless @deck.id
+
+      #this will later be used to let the user know if any of the cards they entered were invalid and didn't work
+      unfound_cards = []
+
+      decks_cards = cards_with_quantities.map do | card_string | 
+        edition_match = card_string.match(/[a-z]+(?=\])/i)
+        edition = edition_match[0] if edition_match
+        
+        #remove set name in brackets if it exists, then split on 'x ' coming after digits
+        copies, name = card_string.sub(/ \[[a-z]+\]/i, '').split(/(?<=\d)x /)
+        
+        #find cheapest card variant if no edition/set is specified
+        card_id = find_specific_or_cheapest_card_variant_id(name, edition)
+
+        if card_id.nil?
+          unfound_cards << name
+          puts "thank u,"; next
+        end
+      
+        { copies: copies.to_i, deck_id: @deck.id, card_id: card_id }
+      end.compact
+
+      DecksCard.transaction do
+        DecksCard.create(decks_cards)
       end
-    
-      { copies: copies.to_i, deck_id: @deck.id, card_id: card_id }
-    end.compact
+    end
 
-    DecksCard.create(decks_cards)
-  end
-
-  def deck_params
-    params.require(:deck).permit(:name, :user_id, :colors, :card_types, decks_cards_attributes: [:card_id, :copies])
-  end
+    def deck_params
+      params.require(:deck).permit(:name, :user_id, :colors, :card_types, decks_cards_attributes: [:card_id, :copies])
+    end
 
 end
