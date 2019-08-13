@@ -30,7 +30,7 @@ document.addEventListener('turbolinks:load', function() {
       };
 
       //fix for iOS devices not submitting otherwise
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' && /iP(hone|ad)/.test(navigator.userAgent)) {
         $(event)[0].target.parentElement.submit()
       }
     };
