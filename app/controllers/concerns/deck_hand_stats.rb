@@ -10,7 +10,7 @@ module DeckHandStats
       'nonbasic lands' => 0,
       'creatures' => 0, 
       'spells' => 0,
-      'artifacts' => 0, 
+      'artifacts' => 0
     }
     
     hand.each do | card | 
