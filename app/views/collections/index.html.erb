@@ -1,3 +1,9 @@
+<% title("My Collections") %>
+
+<h1> Your Collections </h1> 
+
 <% @collections.each do | collection | %>
   <li> <%= link_to collection.name, collection_path(collection) %> </li>
 <% end %>
+
+<h3> <%= link_to 'Create New Collection', new_collection_path %> </h3>
