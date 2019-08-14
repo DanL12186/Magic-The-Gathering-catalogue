@@ -1,5 +1,6 @@
 class CollectionsController < ApplicationController
   before_action :build_collection, only: [:create]
+  before_action :redirect_unless_logged_in, only: [:new]
 
   def new
     @collection = Collection.new
@@ -26,7 +27,7 @@ class CollectionsController < ApplicationController
   
       return nil unless @collection.save
   
-      collections_cards = card_list.map do | card_string | 
+      @collections_cards = card_list.map do | card_string | 
         #split on 'x ' coming after digit(s), and ' - ', e.g.: '1x Dack Fayden - Conspiracy' -> ['1', 'Dack Fayden', 'Conspiracy']
         copies, name, edition = card_string.split(/(?<=\d)x | - /)
         
@@ -38,7 +39,7 @@ class CollectionsController < ApplicationController
       end.compact
   
       CollectionsCard.transaction do
-        CollectionsCard.create(collections_cards)
+        CollectionsCard.create(@collections_cards)
       end
     end
 
