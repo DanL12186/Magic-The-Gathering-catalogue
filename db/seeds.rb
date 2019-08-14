@@ -119,6 +119,11 @@ def create_set(set_code)
     
     set = JSON.parse(open(url).read)
   end
+  
+  #expire card name caches after adding a new set so searches will display new cards
+  #will only work if integrated into the app directly, and not run through Rails console
+  Rails.cache.delete("all_unique_card_names#{Time.now.day}")
+  Rails.cache.delete("all_card_names_with_editions#{Time.now.day}")
 end
 
 #/P accounts for cards with Phyrexian casting costs (e.g. {G/P} means 'either one green mana or 2 life')
