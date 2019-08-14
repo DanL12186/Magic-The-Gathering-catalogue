@@ -85,23 +85,23 @@ class CardsController < ApplicationController
 
   private
 
-  def get_filter_search_results
-    #required_attributes are required for the page to display and for sort buttons to work; filters are the user's selection of options.
-    required_attributes = [:rarity, :edition, :converted_mana_cost, :prices, :card_type, :color, :name, :hi_res_img, :multiverse_id]
-    filter_options = Card.attribute_names
-    
-    filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
-    
-    #do not exclude reprints if a particular edition/set is selected, as many editions have reprints in them
-    filters.delete(:reprint) if filters[:edition]
+    def get_filter_search_results
+      #required_attributes are required for the page to display and for sort buttons to work; filters are the user's selection of options.
+      required_attributes = [:rarity, :edition, :converted_mana_cost, :prices, :card_type, :color, :name, :hi_res_img, :multiverse_id]
+      filter_options = Card.attribute_names
+      
+      filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
+      
+      #do not exclude reprints if a particular edition/set is selected, as many editions have reprints in them
+      filters.delete(:reprint) if filters[:edition]
 
-    min_filters = filters[:edition] ? 1 : 2
+      min_filters = filters[:edition] ? 1 : 2
 
-    @results = Card.select(filters.keys + required_attributes).where(filters).limit(1200) unless filters.keys.size < min_filters
-  end
+      @results = Card.select(filters.keys + required_attributes).where(filters).limit(1200) unless filters.keys.size < min_filters
+    end
 
-  def redirect_if_not_face_card
-    redirect_to card_path(@flip.edition, @flip.name) if @card.card_number&.end_with?('b')
-  end
+    def redirect_if_not_face_card
+      redirect_to card_path(@flip.edition, @flip.name) if @card.card_number&.end_with?('b')
+    end
 
 end
