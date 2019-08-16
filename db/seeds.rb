@@ -281,3 +281,51 @@ def create_or_update_transform_card(card_hash, card_face_object = nil, card_back
     card.save
   end
 end
+
+#create_editions creates all editions for the Editions model. These are not card objects belonging to a set/edition, but an edition model which
+#knows nothing about the cards it contains, save for information on its release date, the number of cards it has, the number of cards
+#per booster pack, the type of set (expansion, core set, commander...) etc. Useful for generating booster packs for users to "open",
+#as well as holding centralized information cards generally don't have.
+
+#It, like with card creation, has to be done in two steps; first using information from the MTG API, then using information from Scryfall
+#Scryfall step not yet implemented
+def create_all_editions
+  if Edition.count > 0
+    puts "Editions already created"
+    return
+  end
+
+  all_magic_sets = MTG::Set.all
+  
+  relevant_sets = all_magic_sets.select { | set | AllEditionsStandardCodes.include?(set.name) }
+
+  relevant_sets.each do | set_object |
+    create_edition(set_object)
+  end
+end
+
+def create_edition(set_object)
+  name = set_object.name
+  set_code = set_object.code
+  
+  #2008-10-03 => 10-03-2008
+  release_date = set_object.release_date.split('-').rotate.join('-')
+
+  set_type = set_object.type #e.g. explansion, core set
+  category = (release_date < '10-02-03') ? ('vintage') : ('modern') #set 'standard' manually, as it changes
+  block = set_object.block
+
+  if set_object.booster
+    commons_per_pack = set_object.booster.count('common')
+
+    #get rid of non-playable cards
+    set_object.booster.reject! { | rarity | !rarity.is_a?(Array) && rarity.match?(/token|full art print|marketing/) }
+  
+    cards_per_pack = set_object.booster.size
+  end
+
+  #core sets has no mythics until M2010 (so no 9th/10th edition mythics)
+  has_mythics = release_date >= '10-03-2008' && !name.match?('Edition')
+
+  Edition.create(name: name, set_code: set_code, release_date: release_date, set_type: set_type, category: category, block: block, commons_per_pack: commons_per_pack, cards_per_pack: cards_per_pack, mythics?: has_mythics)
+end
