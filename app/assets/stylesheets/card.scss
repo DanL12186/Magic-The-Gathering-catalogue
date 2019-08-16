@@ -107,6 +107,22 @@
     max-height: 500px;
 }
 
+//hacky way to disappear image and not have it interfere w/layout
+@media(max-width: 1000px) {
+    #cropped-img {
+        opacity: 0;
+        z-index: 0;
+    }
+
+    .card_show {
+        z-index: 10;
+    }
+
+    #artist-link {
+        display: none;
+    }
+}
+
 #rotate, #transform {
     margin-left: 1%;
 }
