@@ -174,8 +174,9 @@ def create_card(id_or_hash)
   end
 
   if card_hash['layout'] == 'transform'
-    create_or_update_transform_card(card_hash)
-    return
+    return create_or_update_transform_card(card_hash)
+  elsif card_hash['type_line'].match?('Token')
+    return nil
   end
 
   legendary = legendary?(card_hash['type_line'])
