@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_12_151021) do
+ActiveRecord::Schema.define(version: 2019_08_16_005825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,21 @@ ActiveRecord::Schema.define(version: 2019_08_12_151021) do
     t.integer "card_id"
     t.integer "deck_id"
     t.integer "copies", default: 1
+  end
+
+  create_table "editions", force: :cascade do |t|
+    t.string "name"
+    t.string "set_code"
+    t.string "release_date"
+    t.string "set_type"
+    t.string "category"
+    t.string "block"
+    t.integer "card_count"
+    t.integer "cards_per_pack"
+    t.integer "commons_per_pack"
+    t.boolean "mythics?"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
