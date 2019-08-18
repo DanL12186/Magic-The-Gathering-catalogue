@@ -298,7 +298,7 @@ def create_all_editions
 
   all_magic_sets = MTG::Set.all
   
-  relevant_sets = all_magic_sets.select { | set | AllEditionsStandardCodes.include?(set.name) }
+  relevant_sets = all_magic_sets.select { | set | AllEditionsStandardCodes.include?(set.name) || set.name.match?(/Alpha|Beta|Revised|Unlimited/) }
 
   relevant_sets.each do | set_object |
     create_edition(set_object)
@@ -312,6 +312,8 @@ def create_edition(set_object)
   set_type = set_object.type #e.g. explansion, core set
   category = (release_date < '10-02-03') ? ('vintage') : ('modern') #set 'standard' manually, as it changes
   block = set_object.block
+
+  name = name.sub('Limited Edition', '').sub('Edition', '') if name.match?(/Alpha|Beta|Revised|Unlimited/)
 
   if set_object.booster
     #get rid of non-playable cards like tokens and marketing cards
