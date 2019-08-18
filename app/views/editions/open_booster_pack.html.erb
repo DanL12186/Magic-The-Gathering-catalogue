@@ -1,0 +1,21 @@
+<% title("#{@edition_name} booster") %>
+
+<h1 class="text-center"> <%= @edition_name %> </h1>
+<br>
+
+<div class="row margin-bottom" >
+
+  <% @booster_pack.each do | card | %>
+    <div class='col-sm-2 filter'> 
+      <span class="deck-show-card-name"> $<%= "#{determine_appropriate_price(card.prices)}" %> </span>
+      <span style='float: right;'> <%= image_tag(get_edition_image_file(card.edition, card.rarity), height: 20) %> </span>
+
+      <%= link_to image_tag(card.img_url, class: 'hand-card'), card_path(card.edition, card.name) %>
+    </div>
+  <% end %>
+
+</div>
+
+<p> Estimated pack value: $<%= calculate_deck_value(@booster_pack) %> </p>
+
+<p> Note: This is for fun only. This site is not affiliated with WOTC, and does not buy or sell any product. </p>
