@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get '/cards/find_by_properties'
   post '/cards/find_by_properties' => 'cards#filter_search'
 
-  get '/cards/reserved_list'
+  get '/cards/reserved_list' => 'cards#reserved_list'
 
   get '/cards/search_results' => 'cards#search_results'
   get '/cards/card_names' => 'cards#card_names'
@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   get '/cards/:edition/:name' => 'cards#show', as: 'card'
 
   get '/about' => 'application#about'
+
+  get '/editions' => 'editions#index'
 
   get '/hand_odds_calculator' => 'application#hand_odds_calculator'
   post '/decks/calculate_custom_hand_odds' => 'decks#calculate_custom_hand_odds'
