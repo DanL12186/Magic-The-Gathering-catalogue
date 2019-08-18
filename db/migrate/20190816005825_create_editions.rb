@@ -8,10 +8,11 @@ class CreateEditions < ActiveRecord::Migration[5.2]
       t.string :set_type #e.g. explansion, core set
       t.string :category #e.g., vintage, modern, standard
       t.string :block, default: nil #e.g. Ice Age Block, 
+      t.integer :card_count #total cards in the set
 
-      t.integer :card_count
-      t.integer :cards_per_pack
+      t.integer :cards_per_pack #cards per booster pack
       t.integer :commons_per_pack
+      t.integer :uncommons_per_pack
 
       t.boolean :mythics?
 

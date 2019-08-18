@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 2019_08_16_005825) do
     t.integer "card_count"
     t.integer "cards_per_pack"
     t.integer "commons_per_pack"
+    t.integer "uncommons_per_pack"
     t.boolean "mythics?"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
