@@ -67,7 +67,6 @@ class CreateCards < ActiveRecord::Migration[5.2]
 
       t.index ["iconic"], name: "index_cards_on_iconic", where: "(iconic = true)"
       t.index ["multiverse_id"], name: "index_cards_on_multiverse_id"
-      t.index ["reprint"], name: "index_cards_on_reprint", where: "(reprint = false)"
     end
   end
 end
