@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get '/about' => 'application#about'
 
   get '/editions' => 'editions#index'
+  get '/editions/open_booster_pack/:edition' => 'editions#open_booster_pack'
 
   get '/hand_odds_calculator' => 'application#hand_odds_calculator'
   post '/decks/calculate_custom_hand_odds' => 'decks#calculate_custom_hand_odds'
