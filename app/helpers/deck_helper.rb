@@ -100,9 +100,25 @@ module DeckHelper
     deck[7..-1].first(8)
   end
 
+  #CardKingdom sells all cards for a minimum of $0.25 which can inflate the reported value
+  #return TCG Player price if CK price is $0.25.
+  #return MTGFish Price if CK price is N/A
+  def determine_appropriate_price(prices)
+    prices.map!(&:to_f)
+
+    mtg_fish, card_kingdom, tcg_player = prices
+
+    return card_kingdom unless card_kingdom <= 0.25
+    return tcg_player unless tcg_player.zero?
+    return mtg_fish
+  end
+
   def calculate_deck_value(cards)
-    value = cards.map { | card | (card.prices[1] || '0').to_f }.sum.round(4)
-    number_with_delimiter(value)
+    values = cards.map(&:prices) 
+
+    total_value = values.map { | prices | determine_appropriate_price(prices) }.sum.round(4)
+    
+    number_with_delimiter(total_value)
   end
 
   def sort_by_number_and_name_desc(cards, deck_frequencies)
