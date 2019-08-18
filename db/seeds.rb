@@ -23,7 +23,7 @@ def get_editions(set_code)
         sdk_card = sdk_cards.find { | card | card['name'] == db_card.name }
         next unless sdk_card && !sdk_card['supertypes'].include?('Basic')
       
-        other_editions = sdk_card["printings"].reject  { |  ed  | !SET_CODES_IN_CHRONOLOGICAL_ORDER[ed] || ed == set_code }
+        other_editions = sdk_card["printings"].select  { |  ed  | SET_CODES_IN_CHRONOLOGICAL_ORDER.include?(ed) && ed != set_code }
                                               .sort_by { | code | SET_CODES_IN_CHRONOLOGICAL_ORDER[code] }
         
         db_card.update(other_editions: other_editions) unless other_editions.empty?
@@ -308,25 +308,22 @@ end
 def create_edition(set_object)
   name = set_object.name
   set_code = set_object.code
-  
-  #2008-10-03 => 10-03-2008
-  release_date = set_object.release_date.split('-').rotate.join('-')
-
+  release_date = set_object.release_date
   set_type = set_object.type #e.g. explansion, core set
   category = (release_date < '10-02-03') ? ('vintage') : ('modern') #set 'standard' manually, as it changes
   block = set_object.block
 
   if set_object.booster
-    commons_per_pack = set_object.booster.count('common')
-
-    #get rid of non-playable cards
-    set_object.booster.reject! { | rarity | !rarity.is_a?(Array) && rarity.match?(/token|full art print|marketing/) }
+    #get rid of non-playable cards like tokens and marketing cards
+    game_cards = set_object.booster.reject { | rarity | !rarity.is_a?(Array) && rarity.match?(/token|full art print|marketing/) }
   
-    cards_per_pack = set_object.booster.size
+    cards_per_pack     = game_cards.size
+    uncommons_per_pack = set_code.match?(/ARN|ATQ|DRK|FEM|HML/) ? 1 : set_code.match?(/PLC|PTK|UGL/) ? 2 : 3
+    commons_per_pack   = cards_per_pack - uncommons_per_pack - 1
+
+    #core sets has no mythics until M2010 (so no 9th/10th edition mythics)
+    has_mythics = Date.parse(release_date) >= Date.parse("2008-10-03") && !name.match?('Edition')
   end
 
-  #core sets has no mythics until M2010 (so no 9th/10th edition mythics)
-  has_mythics = release_date >= '10-03-2008' && !name.match?('Edition')
-
-  Edition.create(name: name, set_code: set_code, release_date: release_date, set_type: set_type, category: category, block: block, commons_per_pack: commons_per_pack, cards_per_pack: cards_per_pack, mythics?: has_mythics)
+  Edition.create(name: name, set_code: set_code, release_date: release_date, set_type: set_type, category: category, block: block, cards_per_pack: cards_per_pack, commons_per_pack: commons_per_pack, uncommons_per_pack: uncommons_per_pack, mythics?: has_mythics)
 end
