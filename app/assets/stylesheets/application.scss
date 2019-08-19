@@ -30,9 +30,9 @@ input, select, button {
     overflow: hidden;
 }
 
-a, a:visited {
+a, a:visited, a:focus {
     color: rgb(150, 197, 150);
-
+    text-decoration: none;
     &:hover {
         text-decoration: none;
         color: rgba(217, 235, 218, 0.75);
