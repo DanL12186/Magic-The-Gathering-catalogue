@@ -313,7 +313,7 @@ def create_edition(set_object)
   category = (release_date < '10-02-03') ? ('vintage') : ('modern') #set 'standard' manually, as it changes
   block = set_object.block
 
-  name = name.sub('Limited Edition', '').sub('Edition', '') if name.match?(/Alpha|Beta|Revised|Unlimited/)
+  name = name.sub('Limited Edition ', '').sub(' Edition', '') if name.match?(/Alpha|Beta|Revised|Unlimited/)
 
   if set_object.booster
     #get rid of non-playable cards like tokens and marketing cards
