@@ -5,16 +5,18 @@ $(document).on('turbolinks:load', function() {
   const pricesDiv = document.querySelector('.prices-js');
   let   zoomed;
 
-  function zoomIn(element) {
-    element.src = element.getAttribute('hi_res_src');
-    element.classList.add('zoomed')
-    pricesDiv.classList.add('pushed-right')
+  //accommodates single and double-sided cards for zooming
+  //switch to hi res image source and zoom card in (223px => 502px width)
+  function zoomIn(...elements) {
+    elements.forEach(element => element.src = element.getAttribute('hi_res_src'));
+    elements.forEach(element => element.classList.add('zoomed'));
+    pricesDiv.classList.add('pushed-right');
     zoomed = true;
   }
 
-  function zoomOut(element) {
-    element.classList.remove('zoomed')
-    pricesDiv.classList.remove('pushed-right')
+  function zoomOut(...elements) {
+    elements.forEach(element => element.classList.remove('zoomed'));
+    pricesDiv.classList.remove('pushed-right');
     zoomed = false;
   }
 
@@ -25,19 +27,16 @@ $(document).on('turbolinks:load', function() {
 
   //switch transform face/back images to high-res Scryfall image (672x936) from original low-res images (223x310)
   $("#card_show_img_face, #card_show_img_back").on('click', function() {
-    const cardFace = this.id.includes('face') ? this : document.getElementById('card_show_img_face')
-    ,     cardBack = this.id.includes('back') ? this : document.getElementById('card_show_img_back')
-
+    const cardFace = this.id.includes('face') ? this : document.getElementById('card_show_img_face');
+    const cardBack = this.id.includes('back') ? this : document.getElementById('card_show_img_back');
     const flipContainer = document.querySelector('.flip-card-inner');
 
     if (zoomed) {
       flipContainer.style.width = '223px';
-      zoomOut(cardFace);
-      zoomOut(cardBack);
+      zoomOut(cardFace, cardBack);
     } else { 
       flipContainer.style.width = '502px';
-      zoomIn(cardFace)
-      zoomIn(cardBack)
+      zoomIn(cardFace, cardBack)
     };
   });
 
