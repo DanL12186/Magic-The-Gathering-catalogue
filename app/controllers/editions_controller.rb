@@ -17,7 +17,7 @@ class EditionsController < ApplicationController
   private
 
     def generate_booster(edition_name)
-      all_cards = Card.select(:name, :prices, :edition, :img_url, :rarity, :card_number).where(edition: edition_name)      
+      all_cards = Card.select(:name, :prices, :foil_prices, :edition, :img_url, :rarity, :card_number).where(edition: edition_name)      
       mana      = Set.new(['Swamp', 'Island', 'Mountain', 'Forest', 'Plains'])
 
       cards     = edition_name.match?(/Arabian|Alpha|Beta|Unlimited|Revised/) ? all_cards.to_a : all_cards.reject { | card | mana.include?(card.name) }
