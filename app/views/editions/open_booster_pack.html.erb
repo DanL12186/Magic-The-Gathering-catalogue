@@ -1,16 +1,24 @@
 <% title("#{@edition_name} booster") %>
 
 <h1 class="text-center"> <%= @edition_name %> </h1>
-<br>
+
+<%= form_with url: "/editions/open_booster_pack/", id: "booster_set_select", local: true, method: 'POST' do | f | %> 
+  <%= f.label :editions %>
+  <%= f.select(:edition, options_for_select( @ordered_editions, selected: params[:edition] || "Revised" ) ) %>
+
+  <%= f.submit 'Generate Booster' %>
+<% end %>
 
 <div class="row margin-bottom" >
 
   <% @booster_pack.each do | card | %>
-    <div class='col-sm-2 filter'> 
+    <div class='col-sm-2 filter booster-card'> 
       <span class="deck-show-card-name"> $<%= "#{determine_appropriate_price(card.prices)}" %> </span>
       <span style='float: right;'> <%= image_tag(get_edition_image_file(card.edition, card.rarity), height: 20) %> </span>
 
-      <%= link_to image_tag(card.img_url, class: 'hand-card'), card_path(card.edition, card.name) %>
+      
+      <%= link_to image_tag(card.img_url, class: 'hand-card', style: 'position: relative;'), card_path(card.edition, card.name) %>
+      <%= image_tag('foil overlay.png', style: 'position: absolute; top: 32px; left: 25px; pointer-events: none;') if roll_foil?(@edition) %>
     </div>
   <% end %>
 
