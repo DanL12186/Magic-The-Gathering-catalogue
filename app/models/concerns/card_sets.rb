@@ -402,4 +402,7 @@ module CardSets
     # "DD: Elves vs. Inventors" => "DDU"
   };
 
+  SET_CODES_IN_CHRONOLOGICAL_ORDER = AllEditionsStandardCodes.invert.map.with_index { | (set_code, _), idx | [set_code, idx] }.to_h
+  SET_NAMES_IN_CHRONOLOGICAL_ORDER = AllEditionsStandardCodes.map.with_index { | (set_code, _), idx | [set_code, idx] }.to_h
+
 end

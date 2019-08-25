@@ -4,8 +4,6 @@ require 'open-uri'
 require 'mtg_sdk'
 include CardSets
 
-SET_CODES_IN_CHRONOLOGICAL_ORDER = AllEditionsStandardCodes.invert.map.with_index { | (set_code, _), idx | [set_code, idx] }.to_h
-
 # #get other edition printings from MTG SDK after loading card set
 # #set code, e.g. 'mir', 'hml', 'all', 'lea'
 def get_editions(set_code)
@@ -15,7 +13,7 @@ def get_editions(set_code)
   
   sdk_cards = MTG::Card.where(set: set_code).all
   sdk_cards.map! { | card | JSON.parse(card.serialize) }
-  
+
   #find in batches of 100 and only commit once per batch
   Card.where(edition: set_name).find_in_batches(batch_size: 200) do | db_cards | 
     Card.transaction do
