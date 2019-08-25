@@ -10,13 +10,13 @@ class EditionsController < ApplicationController
     @ordered_editions = Edition.where.not(cards_per_pack: nil).pluck(:name).sort_by(&SET_NAMES_IN_CHRONOLOGICAL_ORDER)
     
     @edition_name = params[:edition] || "Revised"
+    @edition  = Edition.find_by(name: @edition_name)
     @booster_pack = generate_booster(@edition_name)
   end
 
   private
 
     def generate_booster(edition_name)
-      @edition  = Edition.find_by(name: edition_name)
       all_cards = Card.select(:name, :prices, :edition, :img_url, :rarity, :card_number).where(edition: edition_name)      
       mana      = Set.new(['Swamp', 'Island', 'Mountain', 'Forest', 'Plains'])
 
