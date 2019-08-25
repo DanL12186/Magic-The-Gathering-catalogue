@@ -47,3 +47,5 @@ test/helpers/.keep
 vendor/assets/javascripts/lazyload.js
 
 spec/examples.txt
+
+.ruby-version
