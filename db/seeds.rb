@@ -171,7 +171,9 @@ def create_card(id_or_hash)
     card_hash = id_or_hash
   end
 
-  if card_hash['layout'] == 'transform'
+  if card_hash['layout'] == 'flip'
+    card_hash['name'] = card_hash['name'].split(' // ')[0]
+  elsif card_hash['layout'] == 'transform'
     return create_or_update_transform_card(card_hash)
   elsif card_hash['type_line'].match?('Token')
     return nil
