@@ -2,8 +2,17 @@
   <%= link_to "Sign Up", "/signup" unless logged_in? %>
   <%= link_to "Log In", "/login" unless logged_in? %>
   <%= link_to "Home", root_path unless current_page?(root_path) %>  
-  <%= link_to "Your Decks", decks_path if logged_in? %> 
-  <%= link_to "Calculator", "/hand_odds_calculator" %> 
+
+  <div class="drop-down">
+    <a class="drop-button">Tools &#9660</a>
+    <div class="drop-down-content">
+      <%= link_to "Calculator", "/hand_odds_calculator" %>
+      <%= link_to "Generate Booster Packs", "/editions/open_booster_pack" %>
+    </div>
+  </div> 
+ 
+  <%= link_to "My Decks", decks_path if logged_in? %>
+  <%= link_to "My Collections", collections_path if logged_in? %>
   <%= link_to "Find Cards by Property", "/cards/find_by_properties" %>
   <%= link_to "About", "/about" %>
   <%= link_to "Log Out", "/logout", method: :delete if logged_in? %>
