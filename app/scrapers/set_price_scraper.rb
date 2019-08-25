@@ -4,6 +4,9 @@
 #A fraction of a percent of cards don't work on one site or another due to differences in how that site
 #lists it... cards with multiple artwork versions are most primarily affected.
 
+#Accepts an optional second parameter, which if set to 'foil' or 'foils' will update foil_prices instead of prices.
+#May later have both happen at once if it seems reasonable
+
 #This won't get all prices unless all cards of the given set have been added; uses local card count for page #'s
 #################################################################################################################
 require 'open-uri'
@@ -12,10 +15,11 @@ class SetPriceScraper
   include CardSets
 
   #set for mtgoldfish is actually the set code for full sets
-  def self.get_mtgoldfish_set_prices(set_code)
+  def self.get_mtgoldfish_set_prices(set_code, card_finish)
     #filter all alt set codes that are two letters in mtgoldfish instead of 3
     set_code = CardSets::VintageEditions[@set_name] || set_code
-    set_code += '_F' if set_code.match?(/MS2|MS3|EXP/)
+      
+    set_code += '_F' if card_finish.match?(/foil/i) || set_code.match?(/MS2|MS3|EXP/)
 
     url = "https://www.mtggoldfish.com/index/#{set_code}#paper"
 
@@ -29,7 +33,7 @@ class SetPriceScraper
     card_rows.each do | card_row |
       name  = card_row.css('td a').text
       price = card_row.css('td.text-right').text.match(/\d+\,*\d*\.\d+/)[0].delete(',')
-      
+
       if !@cards[name]
         if name.match?("(A)")
           fixed_name = name.sub(' (A)', '')
@@ -42,7 +46,7 @@ class SetPriceScraper
     end
   end
 
-  def self.get_card_kingdom_set_prices
+  def self.get_card_kingdom_set_prices(card_finish)
     ck_exceptions = { 
       'Revised' => '3rd-edition',
       'Fourth Edition' => '4th-edition', 
@@ -58,7 +62,12 @@ class SetPriceScraper
     set = @set_name.match?(/Magic 201[0-5]/) ? "#{@set_name.match(/\d+/)}-core-set" : @set_name.delete("':")
     set = ck_exceptions[set] if ck_exceptions.include?(set)
     set = set.gsub(' ', '-').downcase
-    set = "masterpiece-series-#{set.split('-')[-1]}" if set.match?(/expeditions|inventions|invocations/)
+      
+    if set.match?(/expeditions|inventions|invocations/)
+      set = "masterpiece-series-#{set.split('-')[-1]}"
+    elsif card_finish.match?(/foil/i)
+      set += '/foils'
+    end
     
     total_pages = @cards.size.fdiv(60).ceil
 
@@ -116,7 +125,7 @@ class SetPriceScraper
     end
   end
 
-  def self.save_prices
+  def self.save_prices(card_finish = 'regular')
     edition = @set_name
 
     Card.where(edition: edition).find_in_batches(batch_size: 100) do | cards |
@@ -124,7 +133,9 @@ class SetPriceScraper
         cards.each do | card |
           prices = @cards[card.name] || @cards[I18n.transliterate(card.name)]
 
-          card.update(prices: prices) unless prices.nil? || prices.all?('N/A')
+          price_column = card_finish.match?(/foil/i) ? :foil_prices : :prices
+
+          card.update(price_column => prices) unless prices.nil? || prices.all?('N/A')
         end
       end
     end
@@ -160,7 +171,7 @@ class SetPriceScraper
     end
   end
 
-  def self.get_set_prices(set_code)
+  def self.get_set_prices(set_code, card_finish = 'regular')
     @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
 
     if @set_name.nil?
@@ -173,12 +184,12 @@ class SetPriceScraper
     @card_set_names = Card.where(edition: @set_name).pluck(:name)
     @card_set_names.each { | name | @cards[I18n.transliterate(name)] = ['N/A', 'N/A', 'N/A'] }
 
-    get_mtgoldfish_set_prices(set_code.upcase)
-    get_card_kingdom_set_prices()
-    get_tcg_player_set_prices()
+    get_mtgoldfish_set_prices(set_code.upcase, card_finish)
+    get_card_kingdom_set_prices(card_finish)
+    get_tcg_player_set_prices() unless card_finish.match?(/foil/i)
 
     @threads.each(&:join)
 
-    save_prices
+    save_prices(card_finish)
   end
 end
