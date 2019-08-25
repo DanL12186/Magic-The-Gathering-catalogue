@@ -27,8 +27,9 @@ class SetPriceScraper
     end.value.css('tbody tr')
 
     card_rows.each do | card_row |
-      name = card_row.css('td a').text
+      name  = card_row.css('td a').text
       price = card_row.css('td.text-right').text.match(/\d+\,*\d*\.\d+/)[0].delete(',')
+      
       if !@cards[name]
         if name.match?("(A)")
           fixed_name = name.sub(' (A)', '')
@@ -122,7 +123,8 @@ class SetPriceScraper
       Card.transaction do
         cards.each do | card |
           prices = @cards[card.name] || @cards[I18n.transliterate(card.name)]
-          card.update(prices: prices) unless prices.nil? || card.prices.size > 0 && card.prices.all? { | price | price == 'N/A' }
+
+          card.update(prices: prices) unless prices.nil? || prices.all?('N/A')
         end
       end
     end
