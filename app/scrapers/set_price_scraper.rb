@@ -141,7 +141,7 @@ class SetPriceScraper
     end
   end
 
-  def self.display_errors(error)
+  def self.display_errors(error, card_finish)
     if error.match?('Not Found')
       puts 'Page was not found; the site may currently be down.'
       return nil
@@ -162,7 +162,7 @@ class SetPriceScraper
         set_code = lowercase_set_names[set_name]
 
         if set_code
-          SetPriceScraper.get_set_prices(set_code)
+          SetPriceScraper.get_set_prices(set_code, card_finish)
         else
           puts "Sorry, that doesn't appear to be a valid set name!"
           return nil
@@ -175,7 +175,7 @@ class SetPriceScraper
     @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
 
     if @set_name.nil?
-      return SetPriceScraper.display_errors('Invalid Set Code')
+      return SetPriceScraper.display_errors('Invalid Set Code', card_finish)
     end
 
     @threads = []
