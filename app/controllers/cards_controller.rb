@@ -42,7 +42,7 @@ class CardsController < ApplicationController
     #updated_at prevents repeated views from triggering updates after a necessary update was performed but no prices changed
     #check needs_updating? again so backclicks don't cause a retrigger
     if needs_updating?(card.updated_at, card.prices)
-      prices = [ get_mtgoldfish_price(name, set),  get_card_kingdom_price(name, set),  get_tcg_player_price(name, set) ]
+      prices = [ CardPriceScraper.get_mtgoldfish_price(name, set),  CardPriceScraper.get_card_kingdom_price(name, set),  CardPriceScraper.get_tcg_player_price(name, set) ]
 
       card.update(prices: prices, updated_at: Time.now)
       flip.update(prices: prices, updated_at: Time.now) if flip
