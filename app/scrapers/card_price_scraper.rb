@@ -1,10 +1,9 @@
 require 'open-uri'
 
 module CardPriceScraper
-
   #URL generators, used both by the view and this scraper
   def self.mtgoldfish_url(card_name, card_set)
-    set = process_mtgfish_edition(card_set) + handle_foil(card_set)
+    set  = process_mtgfish_edition(card_set) + handle_foil(card_set)
     name = I18n.transliterate(card_name)
                .sub(/\([^\)]+\)$/) { | match | '-' + match }
                .delete(",.:;\"'/()!")
@@ -14,23 +13,23 @@ module CardPriceScraper
   end
 
   def self.get_mtgoldfish_price(card_name, card_set)
-    url = mtgoldfish_url(card_name, card_set)
-    page = scrape_page_if_exists(url)
+    url   = mtgoldfish_url(card_name, card_set)
+    page  = scrape_page_if_exists(url)
     price = page.css('.price-box-price').children.last.try(:text) if page
     price ? price.delete(',') : 'N/A'
   end
 
   #card kingdom
   def self.card_kingdom_url(card_name, card_set)
-    set = process_card_kingdom_edition(card_set)
+    set  = process_card_kingdom_edition(card_set)
     name = I18n.transliterate(card_name.downcase).delete(",.:;'\"()/!").gsub(/ +/,'-') + handle_foil(card_set, 'ck')
 
     "https://www.cardkingdom.com/mtg/#{set}/#{name}"
   end
 
   def self.get_card_kingdom_price(card_name, card_set)
-    url = card_kingdom_url(card_name, card_set)
-    page = scrape_page_if_exists(url)
+    url   = card_kingdom_url(card_name, card_set)
+    page  = scrape_page_if_exists(url)
     price = page.css('span.stylePrice').first.text.delete('$').strip if page
     
     price || 'N/A'
@@ -38,15 +37,15 @@ module CardPriceScraper
 
   #tcg player
   def self.tcg_player_url(card_name, card_set)
-    set = process_tcg_player_edition(card_set)
+    set  = process_tcg_player_edition(card_set)
     name = I18n.transliterate(card_name.downcase).delete(",.:;\"'/").gsub(/ +/, '-')
 
     "https://shop.tcgplayer.com/magic/#{set}/#{name}"
   end
 
   def self.get_tcg_player_price(card_name, card_set)
-    url = tcg_player_url(card_name, card_set)
-    page = scrape_page_if_exists(url)
+    url   = tcg_player_url(card_name, card_set)
+    page  = scrape_page_if_exists(url)
     price = page.css('div.price-point.price-point--market td').first.text.delete('$,') if page
 
     price || 'N/A'
@@ -75,10 +74,11 @@ module CardPriceScraper
       end
 
       #mtg goldfish
-      def process_mtgfish_edition(edition) #c13 => commander 2013 edition, masters 2017 edition
+      def process_mtgfish_edition(edition)
         mtg_exceptions = { 'Alpha' => 'Limited Edition Alpha', 'Beta' => 'Limited Edition Beta', 'Revised' => 'Revised Edition', 
                            'Unlimited' => 'Unlimited Edition', 'Magic 2014' => 'Magic 2014 Core Set', 'Magic 2015' => 'Magic 2015 Core Set', 
-                           'Commander 2013' => 'Commander 2013 Edition', 'Modern Masters 2017' => 'Modern Masters 2017 Edition', 'Sixth Edition' => 'Classic Sixth Edition'
+                           'Commander 2013' => 'Commander 2013 Edition', 'Modern Masters 2017' => 'Modern Masters 2017 Edition', 
+                           'Sixth Edition' => 'Classic Sixth Edition'
                          }
 
         set = mtg_exceptions[edition] || edition
