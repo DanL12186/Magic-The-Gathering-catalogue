@@ -42,7 +42,7 @@ module SetPriceScraper
       #set for mtgoldfish is actually the set code for full sets
       def get_mtgoldfish_set_prices(set_code, card_finish)
         #filter all alt set codes that are two letters in mtgoldfish instead of 3
-        set_code = CardSets::VintageEditions[@set_name] || set_code
+        set_code = CardSets::VintageEditions[@set_name] || { "PUMA" => "PRM-UMA" }[set_code] || set_code
           
         set_code += '_F' if card_finish.match?(/foil/i) || set_code.match?(/MS2|MS3|EXP/)
 
