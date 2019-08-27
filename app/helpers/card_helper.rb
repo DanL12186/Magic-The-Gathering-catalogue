@@ -34,10 +34,10 @@ module CardHelper
   end
 
   def display_other_editions(card)
-    inverted_editions = AllEditionsStandardCodes.invert
+    set_codes = AllEditionsStandardCodes.invert
     card.other_editions.map do | set_code | 
-      edition_name = inverted_editions[set_code]
-      link_to image_tag(edition_image_filename(edition_name), width: '32px', style: 'margin-right: 2px;'), "/cards/#{edition_name}/#{@card.name}" if edition_name
+      edition_name = set_codes[set_code]
+      link_to image_tag(edition_image_filename(edition_name), class: 'other-edition'), card_path(edition_name, @card.name) if edition_name
     end.join.html_safe
   end
 
@@ -71,5 +71,5 @@ module CardHelper
     
     "https://www.ebay.com/sch/i.html?&_nkw=#{set}+#{name}"
   end
-  
+
 end
