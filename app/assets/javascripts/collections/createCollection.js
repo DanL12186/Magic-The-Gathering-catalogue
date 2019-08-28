@@ -33,24 +33,37 @@ document.addEventListener('turbolinks:load', function() {
     input.value = ''
   }
 
+  //could bring out AllOrderedEditions from Rails backend to sort cards of the same name by set release order
   //autocomplete search for finding cards by name
-  //$(document)[0].body.innerHTML += `<img src= "https://img.scryfall.com/cards/small/en/chr/81.jpg">`
   $('#collectionCardFind').on('keyup', event => {
     if (event.target.value) {
       const userEntry           = event.target.value.toLowerCase(),
             matches             = allCardsWithEditions.filter(nameAndEdition=> nameAndEdition[0].toLowerCase().startsWith(userEntry)),
             datalist            = document.getElementById('collectionBuildSearch'),
-            firstFifteenMatches = matches.slice(0,15);
+            topMatches          = matches.slice(0,15);
+
+      const firstCardName       = matches[0][0]
+
+      //stop at 15 matches, unless a card has > 15 printings (in which case list them all so user can pick their exact card)
+      if (topMatches.length === 15 && firstCardName === topMatches[14][0]) {
+        for (let i = 15; i < matches.length; i++) {
+          const currentCardName = matches[i][0]
+          if (currentCardName !== firstCardName) {
+            break
+          } else {
+            topMatches.push(matches[i])
+          }
+        }
+      }
 
       //only update on change
-      if (lastMatch !== firstFifteenMatches.toString()) {
-        datalist.innerHTML = firstFifteenMatches.map(nameAndEdition => {
-          const name = nameAndEdition[0];
-          const edition = nameAndEdition[1];
-
+      if (lastMatch !== topMatches.toString()) {
+        datalist.innerHTML = topMatches.map(nameAndEdition => {
+          const [ name, edition ] = nameAndEdition;
+          
           return `<option> ${name} - ${edition} </option>`;
         })
-        lastMatch = firstFifteenMatches.toString();
+        lastMatch = topMatches.toString();
       };
     };
   });
