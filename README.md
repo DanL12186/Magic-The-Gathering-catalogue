@@ -15,9 +15,7 @@
 
 * At present, the best way to get the database up and running is, after running migrations, to either add a few card sets which you are interested in (e.g. Alpha, Beta, Unlimited, Mirage, Stronghold), and simply go from there. This can be done one at a time fairly comfortably. 
 
-* For example, after dropping into `rails c`:
-
-`require './db/seeds.rb'`
+* For example, after dropping into `rails c` and then entering`require './db/seeds.rb'`:
 
 ```ruby
   ['LEA', 'LEB', '2ED', 'MIR', 'STH'].each { | set_code | create_set(set_code) }
@@ -29,13 +27,19 @@
   ['LEA', 'LEB', '2ED', 'MIR', 'STH'].each { | set_code | SetPriceScraper.get_set_prices(set_code) }
 ```
 
+* If you wish to use the Generate Booster Packs feature for Urza's Legacy or newer sets, you will also need to add foil prices to your cards. This can be done similarly as before:
+
+```ruby
+  ['set', 'codes', 'here'].each { | set_code | SetPriceScraper.get_set_prices(set_code, 'foil') }
+```
+
 * Optionally (and recommended), the same thing can be done with getting all other printings of a given card:
 
 ```ruby
   ['<collection of set codes of arbitrary size>'].each { | set_code | get_editions(set_code) }
 ```
 
-* Please note that get_editions is *quite* a bit slower than either of the other two methods (both set creation and price scraping process are much faster), as the external API responsible is fairly slow. Feel free to add per-request threading if you know what you're doing and aren't concerned about dying threads/memory usage, but multithreading isn't built into this particular method (each set returns a lot of data).
+* Please note that get_editions is *quite* a bit slower than either set creation or price scraping, as the external API responsible is fairly slow. Feel free to add per-request threading if you know what you're doing and aren't concerned about dying threads/memory usage, but multithreading isn't built into this particular method (each set returns a lot of data).
 
 * If you decide you wish to add everything at once, please take care with set price scraping. While the set creation API doesn't mind being hit very frequently (it asks you give it at least 10ms between each request), you _will_ receive a time out if you attempt to sequentially scrape prices for one set after the other (most likely from CardKingdom, which unfortunately has its prices for full sets broken up across 2-6 pages, depending on set size, all of which are accessed simultaneously via threading).
 
@@ -52,6 +56,13 @@
   AllEditionsStandardCodes.values.each do | set_code |
     get_editions(set_code)
   end
+
+  #optionally, in order to use Generate Booster Packs feature with sets that contain foils:
+  AllEditionsStandardCodes.values.each do | set_code |
+    SetPriceScraper.get_set_prices(set_code, 'foil')
+    sleep(2.5)
+  end
+
 ```
 
 **Set updating**
