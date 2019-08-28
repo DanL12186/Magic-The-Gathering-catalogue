@@ -17,9 +17,9 @@ module SetPriceScraper
   def self.get_set_prices(set_code, card_finish = 'regular')
     @set_name = AllEditionsStandardCodes.invert[set_code.upcase]
 
-    if @set_name.nil?
-      display_errors('Invalid Set Code', card_finish)
-    end
+    display_errors('Invalid Set Code', card_finish) if @set_name.nil?
+
+    card_finish = 'regular' if card_finish == 'foil' && !set_has_foils?(@set_name)
 
     @threads = []
     @cards = {}
@@ -38,6 +38,22 @@ module SetPriceScraper
 
   class << self
     private
+
+      #returns whether or not a set can have foils.
+      #(All expansion sets from Urza's Legacy on, and all core sets after 10th Edition)
+      def set_has_foils?(set_name)
+        return false if set_name.match?('Edition')
+
+        #only check vintage cards; Urza's Legacy (2/15/99) was the first set with foils
+        if CardSets::VintageEditions[set_name]
+          oldest_date = Date.parse('1999-02-15')
+          set         = Edition.find_by(name: set_name)
+
+          return Date.parse(set.release_date) >= oldest_date
+        end
+        true
+      end
+
     
       #set for mtgoldfish is actually the set code for full sets
       def get_mtgoldfish_set_prices(set_code, card_finish)
@@ -150,7 +166,7 @@ module SetPriceScraper
         end
       end
 
-      def save_prices(card_finish = 'regular')
+      def save_prices(card_finish)
         edition = @set_name
 
         Card.where(edition: edition).find_in_batches(batch_size: 100) do | cards |
