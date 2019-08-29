@@ -323,7 +323,7 @@ def create_edition(set_object)
     uncommons_per_pack = set_code.match?(/ARN|ATQ|DRK|FEM|HML/) ? 1 : set_code.match?(/PLC|PTK|UGL/) ? 2 : 3
     commons_per_pack   = cards_per_pack - uncommons_per_pack - 1
 
-    #core sets has no mythics until M2010 (so no 9th/10th edition mythics)
+    #core sets have no mythics until M2010 (so no 9th/10th edition mythics)
     has_mythics = Date.parse(release_date) >= Date.parse("2008-10-03") && !name.match?('Edition')
   end
 
