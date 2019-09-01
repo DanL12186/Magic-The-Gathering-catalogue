@@ -36,7 +36,7 @@ class EditionsController < ApplicationController
       booster_pack << uncommons.sample(@edition.uncommons_per_pack)
 
       #1/8 chance of getting a mythic instead of rare in sets which have mythic rarity cards
-      booster_pack << (@edition.mythics? && rand(1..8) == 8 ? mythics.sample : rares.sample)
+      booster_pack << (@edition.mythics? && SecureRandom.random_number(1..8) == 8 ? mythics.sample : rares.sample)
       
       booster_pack.flatten
     end
