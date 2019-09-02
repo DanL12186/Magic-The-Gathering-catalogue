@@ -104,6 +104,8 @@ module DeckHelper
   #return TCG Player price if CK price is $0.25.
   #return MTGFish Price if CK price is N/A
   def determine_appropriate_price(prices)
+    return 0 if prices.empty?
+
     prices.map!(&:to_f)
 
     mtg_fish, card_kingdom, tcg_player = prices
