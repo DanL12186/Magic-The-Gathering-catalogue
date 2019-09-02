@@ -40,10 +40,8 @@ module SetPriceScraper
     private
 
       #returns whether or not a set can have foils.
-      #(All expansion sets from Urza's Legacy on, and all core sets after 10th Edition)
+      #(All sets from Urza's Legacy on
       def set_has_foils?(set_name)
-        return false if set_name.match?('Edition')
-
         #only check vintage cards; Urza's Legacy (2/15/99) was the first set with foils
         if CardSets::VintageEditions[set_name]
           oldest_date = Date.parse('1999-02-15')
