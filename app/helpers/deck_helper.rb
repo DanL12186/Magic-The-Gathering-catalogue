@@ -112,7 +112,7 @@ module DeckHelper
 
     return card_kingdom unless card_kingdom <= 0.25
     return tcg_player unless tcg_player.zero?
-    return mtg_fish
+    mtg_fish
   end
 
   def calculate_deck_value(cards)
@@ -120,7 +120,7 @@ module DeckHelper
 
     total_value = values.map { | prices | determine_appropriate_price(prices) }.sum.round(4)
     
-    number_with_delimiter(total_value)
+    number_to_currency(total_value)
   end
 
   def sort_by_number_and_name_desc(cards, deck_frequencies)

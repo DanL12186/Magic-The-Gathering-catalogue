@@ -16,7 +16,7 @@
       </div>
     <% end %>
 
-    <h5 id="deck-value"> Total Value: $<%= calculate_deck_value(@shuffled_deck_cards) %></h5>
+    <h5 id="deck-value"> Total Value: <%= calculate_deck_value(@shuffled_deck_cards) %></h5>
   </div>
   
   <!-- Deck display. Cards are inserted into theh DOM one on top of the other, leading to reverse order. 

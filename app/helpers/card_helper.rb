@@ -26,11 +26,7 @@ module CardHelper
     return 'Fetching...' if price.nil?
     return 'N/A' if price == 'N/A'
 
-    insert_commas_in_price(price)
-  end
-
-  def insert_commas_in_price(price)
-    "$#{number_with_delimiter(price)}"
+    number_to_currency(price)
   end
 
   def display_other_editions(card)
