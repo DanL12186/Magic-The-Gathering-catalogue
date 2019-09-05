@@ -19,8 +19,10 @@
       <span style='float: right;'> <%= image_tag(get_edition_image_file(card.edition, card.rarity), height: 20) %> </span>
 
       
-      <%= link_to image_tag(card.img_url, class: 'hand-card', style: 'position: relative;'), card_path(card.edition, card.name) %>
-      <%= image_tag('foil overlay.png', style: 'position: absolute; top: 32px; left: 25px; pointer-events: none;') if @foil %>
+      <div>
+        <%= link_to image_tag(card.img_url, class: 'hand-card', style: 'position: relative;'), card_path(card.edition, card.name) %>
+        <%= image_tag('foil overlay.png', class: "foil-overlay #{card.frame >= 2015 ? 'post-2015-foil' : ''}") if @foil %>
+      </div>
     </div>
   <% end %>
 

@@ -91,6 +91,20 @@
     }
 }
 
+//foil overlay for foil cards on open_booster_packs page
+.foil-overlay {
+    position: absolute; 
+    top: 32px; 
+    left: 25px; 
+    pointer-events: none;
+
+    &.post-2015-foil {
+        top: 29px;
+        left: 24px;
+        width: 205px;
+    }
+}
+
 #prices {
   transition: 2s; 
   float: left;
