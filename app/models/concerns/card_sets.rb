@@ -301,7 +301,7 @@ module CardSets
     "Kaladesh Inventions" => "MS2",
     "Kaladesh" => "KLD",
     "Aether Revolt" => "AER",
-    "Amonkhet Invocations" => "MS3",
+    "Amonkhet Invocations" => "MS3", #MP2 for scryfall
     "Amonkhet" => "AKH",
     "Hour of Devastation" => "HOU",
     #standard
@@ -347,7 +347,7 @@ module CardSets
     "Iconic Masters" => "IMA",
     "Masters 25" => "A25",
     "Ultimate Masters" => "UMA",
-    "Ultimate Box Topper" => "PUMA",
+    "Ultimate Box Topper" => "PUMA", #PRM-UMA for MTGGoldfish
     "Modern Horizons" => "MH1",
 
     "Portal Second Age" => "PO2",
