@@ -33,6 +33,12 @@ document.addEventListener('turbolinks:load', function() {
     input.value = ''
   }
 
+  const addRemainingPrintings = (matches, firstCardName, topMatches) => {
+    for (let i = 15; i < matches.length && matches[i][0] === firstCardName; i++) {
+      topMatches.push(matches[i]);
+    }
+  }
+
   //could bring out AllOrderedEditions from Rails backend to sort cards of the same name by set release order
   //autocomplete search for finding cards by name
   $('#collectionCardFind').on('keyup', event => {
@@ -46,11 +52,9 @@ document.addEventListener('turbolinks:load', function() {
       //Fixes a bug where "enter" makes event.target.value equal to Card Name - Set Name
       const firstCardName = (matches[0] || [])[0]
 
-      //stop at 15 matches, unless a card has > 15 printings (in which case list them all so user can pick their exact card)
+      //add the rest of a card's printings if it has > 15 printings so the user may choose their exact card
       if (topMatches.length === 15 && firstCardName === topMatches[14][0]) {
-        for (let i = 15; i < matches.length && matches[i][0] === firstCardName; i++) {
-          topMatches.push(matches[i]);
-        }
+        addRemainingPrintings(matches, firstCardName, topMatches)
       }
 
       //only update on change
