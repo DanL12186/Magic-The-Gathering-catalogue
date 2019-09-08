@@ -8,6 +8,7 @@
 * It is recommended that this is run in an OS X or Linux-based environment, but it will work, albeit relatively slowly, on Windows as well. Database configuration (in `database.yml`) may need to be tweaked for this to work properly on Windows.
 
 **Initializing the Database and getting set up**
+
 *Note: Feel free to delete the gemfile.lock before proceeding if you wish.*
 
 * To initialize database: Boot up your [PostgreSQL](https://www.postgresql.org/download/) app, run rake db:create and rake db:migrate
