@@ -3,7 +3,7 @@ document.addEventListener('turbolinks:load', function() {
   let lastMatch;
 
   const railsAuthenticityToken = $('head [name=csrf-token]')[0].content;
-  const formAuthenticityToken  = $("#new_collection input")[1];
+  const formAuthenticityToken  = $('#new_collection input')[1];
 
   //clear autocomplete form on refresh
   if (this.getElementById('collectionCardFind')) {
@@ -37,22 +37,19 @@ document.addEventListener('turbolinks:load', function() {
   //autocomplete search for finding cards by name
   $('#collectionCardFind').on('keyup', event => {
     if (event.target.value) {
-      const userEntry           = event.target.value.toLowerCase(),
-            matches             = allCardsWithEditions.filter(nameAndEdition=> nameAndEdition[0].toLowerCase().startsWith(userEntry)),
-            datalist            = document.getElementById('collectionBuildSearch'),
-            topMatches          = matches.slice(0,15);
+      const userEntry  = event.target.value.toLowerCase(),
+            matches    = allCardsWithEditions.filter(nameAndEdition=> nameAndEdition[0].toLowerCase().startsWith(userEntry)),
+            datalist   = document.getElementById('collectionBuildSearch'),
+            topMatches = matches.slice(0,15);
 
-      const firstCardName       = matches[0][0]
+      //equals undefined ( [][0] ) if there are no matches). 
+      //Fixes a bug where "enter" makes event.target.value equal to Card Name - Set Name
+      const firstCardName = (matches[0] || [])[0]
 
       //stop at 15 matches, unless a card has > 15 printings (in which case list them all so user can pick their exact card)
       if (topMatches.length === 15 && firstCardName === topMatches[14][0]) {
-        for (let i = 15; i < matches.length; i++) {
-          const currentCardName = matches[i][0]
-          if (currentCardName !== firstCardName) {
-            break
-          } else {
-            topMatches.push(matches[i])
-          }
+        for (let i = 15; i < matches.length && matches[i][0] === firstCardName; i++) {
+          topMatches.push(matches[i]);
         }
       }
 
@@ -91,4 +88,4 @@ document.addEventListener('turbolinks:load', function() {
 
     $.post(`/collections/create`, serializedForm);
   });
-})
+});
