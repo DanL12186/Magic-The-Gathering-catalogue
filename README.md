@@ -71,11 +71,9 @@
 ```
 
 **Set updating**
-* From time to time, card data, most noticeably image data, may becomce outdated. If this happens and you're seeing blank images for cropped photos and thumbnails, you can drop into the rails console (`rails c` in bash), type `require './db/seeds.rb`, and then type `update_set('set_code')`, where set_code is the three-letter code for the set which needs updating. 
+* From time to time, card data, most noticeably image data, may becomce outdated. If this happens and you're seeing blank images for cropped photos and thumbnails, you can drop into the rails console (`rails c` in bash), type `require './db/seeds.rb`, and then type `update_set(set_code)`, where set_code is the three-letter code for the set which needs updating. *(For example, `update_set('mir')` will refresh data for the set Mirage from the Scryfall API. (Set codes are found in the CardSets module (`/app/models/concerns/card_sets.rb`)- use the codes found in AllEditionsStandardCodes near the bottom of the file.)*
 
-For example, `update_set('mir')` will refresh data for the set Mirage from the Scryfall API. (Set codes are found in the CardSets module (`/app/models/concerns/card_sets.rb`)- use the codes found in AllEditionsStandardCodes near the bottom of the file.) 
-
-* Alternatively, if this is too difficult or there are simply many sets that need refreshing, you can additionally type `include CardSets`, then copy and paste the following code into the Rails console:
+* Alternatively, if this is too difficult or there are simply many sets that need refreshing, you can copy and paste the following code into the Rails console:
 
 ```ruby
 AllEditionsStandardCodes.values.each { | set_code | update_set(set_code) }
