@@ -7,14 +7,14 @@ $(document).on('turbolinks:load', function() {
 
   //accommodates single and double-sided cards for zooming
   //switch to hi res image source and zoom card in (223px => 502px width)
-  function zoomIn(...elements) {
+  const zoomIn = (...elements) => {
     elements.forEach(element => element.src = element.getAttribute('hi_res_src'));
     elements.forEach(element => element.classList.add('zoomed'));
     pricesDiv.classList.add('pushed-right');
     zoomed = true;
   }
 
-  function zoomOut(...elements) {
+  const zoomOut = (...elements) => {
     elements.forEach(element => element.classList.remove('zoomed'));
     pricesDiv.classList.remove('pushed-right');
     zoomed = false;
@@ -27,8 +27,8 @@ $(document).on('turbolinks:load', function() {
 
   //switch transform face/back images to high-res Scryfall image (672x936) from original low-res images (223x310)
   $("#card_show_img_face, #card_show_img_back").on('click', function() {
-    const cardFace = this.id.includes('face') ? this : document.getElementById('card_show_img_face');
-    const cardBack = this.id.includes('back') ? this : document.getElementById('card_show_img_back');
+    const cardFace      = this.id.includes('face') ? this : document.getElementById('card_show_img_face');
+    const cardBack      = this.id.includes('back') ? this : document.getElementById('card_show_img_back');
     const flipContainer = document.querySelector('.flip-card-inner');
 
     if (zoomed) {
@@ -36,7 +36,7 @@ $(document).on('turbolinks:load', function() {
       zoomOut(cardFace, cardBack);
     } else { 
       flipContainer.style.width = '502px';
-      zoomIn(cardFace, cardBack)
+      zoomIn(cardFace, cardBack);
     };
   });
 
@@ -60,7 +60,7 @@ $(document).on('turbolinks:load', function() {
   });
 
   //Fades out cropped face image, fades in cropped back image.
-  function fadeSwitchCroppedImage() {
+  const fadeSwitchCroppedImage = () => {
     const croppedDiv = $("#cropped-img-div"),
           croppedImg = document.getElementById('cropped-img'),
           faceCropURL = croppedImg.attributes.original_src.value,
@@ -76,7 +76,7 @@ $(document).on('turbolinks:load', function() {
 
   const flipCardOver = () => cardDiv.style.transform = `rotateY(${180-(transformed ? 180 : 0)}deg)`
 
-  function temporarilyDisableButton(button, duration = 850) {
+  const temporarilyDisableButton = (button, duration = 850) => {
     button.setAttribute('disabled', true);
     
     setTimeout(()=> {
@@ -84,7 +84,7 @@ $(document).on('turbolinks:load', function() {
     }, duration);
   }
 
-  function temporarilyHideOverflow() {
+  const temporarilyHideOverflow = () => {
     document.body.classList.add('hide-overflow')
 
     setTimeout(()=> {
@@ -102,7 +102,7 @@ $(document).on('turbolinks:load', function() {
   };
 
   //change flip card name to the face that's currently showing
-  function fadeSwitchName() {
+  const fadeSwitchName = () => {
     const currentFaceName = transformed ? backCardName : faceCardName,
           currentBackName = transformed ? faceCardName : backCardName;
 
@@ -131,7 +131,6 @@ $(document).on('turbolinks:load', function() {
       temporarilyHideOverflow();
     }
     
-
     fadeSwitchName();
     fadeSwitchCroppedImage();
   });
