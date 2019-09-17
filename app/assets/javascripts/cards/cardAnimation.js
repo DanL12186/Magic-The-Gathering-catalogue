@@ -1,5 +1,5 @@
 //animations on the card show page
-$(document).on('turbolinks:load', function() {
+document.addEventListener('turbolinks:load', function() {
   'use strict';
 
   const pricesDiv = document.querySelector('.prices-js');
