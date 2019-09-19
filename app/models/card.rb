@@ -46,21 +46,20 @@ class Card < ApplicationRecord
     target = (/#{escaped_search}/i)
 
     #could probably cache this as array with downcased names
-    Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | card_arr |
-      next unless card_arr[1].match?(target)
+    Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | edition, name, img_url |
+      next unless name.match?(target)
       
       #return if an exact match (ignoring casing) has been found
-      edition, name, img_url = card_arr
       return { name: name, edition: edition } if name.downcase == downcased_search
 
       if name.split.any? { | word | word.downcase == downcased_search } 
-        matches << card_arr
+        matches << [ edition, name, img_url ]
       else 
-        partial_matches << card_arr
+        partial_matches << [ edition, name, img_url ]
       end
     end
     #return list of full-word and partial-word matches if no exact matches were found
-    [ matches, partial_matches ].map! { | array | array.sort_by! { | attributes | attributes[1] } } 
+    [ matches, partial_matches ].map! { | array | array.sort_by! { | _, name | name } } 
   end
   
 end
