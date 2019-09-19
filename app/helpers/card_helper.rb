@@ -11,9 +11,10 @@ module CardHelper
     file.delete(':')
   end
 
+  #checks whether no .other_editions set codes on a card exist in this app
   def edition_not_present?(edition_codes)
     set_codes = AllEditionsStandardCodes.invert
-    edition_codes.none? { | code | set_codes[code] }
+    edition_codes.none?(&set_codes)
   end
 
   def mana_color(color)
