@@ -18,7 +18,7 @@ class CardsController < ApplicationController
   #grabbing all unique names; calling .to_s as it's faster than .to_json the first time it's cached
   def card_names
     cache_key = "all_unique_card_names#{Time.now.day}"
-    names = Rails.cache.fetch("#{cache_key}", expires_in: 24.hours) do
+    names = Rails.cache.fetch(cache_key, expires_in: 24.hours) do
       Card.where(reprint: false).pluck(:name).to_s
     end
     render json: names
@@ -26,7 +26,7 @@ class CardsController < ApplicationController
 
   def card_names_with_editions
     cache_key = "all_card_names_with_editions#{Time.now.day}"
-    names_and_editions = Rails.cache.fetch("#{cache_key}", expires_in: 24.hours) do
+    names_and_editions = Rails.cache.fetch(cache_key, expires_in: 24.hours) do
       Card.pluck(:name, :edition).to_s
     end
     render json: names_and_editions
