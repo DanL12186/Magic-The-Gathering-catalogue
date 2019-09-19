@@ -1,5 +1,3 @@
-require 'open-uri'
-
 module CardHelper
   include Pagy::Frontend
   include CardSets
@@ -55,7 +53,7 @@ module CardHelper
   end
   
   def hashify_search_results(results_arr)
-    results_arr.map! { | result_arr | { edition: result_arr[0], name: result_arr[1], img_url: result_arr[2] } }
+    results_arr.map! { | edition, name, img_url | { edition: edition, name: name, img_url: img_url } }
   end
 
   def gatherer_link(multiverse_id)
