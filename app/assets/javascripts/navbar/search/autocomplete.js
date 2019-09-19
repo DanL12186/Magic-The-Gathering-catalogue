@@ -11,7 +11,7 @@ document.addEventListener('turbolinks:load', function() {
     if (!cardNames) {
       const response = $.get('/cards/card_names');
       response.done(names => {
-        cardNames = names.sort()
+        cardNames = names
       })
     }
   });
