@@ -32,25 +32,67 @@ class Card < ApplicationRecord
     CGI.escape(CGI.escape(name))
   end
 
+  #returns an sorted list of unique card names (Card.pluck(:column) sorts)
+  def self.all_card_names
+    cache_key = "all_unique_card_names#{Time.now.day}"
+
+    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+      Card.pluck(:name).uniq!
+    end
+  end
+
+  #piggybacks on .all_card_names method; for card search autocomplete feature
+  def self.all_card_names_json
+    cache_key = "all_unique_card_names_json#{Time.now.day}"
+
+    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+      Card.all_card_names.to_s
+    end
+  end
+
+  #for the autocomplete feature for selecting cards for a collection by name and edition
+  def self.all_card_and_edition_names
+    cache_key = "all_card_names_with_editions#{Time.now.day}"
+    names_and_editions = Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+      Card.pluck(:name, :edition).to_s
+    end
+  end
+
+  #binary search for a card name matching user's input. ignoring case
+  #returns the proper name of the card if found, not a lowercase version.
+  def self.namesearch(search, case_agnostic = false)    
+    unless case_agnostic
+      return Card.all_card_names.bsearch { | name | search <=> name }
+    else
+      search = search.downcase
+      Card.all_card_names.bsearch { | name | search <=> name.downcase }
+    end
+  end
+
+  #Card search feature
+
+  #if user used the autocomplete feature to select an exact match, return the first print of the given card
+  #otherwise, check for an exact match by ignoring the input's casing. Return the match if one was found.
+  #if no exact matches, we check card names against a downcased, Regex-escaped search, skipping nonmatching card names
   def self.search(search)
     matches = []
     partial_matches = []
-
-    #if user used the autocomplete feature to select an exact match, return the first print of the given card
     exact_match = Card.find_by(name: search, reprint: false)
-    return { name: exact_match.name, edition: exact_match.edition } if exact_match
 
-    #otherwise, we check card names against a downcased, Regex-escaped search, ignoring case, skipping card names that don't match at all
+    if exact_match.nil?
+      name        = self.namesearch(search, true)
+      exact_match = Card.find_by(name: name, reprint: false) if name
+    end
+
+    return { name: exact_match.name, edition: exact_match.edition } if exact_match
+    
     downcased_search = search.downcase
     escaped_search = Regexp.escape(search)
     target = (/#{escaped_search}/i)
 
-    #could probably cache this as array with downcased names
+    #could cache this query
     Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | edition, name, img_url |
       next unless name.match?(target)
-      
-      #return if an exact match (ignoring casing) has been found
-      return { name: name, edition: edition } if name.downcase == downcased_search
 
       if name.split.any? { | word | word.downcase == downcased_search } 
         matches << [ edition, name, img_url ]
