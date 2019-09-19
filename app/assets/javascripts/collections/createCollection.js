@@ -2,8 +2,8 @@ document.addEventListener('turbolinks:load', function() {
   let allCardsWithEditions;
   let lastMatch;
 
-  const railsAuthenticityToken = $('head [name=csrf-token]')[0].content;
-  const formAuthenticityToken  = $('#new_collection input')[1];
+  const railsAuthToken = $('head [name=csrf-token]')[0].content;
+  const formAuthToken  = $('#new_collection input')[1];
 
   //clear autocomplete form on refresh
   if (this.getElementById('collectionCardFind')) {
@@ -18,7 +18,7 @@ document.addEventListener('turbolinks:load', function() {
         allCardsWithEditions = names.sort((a,b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]));
       })
     }
-  })
+  });
 
   const addCardToList = (event, cardName, cardEdition, copies) => {
     event.preventDefault();
@@ -87,7 +87,7 @@ document.addEventListener('turbolinks:load', function() {
   });
 
   $("#createCollection").on('click', () => {
-    formAuthenticityToken.value = railsAuthenticityToken
+    formAuthToken.value = railsAuthToken
     const serializedForm = $("#new_collection").serialize()
 
     $.post(`/collections/create`, serializedForm);
