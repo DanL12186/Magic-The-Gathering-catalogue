@@ -37,11 +37,11 @@ class Card < ApplicationRecord
     cache_key = "all_unique_card_names#{Time.now.day}"
 
     Rails.cache.fetch(cache_key, expires_in: 24.hours) do
-      Card.pluck(:name).uniq!
+      Card.pluck(:name).uniq!.sort!
     end
   end
 
-  #piggybacks on .all_card_names method; for card search autocomplete feature
+  #piggybacks on .all_card_names method; same return value only in JSON form; for card search autocomplete feature
   def self.all_card_names_json
     cache_key = "all_unique_card_names_json#{Time.now.day}"
 
@@ -50,7 +50,7 @@ class Card < ApplicationRecord
     end
   end
 
-  #for the autocomplete feature for selecting cards for a collection by name and edition
+  #for the autocomplete feature for selecting cards for a collection by name and edition. returns json (array.to_s)
   def self.all_card_and_edition_names
     cache_key = "all_card_names_with_editions#{Time.now.day}"
     names_and_editions = Rails.cache.fetch(cache_key, expires_in: 24.hours) do
