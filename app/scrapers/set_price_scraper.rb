@@ -141,7 +141,7 @@ module SetPriceScraper
         
         url = "https://shop.tcgplayer.com/price-guide/magic/#{set}"
 
-        card_rows = Nokogiri::HTML(open(url)).css('tbody tr')
+        card_rows = Nokogiri::HTML(open(url, ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)).css('tbody tr')
 
         card_rows.each do | card_row | 
           name = I18n.transliterate(card_row.css('div.productDetail a').text)
