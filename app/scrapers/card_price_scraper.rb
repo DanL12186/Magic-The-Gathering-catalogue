@@ -1,6 +1,16 @@
 require 'open-uri'
 
 module CardPriceScraper
+
+  def self.get_card_prices(name, set)
+    prices = []
+
+    mtg_price, tcg_price = self.get_mtgoldfish_and_tcg_prices(name, set)
+    ck_price = self.get_card_kingdom_price(name, set)
+
+    [ mtg_price, ck_price, tcg_price ]
+  end
+
   #URL generators, used both by the view and this scraper
   def self.mtgoldfish_url(card_name, card_set)
     set  = process_mtgfish_edition(card_set) + handle_foil(card_set)
@@ -12,11 +22,15 @@ module CardPriceScraper
     "https://www.mtggoldfish.com/price/#{set}/#{name}#paper"
   end
 
-  def self.get_mtgoldfish_price(card_name, card_set)
+  def self.get_mtgoldfish_and_tcg_prices(card_name, card_set)
     url   = mtgoldfish_url(card_name, card_set)
     page  = scrape_page_if_exists(url)
-    price = page.css('.price-box-price').children.last.try(:text) if page
-    price ? price.delete(',') : 'N/A'
+    
+    #get TCG player price from the same page, until (if) SSL issue can be resolved
+    mtg_price = page.css('.price-box-price').children.last.try(:text) if page
+    tcg_price = page.css('.btn-shop').text.delete("\n").match(/Market Price\W+\d+\.\d+/).to_s.match(/\d.*/).to_s if page
+
+    [ mtg_price, tcg_price ].map { | price | (price || 'N/A').delete(',') }
   end
 
   #card kingdom
@@ -43,20 +57,12 @@ module CardPriceScraper
     "https://shop.tcgplayer.com/magic/#{set}/#{name}"
   end
 
-  def self.get_tcg_player_price(card_name, card_set)
-    url   = tcg_player_url(card_name, card_set)
-    page  = scrape_page_if_exists(url)
-    price = page.css('div.price-point.price-point--market td').first.text.delete('$,') if page
-
-    price || 'N/A'
-  end
-
   class << self
     private
 
       #scraping support methods
       def scrape_page_if_exists(url)
-        Thread.new do 
+        Thread.new do
           begin
             Nokogiri::HTML(open(url))
           rescue OpenURI::HTTPError => error
