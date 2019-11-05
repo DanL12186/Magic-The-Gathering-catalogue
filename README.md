@@ -64,6 +64,10 @@
     get_editions(set_code)
   end
 
+  #creates all standalone editions in a standalone Editions table. required to use 
+  #Generate Booster Packs feature. You must require './db/seeds.rb' in console for this to be available
+  create_all_editions
+
   #optionally, in order to use Generate Booster Packs feature with sets that contain foils:
   AllEditionsStandardCodes.values.each do | set_code |
     SetPriceScraper.get_set_prices(set_code, 'foil')
