@@ -306,10 +306,10 @@ def create_all_editions
 end
 
 def create_edition(set_object)
-  name = set_object.name
+  name = set_object.name.sub('Classic ','')
   set_code = set_object.code
   release_date = set_object.release_date
-  set_type = set_object.type #e.g. explansion, core set
+  set_type = set_object.type #e.g. expansion, core set
   category = (release_date < '10-02-03') ? ('vintage') : ('modern') #set 'standard' manually, as it changes
   block = set_object.block
 
