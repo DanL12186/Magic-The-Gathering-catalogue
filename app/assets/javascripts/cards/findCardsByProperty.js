@@ -40,7 +40,7 @@ $(document).on('turbolinks:load', function() {
   //probably good candidate for an object/class
   function generateCardsHTML(cards, currentPage) {
     const slice = (currentPage - 1) * 60
-    return cards.map(card=> {
+    return cards.map(card => {
       const shortName = truncateLongNames(card.name),
             cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb',
             thumbnail = card.hi_res_img.replace('large','small'),
@@ -91,7 +91,7 @@ $(document).on('turbolinks:load', function() {
     submitButton.setAttribute('disabled', true)
 
     const serializedForm = $(this).serialize()
-    ,     response = $.post(`/cards/find_by_properties`, serializedForm);
+    const response = $.post(`/cards/find_by_properties`, serializedForm);
     
     response.done(response => {
       //filter out cards which don't have prices from cardkingdom
