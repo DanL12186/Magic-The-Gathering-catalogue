@@ -1,8 +1,6 @@
 require 'set_price_scraper.rb'
 
 class CardsController < ApplicationController
-  before_action :get_filter_search_results, only: [:filter_search]
-
   include CardSets
   include CardHelper
   include Pagy::Backend
@@ -72,6 +70,7 @@ class CardsController < ApplicationController
   end
 
   def filter_search
+    @results = get_filter_search_results
     render json: CardSerializer.new(@results).serializable_hash[:data]
   end
 
@@ -89,7 +88,7 @@ class CardsController < ApplicationController
 
       min_filters = filters[:edition] ? 1 : 2
 
-      @results = Card.select(filters.keys + required_attributes).where(filters).limit(1200) unless filters.keys.size < min_filters
+      Card.select(filters.keys + required_attributes).where(filters).limit(1200) unless filters.keys.size < min_filters
     end
 
     def redirect_if_not_face_card
