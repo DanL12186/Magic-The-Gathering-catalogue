@@ -79,7 +79,9 @@ document.addEventListener('turbolinks:load', function() {
           cardName         = card.trim().split(' - ')[0],
           cardEdition      = card.trim().split(' - ')[1];
 
-    addCardToList(event, cardName, cardEdition, copies);
+    if (cardName) {
+      addCardToList(event, cardName, cardEdition, copies);
+    }
   })
 
   $("#new_collection").on('submit', event => {
