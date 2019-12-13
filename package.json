@@ -2,7 +2,7 @@
   "name": "Magic-The-Gathering-PostgreSQL",
   "private": true,
   "dependencies": {
-    "npm": "^6.5.0",
+    "npm": "^6.13.4",
     "popper.js": "^1.14.6"
   },
   "engines" : {
