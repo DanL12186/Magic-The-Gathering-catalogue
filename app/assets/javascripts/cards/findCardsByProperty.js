@@ -3,10 +3,10 @@ $(document).on('turbolinks:load', function() {
 
   //clear "sort by" and page buttons when a card is clicked
   function listenForPageLeave() {
-    $(document).on('turbolinks:before-visit', () => {
+    document.addEventListener('turbolinks:before-visit', () => {
       $("a.btn-sm").empty()
-      document.getElementById("pagination-pg-num").style = "display: none;";
-      $("div#find-by-pagination")[0].innerHTML = null;
+      $('#pagination-pg-num').empty()
+      $('div#find-by-pagination').empty()
     })
   }
 
@@ -14,7 +14,7 @@ $(document).on('turbolinks:load', function() {
   function listenForThumbHover() {
     const getCardHeading = cardThumb   => cardThumb.parentElement.parentElement.previousElementSibling,
           getCardSetIcon = cardHeading => cardHeading.firstElementChild,
-          getCardSet     = cardHeading => cardHeading.getAttribute('data-edition')
+          getCardSet     = cardHeading => cardHeading.getAttribute('data-edition');
 
     $('.thumb').on('mouseenter', event => {
       const heading      = getCardHeading(event.target),
@@ -26,7 +26,7 @@ $(document).on('turbolinks:load', function() {
     }).on('mouseleave click', event => {
       const heading     = getCardHeading(event.target),
             edition     = getCardSet(heading),
-            cardSetIcon = getCardSetIcon(heading)
+            cardSetIcon = getCardSetIcon(heading);
 
       cardSetIcon.src = `/assets/editions/${edition}`;
     });
@@ -44,7 +44,7 @@ $(document).on('turbolinks:load', function() {
       const shortName = truncateLongNames(card.name),
             cardClass = card.edition === 'Alpha' ? 'thumb alpha' : 'thumb',
             thumbnail = card.hi_res_img.replace('large','small'),
-            edition   = card.edition.toLowerCase().replace(':',''),
+            edition   = card.edition.toLowerCase().replace(':', ''),
             rarity    = card.rarity.toLowerCase();
       
       return( 
@@ -171,13 +171,13 @@ $(document).on('turbolinks:load', function() {
         'Colorless' : 6,
         'Gold'  : 7
       }, typeOrder = {
-          'Land': 1, 
-          'Basic': 1, 
+          'Land'    : 1, 
+          'Basic'   : 1, 
           'Artifact': 2, 
-          'Instant': 3, 
-          'Sorcery': 4, 
+          'Instant' : 3, 
+          'Sorcery' : 4, 
           'Enchantment': 5, 
-          'Creature': 6 
+          'Creature': 6
       };
 
       //sort by price sorts only by the prices on CardKingdom, as other prices are only suggestions
