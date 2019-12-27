@@ -28,8 +28,8 @@ module CardPriceScraper
     
     #get TCG player price from the same page, until (if) SSL issue can be resolved
     mtg_price = page.css('.price-box-price').children.last.try(:text) if page
-    tcg_price = page.css('.btn-shop').text.delete("\n").match(/Market Price\W+\d+\.\d+/).to_s.match(/\d.*/).to_s if page
-
+    tcg_price = page.css('.btn-shop').text.gsub(/\n+/,' ').match(/Market Price\W+[^\s]+/).to_s.match(/\d.*/)&.to_s if page
+    
     [ mtg_price, tcg_price ].map { | price | (price || 'N/A').delete(',') }
   end
 
@@ -49,7 +49,7 @@ module CardPriceScraper
     price || 'N/A'
   end
 
-  #tcg player
+  #tcg player; still needed for URL generation in view
   def self.tcg_player_url(card_name, card_set)
     set  = process_tcg_player_edition(card_set)
     name = I18n.transliterate(card_name.downcase).delete(",.:;\"'/").gsub(/ +/, '-')
