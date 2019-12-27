@@ -17,9 +17,8 @@
 //= require jquery.canvasjs.min
 //= require_tree .
 
-$(document).on('turbolinks:load', function() {
+document.addEventListener('turbolinks:load', function() {  
   'use strict';
-  
   //lazyload images marked with lazyload: true
   $("img").lazyload({
     effect : "fadeIn"
@@ -28,7 +27,7 @@ $(document).on('turbolinks:load', function() {
   //change edition symbol color to silver or gold if card is uncommon or rare
   $(".rare, .uncommon, .mythic").on('mouseenter', function() {
     const edition = this.parentElement.getAttribute('data-edition')
-    ,     rarity  = this.getAttribute('class').match(/rare|uncommon|common/)
+    const rarity  = this.getAttribute('class').match(/rare|uncommon|mythic/)
     if (!edition) return
     this.src = `/assets/editions/${edition} ${rarity}`;
   }).on('mouseleave', function() {
