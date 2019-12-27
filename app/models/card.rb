@@ -32,12 +32,12 @@ class Card < ApplicationRecord
     CGI.escape(CGI.escape(name))
   end
 
-  #returns an sorted list of unique card names (Card.pluck(:column) sorts)
+  #returns a sorted list of unique card names (Card.pluck(:column) sorts)
   def self.all_card_names
     cache_key = "all_unique_card_names#{Time.now.day}"
 
     Rails.cache.fetch(cache_key, expires_in: 24.hours) do
-      Card.pluck(:name).uniq!.sort!
+      Card.distinct.pluck(:name).sort!
     end
   end
 
@@ -90,7 +90,6 @@ class Card < ApplicationRecord
     escaped_search = Regexp.escape(search)
     target = (/#{escaped_search}/i)
 
-    #could cache this query
     Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | edition, name, img_url |
       next unless name.match?(target)
 
