@@ -8,7 +8,7 @@ gem 'rails', '>= 5.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 1.00', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '>= 3.1'
+gem 'puma', '>= 4.0'
 # Use SCSS for stylesheets
 gem 'sassc-rails'
 gem 'bootstrap-sass', '>= 3.3', '< 4.0'
