@@ -26,19 +26,15 @@ class CardsController < ApplicationController
   def update_prices
     card = Card.find(params[:id])
     flip = Card.find_by(multiverse_id: card.flip_card_multiverse_id) if card.flip_card_multiverse_id
-    name = card.name
-    set  = card.edition
     
     #updated_at prevents repeated views from triggering updates after a necessary update was performed but no prices changed
     #check needs_updating? again so backclicks don't cause a retrigger
     if needs_updating?(card.updated_at, card.prices)
-      prices = CardPriceScraper.get_card_prices(name, set)
+      prices = CardPriceScraper.get_card_prices(card.name, card.edition)
 
       card.update(prices: prices, updated_at: Time.now)
       flip.update(prices: prices, updated_at: Time.now) if flip
     end
-
-    #SetPriceScraper.get_set_prices(AllEditionsStandardCodes[card.edition])
 
     render json: card.prices
   end
@@ -83,7 +79,7 @@ class CardsController < ApplicationController
       
       filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
       
-      #do not exclude reprints if a particular edition/set is selected, as many editions have reprints in them
+      #do not exclude reprints if a particular edition/set is selected
       filters.delete(:reprint) if filters[:edition]
 
       min_filters = filters[:edition] ? 1 : 2
