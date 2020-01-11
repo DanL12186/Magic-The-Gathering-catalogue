@@ -140,16 +140,17 @@ module CardSets
       "Aether Revolt" => "AER",
       "Amonkhet" => "AKH",
       "Hour of Devastation" => "HOU",
-    },
-    "Standard" => {
       "Ixalan" => "XLN",
       "Rivals of Ixalan" => "RIX",
       "Dominaria" => "DOM",
-      "Core Set 2019"=>"M19",
+    },
+    "Standard" => {
       "Guilds of Ravnica" => "GRN",
       "Ravnica Allegiance" => "RNA",
       "War of the Spark" => "WAR",
-      "Core Set 2020" => "M20"
+      "Core Set 2020" => "M20",
+      "Throne of Eldraine" => "ELD",
+      "Theros: Beyond Death" => "THB",
     },
     "Core Sets" => {
       "Eighth Edition" => "8ED",
@@ -162,6 +163,7 @@ module CardSets
       "Magic 2014" => "M14",
       "Magic 2015" => "M15",
       "Magic Origins"=>"ORI",
+      "Core Set 2019"=>"M19",
     }, 
     "Commander" => {
       "Commander" => "CMD",
@@ -312,6 +314,8 @@ module CardSets
     "Ravnica Allegiance" => "RNA",
     "Ravnica Allegiance Mythic Edition" => "MED",
     "War of the Spark" => "WAR",
+    "Throne of Eldraine" => "ELD",
+    "Theros: Beyond Death" => "THB",
 
     #core sets
     "Magic 2010" => "M10",
