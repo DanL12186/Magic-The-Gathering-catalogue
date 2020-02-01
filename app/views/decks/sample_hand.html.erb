@@ -19,7 +19,7 @@
     <h4> Spells: <%= @card_types['spells'] %> </h4>
     <h4> Artifacts: <%= @card_types['artifacts'] %> </h4>
     <h4> Creatures: <%= @card_types['creatures'] %> </h4>
-    <h4> Hand Odds: <%= multivariate_hypergeometric_distribution(deck_size = @shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>% </h4>
+    <h4> Hand Odds: <%= Probability.multivariate_hypergeometric_distribution(@shuffled_deck_cards.size, cards_drawn = 7, *@multivar_args) %>% </h4>
   </div>
 
 </div>

@@ -59,7 +59,7 @@ class DecksController < ApplicationController
       cards_drawn = params[:cards_drawn].to_i
       multivar_args = hand_and_deck_card_counts(params).values
       
-      multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
+      Probability.multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
     end
 
     def build_deck
