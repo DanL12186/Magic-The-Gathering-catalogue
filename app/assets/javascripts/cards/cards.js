@@ -23,12 +23,11 @@ document.addEventListener('turbolinks:load', function() {
   })
   
   const numberWithDelimiter = (strNum, delimeter = ',') => {
-    if (strNum === 'N/A') return 'N/A';
+    if (strNum === 'N/A') return 'N/A'
 
-    const decimalLength = strNum.includes('.') ? strNum.match(/\.\d+/)[0].length : 0
-    ,     strNumArr = strNum.replace(/[^\d\.]/g, '').split('');
-    
-    const offset = decimalLength + 4;
+    const decimalLength = strNum.includes('.') ? strNum.match(/\.\d+/)[0].length : 0;
+    const strNumArr     = strNum.replace(/[^\d\.]/g, '').split('');
+    const offset        = decimalLength + 4;
 
     for (let i = strNumArr.length - offset; i >= 0; i -= 3) {
       strNumArr[i] += delimeter
@@ -39,21 +38,21 @@ document.addEventListener('turbolinks:load', function() {
   //updates DOM on card show page with new prices if older than 24hrs or prices don't exist.
   if (document.getElementById('card-kingdom')) {
     const stale = $('#prices').data('stale')
-    ,     id = $('#prices').data('id');
+    const id    = $('#prices').data('id')
 
     if (stale) {
       const response = $.post(`/cards/update_prices`, { id: id, authenticity_token: railsAuthenticityToken } )
     
-      response.done(cardPrices=> {
+      response.done(cardPrices => {
         const oldPrices = document.getElementsByClassName('price')
         //Updates DOM if prices changed.
         for (let i = 0; i < 3; i++) {
-          const oldPrice = oldPrices[i].innerText.replace(/[\$,]/g,''),
-                newPrice = cardPrices[i];
-          
-          if (oldPrice !== newPrice) {
-            const spanID = document.querySelectorAll('#prices h4')[i].id,
-                  priceSpan = document.querySelector(`h4#${spanID} span`);
+          const oldPrice = oldPrices[i].innerText.replace(/[\$,]/g,'')
+          const newPrice = cardPrices[i]
+
+          if (newPrice && oldPrice !== newPrice) {
+            const spanID = document.querySelectorAll('#prices h4')[i].id;
+            const priceSpan = document.querySelector(`h4#${spanID} span`);
 
             $(priceSpan).fadeOut(750).fadeIn(750);
 
