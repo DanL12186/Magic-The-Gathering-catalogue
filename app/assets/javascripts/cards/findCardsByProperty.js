@@ -95,7 +95,7 @@ $(document).on('turbolinks:load', function() {
     
     response.done(response => {
       //filter out cards which don't have prices from cardkingdom
-      const cards = response ? response.map(JSON=> JSON.attributes).filter(card=> parseFloat(card.prices[1])) : null
+      const cards = response ? response.map(JSON=> JSON.attributes).filter(card => parseFloat(card.prices[1])) : null
 
       //remove 'Page:' and page tabs if all one page
       if (!cards || cards.length <= 60) {
@@ -112,7 +112,7 @@ $(document).on('turbolinks:load', function() {
       }
 
       const numPages = Math.ceil(cards.length / 60)
-      ,     html = generateCardsHTML(cards, 1);
+      const html = generateCardsHTML(cards, 1);
       
       //change page tabs if necessary
       if (numPages > 1 && document.getElementsByClassName("jslink").length !== numPages) {
