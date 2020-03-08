@@ -78,3 +78,11 @@ a, a:visited, a:focus {
 #about-lotus {
     border-radius: 7% / 5.5%;
 }
+
+//** Login Modal**// 
+.login-modal-content {
+    transform: translateY(25%);
+    background: black;
+    opacity: 0.75;
+    border: 2px solid $navbar-border-color;
+}
