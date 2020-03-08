@@ -150,7 +150,7 @@ module CardSets
       "War of the Spark" => "WAR",
       "Core Set 2020" => "M20",
       "Throne of Eldraine" => "ELD",
-      "Theros: Beyond Death" => "THB",
+      "Theros Beyond Death" => "THB",
     },
     "Core Sets" => {
       "Eighth Edition" => "8ED",
@@ -315,7 +315,7 @@ module CardSets
     "Ravnica Allegiance Mythic Edition" => "MED",
     "War of the Spark" => "WAR",
     "Throne of Eldraine" => "ELD",
-    "Theros: Beyond Death" => "THB",
+    "Theros Beyond Death" => "THB",
 
     #core sets
     "Magic 2010" => "M10",
