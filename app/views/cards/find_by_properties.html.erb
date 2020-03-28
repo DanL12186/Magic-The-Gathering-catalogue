@@ -7,10 +7,10 @@
 <%= form_with url: "/cards/find_by_properties", id: "find_by_properties", method: 'POST' do | f | %> 
 
     <%= f.label :reserved, 'Reserved list' %>
-    <%= f.select(:reserved, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %>
+    <%= f.select(:reserved, options_for_select({'Yes': true, 'No': false}), include_blank: true) %>
     <br>
     <%= f.label :legendary %>
-    <%= f.select(:legendary, options_for_select({'Yes' => true, 'No' => false}), include_blank: true) %>
+    <%= f.select(:legendary, options_for_select({'Yes': true, 'No': false}), include_blank: true) %>
     <br>
     <%= f.label :edition %> 
     <%= f.select(:edition, grouped_options_for_select( CategoriedEditions.map { | category, sets | [ category, sets.keys ] } ),  include_blank: true) %>
