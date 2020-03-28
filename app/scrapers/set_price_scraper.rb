@@ -19,7 +19,7 @@ module SetPriceScraper
 
     display_errors('Invalid Set Code', card_finish) if @set_name.nil?
 
-    card_finish = 'regular' if card_finish == 'foil' && !set_has_foils?(@set_name)
+    return nil if card_finish == 'foil' && !set_has_foils?(@set_name)
 
     @threads = []
     @cards = {}
@@ -39,15 +39,33 @@ module SetPriceScraper
   class << self
     private
 
+      CK_EXCEPTIONS = {
+        'Revised' => '3rd-edition',
+        'Fourth Edition' => '4th-edition',
+        'Fifth Edition' => '5th-edition',
+        'Sixth Edition' => '6th-edition',
+        'Seventh Edition' => '7th-edition',
+        'Eighth Edition' => '8th-edition',
+        'Ninth Edition' => '9th-edition',
+        'Tenth Edition' => '10th-edition',
+        'Ravnica City of Guilds' => 'ravnica'
+      }
+
+      TCG_EXCEPTIONS = { 
+        'Sixth Edition' => 'classic-sixth-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition',
+        'Tenth Edition' => '10th-edition', 'Time Spiral Timeshifted' => 'timeshifted', 'Amonkhet Invocations' => 'masterpiece-series-amonkhet-invocations',
+        'Kaladesh Inventions' => 'masterpiece-series-kaladesh-inventions', 'Ultimate Box Topper' => 'ultimate-masters-box-toppers'
+      }
+
       #returns whether or not a set can have foils.
       #only check vintage cards; Urza's Legacy (2/15/99) and onwards have foils
       def set_has_foils?(set_name)
         return true unless CardSets::VintageEditions.include?(set_name)
-          
+
         foil_date = Date.parse('1999-02-15')
         set       = Edition.find_by(name: set_name)
 
-        Date.parse(set.release_date) >= foil_date
+        Date.parse(set.release_date) >= foil_date && !set_name.match?(/Sixth|Portal/)
       end
 
     
@@ -83,21 +101,9 @@ module SetPriceScraper
         end
       end
 
-      def get_card_kingdom_set_prices(card_finish)
-        ck_exceptions = { 
-          'Revised' => '3rd-edition',
-          'Fourth Edition' => '4th-edition', 
-          'Fifth Edition' => '5th-edition',
-          'Sixth Edition' => '6th-edition', 
-          'Seventh Edition' => '7th-edition',
-          'Eighth Edition' => '8th-edition',
-          'Ninth Edition' => '9th-edition',
-          'Tenth Edition' => '10th-edition',
-          'Ravnica City of Guilds' => 'ravnica'
-        }
-        
+      def get_card_kingdom_set_prices(card_finish)        
         set = @set_name.match?(/Magic 201[0-5]/) ? "#{@set_name.match(/\d+/)}-core-set" : @set_name.delete("':")
-        set = ck_exceptions[set] if ck_exceptions.include?(set)
+        set = CK_EXCEPTIONS[set] if CK_EXCEPTIONS.include?(set)
         set = set.gsub(' ', '-').downcase
           
         if set.match?(/expeditions|inventions|invocations/)
@@ -129,19 +135,13 @@ module SetPriceScraper
       end
 
       #tcg player does 7th edition, 8th edition etc but fourth fifth sixth edition
-      def get_tcg_player_set_prices
-        tcg_exceptions = { 
-          'Sixth Edition' => 'classic-sixth-edition', 'Seventh Edition' => '7th-edition', 'Eighth Edition' => '8th-edition', 'Ninth Edition' => '9th-edition',
-          'Tenth Edition' => '10th-edition', 'Time Spiral Timeshifted' => 'timeshifted', 'Amonkhet Invocations' => 'masterpiece-series-amonkhet-invocations',
-          'Kaladesh Inventions' => 'masterpiece-series-kaladesh-inventions', 'Ultimate Box Topper' => 'ultimate-masters-box-toppers'
-        }
-        
-        set = tcg_exceptions[@set_name] || @set_name.gsub(' ', '-').downcase.delete(':')
+      def get_tcg_player_set_prices        
+        set = TCG_EXCEPTIONS[@set_name] || @set_name.gsub(' ', '-').downcase.delete(':')
         set += @set_name.match(/magic 201[0-5]/) ? "-m#{set.match(/\d{2}$/)}" : @set_name.match?(/Alpha|Beta|Unl|^Rev/) ? '-edition' : ''
         
         url = "https://shop.tcgplayer.com/price-guide/magic/#{set}"
 
-        card_rows = Nokogiri::HTML(open(url, ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)).css('tbody tr')
+        card_rows = Nokogiri::HTML(open(url)).css('tbody tr')
 
         card_rows.each do | card_row | 
           name = I18n.transliterate(card_row.css('div.productDetail a').text)
