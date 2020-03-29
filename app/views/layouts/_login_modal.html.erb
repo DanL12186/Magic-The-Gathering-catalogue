@@ -8,7 +8,7 @@
         <br>
 
         <div class='text-center'>
-            <%= form_for :user, url: url_for(controller: 'sessions', action: 'create') do |f| %>
+            <%= form_for :user, remote: true, url: url_for(controller: 'sessions', action: 'create') do |f| %>
             <%= f.label :name %>
             <%= f.text_field :name, autocomplete: 'username' %>
             <br>
