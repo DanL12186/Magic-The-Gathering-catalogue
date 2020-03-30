@@ -7,8 +7,8 @@ module CardHelper
   end
 
   def edition_image_filename(rarity = 'Common', edition)
-    file = rarity.match?(/Common|Special/) ? "editions/#{edition.downcase}" : "editions/#{edition.downcase} #{rarity.downcase}"
-    file.delete(':')
+    filename = rarity.match?(/Common|Special/) ? "editions/#{edition.downcase}" : "editions/#{edition.downcase} #{rarity.downcase}"
+    filename.delete(':')
   end
 
   #checks whether no .other_editions set codes on a card exist in this app
@@ -32,7 +32,7 @@ module CardHelper
     set_codes = AllEditionsStandardCodes.invert
     card.other_editions.map do | set_code | 
       edition_name = set_codes[set_code]
-      link_to image_tag(edition_image_filename(edition_name), class: 'other-edition'), card_path(edition_name, @card.name) if edition_name
+      link_to image_tag(edition_image_filename(edition_name), class: 'other-edition'), card_path(edition_name, card.name) if edition_name
     end.join.html_safe
   end
 
