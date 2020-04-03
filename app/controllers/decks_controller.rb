@@ -53,7 +53,6 @@ class DecksController < ApplicationController
       redirect_to root_path unless logged_in? && @deck.user_id == current_user.id
     end
 
-    #create the deck and then its decks_cards
     def calculate_odds
       deck_size = params[:deck_size].to_i
       cards_drawn = params[:cards_drawn].to_i
@@ -61,7 +60,8 @@ class DecksController < ApplicationController
       
       Probability.multivariate_hypergeometric_distribution(deck_size, cards_drawn, *multivar_args)
     end
-
+    
+    #create the deck and then its decks_cards
     def build_deck
       cards_with_quantities = params[:decks_cards][:list].split(/ \r\n/)  
       
