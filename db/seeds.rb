@@ -5,9 +5,9 @@ require 'mtg_sdk'
 include CardSets
 include ApplicationHelper
 
-# #get other edition printings from MTG SDK after loading card set
-# #set code, e.g. 'mir', 'hml', 'all', 'lea'
-def get_editions(set_code)
+#gets other edition printings for every card in the set from MTG SDK after loading card set
+#set code, e.g. 'mir', 'hml', 'all', 'lea'
+def get_other_editions(set_code)
   set_code.upcase!
   
   set_name = AllEditionsStandardCodes.invert[set_code]
@@ -31,7 +31,7 @@ def get_editions(set_code)
   end
 end
 
-# # Scryfall updating: each page is 175 cards;
+#Scryfall updating: each page is 175 cards;
 def update_set(set_code)
   url = "https://api.scryfall.com/cards/search?q=set:#{set_code}"
   set = JSON.parse(open(url).read)
@@ -184,8 +184,8 @@ end
 #creates a single card, either via the command-line where user specifies a multiverse ID, or when called by create_set, passed a hash.
 def create_card(id_or_hash)
   if id_or_hash.is_a?(Integer)
-    @url = "https://api.scryfall.com/cards/multiverse/#{id_or_hash}"
-    card_hash = JSON.parse(Nokogiri::HTML(open(@url).read))
+    url = "https://api.scryfall.com/cards/multiverse/#{id_or_hash}"
+    card_hash = JSON.parse(Nokogiri::HTML(open(url).read))
   else
     card_hash = id_or_hash
   end
