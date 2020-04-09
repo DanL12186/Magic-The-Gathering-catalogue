@@ -81,7 +81,7 @@ module SetPriceScraper
         #MTGoldFish loads its online prices before refreshing with its paper prices..
         #so it's necessary to wait on the thread so the page can provide the correct data
         card_rows = Thread.new do 
-          page = Thread.new { open(url) }.value
+          page = Thread.new { URI.open(url) }.value
           Nokogiri::HTML(page)
         end.value.css('tbody tr')
 
@@ -117,7 +117,7 @@ module SetPriceScraper
         (1..total_pages).each do | idx |
           @threads << Thread.new do 
             url = "https://www.cardkingdom.com/mtg/#{set}?filter%5Bipp%5D=60&page=#{idx}"
-            card_divs = Nokogiri::HTML(open(url)).css('div.productItemWrapper.productCardWrapper')
+            card_divs = Nokogiri::HTML(URI.open(url)).css('div.productItemWrapper.productCardWrapper')
 
             card_divs.each do | card_div | 
               name = card_div.css('span a').text.sub("(Oversized Foil)",'').sub(/\((Foil|HOU|AKH|KLD|AER|OGW.+|BFZ.+)\)/,'').strip
@@ -141,7 +141,7 @@ module SetPriceScraper
         
         url = "https://shop.tcgplayer.com/price-guide/magic/#{set}"
 
-        card_rows = Nokogiri::HTML(open(url)).css('tbody tr')
+        card_rows = Nokogiri::HTML(URI.open(url)).css('tbody tr')
 
         card_rows.each do | card_row | 
           name = I18n.transliterate(card_row.css('div.productDetail a').text)

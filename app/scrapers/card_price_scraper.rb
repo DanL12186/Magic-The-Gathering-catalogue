@@ -64,7 +64,7 @@ module CardPriceScraper
       def scrape_page_if_exists(url)
         Thread.new do
           begin
-            Nokogiri::HTML(open(url))
+            Nokogiri::HTML(URI.open(url))
           rescue OpenURI::HTTPError => error
             raise error unless error.message.match?("Not Found")
           end
