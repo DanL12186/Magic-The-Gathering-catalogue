@@ -14,7 +14,7 @@
 //= require rails-ujs
 //= require turbolinks
 //= require lazyload
-//= require jquery.canvasjs.min
+//= require canvasjs.min
 //= require_tree .
 
 document.addEventListener('turbolinks:load', function() {  
