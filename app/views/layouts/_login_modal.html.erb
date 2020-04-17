@@ -7,8 +7,8 @@
         <h3 id='loginError'></h3>
         
         <br>
-        <div class='text-center', id='loginForm'>
-            <%= form_for :user, remote: true, url: url_for(controller: 'sessions', action: 'create') do |f| %>
+        <div class='text-center'>
+            <%= form_for :user, remote: true, url: url_for(controller: 'sessions', action: 'create'), html: { id: 'loginForm' } do |f| %>
             <%= f.label :name %>
             <%= f.text_field :name, autocomplete: 'username', required: true %>
             <br>

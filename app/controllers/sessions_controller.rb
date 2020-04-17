@@ -10,6 +10,8 @@ class SessionsController < ApplicationController
     session[:user_id] = @user.id if @user&.authenticate(session_params[:password])
     if session[:user_id]
       redirect_to root_path
+    else
+      render json: 'Authentication failed'.to_json
     end
   end
 
