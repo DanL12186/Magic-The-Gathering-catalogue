@@ -1,19 +1,19 @@
-<!-- Reusable Book Modal -->
 <div class='modal fade' id="loginModalCenter" tabindex='-1' role='dialog' aria-hidden='true'>
   <div class='modal-dialog modal-dialog-centered' role='document'>
     <div class='login-modal-content'>
       <div class='modal-header'>
         <h1 class='text-center'> Sign in </h1>
+
+        <h3 id='loginError'></h3>
         
         <br>
-
-        <div class='text-center'>
+        <div class='text-center', id='loginForm'>
             <%= form_for :user, remote: true, url: url_for(controller: 'sessions', action: 'create') do |f| %>
             <%= f.label :name %>
-            <%= f.text_field :name, autocomplete: 'username' %>
+            <%= f.text_field :name, autocomplete: 'username', required: true %>
             <br>
             <%= f.label :password %>
-            <%= f.password_field :password, autocomplete: 'current-password' %>
+            <%= f.password_field :password, autocomplete: 'current-password', required: true %>
             <br>
             <br>
             <%= f.submit "Log in" %>
