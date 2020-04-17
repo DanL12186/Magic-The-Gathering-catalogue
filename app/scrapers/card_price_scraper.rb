@@ -71,7 +71,7 @@ module CardPriceScraper
         end.value
       end
 
-      def handle_foil(edition, site = 'mtg') #should just use a bool later as a card attr. card kingdom just gets '-foil' at the end
+      def handle_foil(edition, site = 'mtg') #should pass card reference and use .has_foil_version
         if site == 'mtg'
           edition.match?(/Vault|Box Topper|Commander's Arsenal|Expeditions|Invocations|Inventions|Mythic Edition/) ? ':Foil' : ''
         elsif site == 'ck'
