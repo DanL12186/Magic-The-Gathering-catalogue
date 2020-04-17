@@ -16,9 +16,7 @@ class DecksController < ApplicationController
   end
 
   def calculate_custom_hand_odds
-    probability = calculate_odds
-
-    render json: probability
+    render json: calculate_odds
   end
 
   def sample_hand
