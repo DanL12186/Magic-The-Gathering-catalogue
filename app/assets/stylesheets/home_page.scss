@@ -25,15 +25,15 @@ a.rare, a.uncommon, a.common {
     border-radius: 4.75% / 3.5%;
     margin-top: 2%;
     margin-bottom: 1.5%;
-}
 
-.card_img.alpha {
-    border-radius: 5.9%;
-}
+    &.alpha {
+        border-radius: 5.9%;
+    }
 
-.card_img:hover {
-    filter: drop-shadow(8px 8px 10px rgba(0,0,0,0.9));
-    transform: scale(1.2);
+    &:hover {
+        filter: drop-shadow(8px 8px 10px rgba(0,0,0,0.9));
+        transform: scale(1.2);
+    }
 }
 
 .flavor {
