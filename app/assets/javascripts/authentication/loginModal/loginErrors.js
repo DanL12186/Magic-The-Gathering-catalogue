@@ -16,8 +16,6 @@ document.addEventListener('turbolinks:load', function() {
         document.getElementById('loginError').innerHTML = response
       }
     })
-
-    
   })
 
 })
