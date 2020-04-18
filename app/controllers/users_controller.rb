@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.save ? (session[:user_id] = @user.id; redirect_to root_path) : (render :new)
+    @user.save ? (session[:user_id] = @user.id; redirect_to root_path) : (render json: @user.errors.to_json)
   end
 
   def show

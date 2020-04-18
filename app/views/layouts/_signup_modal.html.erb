@@ -1,0 +1,35 @@
+<div class='modal fade' id="signupModalCenter" tabindex='-1' role='dialog' aria-hidden='true'>
+  <div class='modal-dialog modal-dialog-centered' role='document'>
+    <div class='signup-modal-content'>
+      <div class='modal-header'>
+        <h1 class='text-center'> Sign up </h1>
+
+          <h5 id='signupError'></h5>
+
+          <%= form_for :user, remote: true, url: url_for(controller: 'users', action: 'create'), html: { id: 'signupForm' } do | f | %>
+            <h5>
+              <%= f.label :name %>
+              <%= f.text_field :name, required: true %>
+            </h5>
+
+            <h5>
+              <%= f.label :email %>
+              <%= f.text_field :email %>
+            </h5>
+
+            <h5>
+              <%= f.label :password %>
+              <%= f.password_field :password, required: true %>
+            </h5>
+
+            <h5>
+              <%= f.label :verify_password %>
+              <%= f.password_field :password_confirmation, required: true %>
+            </h5>
+          <br>
+          <%= f.submit 'Create Account' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

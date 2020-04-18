@@ -85,7 +85,7 @@ a, a:visited, a:focus {
 }
 
 //** Login Modal**// 
-.login-modal-content {
+.login-modal-content, .signup-modal-content {
     transform: translateY(25%);
     background: black;
     opacity: 0.75;

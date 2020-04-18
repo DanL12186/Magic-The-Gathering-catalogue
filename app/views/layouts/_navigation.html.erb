@@ -1,5 +1,5 @@
 <h5 class = "navbar"> 
-  <%= link_to "Sign Up", "/signup" unless logged_in? %>
+  <%= link_to "Sign Up", "#", 'data-toggle': "modal", 'data-target': "#signupModalCenter" unless logged_in? %>
   <%= link_to "Log In", "#", 'data-toggle': "modal", 'data-target': "#loginModalCenter" unless logged_in? %>
   <%= link_to "Home", root_path unless current_page?(root_path) %>  
 
@@ -23,4 +23,5 @@
 
   <%= render "layouts/search_bar" %>
   <%= render "layouts/login_modal" %>
+  <%= render "layouts/signup_modal" %>
 </h5>
