@@ -1,6 +1,6 @@
 module EditionHelper
 
-  def get_edition_image_file(edition_name, rarity)
+  def get_edition_image_file(edition_name, rarity = 'common')
     "editions/#{edition_name.downcase} #{rarity.downcase}".sub(/ common/, '').delete(':')
   end
 
