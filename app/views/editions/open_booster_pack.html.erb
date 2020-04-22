@@ -1,12 +1,22 @@
-<% title("#{@edition_name} booster") %>
+<% title("#{@edition.name} booster") %>
 
-<h1 class="text-center"> <%= @edition_name %> </h1>
+<h1 class="text-center"> <%= image_tag get_edition_image_file(@edition.name), size: 75 %> </h1>
 
 <%= form_with url: "/editions/open_booster_pack/", id: "booster_set_select", local: true, method: 'POST' do | f | %> 
   <%= f.label :editions %>
   <%= f.select(:edition, options_for_select( @ordered_editions, selected: params[:edition] || "Revised" ) ) %>
 
   <%= f.submit 'Generate Booster' %>
+  
+  <div class = 'text-center'>
+    <div> <%= f.label 'Hide Commons' %>
+      <%= f.check_box :hide_commons, checked: @hide_commons %>
+    </div>
+
+    <div> <%= f.label 'Hide Uncommons'%>
+      <%= f.check_box :hide_uncommons, checked: @hide_uncommons %>
+    </div>
+  </div>
 <% end %>
 
 <div class="row margin-bottom" >
@@ -15,8 +25,8 @@
     <% @foil = roll_foil?(@edition) %>
     <% card.prices = card.foil_prices if @foil %>
     <div class='col-sm-2 filter booster-card'> 
-      <span class="deck-show-card-name"> $<%= "#{determine_appropriate_price(@foil ? card.foil_prices : card.prices)}" %> </span>
-      <span style='float: right;'> <%= image_tag(get_edition_image_file(card.edition, card.rarity), height: 20) %> </span>
+      <span class="booster-card-price"> $<%= "#{determine_appropriate_price(@foil ? card.foil_prices : card.prices)}" %> </span>
+      <span class='booster-pack-edition'> <%= image_tag(get_edition_image_file(card.edition, card.rarity), height: 25) %> </span>
       
       <div>
         <%= link_to image_tag(card.img_url, class: 'hand-card'), card_path(card.edition, card.name) %>
