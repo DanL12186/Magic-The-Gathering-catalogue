@@ -4,6 +4,4 @@
 
 <h4> Your collection is worth $<%= calculate_collection_value(@collection) %> </h4>
 
-<% @collection.cards.each do | card | %>
-  <li> <%= card.name %> - $<%= card.prices[1] %> </li>
-<% end %>
+<%= display_collection(@collection) %>
