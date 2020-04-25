@@ -30,7 +30,7 @@
     <% end %>
   </h4>
 
-  <div class = "row" style='margin-right: 2%;'>
+  <div class="row" style='margin-right: 2%;'>
 
     <% if @card.layout == 'transform' %>
       <%= render partial: 'transform_card', locals: { flip: @flip, card: @card } %>
@@ -48,20 +48,25 @@
     </div>
   </div>
 
-  <div id="prices" class='prices-js' data-id=<%= "#{@card.id}" %> data-stale= <%= needs_updating?(@card.updated_at, @card.prices) %> >
+  <div id='prices' class='prices-js' data-id=<%= "#{@card.id}" %> data-stale=<%= needs_updating?(@card.updated_at, @card.prices) %> data-foil-prices='<%=@card.foil_prices%>' >
+
+    <% unless @card.foil_prices.empty? %>
+      <button id="toggle-foil-prices">View foil prices</button>
+    <% end %>
+
     <h4 id="mtg-fish"> 
       <%= link_to 'MTGoldfish Price:', CardPriceScraper.mtgoldfish_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span class = 'price'> <%= display_price(@card.prices[0]) %> </span>
+      <span class='price'> <%= display_price(@card.prices[0]) %> </span>
     </h4>
 
     <h4 id="card-kingdom">
       <%= link_to 'Card Kingdom Price:', CardPriceScraper.card_kingdom_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span class = 'price'> <%= display_price(@card.prices[1]) %> </span>
+      <span class='price'> <%= display_price(@card.prices[1]) %> </span>
     </h4>
 
     <h4 id="tcg-player">
       <%= link_to 'TCG Player Market Price:', CardPriceScraper.tcg_player_url(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %> 
-      <span class = 'price'> <%= display_price(@card.prices[2]) %> </span>
+      <span class='price'> <%= display_price(@card.prices[2]) %> </span>
     </h4>
 
     <h2>

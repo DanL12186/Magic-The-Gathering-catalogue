@@ -35,8 +35,29 @@ document.addEventListener('turbolinks:load', function() {
     return strNumArr.join('')
   }
 
+  //allow for toggling between foil and nonfoil prices, if they exist
+  const toggleFoilPriceButton = document.getElementById('toggle-foil-prices');
+
+  if (toggleFoilPriceButton) {
+    const nonfoilPrices = [...document.getElementsByClassName('price')].map(span => span.innerText.replace(/[\$,]/g,''))
+    const foilPrices    = JSON.parse(document.getElementById('prices').getAttribute('data-foil-prices'))
+    const priceDivs     = [...document.getElementsByClassName('price')]
+
+    let toggled;
+
+    toggleFoilPriceButton.addEventListener('click', () => {
+      priceDivs.forEach((priceDiv, i) => {
+        const price = toggled ? nonfoilPrices[i] : foilPrices[i]
+
+        priceDiv.innerText = /\d+/.test(price) ? '$' + numberWithDelimiter(price) : 'N/A'
+      })
+
+      toggled = !toggled
+    })
+  };
+
   //updates DOM on card show page with new prices if older than 24hrs or prices don't exist.
-  if (document.getElementById('card-kingdom')) {
+  if (document.getElementById('prices')) {
     const stale = $('#prices').data('stale')
     const id    = $('#prices').data('id')
 
