@@ -23,10 +23,10 @@ class EditionsController < ApplicationController
       booster_pack = []
 
       all_cards = Card.select(:name, :prices, :foil_prices, :edition, :img_url, :rarity, :card_number, :frame).where(edition: @edition.name).to_a
-      cards     = @edition.name.match?(/Arab|Alpha|Beta|Unlim|Revise/) ? all_cards : all_cards.reject { | card | ApplicationHelper::LANDS.include?(card.name) }
+      cards     = @edition.name.match?(/Arab|Alpha|Beta|Unlim|Revise/) ? all_cards : all_cards.reject { | card | LANDS.include?(card.name) }
 
       #ignore the back face of flip cards
-      cards.reject! { | card | card.card_number.match?('b') }
+      cards.reject! { | card | card.card_number.end_with?('b') }
 
       commons   = cards.select { | card | card.rarity == 'Common' }
       uncommons = cards.select { | card | card.rarity == 'Uncommon' }

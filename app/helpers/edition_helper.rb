@@ -5,7 +5,7 @@ module EditionHelper
   end
 
   def roll_foil?(edition)
-    Date.parse(edition.release_date) >= Date.parse('1999-02-15') && SecureRandom.random_number(1..67) == 67
+    Date.parse(edition.release_date) >= Date.parse('1999-02-15') && edition.name != 'Sixth Edition' && SecureRandom.random_number(1..67) == 67
   end
   
 end
