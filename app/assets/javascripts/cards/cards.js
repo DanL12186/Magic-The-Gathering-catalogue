@@ -1,5 +1,7 @@
 document.addEventListener('turbolinks:load', function() {
   const railsAuthenticityToken = $('head [name=csrf-token]')[0].content
+
+  let priceToggled;
   
   const numberWithDelimiter = (strNum, delimeter = ',') => {
     if (strNum === 'N/A') return 'N/A'
@@ -16,22 +18,20 @@ document.addEventListener('turbolinks:load', function() {
 
   //allow for toggling between foil and nonfoil prices, if they exist
   const toggleFoilPriceButton = document.getElementById('toggle-foil-prices');
+  let nonfoilPrices = [...document.getElementsByClassName('price')].map(span => span.innerText.replace(/[\$,]/g,''));
 
   if (toggleFoilPriceButton) {
-    const nonfoilPrices = [...document.getElementsByClassName('price')].map(span => span.innerText.replace(/[\$,]/g,''))
-    const foilPrices    = JSON.parse(document.getElementById('prices').getAttribute('data-foil-prices'))
-    const priceDivs     = [...document.getElementsByClassName('price')]
-
-    let toggled;
+    const foilPrices = JSON.parse(document.getElementById('prices').getAttribute('data-foil-prices'))
+    const priceDivs  = [...document.getElementsByClassName('price')]
 
     toggleFoilPriceButton.addEventListener('click', () => {
       priceDivs.forEach((priceDiv, i) => {
-        const price = toggled ? nonfoilPrices[i] : foilPrices[i]
+        const price = priceToggled ? nonfoilPrices[i] : foilPrices[i]
 
         priceDiv.innerText = /\d+/.test(price) ? '$' + numberWithDelimiter(price) : 'N/A'
       })
 
-      toggled = !toggled
+      priceToggled = !priceToggled
     })
   };
 
@@ -45,12 +45,16 @@ document.addEventListener('turbolinks:load', function() {
     
       response.done(cardPrices => {
         const oldPrices = document.getElementsByClassName('price')
+
+        //save updated non-foil prices for switching
+        nonfoilPrices = cardPrices
+
         //Updates DOM if prices changed.
         for (let i = 0; i < 3; i++) {
           const oldPrice = oldPrices[i].innerText.replace(/[\$,]/g,'')
           const newPrice = cardPrices[i]
 
-          if (newPrice && oldPrice !== newPrice) {
+          if (!priceToggled && newPrice && oldPrice !== newPrice) {
             const spanID = document.querySelectorAll('#prices h4')[i].id;
             const priceSpan = document.querySelector(`h4#${spanID} span`);
 
