@@ -48,7 +48,8 @@ module SetPriceScraper
         'Eighth Edition' => '8th-edition',
         'Ninth Edition' => '9th-edition',
         'Tenth Edition' => '10th-edition',
-        'Ravnica City of Guilds' => 'ravnica'
+        'Ravnica City of Guilds' => 'ravnica',
+        'Time Spiral Timeshifted' => 'timeshifted'
       }
 
       TCG_EXCEPTIONS = { 
