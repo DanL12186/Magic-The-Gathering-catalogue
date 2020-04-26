@@ -1,26 +1,5 @@
 document.addEventListener('turbolinks:load', function() {
   const railsAuthenticityToken = $('head [name=csrf-token]')[0].content
-
-  $('.legalities').on('click', function() {
-    const legalDiv = document.getElementById('legal')
-
-    if (legalDiv.innerHTML) {
-      legalDiv.innerHTML = null;
-      legalDiv.style = null;
-      return;
-    }
-
-    const legalities   =  JSON.parse(this.getAttribute('data-legalities')),
-          legalityHTML =  Object.keys(legalities)
-                                .map(format=> {
-                                  const upperCaseFormat = format.replace(format[0], format[0].toUpperCase()),
-                                        legality = legalities[format].replace('_', ' ');
-                                  return `<div>${upperCaseFormat}: ${legality}</div>`
-                                }).join('');
-      
-    legalDiv.innerHTML = legalityHTML
-    legalDiv.style = "background-color: rgba(255,255,255,0.250); max-width: 300px; padding: 20px; border-radius: 5%; transition: 5s;"
-  })
   
   const numberWithDelimiter = (strNum, delimeter = ',') => {
     if (strNum === 'N/A') return 'N/A'
