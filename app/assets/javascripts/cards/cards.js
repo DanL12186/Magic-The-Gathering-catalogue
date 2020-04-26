@@ -32,6 +32,8 @@ document.addEventListener('turbolinks:load', function() {
       })
 
       priceToggled = !priceToggled
+
+      toggleFoilPriceButton.innerText = priceToggled ? 'View nonfoil prices' : 'View foil prices'
     })
   };
 
