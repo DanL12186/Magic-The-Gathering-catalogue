@@ -94,14 +94,15 @@
 //foil overlay for foil cards on open_booster_packs page
 .foil-overlay {
     position: absolute; 
-    top: 32px; 
-    left: 25px; 
+    top: 35px; 
+    left: 26px; 
     pointer-events: none;
 
     &.post-2015-foil {
-        top: 29px;
+        top: 34px;
         left: 24px;
         width: 205px;
+        height: 294px;
     }
 }
 
