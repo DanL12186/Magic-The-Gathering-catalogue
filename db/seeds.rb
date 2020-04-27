@@ -5,6 +5,11 @@ require 'mtg_sdk'
 include CardSets
 include ApplicationHelper
 
+SET_CODE_EXCEPTIONS = {
+  'MS2' => 'MPS'
+  'MS3' => 'MP2'
+}
+
 #gets other edition printings for every card in the set from MTG SDK after loading card set
 #set code, e.g. 'mir', 'hml', 'all', 'lea'
 def get_other_editions(set_code)
@@ -110,8 +115,9 @@ end
 # scryfall creating:
 # each page is 175 cards; loop cards/175 times
 def create_set(set_code)
+  set_code = (SET_CODE_EXCEPTIONS[set_code.upcase!] || set_code)
   url = "https://api.scryfall.com/cards/search?q=set:#{set_code}"
-  set = JSON.parse(open(url).read)
+  set = JSON.parse(URI.open(url).read)
   page_count = set['total_cards'].fdiv(175).ceil
   
   page_count.times do

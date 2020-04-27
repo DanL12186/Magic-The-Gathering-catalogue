@@ -19,7 +19,7 @@ module SetPriceScraper
 
     display_errors('Invalid Set Code', card_finish) if @set_name.nil?
 
-    return nil if card_finish == 'foil' && !set_has_foils?(@set_name)
+    return nil if card_finish == 'foil' && !set_has_foils?(@set_name) || set_code.match?(/EXP|MS2|MS3|Vault/i)
 
     @threads = []
     @cards = {}
@@ -166,7 +166,7 @@ module SetPriceScraper
       def save_prices(card_finish)
         edition = @set_name
 
-        Card.where(edition: edition).find_in_batches(batch_size: 100) do | cards |
+        Card.where(edition: edition).find_in_batches(batch_size: 150) do | cards |
           Card.transaction do
             cards.each do | card |
               prices = @cards[card.name] || @cards[I18n.transliterate(card.name)]
