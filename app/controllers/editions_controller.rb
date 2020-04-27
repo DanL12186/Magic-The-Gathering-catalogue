@@ -11,6 +11,8 @@ class EditionsController < ApplicationController
     
     @hide_commons   = params[:hide_commons] == "1"
     @hide_uncommons = params[:hide_uncommons] == "1"
+    @min_price      = params[:hide_bulk].to_f
+
     @edition        = Edition.find_by(name: params[:edition] || "Revised")
     @booster_pack   = generate_booster()
   end
@@ -23,7 +25,7 @@ class EditionsController < ApplicationController
       booster_pack = []
 
       all_cards = Card.select(:name, :prices, :foil_prices, :edition, :img_url, :rarity, :card_number, :frame).where(edition: @edition.name).to_a
-      cards     = @edition.name.match?(/Arab|Alpha|Beta|Unlim|Revise/) ? all_cards : all_cards.reject { | card | ApplicationHelper::LANDS.include?(card.name) }
+      cards     = @edition.name.match?(/Arab|Alpha|Beta|Unlim|Revise/) ? all_cards : all_cards.reject { | card | ApplicationHelper::LANDS.include?(card.name) || card.name.start_with?("Snow-Covered")}
 
       #ignore the back face of flip cards
       cards.reject! { | card | card.card_number.end_with?('b') }
