@@ -1,8 +1,10 @@
 <% title("MTG - #{params[:color]} Cards") %>
 
-<h1 class='text-center'> <%= image_tag "mana_symbols/#{color_to_mana(params[:color])}", class: "spin" %> </h1>
+<div class='text-center'> 
+  <h1> <%= image_tag "mana_symbols/#{color_to_mana(params[:color])}", class: "spin" %> </h1>
 
-<h2 style='text-align: center'> <%== pagy_bootstrap_nav(@pagy) %> </h2>
+  <h2> <%== pagy_bootstrap_nav(@pagy) %> </h2>
+</div>
 
 <% @cards.each_with_index do | card, idx | %> 
   <h2> <%= truncate_at_three_words(card.name) %> </h2> 

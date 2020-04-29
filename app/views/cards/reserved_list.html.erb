@@ -1,8 +1,9 @@
 <% title("MTG - Reserved List Cards") %>
 
-<h1 class='text-center'> Reserved List </h1>
-
-<h2 style='text-align: center'> <%== pagy_bootstrap_nav(@pagy) %> </h2>
+<div class='text-center'>
+  <h1> Reserved List </h1>
+  <h2> <%== pagy_bootstrap_nav(@pagy) %> </h2>
+</div>
 
 <% @cards.each_with_index do | card, idx| %> 
   <h2> <%= card.name %> </h2> 
