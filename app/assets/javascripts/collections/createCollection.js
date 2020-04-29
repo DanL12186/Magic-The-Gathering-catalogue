@@ -25,7 +25,7 @@ document.addEventListener('turbolinks:load', function() {
 
     const addedCardList = document.getElementById('collections_cards_list'),
           datalist      = document.getElementById('collectionBuildSearch'),
-          input         = document.getElementById('collectionCardFind')
+          input         = document.getElementById('collectionCardFind');
 
     addedCardList.innerHTML += `${copies}x ${cardName} - ${cardEdition} \n`
     
@@ -39,12 +39,23 @@ document.addEventListener('turbolinks:load', function() {
     }
   }
 
+  //bind user input for name of collection to DOM
+  const collectionNameEntry = document.getElementById('collection_name')
+  
+  if (collectionNameEntry) {
+    const collectionTitle = document.getElementById('collection-page-title')
+
+    collectionNameEntry.addEventListener('keyup', event => {
+      collectionTitle.innerHTML = event.target.value;
+    })
+  }
+
   //could bring out AllOrderedEditions from Rails backend to sort cards of the same name by set release order
   //autocomplete search for finding cards by name
   $('#collectionCardFind').on('keyup', event => {
     if (event.target.value) {
       const userEntry  = event.target.value.toLowerCase(),
-            matches    = allCardsWithEditions.filter(nameAndEdition=> nameAndEdition[0].toLowerCase().startsWith(userEntry)),
+            matches    = allCardsWithEditions.filter(nameAndEdition => nameAndEdition[0].toLowerCase().startsWith(userEntry)),
             datalist   = document.getElementById('collectionBuildSearch'),
             topMatches = matches.slice(0,15);
 
