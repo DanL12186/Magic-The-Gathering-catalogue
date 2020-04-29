@@ -1,14 +1,14 @@
 <% title('Editions')%>
 
-<div style='margin-left: -55px;'>
-<h1 class='text-center'>All Magic Editions</h1>
+<div id='edition-index'>
+  <h1 class='text-center'>All Magic Editions</h1>
 
-<% CategoriedEditions.each do | category, editions | %>
-  <div class='col-sm-2'>
-    <h2 class='text-center'> <%= category %> </h2>
-    <% editions.each do | edition, _code | %>
-      <ul class='text-center' style='padding:0px'> <%= link_to(edition, "/cards/#{edition}") %> </ul>
-    <% end %>
-  </div>
-<% end %>
+  <% CategoriedEditions.each do | category, editions | %>
+    <div class='col-sm-2'>
+      <h2 class='text-center'> <%= category %> </h2>
+      <% editions.each do | edition, _code | %>
+        <ul class='text-center'> <%= link_to(edition, "/cards/#{edition}") %> </ul>
+      <% end %>
+    </div>
+  <% end %>
 </div>

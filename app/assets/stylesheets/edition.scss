@@ -15,3 +15,15 @@
     font-family: MagicMedieval, Times;
     font-size: 105%;
 }
+
+#edition-index {
+    margin-left: -55px;
+
+    ul {
+        padding: 0px;
+        &:hover {
+            transform: scale(1.1);
+            font-weight: 500;
+        }
+    }
+}
