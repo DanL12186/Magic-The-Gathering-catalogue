@@ -12,6 +12,7 @@ class EditionsController < ApplicationController
     @hide_commons   = params[:hide_commons] == "1"
     @hide_uncommons = params[:hide_uncommons] == "1"
     @min_price      = params[:hide_bulk].to_f
+    @num_packs      = (params[:num_packs] || 1).to_i
 
     @edition        = Edition.find_by(name: params[:edition] || "Revised")
     @booster_pack   = generate_booster()
@@ -35,11 +36,13 @@ class EditionsController < ApplicationController
       rares     = cards.select { | card | card.rarity == 'Rare' }
       mythics   = cards.select { | card | card.rarity == 'Mythic' } if @edition.mythics?
 
-      booster_pack << commons.sample(@edition.commons_per_pack) unless @hide_commons
-      booster_pack << uncommons.sample(@edition.uncommons_per_pack) unless @hide_uncommons
+      @num_packs.times do
+        booster_pack << commons.sample(@edition.commons_per_pack) unless @hide_commons
+        booster_pack << uncommons.sample(@edition.uncommons_per_pack) unless @hide_uncommons
 
-      #1/8 chance of getting a mythic instead of rare in sets which have mythic rarity cards
-      booster_pack << (@edition.mythics? && SecureRandom.random_number(1..8) == 8 ? mythics.sample : rares.sample)
+        #1/8 chance of getting a mythic instead of rare in sets which have mythic rarity cards
+        booster_pack << (@edition.mythics? && SecureRandom.random_number(1..8) == 8 ? mythics.sample : rares.sample)
+      end
       
       booster_pack.flatten
     end
