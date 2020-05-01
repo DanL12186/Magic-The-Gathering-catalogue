@@ -1,9 +1,9 @@
 # README
 
 **Ruby, Rails and OS notes**
-* Minimum compatible Ruby version 2.4 (use of `.sum` and `.match?`); tested on Ruby 2.4.1 - 2.6.3 on Rails 5.2 - 6.0.0 on MacOS 10.9 - 10.14 and Win 7/10.
+* Minimum compatible Ruby version 2.4 (use of `.sum` and `.match?`); tested on Ruby 2.4.1 - 2.6.5 on Rails 5.2 - 6.0.0 on MacOS 10.9 - 10.14 and Win 7/10.
 
-* Uses Nokogiri, Bootstrap, Lazyload and Pagy gems. Also uses lazyload.js for below-the-fold lazy image loading, CanvasJS (canvasjs.jquery.js) for charts, and popper.js for popovers. Note that Boostrap 3.x is required, as 4.x will break the app.
+* Uses Nokogiri, Bootstrap, Lazyload and Pagy gems. Also uses lazyload.js for below-the-fold lazy image loading and CanvasJS (canvasjs.js) for charts.Note that Boostrap 3.x is required, as 4.x will break the app.
 
 * It is recommended that this is run in an OS X or Linux-based environment, but it will work, albeit relatively slowly, on Windows as well. Database configuration (in `database.yml`) may need to be tweaked for this to work properly on Windows.
 
