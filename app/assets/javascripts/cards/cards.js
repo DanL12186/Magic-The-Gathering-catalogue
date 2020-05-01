@@ -1,7 +1,7 @@
 document.addEventListener('turbolinks:load', function() {
   const railsAuthenticityToken = $('head [name=csrf-token]')[0].content
 
-  const foilOverlay = document.getElementById('foil-overlay-js');
+  const foilOverlays = document.querySelectorAll('.foil-overlay-js');
   let showFoil;
   
   const numberWithDelimiter = (strNum, delimeter = ',') => {
@@ -26,7 +26,7 @@ document.addEventListener('turbolinks:load', function() {
       eBayLink.innerText = eBayLink.innerText.replace('Find', 'Find foil')
       eBayLink.href += '+foil'
 
-      foilOverlay.classList.remove('hidden');
+      foilOverlays.forEach(element => element.classList.remove('hidden'));
 
       mtgLink.href = mtgLink.href.replace(/\/price\/[A-z+]+/, m => m + ':Foil')
       ckLink.href  = ckLink.href.replace(/[a-z-]+$/, m => m + '-foil')
@@ -34,7 +34,7 @@ document.addEventListener('turbolinks:load', function() {
       eBayLink.innerText = eBayLink.innerText.replace('foil', '')
       eBayLink.href      = eBayLink.href.replace('+foil', '')
 
-      foilOverlay.classList.add('hidden');
+      foilOverlays.forEach(element => element.classList.add('hidden'));
 
       mtgLink.href = mtgLink.href.replace(':Foil', '')
       ckLink.href  = ckLink.href.replace('-foil', '')
@@ -58,7 +58,7 @@ document.addEventListener('turbolinks:load', function() {
 
       showFoil = !showFoil
 
-      toggleFoilButton.innerText = showFoil ? 'View nonfoil prices' : 'View foil prices'
+      toggleFoilButton.innerText = showFoil ? 'View nonfoil version' : 'View foil version'
       updatePageToReflectFoil(showFoil)
     })
   };

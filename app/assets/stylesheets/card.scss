@@ -107,6 +107,7 @@
         height: 294px;
     }
 
+    //show page spepcifc CSS
     &.show-pg-foil {
         top: 12px;
         height: 285px;
@@ -119,7 +120,20 @@
             width: 205px;
             height: 294px;
         }
-        
+ 
+        //overrides for flip-card foil overlay
+        &.flip-foil {
+            left: 11px;
+
+            &.post-2015-foil {
+                left: 9px;
+            }
+            
+            &.zoomedFoiling {
+                left: 20px;
+                width: 464px;
+            }
+        }
         //zoom foil on card show page
         &.zoomedFoiling {
             left: 36px;

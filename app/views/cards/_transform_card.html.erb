@@ -2,11 +2,11 @@
       <div class="flip-card-inner">
         <div class="flip-card-front">
           <%= image_tag(card.img_url, id: "card_show_img_face", class: "card_show transform", hi_res_src: card.hi_res_img, original_src: card.img_url) %>
-          <%= image_tag("/assets/foil overlay", class: "hidden foil-overlay #{@card.frame == 2015 ? 'post-2015-foil' : ''}", id: 'foil-overlay-js') %>
+          <%= image_tag("/assets/foil overlay", class: "hidden foil-overlay show-pg-foil flip-foil foil-overlay-js #{@card.frame == 2015 ? 'post-2015-foil' : ''}") %>
         </div>
         <div class="flip-card-back">
           <%= image_tag(flip.img_url, id: "card_show_img_back", class: "card_show transform", hi_res_src: flip.hi_res_img, original_src: flip.img_url) %>
-          <%= image_tag("/assets/foil overlay", class: "hidden foil-overlay #{@card.frame == 2015 ? 'post-2015-foil' : ''}", id: 'foil-overlay-js') %>
+          <%= image_tag("/assets/foil overlay", class: "hidden foil-overlay show-pg-foil flip-foil foil-overlay-js #{@card.frame == 2015 ? 'post-2015-foil' : ''}") %>
         </div>
       </div>
     </div>

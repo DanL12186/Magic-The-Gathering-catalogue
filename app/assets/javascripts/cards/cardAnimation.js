@@ -3,12 +3,13 @@ document.addEventListener('turbolinks:load', function() {
   'use strict';
 
   const pricesDiv = document.querySelector('.prices-js');
+  const foilOverlays = document.querySelectorAll('.foil-overlay-js')
   let   zoomed;
 
   //accommodates single and double-sided cards for zooming
   //switch to high-res image source and zoom card in (223px => 502px width)
   const zoomIn = (...elements) => {
-    document.getElementById('foil-overlay-js').classList.add('zoomedFoiling')
+    foilOverlays.forEach(element => element.classList.add('zoomedFoiling'))
     elements.forEach(element => element.src = element.getAttribute('hi_res_src'));
     elements.forEach(element => element.classList.add('zoomed'));
     pricesDiv.classList.add('pushed-right');
@@ -16,7 +17,7 @@ document.addEventListener('turbolinks:load', function() {
   }
 
   const zoomOut = (...elements) => {
-    document.getElementById('foil-overlay-js').classList.remove('zoomedFoiling')
+    foilOverlays.forEach(element => element.classList.remove('zoomedFoiling'))
     elements.forEach(element => element.classList.remove('zoomed'));
     pricesDiv.classList.remove('pushed-right');
     zoomed = false;
