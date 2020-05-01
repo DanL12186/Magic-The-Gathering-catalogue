@@ -8,6 +8,7 @@ document.addEventListener('turbolinks:load', function() {
   //accommodates single and double-sided cards for zooming
   //switch to high-res image source and zoom card in (223px => 502px width)
   const zoomIn = (...elements) => {
+    document.getElementById('foil-overlay-js').classList.add('zoomedFoiling')
     elements.forEach(element => element.src = element.getAttribute('hi_res_src'));
     elements.forEach(element => element.classList.add('zoomed'));
     pricesDiv.classList.add('pushed-right');
@@ -15,15 +16,19 @@ document.addEventListener('turbolinks:load', function() {
   }
 
   const zoomOut = (...elements) => {
+    document.getElementById('foil-overlay-js').classList.remove('zoomedFoiling')
     elements.forEach(element => element.classList.remove('zoomed'));
     pricesDiv.classList.remove('pushed-right');
     zoomed = false;
   }
 
+  const cardShowImage = document.getElementById('card_show_img')
   //switch to high-res Scryfall image (672x936) from original low-res image (223x310) 
-  $('#card_show_img').on('click', function() {
-    zoomed ? zoomOut(this) : zoomIn(this)
-  });
+  if (cardShowImage) {
+    cardShowImage.addEventListener('click', function() {
+      zoomed ? zoomOut(this) : zoomIn(this)
+    });
+  };
 
   //switch transform face/back images to high-res Scryfall image (672x936) from original low-res images (223x310)
   $("#card_show_img_face, #card_show_img_back").on('click', function() {

@@ -1,7 +1,8 @@
 document.addEventListener('turbolinks:load', function() {
   const railsAuthenticityToken = $('head [name=csrf-token]')[0].content
 
-  let priceToggled;
+  const foilOverlay = document.getElementById('foil-overlay-js');
+  let showFoil;
   
   const numberWithDelimiter = (strNum, delimeter = ',') => {
     if (strNum === 'N/A') return 'N/A'
@@ -16,24 +17,49 @@ document.addEventListener('turbolinks:load', function() {
     return strNumArr.join('')
   }
 
+  //change links to point to foil versios of cards, display foil overlay
+  const updatePageToReflectFoil = showFoil => {
+    const eBayLink = document.querySelector('#ebayLink a');
+    const [mtgLink, ckLink, _] = document.querySelectorAll('#prices h4 a');
+
+    if (showFoil) {
+      eBayLink.innerText = eBayLink.innerText.replace('Find', 'Find foil')
+      eBayLink.href += '+foil'
+
+      foilOverlay.classList.remove('hidden');
+
+      mtgLink.href = mtgLink.href.replace(/\/price\/[A-z+]+/, m => m + ':Foil')
+      ckLink.href  = ckLink.href.replace(/[a-z-]+$/, m => m + '-foil')
+    } else {
+      eBayLink.innerText = eBayLink.innerText.replace('foil', '')
+      eBayLink.href      = eBayLink.href.replace('+foil', '')
+
+      foilOverlay.classList.add('hidden');
+
+      mtgLink.href = mtgLink.href.replace(':Foil', '')
+      ckLink.href  = ckLink.href.replace('-foil', '')
+    }
+  }
+
   //allow for toggling between foil and nonfoil prices, if they exist
-  const toggleFoilPriceButton = document.getElementById('toggle-foil-prices');
+  const toggleFoilButton = document.getElementById('toggle-foil-js');
   let nonfoilPrices = [...document.getElementsByClassName('price')].map(span => span.innerText.replace(/[\$,]/g,''));
 
-  if (toggleFoilPriceButton) {
+  if (toggleFoilButton) {
     const foilPrices = JSON.parse(document.getElementById('prices').getAttribute('data-foil-prices'))
     const priceDivs  = [...document.getElementsByClassName('price')]
 
-    toggleFoilPriceButton.addEventListener('click', () => {
+    toggleFoilButton.addEventListener('click', () => {
       priceDivs.forEach((priceDiv, i) => {
-        const price = priceToggled ? nonfoilPrices[i] : foilPrices[i]
+        const price = showFoil ? nonfoilPrices[i] : foilPrices[i]
 
         priceDiv.innerText = /\d+/.test(price) ? '$' + numberWithDelimiter(price) : 'N/A'
       })
 
-      priceToggled = !priceToggled
+      showFoil = !showFoil
 
-      toggleFoilPriceButton.innerText = priceToggled ? 'View nonfoil prices' : 'View foil prices'
+      toggleFoilButton.innerText = showFoil ? 'View nonfoil prices' : 'View foil prices'
+      updatePageToReflectFoil(showFoil)
     })
   };
 
@@ -56,7 +82,7 @@ document.addEventListener('turbolinks:load', function() {
           const oldPrice = oldPrices[i].innerText.replace(/[\$,]/g,'')
           const newPrice = cardPrices[i]
 
-          if (!priceToggled && newPrice && oldPrice !== newPrice) {
+          if (!showFoil && newPrice && oldPrice !== newPrice) {
             const spanID = document.querySelectorAll('#prices h4')[i].id;
             const priceSpan = document.querySelector(`h4#${spanID} span`);
 

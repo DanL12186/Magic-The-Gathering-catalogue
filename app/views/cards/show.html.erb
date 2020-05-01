@@ -6,7 +6,10 @@
     <%= link_to image_tag(edition_image_filename(@card.rarity, @card.edition), id: 'show_page_edition_svg_link'), "/cards/#{@card.edition}" %>
     <span id='name_and_edition'> <%= card_and_edition(@card.name, @card.edition) %> </span>
     <% unless edition_not_present?(@card.other_editions) %>
-      <span id='other_editions'> Other Editions: <%= display_other_editions(@card) %> </span>
+      <div id='other_editions'>
+        <span id='other-editions-text'> Other Editions: </span>  
+        <span> <%= display_other_editions(@card) %> </span>
+      </div>
     <% end %>
   </h1>
 
@@ -37,6 +40,7 @@
     <% else %>
       <div class="col-sm-3 margin-3em-top-bottom">
         <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", hi_res_src: @card.hi_res_img) %> 
+        <%= image_tag("/assets/foil overlay", class: "hidden foil-overlay show-pg-foil #{@card.frame == 2015 ? 'post-2015-foil' : ''}", id: 'foil-overlay-js') %>
       </div>
     <% end %>
 
@@ -51,7 +55,7 @@
   <div id='prices' class='prices-js' data-id=<%= "#{@card.id}" %> data-stale=<%= needs_updating?(@card.updated_at, @card.prices) %> data-foil-prices='<%=@card.foil_prices%>' >
 
     <% unless @card.foil_prices.empty? %>
-      <button id="toggle-foil-prices">View foil prices</button>
+      <button id="toggle-foil-js">View foil prices</button>
     <% end %>
 
     <h4 id="mtg-fish"> 
@@ -69,7 +73,7 @@
       <span class='price'> <%= display_price(@card.prices[2]) %> </span>
     </h4>
 
-    <h2>
+    <h2 id="ebayLink">
       <%= link_to "Find #{@card.name} on eBay", ebay_search_link(@card.name, @card.edition), target: '_blank', rel: 'noopener noreferrer' %>
     </h2>
 
