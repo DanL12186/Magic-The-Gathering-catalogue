@@ -3,7 +3,9 @@ document.addEventListener('turbolinks:load', function() {
   'use strict';
 
   const pricesDiv = document.querySelector('.prices-js');
-  const foilOverlays = document.querySelectorAll('.foil-overlay-js')
+  const foilOverlays = document.querySelectorAll('.foil-overlay-js');
+  const rotateButton = document.querySelector('#rotate');
+
   let   zoomed;
 
   //accommodates single and double-sided cards for zooming
@@ -49,19 +51,21 @@ document.addEventListener('turbolinks:load', function() {
   //rotate split-view cards 90 or -90 degrees
   let rotated;
 
-  document.querySelector('#rotate').addEventListener('click', event => {
-    const foilOverlay = document.querySelector('.foil-overlay'),
-          image       = document.getElementById('card_show_img'),
-          angle       = event.target.getAttribute('data-rotate'),
-          elements    = [image, foilOverlay];
-    
-    elements.forEach(element => {
-      element.style.transform  = rotated ? `rotate(0deg)` : `rotate(${angle})`;
-      element.style.marginLeft = rotated ?    '0%'        :       '15%';
-      element.style.transition = rotated ?   '1.0s'       :       '1.5s';
-    })
-    rotated = !rotated;
-  });
+  if (rotateButton) {
+    rotateButton.addEventListener('click', event => {
+      const foilOverlay = document.querySelector('.foil-overlay'),
+            image       = document.getElementById('card_show_img'),
+            angle       = event.target.getAttribute('data-rotate'),
+            elements    = [image, foilOverlay];
+      
+      elements.forEach(element => {
+        element.style.transform  = rotated ? `rotate(0deg)` : `rotate(${angle})`;
+        element.style.marginLeft = rotated ?    '0%'        :       '15%';
+        element.style.transition = rotated ?   '1.0s'       :       '1.5s';
+      })
+      rotated = !rotated;
+    });
+  }
 
   //Fades out cropped face image, fades in cropped back image.
   const fadeSwitchCroppedImage = () => {
