@@ -49,20 +49,18 @@ document.addEventListener('turbolinks:load', function() {
   //rotate split-view cards 90 or -90 degrees
   let rotated;
 
-  $("#rotate").on('click', function() {
-    const angle = this.getAttribute('data-rotate')
-    const image = document.getElementById('card_show_img')
+  document.querySelector('#rotate').addEventListener('click', event => {
+    const foilOverlay = document.querySelector('.foil-overlay'),
+          image       = document.getElementById('card_show_img'),
+          angle       = event.target.getAttribute('data-rotate'),
+          elements    = [image, foilOverlay];
     
-    if (!rotated) { 
-      image.style.marginLeft = '15%';
-      image.style.transition = '1.5s';
-      image.style.transform = `rotate(${angle})`;
-    } else {
-      image.style.marginLeft = '0%';
-      image.style.transition = '1.0s';
-      image.style.transform = 'rotate(0deg)';
-    };
-    rotated = !rotated
+    elements.forEach(element => {
+      element.style.transform  = rotated ? `rotate(0deg)` : `rotate(${angle})`;
+      element.style.marginLeft = rotated ?    '0%'        :       '15%';
+      element.style.transition = rotated ?   '1.0s'       :       '1.5s';
+    })
+    rotated = !rotated;
   });
 
   //Fades out cropped face image, fades in cropped back image.
