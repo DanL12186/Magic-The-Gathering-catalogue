@@ -6,7 +6,7 @@ include CardSets
 include ApplicationHelper
 
 SET_CODE_EXCEPTIONS = {
-  'MS2' => 'MPS'
+  'MS2' => 'MPS',
   'MS3' => 'MP2'
 }
 
