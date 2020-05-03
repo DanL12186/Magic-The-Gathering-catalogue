@@ -40,7 +40,7 @@
     <% else %>
       <div class="col-sm-3 margin-3em-top-bottom">
         <%= image_tag(@card.img_url, class: "card_show #{@card.edition.downcase}", id: "card_show_img", hi_res_src: @card.hi_res_img) %> 
-        <%= image_tag("/assets/foil overlay", class: "hidden foil-overlay show-pg-foil foil-overlay-js #{@card.frame == 2015 ? 'post-2015-foil' : ''}") %>
+        <%= image_tag("/assets/foil overlay", class: generate_show_card_class(@card)) %>
       </div>
     <% end %>
 

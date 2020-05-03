@@ -57,6 +57,10 @@ module CardHelper
     results_arr.map! { | edition, name, img_url | { edition: edition, name: name, img_url: img_url } }
   end
 
+  def generate_show_card_class(card)
+    "#{"hidden" if card.nonfoil_version_exists?} foil-overlay show-pg-foil foil-overlay-js #{'post-2015-foil' if card.frame == 2015}".strip
+  end
+
   def gatherer_link(multiverse_id)
     "http://gatherer.wizards.com/Pages/Card/Details.aspx?printed=true&multiverseid=#{multiverse_id}"
   end
