@@ -28,7 +28,7 @@ document.addEventListener('turbolinks:load', function() {
 
       foilOverlays.forEach(element => element.classList.remove('hidden'));
 
-      mtgLink.href = mtgLink.href.replace(/\/price\/[A-z+]+/, m => m + ':Foil')
+      mtgLink.href = mtgLink.href.replace(/\/price\/(\w+\+)*\w+/, m => m + ':Foil')
       ckLink.href  = ckLink.href.replace(/[a-z-]+$/, m => m + '-foil')
     } else {
       eBayLink.innerText = eBayLink.innerText.replace('foil', '')
