@@ -173,7 +173,8 @@ module CardSets
       "Commander 2015" => "C15",
       "Commander 2016" => "C16",
       "Commander 2017" => "C17",
-      "Commander 2018" => "C18"
+      "Commander 2018" => "C18",
+      "Commander 2019" => "C19",
     },
     "Masters" => {
       "Modern Masters" => "MMA",
@@ -338,6 +339,7 @@ module CardSets
     "Commander Anthology" => "CMA",
     "Commander 2017" => "C17",
     "Commander 2018" => "C18",
+    "Commander 2019" => "C19",
 
     "Unglued" => "UGL", 
     "Unhinged" => "UNH",
