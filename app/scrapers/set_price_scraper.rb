@@ -19,7 +19,7 @@ module SetPriceScraper
 
     display_errors('Invalid Set Code', card_finish) if @set_name.nil?
 
-    return nil if card_finish == 'foil' && !set_has_foils?(@set_name) || set_code.match?(/EXP|MS2|MS3|Vault/i)
+    return nil if card_finish == 'foil' && (!set_has_foils?(@set_name) || set_code.match?(/EXP|MS2|MS3|Vault/i))
 
     @threads = []
     @cards = {}
@@ -180,6 +180,7 @@ module SetPriceScraper
       end
 
       def display_errors(error, card_finish)
+        
         if error.match?('Not Found')
           puts 'Page was not found; the site may currently be down.'
           return nil
@@ -190,7 +191,7 @@ module SetPriceScraper
 
           input = gets.strip.downcase
 
-          if input.match?(/^y/)
+          if input.match?(/^y/i)
             lowercase_set_names = AllEditionsStandardCodes.map { | set_name, set_code | [ set_name.downcase, set_code ] }.to_h
 
             puts "Enter the set name (case insensitive):"
@@ -205,6 +206,8 @@ module SetPriceScraper
               puts "Sorry, that doesn't appear to be a valid set name!"
               return nil
             end
+          else
+            puts "Goodbye!"
           end
         end
       end
