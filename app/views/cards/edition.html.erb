@@ -10,8 +10,9 @@
   <% unless card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land") || card.card_number&.end_with?('b') %>
     <h2> <%= truncate_at_three_words(card.name) %> </h2> 
 
-    <div class = "col-sm-2 filter"> 
+    <div class="col-sm-2 filter" > 
       <%= link_to ( image_tag card.img_url, class: "filter-img #{card.edition.downcase}", lazy: lazy_load?(idx, 5) ), card_path(card.edition, card.name) %> 
+      <%= image_tag("/assets/foil overlay", class: generate_foil_show_class(card), lazy: lazy_load?(idx, 5)) %>
     </div>
   <% end %>
 <% end %>
