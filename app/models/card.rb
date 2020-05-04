@@ -32,7 +32,7 @@ class Card < ApplicationRecord
     CGI.escape(CGI.escape(name))
   end
 
-  #returns a sorted list of unique card names (Card.pluck(:column) sorts)
+  #returns a sorted list of unique card names
   def self.all_card_names
     cache_key = "all_unique_card_names#{Time.now.day}"
 
