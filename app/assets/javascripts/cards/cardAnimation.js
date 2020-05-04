@@ -106,7 +106,7 @@ document.addEventListener('turbolinks:load', function() {
 
   if (document.getElementById("transform")) {
     faceCardName = cardNameSpan[0].innerText.replace(/\(.+/, '').trim()
-    backCardName = this.getElementsByClassName("col-sm-3 flip-card")[0].getAttribute('data-flipname')
+    backCardName = this.querySelector(".flip-card-outer").getAttribute('data-flipname')
   };
 
   //change flip card name to the face that's currently showing
