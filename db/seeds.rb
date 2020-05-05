@@ -169,6 +169,7 @@ end
 def format_edition(edition)
   return edition.split.first if edition.match?(/Revised|Unlimited/)
   return edition.split.last if edition.match?(/Beta|Alpha/)
+  return "Ravnica Allegiance Mythic Edition" if edition == "Mythic Edition"
   edition
 end
 
