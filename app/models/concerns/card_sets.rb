@@ -151,6 +151,7 @@ module CardSets
       "Core Set 2020" => "M20",
       "Throne of Eldraine" => "ELD",
       "Theros Beyond Death" => "THB",
+      "Ikoria: Lair of the Behemoths" => "IKO",
     },
     "Core Sets" => {
       "Eighth Edition" => "8ED",
@@ -317,6 +318,7 @@ module CardSets
     "War of the Spark" => "WAR",
     "Throne of Eldraine" => "ELD",
     "Theros Beyond Death" => "THB",
+    "Ikoria: Lair of the Behemoths" => "IKO",
 
     #core sets
     "Magic 2010" => "M10",
