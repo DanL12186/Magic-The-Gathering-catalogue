@@ -197,6 +197,8 @@ def create_card(id_or_hash)
     card_hash = id_or_hash
   end
 
+  return nil if card_hash['multiverse_ids'].empty?
+
   if card_hash['layout'].match?(/flip|adventure/)
     card_hash['name'] = card_hash['name'].split(' // ')[0]
   elsif card_hash['layout'] == 'transform'
