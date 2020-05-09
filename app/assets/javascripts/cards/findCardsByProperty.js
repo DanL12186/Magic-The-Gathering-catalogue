@@ -132,9 +132,9 @@ $(document).on('turbolinks:load', function() {
 
       //create buttons to sort newly displayed card results
       //could make sort buttons into a dropdown instead for space reasons
-      document.getElementById("sort_by_name").innerHTML  = `<button>Sort By Name</button>`
-      document.getElementById("sort_by_id").innerHTML    = `<button>Sort By Multiverse ID</button>`
-      document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price &#9660</button>`
+      document.getElementById("sort_by_name").innerHTML  = `<button>Sort By Name ▼</button>`
+      document.getElementById("sort_by_id").innerHTML    = `<button>Sort By Multiverse ID ▼</button>`
+      document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price ▼</button>`
 
       //remove/don't display buttons to sort by properties that are already filtered for
       if ($("#color")[0].value === '') {
@@ -189,10 +189,33 @@ $(document).on('turbolinks:load', function() {
         'sort_by_price' : () => cards.sort((a,b) => parseFloat(b.prices[1]) - parseFloat(a.prices[1]) || a.name.localeCompare(b.name))
       }
 
+      const sortedAscending = {
+        sort_by_id    : false,
+        sort_by_name  : false,
+        sort_by_price : false
+      }
+
+      const handlePriceSortDirection = (event, cards, buttonId) => {
+        const button     = event.currentTarget.firstChild
+        const buttonText = button.innerHTML.replace(/[▲▼]$/,'')
+
+        if (sortedAscending[buttonId]) {
+          button.innerHTML = `${buttonText} ▲`
+          cards.reverse()
+        } else {
+          button.innerHTML = `${buttonText} ▼`
+        }
+        sortedAscending[buttonId] = !sortedAscending[buttonId]
+      }
+      
       $(".sort").on('click', event => {
         const buttonId = event.currentTarget.id;
         const sortedCards = sortButtonFunctions[buttonId]();
-        
+
+        if (/price|name|id/.test(buttonId)) {
+          handlePriceSortDirection(event, sortedCards, buttonId)
+        }
+
         generateAndDisplayHTML(sortedCards);
 
         listenForPageLeave();
