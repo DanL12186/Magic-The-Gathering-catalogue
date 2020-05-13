@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load', function() {
+document.addEventListener('turbolinks:load', function() {
   'use strict';
 
   //clear "sort by" and page buttons when a card is clicked
@@ -48,12 +48,12 @@ $(document).on('turbolinks:load', function() {
             rarity    = card.rarity.toLowerCase();
       
       return( 
-        `<div class= col-sm-3>
-          <h3 class="thumb-header" data-edition= "${edition}" data-rarity=${rarity}> 
+        `<div class="col-sm-3">
+          <h3 class="thumb-header" data-edition="${edition}" data-rarity=${rarity}> 
             ${shortName} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
           </h3>
           
-          <div class=card_img_div> 
+          <div class="card_img_div">
             <a href="/cards/${card.edition}/${card.name}/"> <img src="${thumbnail}" class="${cardClass}"> </a>
           </div>
           

@@ -73,7 +73,7 @@
     height: 310px;
     width: 223px;
     position: absolute;
-  
+    
     &:hover {
         cursor: zoom-in;
     }
@@ -201,7 +201,7 @@
     height: 100%;
     position: absolute;
     backface-visibility: hidden;
-    //Mac/iOS Safari including 13.0 TP
+    //Mac/iOS Safari including 13.4 TP
     -webkit-backface-visibility: hidden;
     //fix for firefox not responding to backface-visibility
     transform: rotateX(0deg);
