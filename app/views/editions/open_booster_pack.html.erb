@@ -30,28 +30,30 @@
 <% end %>
 
 <div class="row margin-bottom" >
+  <% pack_value = 0.0 %>
 
   <% @booster_pack.each do | card | %>
     <% foil = roll_foil?(@edition) %>
     <% display_price = determine_appropriate_price(foil ? card.foil_prices : card.prices) %>
+    <% pack_value += display_price %>
 
     <% if display_price >= @min_price %>
       <div class='col-sm-2 filter booster-card'> 
         <span class='booster-card-price'> $<%= display_price %> </span>
-        <span class='booster-pack-edition'> <%= image_tag(get_edition_image_file(card.edition, card.rarity), height: 25) %> </span>
+        <span class='booster-pack-edition'> <%= image_tag(get_edition_image_file(@edition.name, card.rarity), height: 25) %> </span>
         
         <div>
-          <%= link_to image_tag(card.img_url, class: 'hand-card'), card_path(card.edition, card.name) %>
+          <%= link_to image_tag(card.img_url, class: 'hand-card'), card_path(@edition.name, card.name) %>
           <%= image_tag('foil overlay.png', class: "foil-overlay #{card.frame >= 2015 ? 'post-2015-foil' : ''}") if foil %>
         </div>
       </div>
     <% end %>
-  <% end %>
 
+  <% end %>
 </div>
 
 <h3> 
-  Estimated pack value: <%= calculate_deck_value(@booster_pack) %> 
+  Estimated pack value: <%= number_to_currency(pack_value.round(4)) %> 
 </h3>
 
 <p> Note: This is for entertainment only. This site is not affiliated with WOTC, and does not buy or sell any product. </p>
