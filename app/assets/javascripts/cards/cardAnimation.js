@@ -2,20 +2,29 @@
 document.addEventListener('turbolinks:load', function() {
   'use strict';
 
-  const pricesDiv = document.querySelector('.prices-js');
+  const pricesDiv    = document.querySelector('.prices-js');
   const foilOverlays = document.querySelectorAll('.foil-overlay-js');
   const rotateButton = document.querySelector('#rotate');
 
   let   zoomed;
 
+  const drainBackgroundColor = () => {
+    document.body.style.transition = '1.5s';
+    document.body.style.backgroundColor = 'rgb(0, 0, 0)';
+  }
+
+  const returnBackgroundColor = () => document.body.style.backgroundColor = 'rgb(1, 22, 9)';
+
   //accommodates single and double-sided cards for zooming
   //switch to high-res image source and zoom card in (223px => 502px width)
   const zoomIn = (...elements) => {
-    foilOverlays.forEach(element => element.classList.add('zoomedFoiling'))
+    foilOverlays.forEach(element => element.classList.add('zoomedFoiling'));
     elements.forEach(element => element.src = element.getAttribute('hi_res_src'));
     elements.forEach(element => element.classList.add('zoomed'));
     pricesDiv.classList.add('pushed-right');
     zoomed = true;
+
+    drainBackgroundColor();
   }
 
   const zoomOut = (...elements) => {
@@ -23,6 +32,8 @@ document.addEventListener('turbolinks:load', function() {
     elements.forEach(element => element.classList.remove('zoomed'));
     pricesDiv.classList.remove('pushed-right');
     zoomed = false;
+
+    returnBackgroundColor();
   }
 
   const cardShowImage = document.getElementById('card_show_img')
