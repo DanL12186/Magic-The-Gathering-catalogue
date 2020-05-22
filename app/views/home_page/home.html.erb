@@ -26,7 +26,7 @@
       </div>
     <% end %>
 
-    <%= link_to ( image_tag(card.img_url, class: card_class(card), alt: card.name, aria: { label: "View #{card.edition} set" }, lazy: lazy_load?(idx) )  ), "/cards/#{card.edition}/#{card.name}" %> 
+    <%= link_to ( image_tag(card.img_url, class: card_class(card), alt: card.name, aria: { label: "View #{card.name}" }, lazy: lazy_load?(idx) )  ), "/cards/#{card.edition}/#{card.name}" %> 
       
   <% end %>
 
