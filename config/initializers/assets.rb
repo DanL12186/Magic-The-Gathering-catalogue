@@ -9,7 +9,7 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
 #add font path to asset pipeline
-Rails.application.config.assets.precompile << /\.(?:svg|eot|woff|ttf|otf|woff2)\z/
+Rails.application.config.assets.precompile << ["*.svg", "*.eot", "*.woff", "*.ttf", "*.otf", "*.woff2"]
 Rails.application.config.assets.paths << Rails.root.join("app", "assets", "fonts")
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
