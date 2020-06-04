@@ -73,11 +73,11 @@ document.addEventListener('turbolinks:load', function() {
   }
   
   const submitButton = document.getElementById("find_submit")
-
+  const searchForm   = $("#find_by_properties")
   //form will disable the submit button when it's submitted. This listens for when user 
   //makes a different or additional selection on the form and re-enables the submit button
   function listenForFormChange() {
-    $("#find_by_properties").on('change', () => submitButton.removeAttribute('disabled') );
+    searchForm.on('change', () => submitButton.removeAttribute('disabled') );
   }
 
   listenForFormChange();
@@ -115,7 +115,7 @@ document.addEventListener('turbolinks:load', function() {
       const html = generateCardsHTML(cards, 1);
       
       //change page tabs if necessary
-      if (numPages > 1 && document.getElementsByClassName("jslink").length !== numPages) {
+      if (numPages > 1 && document.querySelectorAll(".jslink").length !== numPages) {
         document.getElementById("pagination-pg-num").style = "display: block"
         document.getElementById("find-by-pagination").innerHTML += `<span> </span>`
         
@@ -125,7 +125,7 @@ document.addEventListener('turbolinks:load', function() {
           pageButtons += `<button class="btn-group-sm jslink"> ${i} </button>`;
         }
 
-        $("div#find-by-pagination")[0].innerHTML = pageButtons
+        document.querySelector("#find-by-pagination").innerHTML = pageButtons
       };
 
       displayResults(html);

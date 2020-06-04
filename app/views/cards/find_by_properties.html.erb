@@ -6,44 +6,58 @@
 
 <%= form_with url: "/cards/find_by_properties", id: "find_by_properties", method: 'POST' do | f | %> 
 
+  <div>
     <%= f.label :reserved, 'Reserved list' %>
     <%= f.select(:reserved, options_for_select({'Yes': true, 'No': false}), include_blank: true) %>
-    <br>
+  </div>
+
+  <div>
     <%= f.label :legendary %>
     <%= f.select(:legendary, options_for_select({'Yes': true, 'No': false}), include_blank: true) %>
-    <br>
+  </div>
+    
+  <div>
     <%= f.label :edition %> 
     <%= f.select(:edition, grouped_options_for_select( CategoriedEditions.map { | category, sets | [ category, sets.keys ] } ),  include_blank: true) %>
-    <br>
+  </div>
+
+  <div>
     <%= f.label :rarity %>
     <%= f.select(:rarity, options_for_select( ['Common', 'Uncommon', 'Rare', 'Mythic'] ), include_blank: true) %>
-    <br>
+  </div>
+
+  <div>
     <%= f.label :color %> 
     <%= f.select(:color, options_for_select( ['White', 'Blue', 'Black', 'Red', 'Green', 'Gold', 'Colorless'] ), include_blank: true) %>
-    <br>
+  </div>
+
+  <div>
     <%= f.label :type %>
     <%= f.select(:card_type, options_for_select( ['Creature', 'Land', 'Artifact', 'Instant', 'Sorcery', 'Enchantment', 'Planeswalker'] ), include_blank: true) %> 
-    <br>
+  </div>
+
+  <div>
     <%= f.label :Mana %>
     <%= f.number_field(:converted_mana_cost, min: 0, max: 20) %>
+  </div>
 
-    <%= f.hidden_field(:reprint, value: false) %>
+  <%= f.hidden_field(:reprint, value: false) %>
 
-    <h1> 
-      <%= f.submit "Find Cards", class: "btn-lg", id: "find_submit", style: "background: white;" %> 
-    </h1> 
+  <h1> 
+    <%= f.submit "Find Cards", class: "btn-lg", id: "find_submit", style: "background: white;" %> 
+  </h1> 
 
 <% end %>
 
-  <h3>
-    <a class = "btn-sm sort" id = "sort_by_name"> </a>
-    <a class = "btn-sm sort" id = "sort_by_id"> </a>
-    <a class = "btn-sm sort" id = "sort_by_price"> </a>
-    <a class = "btn-sm sort" id = "sort_by_color"> </a>
-    <a class = "btn-sm sort" id = "sort_by_type"> </a>
-  </h3>
+<h3>
+  <a class = "btn-sm sort" id = "sort_by_name"> </a>
+  <a class = "btn-sm sort" id = "sort_by_id"> </a>
+  <a class = "btn-sm sort" id = "sort_by_price"> </a>
+  <a class = "btn-sm sort" id = "sort_by_color"> </a>
+  <a class = "btn-sm sort" id = "sort_by_type"> </a>
+</h3>
 
-  <h1 class = 'text-center' id='pagination-pg-num'> Page: </h1>
-  <div class = 'text-center' id='find-by-pagination'> </div>
+<h1 class = 'text-center' id='pagination-pg-num'> Page: </h1>
+<div class = 'text-center' id='find-by-pagination'> </div>
 
-  <h2 id="find_cards"> </h2>
+<h2 id="find_cards"> </h2>
