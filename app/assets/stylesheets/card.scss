@@ -178,6 +178,10 @@
     #artist-link {
         display: none;
     }
+
+    #other-editions-text {
+        display: none;
+    }
 }
 
 #rotate, #transform {
@@ -245,7 +249,7 @@
 
 //=====Find By Property Page========
 
-h1#pagination-pg-num {
+#pagination-pg-num {
     font-size: 150%;
     font-family: 'MagicMedieval';
     display: none;
