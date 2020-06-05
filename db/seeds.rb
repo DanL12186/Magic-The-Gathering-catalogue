@@ -170,6 +170,7 @@ def format_edition(edition)
   return edition.split.first if edition.match?(/Revised|Unlimited/)
   return edition.split.last if edition.match?(/Beta|Alpha/)
   return "Ravnica Allegiance Mythic Edition" if edition == "Mythic Edition"
+  return "Sixth Edition" if edition == "Classic Sixth Edition"
   edition
 end
 
@@ -197,14 +198,12 @@ def create_card(id_or_hash)
     card_hash = id_or_hash
   end
 
-  return nil if card_hash['multiverse_ids'].empty?
+  return nil if card_hash['multiverse_ids'].empty? || card_hash['type_line'].match?('Token')
 
   if card_hash['layout'].match?(/flip|adventure/)
     card_hash['name'] = card_hash['name'].split(' // ')[0]
   elsif card_hash['layout'] == 'transform'
     return create_or_update_transform_card(card_hash)
-  elsif card_hash['type_line'].match?('Token')
-    return nil
   end
 
   legendary = legendary?(card_hash['type_line'])
@@ -221,7 +220,7 @@ def create_card(id_or_hash)
   has_nonfoil_version = card_hash['nonfoil']
   card_number = card_hash['collector_number']
 
-  Card.create(name: card_hash['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: card_hash['image_uris']['large'].sub(/\?\d+/,''), :cropped_img => card_hash['image_uris']['art_crop'].sub(/\?\d+/,''), :reserved => card_hash['reserved'], :year => card_hash['released_at'][0..3], :multiverse_id => card_hash['multiverse_ids'][0], :rarity => card_hash['rarity'].capitalize, power: card_hash['power'].try(:to_i), artist: card_hash['artist'], toughness: card_hash['toughness'].try(:to_i), mana: mana, converted_mana_cost: card_hash['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(card_hash['flavor_text']), layout: card_hash['layout'], frame: card_hash['frame'].to_i, loyalty: loyalty, reprint: card_hash['reprint'], scryfall_uri: card_hash['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: card_hash['border_color'], oracle_text: card_hash['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number )
+  Card.create(name: card_hash['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: card_hash['image_uris']['large'].sub(/\?\d+/,''), cropped_img: card_hash['image_uris']['art_crop'].sub(/\?\d+/,''), reserved: card_hash['reserved'], year: card_hash['released_at'][0..3], multiverse_id: card_hash['multiverse_ids'][0], rarity: card_hash['rarity'].capitalize, power: card_hash['power'].try(:to_i), artist: card_hash['artist'], toughness: card_hash['toughness'].try(:to_i), mana: mana, converted_mana_cost: card_hash['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(card_hash['flavor_text']), layout: card_hash['layout'], frame: card_hash['frame'].to_i, loyalty: loyalty, reprint: card_hash['reprint'], scryfall_uri: card_hash['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: card_hash['border_color'], oracle_text: card_hash['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number )
 end
 
 #Either updates an existing transform card from existing data (accepts Ruby object), or creates one when called by create_set and passed a hash
