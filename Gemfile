@@ -16,22 +16,12 @@ gem 'pagy'
 gem 'lazyload-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 4.1.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '>= 5.2'
 # Fast JSON serializer by Netflix
 gem 'fast_jsonapi'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '>= 3.1.7'
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 #temporary
 gem 'mtg_sdk'
 # Reduces boot times through caching; required in config/boot.rb
