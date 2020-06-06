@@ -44,4 +44,6 @@ Rails.application.routes.draw do
   post '/decks/create'
   post '/collections/create'
 
+  #render error 404 if route doesn't exist
+  match '*path' => 'application#render_404', via: :all
 end
