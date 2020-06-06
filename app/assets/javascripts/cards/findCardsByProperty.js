@@ -50,7 +50,7 @@ document.addEventListener('turbolinks:load', function() {
       return( 
         `<div class="col-sm-3">
           <h3 class="thumb-header" data-edition="${edition}" data-rarity=${rarity}> 
-            ${shortName} <img src="/assets/editions/${edition}" class=${rarity} width=6% >
+            ${shortName} <img src="/assets/editions/${edition}" class="${rarity}" width="6%">
           </h3>
           
           <div class="card_img_div">
@@ -95,7 +95,7 @@ document.addEventListener('turbolinks:load', function() {
     
     response.done(response => {
       //filter out cards which don't have prices from cardkingdom
-      const cards = response ? response.map(JSON=> JSON.attributes).filter(card => parseFloat(card.prices[1])) : null
+      const cards = response ? response.map(JSON => JSON.attributes).filter(card => parseFloat(card.prices[1])) : null
 
       //remove 'Page:' and page tabs if all one page
       if (!cards || cards.length <= 60) {

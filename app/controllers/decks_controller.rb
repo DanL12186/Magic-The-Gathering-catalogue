@@ -61,7 +61,7 @@ class DecksController < ApplicationController
     
     #create the deck and then its decks_cards
     def build_deck
-      cards_with_quantities = params[:decks_cards][:list].split(/ \r\n/)  
+      cards_with_quantities = params[:decks_cards][:list].split(/ \r\n/)
       
       deck_name = deck_params[:name]
 
@@ -72,7 +72,7 @@ class DecksController < ApplicationController
       #this will later be used to let the user know if any of the cards they entered were invalid and didn't work
       unfound_cards = []
 
-      decks_cards = cards_with_quantities.map do | card_string | 
+      decks_cards = cards_with_quantities.map do | card_string |
         edition_match = card_string.match(/[a-z]+(?=\])/i)
         edition = edition_match[0] if edition_match
         

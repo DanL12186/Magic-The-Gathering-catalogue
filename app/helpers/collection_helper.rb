@@ -13,7 +13,7 @@ module CollectionHelper
   def display_collection(collection)
     collection.collections_cards.map do | collection_card |
       card = collection_card.card
-      name, edition, price, copies = [card.name, card.edition, card.prices[0], collection_card.copies]
+      name, edition, price, copies = [card.name, card.edition, card.prices[1], collection_card.copies]
 
       "<li>#{copies}x #{link_to(name, card_path(edition, name))} - $#{price}</li>"
     end.join.html_safe

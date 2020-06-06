@@ -31,8 +31,8 @@ class CollectionsController < ApplicationController
         #split on 'x ' coming after digit(s), and ' - ', e.g.: '1x Dack Fayden - Conspiracy' -> ['1', 'Dack Fayden', 'Conspiracy']
         copies, name, edition = card_string.split(/(?<=\d)x | - /)
         
-        card_id = Card.find_by(name: name, edition: edition)&.id
-  
+        card_id = Card.where(name: name, edition: edition).pluck(:id).first
+        
         next if card_id.nil?
       
         { copies: copies.to_i, collection_id: @collection.id, card_id: card_id }

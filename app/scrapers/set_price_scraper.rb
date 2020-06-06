@@ -180,7 +180,6 @@ module SetPriceScraper
       end
 
       def display_errors(error, card_finish)
-        
         if error.match?('Not Found')
           puts 'Page was not found; the site may currently be down.'
           return nil
