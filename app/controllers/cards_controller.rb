@@ -7,7 +7,10 @@ class CardsController < ApplicationController
 
   def show
     @card = Card.find_by(edition: params[:edition], name: params[:name])
-    if @card.layout == 'transform'
+
+    if @card.nil?
+      render_404
+    elsif @card.layout == 'transform'
       @flip = Card.find_by(multiverse_id: @card.flip_card_multiverse_id)
       redirect_if_not_face_card
     end
@@ -53,7 +56,11 @@ class CardsController < ApplicationController
   end
 
   def edition
-    @pagy, @cards = pagy(Card.where(edition: params[:edition]).order(:multiverse_id), items: 100)
+    if AllEditionsStandardCodes[params[:edition]]
+      @pagy, @cards = pagy(Card.where(edition: params[:edition]).order(:multiverse_id), items: 100)
+    else
+      render_404
+    end
   end
 
   #only display original prints, ignoring reprints of that artist's work
