@@ -16,6 +16,11 @@ RSpec.describe HomePageController, type: :controller do
       expect(response.body).to match /MTG Catalogue/
     end
 
+    it "should include search bar in home page template" do
+      get :home
+      expect(@response.body).to match("Card Search")
+    end
+
     it "should display iconic cards" do
       get :home
       expect(response.body).to have_css('.card_img')

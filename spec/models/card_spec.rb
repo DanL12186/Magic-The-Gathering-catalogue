@@ -1,30 +1,32 @@
-require 'test_helper'
+require 'rails_helper'
+require 'pry'
 
-class CardTest < ActiveSupport::TestCase
-
-  test "Card can't be saved without an edition, name, and multiverse_id" do
+RSpec.describe Card, type: :model do
+  it "can't be saved without an edition, name, and multiverse_id" do
     #no edition
-    card = Card.new(name: "Fritada", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 999)
-    assert_not card.save
+    card = Card.new(name: "Fritada", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 99)
+    expect(card.save).to be_falsey
 
     #no multiverse_id
     card = Card.new(name: "Fritada", artist: "Michelangelo", colors: ["Blue"])
-    assert_not card.save
+    expect(card.save).to be_falsey
 
     #no name
-    assert_raises(NoMethodError) do
-      card = Card.new(edition: "Sistine", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 999)
-      card.save
+    begin
+      card = Card.new(edition: "Sistine", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 9933)
+      card.valid?
+    rescue NoMethodError => error
+      expect(error).to be_truthy
     end
   end
 
-  test "Card is saved with an edition and a name" do
-    card = Card.new(name: "Fritada", edition: "Starch", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 999)
-    
-    assert card.save
+  it "is saved with an edition and a name" do
+    card = Card.new(name: "Fritada", edition: "Starch", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 1999)
+
+    expect(card.save).to be true
   end
   
-  test "Card can access all users who 'own' it" do
+  it "Card can access all users who 'own' it" do
     card = Card.new(name: "Potato", edition: "Snacks", colors: ["White"], multiverse_id: 111)
     card.save
     
@@ -37,10 +39,10 @@ class CardTest < ActiveSupport::TestCase
     UsersCard.create(card_id: card.id, user_id: user1.id)
     UsersCard.create(card_id: card.id, user_id: user2.id)
 
-    assert card.users.map(&:name) == ["Joe", "Barack"]
+    expect(card.users.map(&:name)).to eq ["Joe", "Barack"]
   end
 
-  test "Card can access all decks it belongs to when supplied with necessary information" do
+  it "Card can access all decks it belongs to when supplied with necessary information" do
     card = Card.new(name: "Potato", edition: "Snacks", colors: ["White"], multiverse_id: 112)
     user = User.new(name: "Barack", email: "renegade@dj.org", password: 'no,joe..')
 
@@ -52,7 +54,6 @@ class CardTest < ActiveSupport::TestCase
     DecksCard.create(card_id: card.id, deck_id: deck1.id)
     DecksCard.create(card_id: card.id, deck_id: deck2.id)
     
-    assert Card.find(card.id).decks.map(&:name) == ["Paper", "Tiger"]
+    expect(Card.find(card.id).decks.map(&:name)).to eq ["Paper", "Tiger"]
   end
-
 end
