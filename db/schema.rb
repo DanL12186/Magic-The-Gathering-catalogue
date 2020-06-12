@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_24_224845) do
+ActiveRecord::Schema.define(version: 2020_06_12_193948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,9 +44,6 @@ ActiveRecord::Schema.define(version: 2019_08_24_224845) do
     t.integer "flip_card_multiverse_id"
     t.text "original_text", default: ""
     t.text "oracle_text", default: ""
-    t.string "abilities", default: [], array: true
-    t.string "effects"
-    t.string "activated_abilities", default: [], array: true
     t.string "prices", default: [], array: true
     t.string "img_url"
     t.string "hi_res_img"
