@@ -13,7 +13,7 @@ class Card < ApplicationRecord
   validates :multiverse_id, uniqueness: true
   validates :name, :edition, presence: true
 
-  BASE_URL = "https://cdn1.mtggoldfish.com/images/gf"
+  BASE_URL = "https://cdn1.mtggoldfish.com/images/gf".freeze
 
   def initialize(**args)
     super(args)
@@ -75,8 +75,6 @@ class Card < ApplicationRecord
   #otherwise, check for an exact match by ignoring the input's casing. Return the match if one was found.
   #if no exact matches, we check card names against a downcased, Regex-escaped search, skipping nonmatching card names
   def self.search(search)
-    matches = []
-    partial_matches = []
     exact_match = Card.find_by(name: search, reprint: false)
 
     if exact_match.nil?
@@ -85,7 +83,9 @@ class Card < ApplicationRecord
     end
 
     return { name: exact_match.name, edition: exact_match.edition } if exact_match
-    
+
+    matches = []
+    partial_matches = []
     downcased_search = search.downcase
     escaped_search = Regexp.escape(search)
     target = (/#{escaped_search}/i)
