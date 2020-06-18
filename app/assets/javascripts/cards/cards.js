@@ -1,9 +1,8 @@
 document.addEventListener('turbolinks:load', function() {
   const railsAuthenticityToken = $('head [name=csrf-token]')[0].content
-
   const foilOverlays = document.querySelectorAll('.foil-overlay-js');
-  let showFoil;
-  
+  let   showFoil;
+
   const numberWithDelimiter = (strNum, delimeter = ',') => {
     if (strNum === 'N/A') return 'N/A'
 
@@ -17,27 +16,26 @@ document.addEventListener('turbolinks:load', function() {
     return strNumArr.join('')
   }
 
-  //change links to point to foil versios of cards, display foil overlay
-  const updatePageToReflectFoil = showFoil => {
+  //change links to point to foil versios of cards, display foil overlay for both single and double-sided cards. 
+  //TCGPlayer foil prices not available.
+  const updatePageToReflectFoil = () => {
     const eBayLink = document.querySelector('#ebayLink a');
-    const [mtgLink, ckLink, _] = document.querySelectorAll('#prices h4 a');
+    const [ mtgLink, ckLink, _ ] = document.querySelectorAll('#prices h4 a');
 
     if (showFoil) {
-      eBayLink.innerText = eBayLink.innerText.replace('Find', 'Find foil')
       eBayLink.href += '+foil'
+      eBayLink.innerText = eBayLink.innerText.replace('Find', 'Find foil')
+      mtgLink.href       = mtgLink.href.replace(/\/price\/(\w+\+)*\w+/, match => match + ':Foil')
+      ckLink.href        = ckLink.href.replace(/[a-z-]+$/, match => match + '-foil')
 
       foilOverlays.forEach(element => element.classList.remove('hidden'));
-
-      mtgLink.href = mtgLink.href.replace(/\/price\/(\w+\+)*\w+/, m => m + ':Foil')
-      ckLink.href  = ckLink.href.replace(/[a-z-]+$/, m => m + '-foil')
     } else {
       eBayLink.innerText = eBayLink.innerText.replace('foil', '')
       eBayLink.href      = eBayLink.href.replace('+foil', '')
+      mtgLink.href       = mtgLink.href.replace(':Foil', '')
+      ckLink.href        = ckLink.href.replace('-foil', '')
 
       foilOverlays.forEach(element => element.classList.add('hidden'));
-
-      mtgLink.href = mtgLink.href.replace(':Foil', '')
-      ckLink.href  = ckLink.href.replace('-foil', '')
     }
   }
 
