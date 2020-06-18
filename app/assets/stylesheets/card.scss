@@ -164,7 +164,20 @@
     max-height: 500px;
 }
 
+@media(max-width: 1200px) {
+    #cropped-img {
+        min-height: 0px;
+        height: 400px;
+    }
+}
+
 //hacky way to disappear image and not have it interfere w/layout
+@media(max-width: 1100px) {
+    #other-editions-text {
+        display: none;
+    }
+}
+
 @media(max-width: 1000px) {
     #cropped-img {
         opacity: 0;
@@ -172,10 +185,6 @@
     }
 
     #artist-link {
-        display: none;
-    }
-
-    #other-editions-text {
         display: none;
     }
 }
