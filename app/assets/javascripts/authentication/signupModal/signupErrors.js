@@ -1,25 +1,36 @@
-document.addEventListener('turbolinks:load', function() {
-  const loginForm = document.getElementById('signupForm')
+document.addEventListener('turbolinks:load', () => {
+  const signupForm = document.getElementById('signupForm')
+
+  const populateErrors = JSON => {
+    for (const errorKey in JSON) {
+      const capitalizedKey = errorKey.replace(/^\w/, letter => letter.toUpperCase())
+
+      for (const errorMessage of JSON[errorKey]) {
+        const errorDiv = `<div> ${capitalizedKey} ${errorMessage} </div>`;
+
+        document.getElementById('signupError').innerHTML += errorDiv;
+      }
+    }
+  }
 
   //Display all errors for user if signup fails
-  loginForm.addEventListener('submit', function(event) {
-    event.preventDefault()
-    event.stopPropagation()
-    
-    const form = $(this).serialize()
-    const request = $.post('/signup', form)
+  if (signupForm) {
+    signupForm.addEventListener('submit', function(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      
+      const form = $(this).serialize()
+      const request = $.post('/signup', form)
 
-    document.getElementById('signupError').innerHTML = ''
+      document.getElementById('signupError').innerHTML = ''
 
-    //response should only happen on error, else page redirects
-    request.done(jsonResponse => {
-      if (jsonResponse) {
-        for (errorKey in jsonResponse) {
-          const capitalizedKey = errorKey.replace(/^\w/, letter => letter.toUpperCase())
-          document.getElementById('signupError').innerHTML += `<div>${capitalizedKey} ${jsonResponse[errorKey][0]}</div>`
+      //response should only happen on error, else page redirects
+      request.done(jsonResponse => {
+        if (jsonResponse) {
+          populateErrors(jsonResponse)
         }
-      }
+      })
     })
-  })
+  }
 
 })

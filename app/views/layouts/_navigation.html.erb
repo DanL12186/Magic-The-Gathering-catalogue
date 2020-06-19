@@ -22,6 +22,6 @@
   </span>
 
   <%= render "layouts/search_bar" %>
-  <%= render "layouts/login_modal" %>
-  <%= render "layouts/signup_modal" %>
+  <%= render "layouts/login_modal" unless logged_in? %>
+  <%= render "layouts/signup_modal" unless logged_in? %>
 </h5>
