@@ -34,7 +34,7 @@ class DecksController < ApplicationController
   end
 
   def index
-    @decks = Deck.where(user_id: current_user.id)
+    @decks = current_user.decks
   end
 
   private

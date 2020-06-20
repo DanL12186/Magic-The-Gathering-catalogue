@@ -11,7 +11,7 @@ class CollectionsController < ApplicationController
   end
 
   def index
-    @collections = Collection.where(user_id: current_user.id)
+    @collections = current_user.collections
   end
 
   def show
