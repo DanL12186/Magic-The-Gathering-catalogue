@@ -8,16 +8,16 @@
         
         <br>
         <div class='text-center'>
-            <%= form_for :user, remote: true, url: url_for(controller: 'sessions', action: 'create'), html: { id: 'loginForm' } do |f| %>
+          <%= form_for :user, remote: true, url: url_for(controller: 'sessions', action: 'create'), html: { id: 'loginForm' } do |f| %>
             <%= f.label :name %>
-            <%= f.text_field :name, id: 'login_name', autocomplete: 'username', required: true %>
+            <%= f.text_field :name, id: 'login_name', autocomplete: 'user', required: true %>
             <br>
             <%= f.label :password %>
-            <%= f.password_field :password, id: 'login_password', autocomplete: 'current-password', required: true %>
+            <%= f.password_field :password, id: 'login_password', required: true %>
             <br>
             <br>
             <%= f.submit "Log in" %>
-            <% end %>
+          <% end %>
         </div>
 
       </div>
