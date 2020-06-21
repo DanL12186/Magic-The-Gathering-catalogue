@@ -1,27 +1,31 @@
-<h5 class = "navbar"> 
-  <%= link_to "Sign Up", "#", 'data-toggle': "modal", 'data-target': "#signupModalCenter" unless logged_in? %>
-  <%= link_to "Log In", "#", 'data-toggle': "modal", 'data-target': "#loginModalCenter" unless logged_in? %>
-  <%= link_to "Home", root_path unless current_page?(root_path) %>  
+<h5 class="navbar">
+  <%= link_to("Sign Up", "#", 'data-toggle': :modals, 'data-target': "#signupModalCenterz", class: 'nav-link') unless logged_in? %>
+  <%= link_to("Log In",  "#", 'data-toggle': "modal", 'data-target': "#loginModalCenter",  class: 'nav-link') unless logged_in? %>
+  <%= link_to("Home", root_path, class: 'nav-link') unless current_page?(root_path) %>  
 
   <div class="drop-down">
     <a class="drop-button">Tools &#9660</a>
     <div class="drop-down-content">
-      <%= link_to "Calculator", "/hand_odds_calculator" %>
-      <%= link_to "Generate Booster Packs", "/editions/open_booster_pack" %>
+      <%= link_to "Calculator", "/hand_odds_calculator", class: 'nav-link' %>
+      <%= link_to "Generate Booster Packs", "/editions/open_booster_pack", class: 'nav-link' %>
     </div>
   </div> 
  
-  <%= link_to "My Decks", decks_path if logged_in? %>
-  <%= link_to "My Collections", collections_path if logged_in? %>
-  <%= link_to "Find Cards by Property", "/cards/find_by_properties" %>
-  <%= link_to "About", "/about" %>
-  <%= link_to "Log Out", "/logout", method: :delete if logged_in? %>
+  <%= link_to("My Decks",       decks_path,       class: 'nav-link') if logged_in? %>
+  <%= link_to("My Collections", collections_path, class: 'nav-link') if logged_in? %>
+  <%= link_to("Find Cards by Property", "/cards/find_by_properties", class: 'nav-link') %>
+  <%= link_to("About", "/about",    class: 'nav-link') %>
+  <%= link_to("Log Out", "/logout", class: 'nav-link', method: :delete) if logged_in? %>
   
   <span class="account-settings"> 
-    <%= link_to("Account Settings", user_path(current_user)) if logged_in? %> 
+    <%= link_to("Account Settings", user_path(current_user), class: 'nav-link') if logged_in? %> 
   </span>
 
   <%= render "layouts/search_bar" %>
-  <%= render "layouts/login_modal" unless logged_in? %>
-  <%= render "layouts/signup_modal" unless logged_in? %>
+
+  <% unless logged_in? %>
+    <%= render "layouts/login_modal" %>
+    <%= render "layouts/signup_modal" %>
+  <% end %>
+
 </h5>
