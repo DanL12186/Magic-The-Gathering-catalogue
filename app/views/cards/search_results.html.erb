@@ -4,11 +4,9 @@
     <div class="col-sm-4 text-center">
       <h1> Matches: </h1>
 
-      <% hashify_search_results(@matches).each do | card | %>
-        <li class="card">
-          <div class="btn btn-med" data-toggle="popover" data-url="<%= card[:img_url] %>" title=" "> 
-            <%= link_to(card[:name], card_path(card[:edition], card[:name]), class: "popover-card") %> 
-          </div>
+      <% @matches.each do | edition, name, img_url | %>
+        <li data-toggle='popover' data-content='<%= image_tag(img_url) %>' title=" ">
+          <%= link_to(name, card_path(edition, name), class: 'popover-js popover-link') %> 
         </li>
       <% end %>
     </div>
@@ -18,11 +16,9 @@
     <div class="col-sm-4 text-center">
       <h1> Partial Matches: </h1>
       
-      <% hashify_search_results(@partial_matches).each do | card | %>
-        <li class="card">
-          <div class="btn btn-med" data-toggle="popover" data-url="<%= card[:img_url] %>" data-placement="left" title=" "> 
-            <%= link_to(card[:name], card_path(card[:edition], card[:name]), class: "popover-card") %> 
-          </div>
+      <% @partial_matches.each do | edition, name, img_url | %>
+        <li data-toggle='popover' data-content='<%= image_tag(img_url) %>' data-placement='left' title=" ">
+          <%= link_to(name, card_path(edition, name), class: 'popover-js popover-link') %> 
         </li>
       <% end %>
     </div>

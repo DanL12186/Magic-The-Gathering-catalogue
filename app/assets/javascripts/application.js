@@ -25,20 +25,15 @@ document.addEventListener('turbolinks:load', function() {
   });
   
   //popover for card search results and deck show pages
-  $(function () {
-    $('[data-toggle="popover"]').popover({
-      html: true,
-      boundary: 'scrollParent',
-      trigger: 'hover',
-      delay: { "show": 200, "hide": 150 },
-      content: function() { 
-        return `<img src="${this.getAttribute('data-url')}" >`
-      }
-    });
+  $('[data-toggle="popover"]').popover({
+    html: true,
+    boundary: 'scrollParent',
+    trigger: 'hover',
+    delay: { show: 200, hide: 150 },
   });
 
   //remove popover from card-search page after leaving
-  $('li.card').on('click', () => {
+  $('.popover-js').on('click', () => {
     $('.popover.fade').remove()
   });
   

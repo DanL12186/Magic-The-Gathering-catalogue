@@ -116,10 +116,5 @@ $(document).on("turbolinks:load", function() {
     
     new CanvasJS.Chart("splineContainer", options).render();
   };
-
-  //popover remains after hitting back button without this
-  $("a.popover-card").on('click', function() {
-    $(".popover.fade.right.in").remove()
-  });
   
 });
