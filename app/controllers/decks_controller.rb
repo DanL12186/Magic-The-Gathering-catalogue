@@ -3,7 +3,7 @@ class DecksController < ApplicationController
   
   before_action :set_deck, only: [:show, :sample_hand]
   before_action :set_shuffled_deck, only: [:show, :sample_hand]
-  before_action :redirect_unless_logged_in, only: [:new]
+  before_action :redirect_unless_logged_in, only: [:new, :show, :index]
   before_action :deny_unauthorized_deck_access, only: [:show, :sample_hand, :edit, :update, :destroy]
   before_action :build_deck, only: [:create]
 
@@ -91,7 +91,8 @@ class DecksController < ApplicationController
       end.compact
 
       DecksCard.transaction do
-        DecksCard.create(decks_cards)
+        @deck.decks_cards.build(decks_cards)
+        @deck.save
       end
     end
 
