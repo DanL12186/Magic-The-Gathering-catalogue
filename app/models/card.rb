@@ -58,9 +58,17 @@ class Card < ApplicationRecord
     end
   end
 
+  #card results used for returning search results that don't match a single card (includes images)
+  def self.data_for_search_result_display
+    cache_key = "searchy#{Time.now.day}"
+    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+      Card.where(reprint: false).pluck(:edition, :name, :img_url)
+    end
+  end
+
   #binary search for a card name matching user's input. ignoring case
   #returns the proper name of the card if found, not a lowercase version.
-  def self.namesearch(search, case_agnostic = false)    
+  def self.namesearch(search, case_agnostic = false)
     unless case_agnostic
       return Card.all_card_names.bsearch { | name | search <=> name }
     else
@@ -90,7 +98,7 @@ class Card < ApplicationRecord
     escaped_search = Regexp.escape(search)
     target = (/#{escaped_search}/i)
 
-    Card.where(reprint: false).pluck(:edition, :name, :img_url).each do | edition, name, img_url |
+    Card.data_for_search_result_display.each do | edition, name, img_url |
       next unless name.match?(target)
 
       if name.split.any? { | word | word.downcase == downcased_search } 
