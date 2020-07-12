@@ -20,12 +20,12 @@ document.addEventListener('turbolinks:load', function() {
   document.getElementById('search').addEventListener('keyup', event => {
     if (event.target.value) {
       const userEntry         = event.target.value.toLowerCase(),
-            matches           = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry)),
+            matches           = cardNames.filter(name => name.toLowerCase().startsWith(userEntry)),
             firstEightMatches = matches.slice(0,8);
 
       //only update on change
       if (lastMatch !== firstEightMatches.toString()) {
-        datalist.innerHTML = firstEightMatches.map(match=> `<option value="${match}"></option>`);
+        datalist.innerHTML = firstEightMatches.map(match => `<option value="${match}"></option>`);
         lastMatch = firstEightMatches.toString();
       };
 

@@ -1,11 +1,11 @@
 document.addEventListener("turbolinks:load", function() {
   const cardCountDiv = document.getElementById('card-counter')
-  ,     deckHolder   = document.getElementById('deck-holder')
-  ,     numCards     = cardCountDiv ? cardCountDiv.innerHTML.trim().match(/\d+$/)[0] : null
+  const deckHolder   = document.getElementById('deck-holder')
+  const numCards     = cardCountDiv ? cardCountDiv.innerHTML.trim().match(/\d+$/)[0] : null
   
-  function loadTwoCardsAhead(numCards, cardCount) {
+  const loadTwoCardsAhead = (numCards, cardCount) => {
     const inverseNumber = numCards - cardCount
-    ,     twoCardsAhead = document.getElementById(`deck-card-${inverseNumber - 1}`)
+    const twoCardsAhead = document.getElementById(`deck-card-${inverseNumber - 1}`)
 
     twoCardsAhead.src = twoCardsAhead.getAttribute('image_placeholder');
   }
