@@ -54,7 +54,7 @@
 
   <div id='prices' class='prices-js' data-id=<%= "#{@card.id}" %> data-stale=<%= needs_updating?(@card.updated_at, @card.prices) %> data-foil-prices='<%=@card.foil_prices%>' >
 
-    <% unless @card.foil_prices.empty? %>
+    <% unless @card.foil_prices.empty? || !@card.foil_version_exists %>
       <button id="toggle-foil-js">View foil version</button>
     <% end %>
 
