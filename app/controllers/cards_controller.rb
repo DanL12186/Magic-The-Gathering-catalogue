@@ -22,7 +22,7 @@ class CardsController < ApplicationController
   end
 
   def card_names_with_editions
-    render json: Card.all_card_and_edition_names
+    render json: Card.all_card_and_edition_names_json
   end
 
   #only called if card hasn't been updated in > 24h
@@ -73,8 +73,9 @@ class CardsController < ApplicationController
   end
 
   def filter_search
-    @results = get_filter_search_results
-    render json: CardSerializer.new(@results).serializable_hash[:data]
+    results = CardSerializer.new(get_filter_search_results).serializable_hash[:data]
+    
+    render json: JSON.generate(results)
   end
 
   private
