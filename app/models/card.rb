@@ -51,7 +51,7 @@ class Card < ApplicationRecord
   end
 
   #for the autocomplete feature for selecting cards for a collection by name and edition. returns json (array.to_s)
-  def self.all_card_and_edition_names
+  def self.all_card_and_edition_names_json
     cache_key = "all_card_names_with_editions#{Time.now.day}"
     names_and_editions = Rails.cache.fetch(cache_key, expires_in: 24.hours) do
       Card.pluck(:name, :edition).to_s
