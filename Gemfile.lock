@@ -100,6 +100,13 @@ GEM
     equalizer (0.0.11)
     erubi (1.9.0)
     execjs (2.7.0)
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.1.0)
+      factory_bot (~> 6.1.0)
+      railties (>= 5.0.0)
+    faker (2.13.0)
+      i18n (>= 1.6, < 2)
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.14.0)
@@ -276,6 +283,8 @@ DEPENDENCIES
   capybara (>= 2.15)
   chromedriver-helper
   database_cleaner
+  factory_bot_rails
+  faker
   fast_jsonapi
   lazyload-rails
   listen (>= 3.0.5, < 3.2)
