@@ -73,9 +73,9 @@ class CardsController < ApplicationController
   end
 
   def filter_search
-    results = CardSerializer.new(get_filter_search_results).serializable_hash[:data]
+    results = CardSerializer.new(get_filter_search_results).serializable_hash
     
-    render json: JSON.generate(results)
+    render json: JSON.generate(results[:data])
   end
 
   private
