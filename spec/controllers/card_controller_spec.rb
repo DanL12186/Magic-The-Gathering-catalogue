@@ -11,16 +11,12 @@ RSpec.describe CardsController, type: :controller do
   end
 
   it "should get a card that exists" do
-    Card.create(
-      name: "Forcefield", edition: "Alpha", artist: "Dan Frazier", card_type: "Artifact", rarity: "Rare", 
-      multiverse_id: 12, mana: ["3"], subtypes: [], color: "Colorless", colors: [], 
-      img_url: '', cropped_img: ''
-    )
+    card = create(:card)
 
-    visit '/cards/Alpha/Forcefield'
-
+    visit "/cards/#{card.edition}/#{card.name}"
+    
     expect(page.status_code).to eq 200
-    expect(page).to have_content("Alpha Forcefield")
+    expect(page).to have_content("#{card.edition} #{card.name}")
   end
 
   it "should render 404 if card doesn't exist" do
