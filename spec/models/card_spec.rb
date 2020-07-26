@@ -26,7 +26,7 @@ RSpec.describe Card, type: :model do
     expect(card.save).to be true
   end
   
-  it "Card can access all users who 'own' it" do
+  it "can access all users who 'own' it" do
     card = Card.new(name: "Potato", edition: "Snacks", colors: ["White"], multiverse_id: 111)
     card.save
     
@@ -42,7 +42,7 @@ RSpec.describe Card, type: :model do
     expect(card.users.map(&:name)).to eq ["Joe", "Barack"]
   end
 
-  it "Card can access all decks it belongs to when supplied with necessary information" do
+  it "can access all decks it belongs to when supplied with necessary information" do
     card = Card.new(name: "Potato", edition: "Snacks", colors: ["White"], multiverse_id: 112)
     user = User.new(name: "Barack", email: "renegade@dj.org", password: 'no,joe..')
 
