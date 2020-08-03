@@ -1,13 +1,13 @@
-<h5 class="navbar">
+<h5 class='navbar'>
   <%= link_to("Sign Up", "#", data: { toggle: :modal, target: "#signupModalCenter" }, class: 'nav-link') unless logged_in? %>
   <%= link_to("Log In",  "#", data: { toggle: :modal, target: "#loginModalCenter"  }, class: 'nav-link') unless logged_in? %>
   <%= link_to("Home", root_path, class: 'nav-link') unless current_page?(root_path) %>  
 
-  <div class="drop-down">
-    <a class="drop-button">Tools &#9660</a>
-    <div class="drop-down-content">
-      <%= link_to "Calculator", "/hand_odds_calculator", class: 'nav-link' %>
-      <%= link_to "Generate Booster Packs", "/editions/open_booster_pack", class: 'nav-link' %>
+  <div class='drop-down'>
+    <a class='drop-button'>Tools ▼</a>
+    <div class='drop-down-content'>
+      <%= link_to("Calculator",             "/hand_odds_calculator",       class: 'nav-link') %>
+      <%= link_to("Generate Booster Packs", "/editions/open_booster_pack", class: 'nav-link') %>
     </div>
   </div> 
  
@@ -17,7 +17,7 @@
   <%= link_to("About", "/about",    class: 'nav-link') %>
   <%= link_to("Log Out", "/logout", class: 'nav-link', method: :delete) if logged_in? %>
   
-  <span class="account-settings"> 
+  <span class='account-settings'> 
     <%= link_to("Account Settings", user_path(current_user), class: 'nav-link') if logged_in? %> 
   </span>
 
