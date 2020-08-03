@@ -7,7 +7,7 @@
 </div>
 
 <% @cards.each_with_index do | card, idx | %> 
-  <% unless card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land") || card.card_number&.end_with?('b') %>
+  <% unless card.card_type == "Land" && !card.subtypes.include?("Nonbasic Land") || card.card_number.end_with?('b') %>
     <h2> <%= truncate_at_three_words(card.name) %> </h2> 
 
     <div class="col-sm-2 filter" > 
