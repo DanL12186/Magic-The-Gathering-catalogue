@@ -259,6 +259,17 @@
 
 //=====Find By Property Page========
 
+.card-sort-buttons {
+    margin-bottom: 10px;
+    margin-top: 26px;
+}
+
+.sort-btn {
+    display: inline;
+    font-weight: 800;
+    margin-right: 3px;
+}
+
 #pagination-pg-num {
     font-size: 150%;
     font-family: 'MagicMedieval';
@@ -266,8 +277,8 @@
 }
 
 .thumb-header {
-    font-size:1.5vw; 
-    min-height:32px;
+    font-size: 1.5vw; 
+    min-height: 32px;
     font-family: MagicMedieval;
 }
 
