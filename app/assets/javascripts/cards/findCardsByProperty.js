@@ -4,9 +4,9 @@ document.addEventListener('turbolinks:load', function() {
   //clear "sort by" and page buttons when a card is clicked
   function listenForPageLeave() {
     document.addEventListener('turbolinks:before-visit', () => {
-      $("a.btn-sm").empty()
+      $(".btn-sm.sort-js").empty()
       $('#pagination-pg-num').empty()
-      $('div#find-by-pagination').empty()
+      $('#find-by-pagination').empty()
     })
   }
 
@@ -74,6 +74,7 @@ document.addEventListener('turbolinks:load', function() {
   
   const submitButton = document.getElementById("find_submit")
   const searchForm   = $("#find_by_properties")
+
   //form will disable the submit button when it's submitted. This listens for when user 
   //makes a different or additional selection on the form and re-enables the submit button
   function listenForFormChange() {
@@ -81,6 +82,30 @@ document.addEventListener('turbolinks:load', function() {
   }
 
   listenForFormChange();
+
+  const colorOrder = {
+    'White': 1,
+    'Blue': 2,
+    'Black': 3,
+    'Red': 4,
+    'Green': 5,
+    'Colorless': 6,
+    'Gold': 7
+  }, typeOrder = {
+    'Land': 1,
+    'Basic': 1,
+    'Artifact': 2,
+    'Instant': 3,
+    'Sorcery': 4,
+    'Enchantment': 5,
+    'Creature': 6
+  };
+
+  const sortedAscending = {
+    sort_by_id: false,
+    sort_by_name: false,
+    sort_by_price: false
+  }
 
   //populate /cards/find_by_properties with found cards
   $("#find_by_properties").on('submit', function(event) {
@@ -117,6 +142,7 @@ document.addEventListener('turbolinks:load', function() {
       //change page tabs if necessary
       if (numPages > 1 && document.querySelectorAll(".jslink").length !== numPages) {
         document.getElementById("pagination-pg-num").style = "display: block"
+        document.getElementById("pagination-pg-num").innerText = "Page:"
         document.getElementById("find-by-pagination").innerHTML += `<span> </span>`
         
         let pageButtons = '';
@@ -162,24 +188,6 @@ document.addEventListener('turbolinks:load', function() {
         return;
       });
 
-      const colorOrder = {
-        'White' : 1,
-        'Blue'  : 2,
-        'Black' : 3,
-        'Red'   : 4,
-        'Green' : 5,
-        'Colorless' : 6,
-        'Gold'  : 7
-      }, typeOrder = {
-          'Land'    : 1, 
-          'Basic'   : 1, 
-          'Artifact': 2, 
-          'Instant' : 3, 
-          'Sorcery' : 4, 
-          'Enchantment': 5, 
-          'Creature': 6
-      };
-
       //sort by price sorts only by the prices on CardKingdom, as other prices are only suggestions
       const sortButtonFunctions = {
         'sort_by_id'    : () => cards.sort((a,b) => a.multiverse_id - b.multiverse_id),
@@ -187,12 +195,6 @@ document.addEventListener('turbolinks:load', function() {
         'sort_by_color' : () => cards.sort((a,b) => colorOrder[a.color] - colorOrder[b.color] || a.name.localeCompare(b.name)),
         'sort_by_type'  : () => cards.sort((a,b) => typeOrder[a.card_type] - typeOrder[b.card_type] || a.name.localeCompare(b.name)),
         'sort_by_price' : () => cards.sort((a,b) => parseFloat(b.prices[1]) - parseFloat(a.prices[1]) || a.name.localeCompare(b.name))
-      }
-
-      const sortedAscending = {
-        sort_by_id    : false,
-        sort_by_name  : false,
-        sort_by_price : false
       }
 
       const handlePriceSortDirection = (event, cards, buttonId) => {
@@ -208,7 +210,7 @@ document.addEventListener('turbolinks:load', function() {
         sortedAscending[buttonId] = !sortedAscending[buttonId]
       }
       
-      $(".sort").on('click', event => {
+      $(".sort-js").on('click', event => {
         const buttonId = event.currentTarget.id;
         const sortedCards = sortButtonFunctions[buttonId]();
 
