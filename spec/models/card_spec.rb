@@ -2,58 +2,71 @@ require 'rails_helper'
 require 'pry'
 
 RSpec.describe Card, type: :model do
-  it "can't be saved without an edition, name, and multiverse_id" do
-    #no edition
-    card = Card.new(name: "Fritada", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 99)
-    expect(card.save).to be_falsey
+  let(:user) { create(:user) }
+  let(:card) { create(:card) }
+  
+  describe "missing required attributes:" do
+    it "can't be saved without an edition" do
+      card = Card.new(name: "Fritada", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 99)
+      expect(card.save).to be false
+    end
 
-    #no multiverse_id
-    card = Card.new(name: "Fritada", artist: "Michelangelo", colors: ["Blue"])
-    expect(card.save).to be_falsey
+    it "can't be saved without a multiverse_id" do
+      card = Card.new(name: "Fritada", artist: "Michelangelo", colors: ["Blue"])
+      expect(card.save).to be false
+    end
 
-    #no name
-    begin
-      card = Card.new(edition: "Sistine", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 9933)
-      card.valid?
-    rescue NoMethodError => error
-      expect(error).to be_truthy
+    it "can't be saved unless multiverse_id is unique" do
+      duplicate = create(:card)
+      duplicate.multiverse_id = card.multiverse_id
+      duplicate.save
+      
+      expect(duplicate.errors.messages[:multiverse_id]).to include("has already been taken")
+    end
+
+    it "can't be saved without an edition" do
+      card = Card.new(name: "Sistine", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 9933)
+
+      expect(card.save).to be false
     end
   end
 
-  it "is saved with an edition and a name" do
-    card = Card.new(name: "Fritada", edition: "Starch", artist: "Michelangelo", colors: ["Blue"], multiverse_id: 1999)
-
-    expect(card.save).to be true
+  it "is saved with a name, edition and multiverse_id" do
+    expect(card.name).to be_truthy
+    expect(card.edition).to be_truthy
+    expect(card.multiverse_id).to be_truthy
+    expect(card.valid?).to be true
   end
   
-  it "can access all users who 'own' it" do
-    card = Card.new(name: "Potato", edition: "Snacks", colors: ["White"], multiverse_id: 111)
-    card.save
-    
-    user1 = User.new(name: "Joe", email: "celtic@ts.net", password: "butwhatifwe")
-    user1.save
+  context "assocations:" do
+    it "can access all users who 'own' it" do
+      user_one = create(:user)
+      user_two = create(:user)
 
-    user2 = User.new(name: "Barack", email: "renegade@dj.org", password: "no,joe..")
-    user2.save
+      UsersCard.create(card_id: card.id, user_id: user_one.id)
+      UsersCard.create(card_id: card.id, user_id: user_two.id)
 
-    UsersCard.create(card_id: card.id, user_id: user1.id)
-    UsersCard.create(card_id: card.id, user_id: user2.id)
+      expect(card.users.size).to eq(2)
+    end
 
-    expect(card.users.map(&:name)).to eq ["Joe", "Barack"]
-  end
+    it "can access all collections it belongs to" do
+      collection_one = create(:collection)
+      collection_two = create(:collection)
 
-  it "can access all decks it belongs to when supplied with necessary information" do
-    card = Card.new(name: "Potato", edition: "Snacks", colors: ["White"], multiverse_id: 112)
-    user = User.new(name: "Barack", email: "renegade@dj.org", password: 'no,joe..')
+      CollectionsCard.create(card_id: card.id, collection_id: collection_one.id)
+      CollectionsCard.create(card_id: card.id, collection_id: collection_two.id)
 
-    [card, user].each(&:save)
+      expect(card.collections.size).to eq(2)
+    end
 
-    deck1 = Deck.create(name: "Paper", user_id: user.id)
-    deck2 = Deck.create(name: "Tiger", user_id: user.id)
-    
-    DecksCard.create(card_id: card.id, deck_id: deck1.id)
-    DecksCard.create(card_id: card.id, deck_id: deck2.id)
-    
-    expect(Card.find(card.id).decks.map(&:name)).to eq ["Paper", "Tiger"]
+    it "can access all decks it belongs to" do
+      deck_one = create(:deck)
+      deck_two = create(:deck)
+      
+      DecksCard.create(card_id: card.id, deck_id: deck_one.id)
+      DecksCard.create(card_id: card.id, deck_id: deck_two.id)
+      
+      expect(Card.find(card.id).decks.size).to eq(2)
+    end
   end
 end
