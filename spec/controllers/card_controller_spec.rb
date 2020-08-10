@@ -13,7 +13,7 @@ RSpec.describe CardsController, type: :controller do
   it "should get a card that exists" do
     card = create(:card)
 
-    visit "/cards/#{card.edition}/#{card.name}"
+    visit URI.escape("/cards/#{card.edition}/#{card.name}")
     
     expect(page.status_code).to eq 200
     expect(page).to have_content("#{card.edition} #{card.name}")
