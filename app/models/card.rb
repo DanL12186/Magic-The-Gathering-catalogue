@@ -9,6 +9,7 @@ class Card < ApplicationRecord
 
   has_many :users, through: :users_cards
   has_many :decks, through: :decks_cards
+  has_many :collections, through: :collections_cards
 
   validates :multiverse_id, uniqueness: true
   validates :name, :edition, presence: true
