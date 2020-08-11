@@ -3,7 +3,7 @@ FactoryBot.define do
   factory :deck do
     user
 
-    name { Faker::Restaurant.name }
+    name { Faker::Restaurant.unique.name }
   end
 
 end
