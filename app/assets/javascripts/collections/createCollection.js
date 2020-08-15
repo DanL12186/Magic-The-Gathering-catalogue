@@ -39,8 +39,8 @@ document.addEventListener('turbolinks:load', function() {
     }
   }
 
-  //bind user input for name of collection to DOM
-  const collectionNameEntry = document.getElementById('collection_name')
+  //bind user input for name of collection or deck to DOM
+  const collectionNameEntry = document.getElementById('collection_name') || document.getElementById('deck_name')
   
   if (collectionNameEntry) {
     const collectionTitle = document.getElementById('collection-page-title')
