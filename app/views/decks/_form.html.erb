@@ -36,9 +36,8 @@
         <button id="addLand"> Add Basic Land </button>
       </div>
 
-      <div> 
-        <%= dc.text_area(:list, class: 'card-list') %> 
-      </div>
+      <%= dc.text_area(:list, class: 'card-list') %> 
+      <div id='card-count'> Total Cards: 0 </div>
     </div>
 
   <% end %>

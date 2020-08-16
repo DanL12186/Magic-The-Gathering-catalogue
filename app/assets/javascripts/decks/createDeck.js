@@ -15,7 +15,7 @@ $(document).on('turbolinks:load', function() {
   $('#deckCardFind').on('focus', () => {
     if (!cardNames) {
       const response = $.get('/cards/card_names');
-      response.done(names => cardNames = names.sort())
+      response.done(names => cardNames = names)
     }
   });
 
@@ -32,12 +32,16 @@ $(document).on('turbolinks:load', function() {
     input.value = ''
   }
 
+  function updateCardCount(copies) {
+    cardCount.innerText = cardCount.innerText.replace(totalCards, totalCards += parseInt(copies))
+  }
+
   //autocomplete search for finding cards by name
   //$(document)[0].body.innerHTML += `<img src= "https://img.scryfall.com/cards/small/en/chr/81.jpg">`
   $('#deckCardFind').on('keyup', event => {
     if (event.target.value) {
       const userEntry       = event.target.value.toLowerCase(),
-            matches         = cardNames.filter(name=> name.toLowerCase().startsWith(userEntry)),
+            matches         = cardNames.filter(name => name.toLowerCase().startsWith(userEntry)),
             datalist        = document.getElementById('deckBuildSearch'),
             firstTenMatches = matches.slice(0, 10);
 
@@ -49,7 +53,9 @@ $(document).on('turbolinks:load', function() {
     };
   });
 
-  //this also triggers just by hitting enter as a mouse event
+  const cardCount = document.getElementById('card-count');
+  let totalCards = 0;
+
   $("#addCard").on('click', event => {
     const cardOption = document.getElementById('deckBuildSearch').options[0];
     const copies     = document.getElementById('decks_cards_copies').value;
@@ -58,6 +64,7 @@ $(document).on('turbolinks:load', function() {
       const cardName = cardOption.innerText.trim()
 
       addCardToList(event, cardName, copies);
+      updateCardCount(copies);
     }
   })
 
@@ -70,6 +77,7 @@ $(document).on('turbolinks:load', function() {
     const copies   = document.getElementById('decks_cards_land_copies').value;
 
     addCardToList(event, landName, copies)
+    updateCardCount(copies);
   });
 
   $("#createDeck").on('click', () => {
