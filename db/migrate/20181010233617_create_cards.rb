@@ -18,6 +18,10 @@ class CreateCards < ActiveRecord::Migration[5.2]
       t.integer :year
       t.boolean :reprint, default: false
 
+      #card # in its respective set, e.g. '64' (e.g., 64/236); flip cards will be a/b (e.g. '64a'/'64b'). 
+      #Needed because some newer sets inexplicably order cards by card # rather than Multiverse ID
+      t.string :card_number
+
       t.string :border_color, default: 'black'
       t.json :legalities, default: {}
 
@@ -45,10 +49,6 @@ class CreateCards < ActiveRecord::Migration[5.2]
 
       t.text :original_text, default: ''
       t.text :oracle_text, default: ''
-
-      t.string :abilities, array: true, default: [] #e.g. flying, trample
-      t.string :effects #e.g. all creatures destroyed when entering game
-      t.string :activated_abilities, array: true, default: [] #e.g. tap to add x to mana pool
       
       t.string :prices, array: true, default: []
 
