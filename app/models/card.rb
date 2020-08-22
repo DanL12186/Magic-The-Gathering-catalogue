@@ -34,6 +34,7 @@ class Card < ApplicationRecord
   end
 
   #returns a sorted list of unique card names
+  #used by both .all_card_names_json, and by .namesearch
   def self.all_card_names
     cache_key = "all_unique_card_names#{Time.now.day}"
 
