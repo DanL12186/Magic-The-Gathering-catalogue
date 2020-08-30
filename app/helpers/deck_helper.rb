@@ -24,7 +24,7 @@ module DeckHelper
   end
 
   def draw_hand(deck, n=7)
-    deck.first(n)
+    deck.first(n).sort_by(&:card_type)
   end
 
   #rotates each card by two degrees times its distance from the center (7 cards)
