@@ -9,7 +9,7 @@
 <%= form_with url: "/decks/calculate_custom_hand_odds", class: "calculate-odds", method: 'POST' do | f | %> 
     
     <div> 
-      <%= f.label :Deck_Size %> 
+      <%= f.label :deck_size, "Deck Size" %> 
       <%= f.number_field :deck_size, value: 60, min: 10, max: 99 %>
       <br>
       <br>
@@ -42,7 +42,7 @@
     </table>
     
     <div class = "margin-3em-top-bottom" > 
-      <%= f.label "Cards Drawn:" %> 
+      <%= f.label :cards_drawn, "Cards Drawn:" %> 
       <%= f.number_field :cards_drawn, value: 7, min: 1, max: 15 %>
     </div>
 

@@ -22,7 +22,7 @@
       <%= f.number_field :num_packs, min: 1, max: 36, value: @num_packs ||= 1, class: 'text-center' %>
     </div>
 
-    <div> <%= f.label 'Hide cards under $'%>
+    <div> <%= f.label :hide_bulk, 'Hide cards under $'%>
       <%= f.number_field :hide_bulk, min: 0, max: 99, value: @min_price ||= 0, class: 'text-center', step: 0.5 %>
     </div>
 
