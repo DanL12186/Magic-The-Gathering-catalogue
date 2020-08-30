@@ -100,4 +100,10 @@ div.btn.btn-sm {
     margin-top:2%; 
 }
 
+.canvasjs-chart-canvas {
+    @media(max-width: 1080px) {
+      display: none;
+    }
+}
+
 //*** Show Page ****//
