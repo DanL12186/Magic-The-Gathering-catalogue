@@ -2,7 +2,9 @@
 <div class='container-fluid'>
   <h1 class='text-center'> <%= @deck.name.titleize %> Overview </h1>
 
-  <h2 id="sample_hand"> <%= link_to("Generate Sample Hand", "/decks/#{@deck.id}/sample_hand") %> </h2>
+  <h3 id="sample_hand" style="margin-bottom: 1px;"> <%= link_to("Generate Sample Hand", "/decks/#{@deck.id}/sample_hand") %> 
+    <%= link_to "Delete", @deck, method: :delete, data: { confirm: "Are you sure you want to delete this deck?" }, style: "float: right;" %>  
+  </h3>
 
   <div class="row">
     <div class="col-sm-3">

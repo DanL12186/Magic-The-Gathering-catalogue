@@ -1,7 +1,7 @@
 class DecksController < ApplicationController
   include DeckHandStats
   
-  before_action :set_deck, only: [:show, :sample_hand]
+  before_action :set_deck, only: [:show, :sample_hand, :destroy]
   before_action :set_shuffled_deck, only: [:show, :sample_hand]
   before_action :redirect_unless_logged_in, only: [:new, :show, :index]
   before_action :deny_unauthorized_deck_access, only: [:show, :sample_hand, :edit, :update, :destroy]
@@ -13,6 +13,11 @@ class DecksController < ApplicationController
 
   def create
     @deck.valid? ? (redirect_to decks_path) : (render :new)
+  end
+
+  def destroy
+    @deck.destroy
+    redirect_to decks_path
   end
 
   def calculate_custom_hand_odds
