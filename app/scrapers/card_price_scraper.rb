@@ -27,7 +27,7 @@ module CardPriceScraper
     page  = scrape_page_if_exists(url)
     
     #get TCG player price from the same page, until (if) SSL issue can be resolved
-    mtg_price = page.css('.price-box-price').children.last.try(:text) if page
+    mtg_price = page.css('.paper .price-box-price').children.last.try(:text)&.delete('$ ') if page
     tcg_price = page.css('.btn-shop').text.gsub(/\n+/,' ').match(/Market Price\W+[^\s]+/).to_s.match(/\d.*/)&.to_s if page
     
     [ mtg_price, tcg_price ].map { | price | (price || 'N/A').delete(',') }
