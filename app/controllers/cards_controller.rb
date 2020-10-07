@@ -86,7 +86,7 @@ class CardsController < ApplicationController
       required_attributes = [:rarity, :edition, :converted_mana_cost, :prices, :card_type, :color, :name, :hi_res_img, :multiverse_id]
       filter_options = Card.attribute_names
       
-      filters = params.select { | key, value | filter_options.include?(key) && !value.empty? }.permit!
+      filters = params.select { | key, value | filter_options.include?(key) && value.presence }.permit!
       
       #do not exclude reprints if a particular edition/set is selected
       filters.delete(:reprint) if filters[:edition]

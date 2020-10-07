@@ -1,5 +1,5 @@
 document.addEventListener('turbolinks:load', function() {
-  const railsAuthenticityToken = $('head [name=csrf-token]')[0].content
+  const railsAuthenticityToken = Rails.csrfToken()
   const foilOverlays = document.querySelectorAll('.foil-overlay-js');
   let   showFoil;
 
