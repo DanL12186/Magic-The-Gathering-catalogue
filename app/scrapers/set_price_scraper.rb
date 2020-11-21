@@ -90,7 +90,7 @@ module SetPriceScraper
           name  = card_row.css('td a').text
           price = card_row.css('td.text-right').text.match(/\d+\,*\d*\.\d+/)[0].delete(',')
 
-          if !@cards[name]
+          if @cards[name].nil?
             if name.match?("(A)")
               fixed_name = name.sub(' (A)', '')
               @cards[fixed_name][0] = price if @cards[fixed_name] && @cards[fixed_name][0] == 'N/A'

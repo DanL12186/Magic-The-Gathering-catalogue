@@ -25,7 +25,7 @@ def get_other_editions(set_code)
     Card.transaction do
       db_card_batch.each do | db_card |
         sdk_card = sdk_cards.find { | card | card['name'] == db_card.name }
-        next unless sdk_card && !sdk_card['supertypes'].include?('Basic')
+        next unless sdk_card && sdk_card['supertypes'].exclude?('Basic')
       
         other_editions = sdk_card["printings"].select  { |  ed  | SET_CODES_IN_CHRONOLOGICAL_ORDER.include?(ed) && ed != set_code }
                                               .sort_by { | code | SET_CODES_IN_CHRONOLOGICAL_ORDER[code] }
@@ -66,7 +66,7 @@ def update_set(set_code)
         subtypes = get_card_types(obj['type_line'])
         type = subtypes.shift
         edition = format_edition(obj['set_name'])
-        subtypes << 'Nonbasic Land' if type == 'Land' && !LANDS.include?(obj['name'])
+        subtypes << 'Nonbasic Land' if type == 'Land' && LANDS.exclude?(obj['name'])
         has_foil_version = obj['foil']
         has_nonfoil_version = obj['nonfoil']
         card_number = obj['collector_number']
@@ -215,7 +215,7 @@ def create_card(id_or_hash)
 
   mana = get_mana_cost(card_hash['mana_cost'])
   colors = get_colors(mana)
-  subtypes << 'Nonbasic Land' if type == 'Land' && !['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].include?(card_hash['name'])
+  subtypes << 'Nonbasic Land' if type == 'Land' && ['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'].exclude?(card_hash['name'])
   has_foil_version = card_hash['foil']
   has_nonfoil_version = card_hash['nonfoil']
   card_number = card_hash['collector_number']
@@ -318,7 +318,7 @@ end
 #It, like with card creation, has to be done in two steps; first using information from the MTG API, then using information from Scryfall
 #Scryfall step not yet implemented
 def create_all_editions
-  if Edition.count > 0
+  if Edition.any?
     puts "Editions already created"
     return
   end
