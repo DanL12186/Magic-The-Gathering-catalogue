@@ -28,10 +28,8 @@ module DeckHandStats
   end
 
   def card_frequencies(deck_or_hand)
-    card_counts = {}
     cards = deck_or_hand.map(&:name)
-    cards.uniq.each { | card | card_counts[card] = cards.count(card) }
-    card_counts
+    cards.uniq.each_with_object({}) { | card, freq | freq[card] = cards.count(card) }
   end
   
   def multivar_geo_freq_args(hand_freqs, deck_freqs)
