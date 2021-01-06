@@ -54,7 +54,7 @@ module CardHelper
   end
 
   def gatherer_link(multiverse_id)
-    "http://gatherer.wizards.com/Pages/Card/Details.aspx?printed=true&multiverseid=#{multiverse_id}"
+    "https://gatherer.wizards.com/Pages/Card/Details.aspx?printed=true&multiverseid=#{multiverse_id}"
   end
 
   def ebay_search_link(card_name, card_set)
