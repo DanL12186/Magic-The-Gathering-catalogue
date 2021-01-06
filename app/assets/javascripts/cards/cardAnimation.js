@@ -71,8 +71,8 @@ document.addEventListener('turbolinks:load', function() {
       
       elements.forEach(element => {
         element.style.transform  = rotated ? `rotate(0deg)` : `rotate(${angle})`;
-        element.style.marginLeft = rotated ?    '0%'        :       '15%';
-        element.style.transition = rotated ?   '1.0s'       :       '1.5s';
+        element.style.marginLeft = rotated ?      '0%'      :       '15%';
+        element.style.transition = rotated ?     '1.0s'     :       '1.5s';
       })
       rotated = !rotated;
     });

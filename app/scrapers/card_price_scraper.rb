@@ -1,6 +1,6 @@
 require 'open-uri'
 
-module CardPriceScraper
+class CardPriceScraper
 
   def self.get_card_prices(name, set)
     prices = []
