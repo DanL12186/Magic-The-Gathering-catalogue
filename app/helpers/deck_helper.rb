@@ -14,13 +14,9 @@ module DeckHelper
   end
 
   def shuffled_deck(deck)
-    cards = []
-
-    deck.decks_cards.includes(:card).each do | deck_card | 
-      card = deck_card.card
-      deck_card.copies.times { cards << card } 
-    end
-    cards.shuffle
+    deck.decks_cards.includes(:card).each.with_object([]) do | deck_card, cards |
+      deck_card.copies.times { cards << deck_card.card }
+    end.shuffle
   end
 
   def draw_hand(deck, n=7)
