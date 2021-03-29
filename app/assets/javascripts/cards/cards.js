@@ -26,15 +26,14 @@ document.addEventListener('turbolinks:load', function() {
       eBayLink.href += '+foil'
       eBayLink.innerText = eBayLink.innerText.replace('Find', 'Find foil')
       mtgLink.href       = mtgLink.href.replace(/\/price\/(\w+\+)*\w+/, match => match + ':Foil')
-      ckLink.href        = ckLink.href.replace(/[a-z-]+$/, match => match + '-foil')
+      ckLink.href        = ckLink.href.replace(/(?=[a-z-]+)$/, '-foil') 
 
       foilOverlays.forEach(element => element.classList.remove('hidden'));
-    } else {
-      eBayLink.innerText = eBayLink.innerText.replace('foil', '')
-      eBayLink.href      = eBayLink.href.replace('+foil', '')
-      mtgLink.href       = mtgLink.href.replace(':Foil', '')
-      ckLink.href        = ckLink.href.replace('-foil', '')
+    } else {      
+      const links = [eBayLink, mtgLink, ckLink]
 
+      eBayLink.innerText = eBayLink.innerText.replace('foil', '')
+      links.forEach(link => link.href = link.href.replace(/[+:-]foil/i, ''))
       foilOverlays.forEach(element => element.classList.add('hidden'));
     }
   }
