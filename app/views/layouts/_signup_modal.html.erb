@@ -2,32 +2,33 @@
   <div class='modal-dialog modal-dialog-centered' role='document'>
     <div class='signup-modal-content'>
       <div class='modal-header'>
-        <h1 class='text-center'> Sign up </h1>
+        <h1 class='text-center margin-bottom-20'> Sign up </h1>
 
           <h5 id='signupError'></h5>
 
           <%= form_for :user, remote: true, url: url_for(controller: 'users', action: 'create'), html: { id: 'signupForm' } do | f | %>
             <h5>
-              <%= f.label :name %>
-              <%= f.text_field :name, required: true %>
+              <div><%= f.label :name %></div>
+              <div><%= f.text_field :name, required: true %></div>
             </h5>
 
             <h5>
-              <%= f.label :email %>
-              <%= f.text_field :email %>
+              <div><%= f.label :email %></div>
+              <div><%= f.text_field :email %></div>
             </h5>
 
             <h5>
-              <%= f.label :password %>
-              <%= f.password_field :password, required: true %>
+              <div><%= f.label :password %></div>
+              <div><%= f.password_field :password, required: true %></div>
             </h5>
 
             <h5>
-              <%= f.label :password_confirmation, "Verify Password" %>
-              <%= f.password_field :password_confirmation, required: true %>
+              <div><%= f.label :password_confirmation, "Verify Password" %></div>
+              <div><%= f.password_field :password_confirmation, required: true %></div>
             </h5>
-          <br>
-          <%= f.submit 'Create Account' %>
+          <div class="margin-top-40 margin-bottom-20">
+            <%= f.submit 'Create Account' %>
+          </div>
         <% end %>
       </div>
     </div>
