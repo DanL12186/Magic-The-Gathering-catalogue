@@ -19,7 +19,7 @@ module SetPriceScraper
 
     display_errors('Invalid Set Code', card_finish) if @set_name.nil?
 
-    return nil if card_finish == 'foil' && (!set_has_foils?(@set_name) || set_code.match?(/EXP|MS2|MS3|Vault/i))
+    return "#{@set_name} has no foils." if card_finish == 'foil' && (!set_has_foils?(@set_name) || set_code.match?(/EXP|MS2|MS3|Vault/i))
 
     @threads = []
     @cards = {}
