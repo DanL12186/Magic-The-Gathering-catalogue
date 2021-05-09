@@ -294,17 +294,19 @@ def create_or_update_transform_card(card_hash, card_face_object = nil, card_back
   end
 
   [face, back].each do | card | 
-    card.nonfoil_version_exists = has_nonfoil_version
-    card.foil_version_exists = has_foil_version
-    card.scryfall_uri = scryfall_uri
-    card.border_color = border_color
-    card.legalities = legalities
-    card.reserved = reserved
-    card.reprint = reprint
-    card.rarity = rarity
-    card.layout = layout
-    card.frame = frame
-    card.year = year
+    card.assign_attributes(
+      nonfoil_version_exists: has_nonfoil_version,
+      foil_version_exists: has_foil_version,
+      scryfall_uri: scryfall_uri,
+      border_color: border_color,
+      legalities: legalities,
+      reserved: reserved,
+      reprint: reprint,
+      rarity: rarity,
+      layout: layout,
+      frame: frame,
+      year: year
+    )
 
     card.save
   end
@@ -326,14 +328,16 @@ def create_all_editions
   all_magic_sets = MTG::Set.all
   
   relevant_sets = all_magic_sets.select { | set | AllEditionsStandardCodes.include?(set.name) || set.name.match?(/Alpha|Beta|Revised|Unlimited/) }
-
-  relevant_sets.each do | set_object |
-    create_edition(set_object)
+  
+  relevant_sets_for_insert = relevant_sets.map { |edition| normalize_edition(edition) }
+  
+  Edition.transaction do
+    Edition.insert_all(relevant_sets_for_insert)
   end
 end
 
-def create_edition(set_object)
-  name = set_object.name.sub('Classic ','')
+def normalize_edition(set_object)
+  name = set_object.name.sub('Classic ', '')
   set_code = set_object.code
   release_date = set_object.release_date
   set_type = set_object.type #e.g. expansion, core set
@@ -354,5 +358,18 @@ def create_edition(set_object)
     has_mythics = Date.parse(release_date) >= Date.parse("2008-10-03") && !name.match?('Edition')
   end
 
-  Edition.create(name: name, set_code: set_code, release_date: release_date, set_type: set_type, category: category, block: block, cards_per_pack: cards_per_pack, commons_per_pack: commons_per_pack, uncommons_per_pack: uncommons_per_pack, mythics?: has_mythics)
+  {
+    name: name, 
+    set_code: set_code, 
+    release_date: release_date, 
+    set_type: set_type, 
+    category: category, 
+    block: block, 
+    cards_per_pack: cards_per_pack, 
+    commons_per_pack: commons_per_pack, 
+    uncommons_per_pack: uncommons_per_pack, 
+    mythics?: has_mythics,
+    created_at: Time.now,
+    updated_at: Time.now
+  }
 end
