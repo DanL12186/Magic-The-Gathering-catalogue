@@ -96,8 +96,7 @@ class DecksController < ApplicationController
       end.compact
 
       DecksCard.transaction do
-        @deck.decks_cards.build(decks_cards)
-        @deck.save
+        DecksCard.insert_all(decks_cards)
       end
     end
 

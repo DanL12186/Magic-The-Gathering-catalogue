@@ -39,7 +39,7 @@ class CollectionsController < ApplicationController
       end.compact
   
       CollectionsCard.transaction do
-        CollectionsCard.create(@collections_cards)
+        CollectionsCard.insert_all(@collections_cards)
       end
     end
 
