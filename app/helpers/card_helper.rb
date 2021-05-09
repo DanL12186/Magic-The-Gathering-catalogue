@@ -50,7 +50,7 @@ module CardHelper
   end
 
   def generate_foil_show_class(card)
-    "#{"hidden" if card.nonfoil_version_exists?} foil-overlay show-pg-foil #{'flip-foil' if card.card_number.match?(/\D/)} foil-overlay-js #{'post-2015-foil' if card.frame == 2015}".strip
+    "#{"hidden" if card.nonfoil_version_exists?} foil-overlay show-pg-foil #{'flip-foil' if card.card_number.match?(/(a|b)/)} foil-overlay-js #{'post-2015-foil' if card.frame == 2015}".strip
   end
 
   def gatherer_link(multiverse_id)
