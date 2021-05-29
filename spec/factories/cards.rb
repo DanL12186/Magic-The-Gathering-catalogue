@@ -4,7 +4,7 @@ FactoryBot.define do
     #specific for use with Rails models which override .initialize
     initialize_with { 
       card_attributes = attributes.merge(
-        name: "#{Faker::Games::ElderScrolls.creature} #{Faker::Games::DnD.species}",
+        name: "#{Faker::Games::ElderScrolls.creature} #{Faker::Games::DnD.race}",
         edition: "Alpha",
         artist: Faker::Name.name,
         card_type: ["Artifact", "Creature", "Enchantment", "Instant", "Sorcery"].sample,

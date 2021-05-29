@@ -108,7 +108,7 @@ def update_set(set_code)
     puts "Loading next page..."
     puts
 
-    set = JSON.parse(open(url).read)
+    set = JSON.parse(URI.open(url).read)
   end
 end
 
@@ -193,7 +193,7 @@ end
 def create_card(id_or_hash)
   if id_or_hash.is_a?(Integer)
     url = "https://api.scryfall.com/cards/multiverse/#{id_or_hash}"
-    card_hash = JSON.parse(Nokogiri::HTML(open(url).read))
+    card_hash = JSON.parse(Nokogiri::HTML(URI.open(url).read))
   else
     card_hash = id_or_hash
   end
@@ -331,9 +331,7 @@ def create_all_editions
   
   relevant_sets_for_insert = relevant_sets.map { |edition| normalize_edition(edition) }
   
-  Edition.transaction do
-    Edition.insert_all(relevant_sets_for_insert)
-  end
+  Edition.insert_all(relevant_sets_for_insert, returning: false)
 end
 
 def normalize_edition(set_object)
