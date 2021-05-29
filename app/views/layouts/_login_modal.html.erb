@@ -6,17 +6,21 @@
 
         <h3 id='loginError'></h3>
         
-        <br>
         <div class='text-center'>
           <%= form_for :user, remote: true, url: url_for(controller: 'sessions', action: 'create'), html: { id: 'loginForm' } do |f| %>
-            <%= f.label :name %>
-            <%= f.text_field :name, id: 'login_name', autocomplete: 'user', required: true %>
-            <br>
-            <%= f.label :password %>
-            <%= f.password_field :password, id: 'login_password', required: true %>
-            <br>
-            <br>
-            <%= f.submit "Log in" %>
+            <h5>
+              <div> <%= f.label :name %> </div>            
+              <%= f.text_field :name, id: 'login_name', autocomplete: 'user', required: true %>
+            </h5>
+            
+            <h5>
+              <div> <%= f.label :password %> </div>
+              <%= f.password_field :password, id: 'login_password', required: true %>
+            </h5>
+
+            <div class="margin-top-30 margin-bottom-20">
+              <%= f.submit "Log in" %>
+            </div>
           <% end %>
         </div>
 
