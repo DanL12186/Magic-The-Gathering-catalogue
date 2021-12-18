@@ -35,7 +35,7 @@ document.addEventListener('turbolinks:load', function() {
   //for when user clicks off page and then backclicks
   listenForThumbHover();
 
-  const truncateLongNames = name => name.length > 25 ? `${name.slice(0,20).trim()}...` : name
+  const truncateLongNames = name => `${name.slice(0,20).trim()}...`;
 
   //probably good candidate for an object/class
   function generateCardsHTML(cards, currentPage) {
