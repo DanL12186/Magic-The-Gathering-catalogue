@@ -36,27 +36,21 @@ class Card < ApplicationRecord
   #returns a sorted list of unique card names
   #used by both .all_card_names_json, and by .namesearch
   def self.all_card_names
-    cache_key = "all_unique_card_names#{Time.now.day}"
-
-    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+    Rails.cache.fetch("all_unique_card_names", expires_in: 24.hours) do
       Card.distinct.pluck(:name).sort!
     end
   end
 
   #for card search autocomplete feature; piggybacks on .all_card_names method and converts to JSON
   def self.all_card_names_json
-    cache_key = "all_unique_card_names_json#{Time.now.day}"
-
-    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+    Rails.cache.fetch("all_unique_card_names_json", expires_in: 24.hours) do
       JSON.generate(Card.all_card_names)
     end
   end
 
   #for the autocomplete feature for selecting cards for a collection by name and edition. returns json
   def self.all_card_and_edition_names_json
-    cache_key = "all_card_names_with_editions#{Time.now.day}"
-    
-    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+    Rails.cache.fetch("all_card_names_with_editions", expires_in: 24.hours) do
       cards = Card.pluck(:name, :edition)
       JSON.generate(cards)
     end
@@ -64,8 +58,7 @@ class Card < ApplicationRecord
 
   #card results used for returning search results that don't match a single card (includes images)
   def self.data_for_search_result_display
-    cache_key = "searchy#{Time.now.day}"
-    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+    Rails.cache.fetch("data_for_search_result_display", expires_in: 24.hours) do
       Card.where(reprint: false).pluck(:edition, :name, :img_url)
     end
   end
