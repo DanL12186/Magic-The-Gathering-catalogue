@@ -115,7 +115,9 @@ end
 # scryfall creating:
 # each page is 175 cards; loop cards/175 times
 def create_set(set_code)
-  set_code = (SET_CODE_EXCEPTIONS[set_code.upcase!] || set_code)
+  set_code.upcase!
+
+  set_code = SET_CODE_EXCEPTIONS[set_code] || set_code
   url = "https://api.scryfall.com/cards/search?q=set:#{set_code}"
   set = JSON.parse(URI.open(url).read)
   page_count = set['total_cards'].fdiv(175).ceil
@@ -140,7 +142,7 @@ def create_set(set_code)
     puts "Loading next page..."
     puts
     
-    set = JSON.parse(open(url).read)
+    set = JSON.parse(URI.open(url).read)
   end
   
   # #expire card name caches after adding a new set so searches will display new cards
@@ -220,7 +222,37 @@ def create_card(id_or_hash)
   has_nonfoil_version = card_hash['nonfoil']
   card_number = card_hash['collector_number']
 
-  Card.create(name: card_hash['name'], legendary: legendary, legalities: legalities, edition: edition, colors: colors, hi_res_img: card_hash['image_uris']['large'].sub(/\?\d+/,''), cropped_img: card_hash['image_uris']['art_crop'].sub(/\?\d+/,''), reserved: card_hash['reserved'], year: card_hash['released_at'][0..3], multiverse_id: card_hash['multiverse_ids'][0], rarity: card_hash['rarity'].capitalize, power: card_hash['power'].try(:to_i), artist: card_hash['artist'], toughness: card_hash['toughness'].try(:to_i), mana: mana, converted_mana_cost: card_hash['cmc'].to_i, card_type: type, subtypes: subtypes, flavor_text: get_flavor_text(card_hash['flavor_text']), layout: card_hash['layout'], frame: card_hash['frame'].to_i, loyalty: loyalty, reprint: card_hash['reprint'], scryfall_uri: card_hash['scryfall_uri'].sub!(/\?utm_source\=.+/,''), border_color: card_hash['border_color'], oracle_text: card_hash['oracle_text'], foil_version_exists: has_foil_version, nonfoil_version_exists: has_nonfoil_version, card_number: card_number )
+  Card.create(
+    name: card_hash['name'],
+    legendary: legendary,
+    legalities: legalities,
+    edition: edition,
+    colors: colors,
+    hi_res_img: card_hash['image_uris']['large'].sub(/\?\d+/,''),
+    cropped_img: card_hash['image_uris']['art_crop'].sub(/\?\d+/,''),
+    reserved: card_hash['reserved'],
+    year: card_hash['released_at'][0..3],
+    multiverse_id: card_hash['multiverse_ids'][0],
+    rarity: card_hash['rarity'].capitalize,
+    power: card_hash['power'].try(:to_i),
+    artist: card_hash['artist'],
+    toughness: card_hash['toughness'].try(:to_i),
+    mana: mana,
+    converted_mana_cost: card_hash['cmc'].to_i,
+    card_type: type,
+    subtypes: subtypes,
+    flavor_text: get_flavor_text(card_hash['flavor_text']),
+    layout: card_hash['layout'],
+    frame: card_hash['frame'].to_i,
+    loyalty: loyalty,
+    reprint: card_hash['reprint'],
+    scryfall_uri: card_hash['scryfall_uri'].sub!(/\?utm_source\=.+/,''),
+    border_color: card_hash['border_color'],
+    oracle_text: card_hash['oracle_text'],
+    foil_version_exists: has_foil_version,
+    nonfoil_version_exists: has_nonfoil_version,
+    card_number: card_number
+  )
 end
 
 #Either updates an existing transform card from existing data (accepts Ruby object), or creates one when called by create_set and passed a hash
@@ -258,10 +290,10 @@ def create_or_update_transform_card(card_hash, card_face_object = nil, card_back
   face_loyalty = card_face_specific_data['loyalty']&.to_i
   face_oracle_text = card_face_specific_data['oracle_text']
   
-  card_face_attributes = { name: face_name, edition: edition, legendary: face_legendary, multiverse_id: face_id, colors: face_colors, hi_res_img: face_hi_res, cropped_img: face_crop, power: face_power, toughness: face_toughness, artist: face_artist, mana: face_mana, card_type: face_type, subtypes: face_subtypes, flavor_text: face_flavor, flip_card_multiverse_id: face_twin, loyalty: face_loyalty, oracle_text: face_oracle_text, card_number: "#{card_number}a" }
+  card_face_attributes = { name: face_name, edition: edition, legendary: face_legendary, multiverse_id: face_id, colors: face_colors, hi_res_img: face_hi_res, cropped_img: face_crop, power: face_power, toughness: face_toughness, artist: face_artist, mana: face_mana, card_type: face_type, subtypes: face_subtypes, flavor_text: face_flavor, flip_card_multiverse_id: face_twin, loyalty: face_loyalty, oracle_text: face_oracle_text, card_number: "#{card_number}a" }.symbolize_keys
   
   #if updating, assign attributes to passed-in Ruby object; otherwise create one via hash.
-  if !!card_face_object 
+  if card_face_object 
     face = card_face_object
     face.assign_attributes(card_face_attributes)
   else
@@ -286,7 +318,7 @@ def create_or_update_transform_card(card_hash, card_face_object = nil, card_back
 
   card_back_attributes = { name: back_name, edition: edition, legendary: back_legendary, multiverse_id: back_id, colors: back_colors, hi_res_img: back_hi_res, cropped_img: back_crop, power: back_power, toughness: back_toughness, artist: back_artist, mana: nil, card_type: back_type, subtypes: back_subtypes, flavor_text: back_flavor, flip_card_multiverse_id: back_twin, loyalty: back_loyalty, oracle_text: back_oracle_text, card_number: "#{card_number}b" }
 
-  if !!card_back_object
+  if card_back_object
     back = card_back_object
     back.assign_attributes(card_back_attributes)
   else
@@ -367,7 +399,7 @@ def normalize_edition(set_object)
     commons_per_pack: commons_per_pack, 
     uncommons_per_pack: uncommons_per_pack, 
     mythics?: has_mythics,
-    created_at: Time.now,
-    updated_at: Time.now
+    created_at: Time.current,
+    updated_at: Time.current
   }
 end
