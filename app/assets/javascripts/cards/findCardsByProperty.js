@@ -120,7 +120,7 @@ document.addEventListener('turbolinks:load', function() {
     
     response.done(response => {
       //filter out cards which don't have prices from cardkingdom
-      const cards = response ? response.map(JSON => JSON.attributes).filter(card => parseFloat(card.prices[1])) : null
+      const cards = response ? response.map(JSON => JSON.attributes) : null
 
       //remove 'Page:' and page tabs if all one page
       if (!cards || cards.length <= 60) {
@@ -160,7 +160,10 @@ document.addEventListener('turbolinks:load', function() {
       //could make sort buttons into a dropdown instead for space reasons
       document.getElementById("sort_by_name").innerHTML  = `<button>Sort By Name ▼</button>`
       document.getElementById("sort_by_id").innerHTML    = `<button>Sort By Multiverse ID ▼</button>`
-      document.getElementById("sort_by_price").innerHTML = `<button>Sort By Price ▼</button>`
+
+      if (cards.filter(card => parseFloat(card.prices[1])).length === cards.length) {
+        document.querySelector("#sort_by_price").innerHTML = `<button>Sort By Price ▼</button>`
+      }
 
       //remove/don't display buttons to sort by properties that are already filtered for
       if ($("#color")[0].value === '') {
