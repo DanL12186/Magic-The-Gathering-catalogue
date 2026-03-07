@@ -164,19 +164,17 @@ module SetPriceScraper
       end
 
       def save_prices(card_finish)
-        edition = @set_name
+        set_name = @set_name
+        price_column = card_finish.match?(/foil/i) ? :foil_prices : :prices
+        updated_at = Time.current
+        updates = []
 
-        Card.where(edition: edition).find_in_batches(batch_size: 150) do | cards |
-          Card.transaction do
-            cards.each do | card |
-              prices = @cards[card.name] || @cards[I18n.transliterate(card.name)]
-
-              price_column = card_finish.match?(/foil/i) ? :foil_prices : :prices
-
-              card.update(price_column => prices) unless prices.nil? || prices.all?('N/A')
-            end
-          end
+        Card.where(edition: set_name).pluck(:id, :name, :edition, :multiverse_id).each do |id, name, edition, multiverse_id|
+          prices = @cards[name] || @cards[I18n.transliterate(name)]
+          updates << {id:, name:, edition:, multiverse_id:, price_column => prices, updated_at:} unless prices.nil? || prices.all?("N/A")
         end
+
+        Card.upsert_all(updates) unless updates.empty?
       end
 
       def display_errors(error, card_finish)
