@@ -2,9 +2,6 @@ document.addEventListener('turbolinks:load', function() {
   let allCardsWithEditions;
   let lastMatch;
 
-  const railsAuthToken = $('head [name=csrf-token]')[0].content;
-  const formAuthToken  = $('#new_collection input')[1];
-
   //clear autocomplete form on refresh
   if (this.getElementById('collectionCardFind')) {
     this.getElementById('collectionCardFind').value = ''
@@ -100,7 +97,6 @@ document.addEventListener('turbolinks:load', function() {
   });
 
   $("#createCollection").on('click', () => {
-    formAuthToken.value = railsAuthToken
     const serializedForm = $("#new_collection").serialize()
 
     $.post(`/collections/create`, serializedForm);
