@@ -11,21 +11,12 @@ class Card < ApplicationRecord
   has_many :decks, through: :decks_cards
   has_many :collections, through: :collections_cards
 
+  before_create :set_derived_fields
+
   validates :multiverse_id, uniqueness: true
   validates :name, :edition, presence: true
 
   BASE_URL = "https://cdn1.mtggoldfish.com/images/gf".freeze
-
-  def initialize(**args)
-    super(args)
-    
-    encoded_card_name = card_name_url_encode(args[:name])
-    edition_abbreviation = VintageEditions[args[:edition]] || AllEditionsStandardCodes[args[:edition]]
-    colors = args[:colors]
-
-    self.img_url = "#{BASE_URL}/#{encoded_card_name}%2B%255B#{edition_abbreviation}%255D.jpg"
-    self.color = colors.size == 1 ? colors[0] : colors.size > 1 ? 'Gold' : 'Colorless'
-  end
 
   #double encoding
   def card_name_url_encode(card_name)
@@ -107,5 +98,16 @@ class Card < ApplicationRecord
     #return list of full-word and partial-word matches if no exact matches were found
     [ matches, partial_matches ].map! { | array | array.sort_by! { | _, name | name } } 
   end
+
+  private
+
+    def set_derived_fields
+      encoded_card_name = card_name_url_encode(name)
+      edition_abbreviation = VintageEditions[edition] || AllEditionsStandardCodes[edition]
+      colors = self.colors || []
+
+      self.img_url ||= "#{BASE_URL}/#{encoded_card_name}%2B%255B#{edition_abbreviation}%255D.jpg"
+      self.color ||= colors.size == 1 ? colors[0] : colors.size > 1 ? "Gold" : "Colorless"
+    end
   
 end
